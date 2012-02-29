@@ -1,0 +1,244 @@
+
+/* loading images */
+.loadingDots	{ background:url(img/loading-dots.gif) no-repeat;width:32;height:32;}
+.loadingFlower	{ background:url(img/loading-flower.gif) no-repeat;width:35;height:35;}
+.loadingPie		{ background:url(img/loading-pie.gif) no-repeat;width:31;height:31;}
+
+
+
+/* arrows */
+.arrow_down, .normal .arrow_down { background:url(img/normal-arrow_down.png) no-repeat;width:14;height:24;}
+.arrow_left, .normal .arrow_left { background:url(img/normal-arrow_left.png) no-repeat;width:14;height:24;}
+.arrow_right, .normal .arrow_right { background:url(img/normal-arrow_right.png) no-repeat;width:14;height:24;}
+.arrow_up, .normal .arrow_up { background:url(img/normal-arrow_up.png) no-repeat;width:14;height:24;}
+.hover .arrow_down, BUTTON:focus .arrow_down { background:url(img/hover-arrow_down.png) no-repeat;width:14;height:24;}
+.hover .arrow_left, BUTTON:focus .arrow_left { background:url(img/hover-arrow_left.png) no-repeat;width:14;height:24;}
+.hover .arrow_right, BUTTON:focus .arrow_right { background:url(img/hover-arrow_right.png) no-repeat;width:14;height:24;}
+.hover .arrow_up, BUTTON:focus .arrow_up { background:url(img/hover-arrow_up.png) no-repeat;width:14;height:24;}
+.down .arrow_down { background:url(img/down-arrow_down.png) no-repeat;width:14;height:24;}
+.down .arrow_left { background:url(img/down-arrow_left.png) no-repeat;width:14;height:24;}
+.down .arrow_right { background:url(img/down-arrow_right.png) no-repeat;width:14;height:24;}
+.down .arrow_up { background:url(img/down-arrow_up.png) no-repeat;width:14;height:24;}
+
+/* Button StretchImage */
+.Button_spacing											{ margin:0 6 0 6; height:24px;}
+.Button_left, 	.normal .Button_left 					{ background:url(img/normal-Button_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.Button_repeatx, .normal .Button_repeatx 				{ background:url(img/normal-Button_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.Button_right, 	.normal .Button_right 					{ background:url(img/normal-Button_right.png) no-repeat;right:0;width:6;height:24;}
+.hover .Button_left, 	BUTTON:focus .Button_left 		{ background:url(img/hover-Button_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.hover .Button_repeatx,	BUTTON:focus .Button_repeatx 	{ background:url(img/hover-Button_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.hover .Button_right, 	BUTTON:focus .Button_right 		{ background:url(img/hover-Button_right.png) no-repeat;right:0;width:6;height:24;}
+.down .Button_left	 									{ background:url(img/down-Button_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.down .Button_repeatx									{ background:url(img/down-Button_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.down .Button_right										{ background:url(img/down-Button_right.png) no-repeat;right:0;width:6;height:24;}
+
+
+/* ButtonWhite StretchImage */
+.ButtonWhite_spacing												{ margin:0 6 0 6; height:24px;}
+.ButtonWhite_left, 			 .normal .ButtonWhite_left 				{ background:url(img/normal-ButtonWhite_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.ButtonWhite_repeatx, 		 .normal .ButtonWhite_repeatx 			{ background:url(img/normal-ButtonWhite_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.ButtonWhite_right, 		 .normal .ButtonWhite_right 				{ background:url(img/normal-ButtonWhite_right.png) no-repeat;right:0;width:6;height:24;}
+.hover .ButtonWhite_left, 	 BUTTON:focus .ButtonWhite_left 		{ background:url(img/hover-ButtonWhite_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.hover .ButtonWhite_repeatx, BUTTON:focus .ButtonWhite_repeatx 		{ background:url(img/hover-ButtonWhite_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.hover .ButtonWhite_right,   BUTTON:focus .ButtonWhite_right 		{ background:url(img/hover-ButtonWhite_right.png) no-repeat;right:0;width:6;height:24;}
+.down .ButtonWhite_left 											{ background:url(img/down-ButtonWhite_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.down .ButtonWhite_repeatx 											{ background:url(img/down-ButtonWhite_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.down .ButtonWhite_right											{ background:url(img/down-ButtonWhite_right.png) no-repeat;right:0;width:6;height:24;}
+
+
+/* Check */
+.Check, .normal .Check { background:url(img/normal-Check.png) no-repeat;width:16;height:16;}
+.hover .Check, BUTTON:focus .Check { background:url(img/hover-Check.png) no-repeat;width:16;height:16;}
+.checked .Check, .normal .checked .Check { background:url(img/normal-selected-Check.png) no-repeat;width:16;height:16;}
+.hover.checked .Check, BUTTON:focus.checked .Check { background:url(img/hover-selected-Check.png) no-repeat;width:16;height:16;}
+.down .Check { background:url(img/down-Check.png) no-repeat;width:16;height:16;}
+.down.checked .Check, BUTTON:active.checked .Check { background:url(img/down-selected-Check.png) no-repeat;width:16;height:16;}
+
+/* CheckWhite */
+.CheckWhite, .normal .CheckWhite { background:url(img/normal-CheckWhite.png) no-repeat;width:16;height:16;}
+.hover .CheckWhite, BUTTON:focus .CheckWhite { background:url(img/hover-CheckWhite.png) no-repeat;width:16;height:16;}
+.checked .CheckWhite, .normal .checked .CheckWhite { background:url(img/normal-selected-CheckWhite.png) no-repeat;width:16;height:16;}
+.hover.checked .CheckWhite, BUTTON:focus.checked .CheckWhite { background:url(img/hover-selected-CheckWhite.png) no-repeat;width:16;height:16;}
+.down .CheckWhite { background:url(img/down-CheckWhite.png) no-repeat;width:16;height:16;}
+.down.checked .CheckWhite, BUTTON:active.checked .CheckWhite { background:url(img/down-selected-CheckWhite.png) no-repeat;width:16;height:16;}
+
+/* close button */
+.close, .normal .close { background:url(img/normal-close.png) no-repeat;width:17;height:17;}
+.hover .close, BUTTON:focus .close { background:url(img/hover-close.png) no-repeat;width:17;height:17;}
+.down .close { background:url(img/down-close.png) no-repeat;width:17;height:17;}
+
+/* closeWhite button */
+.closeWhite, .normal .closeWhite { background:url(img/normal-closeWhite.png) no-repeat;width:17;height:17;}
+.hover .closeWhite, BUTTON:focus .closeWhite { background:url(img/hover-closeWhite.png) no-repeat;width:17;height:17;}
+.down .closeWhite { background:url(img/down-closeWhite.png) no-repeat;width:17;height:17;}
+
+
+/* Dialog StretchBorder */
+.Dialog. .BorderSpacing					{ margin:26px 5px 15px 5px; }
+.Dialog .StretchBorder .top_left 		{ background:url(img/Dialog_top_left.png) no-repeat;left:0;top:0;width:10;height:26;}
+.Dialog .StretchBorder .top_repeatx 	{ background:url(img/Dialog_top_repeatx.png) repeat-x;left:10;top:0;right:10;height:26;}
+.Dialog .StretchBorder .top_right 		{ background:url(img/Dialog_top_right.png) no-repeat;right:0;top:0;width:10;height:26;}
+.Dialog .StretchBorder .left_repeaty 	{ background:url(img/Dialog_left_repeaty.png) repeat-y;left:0;top:26;bottom:15;width:5;}
+.Dialog .StretchBorder .repeat 			{ background-color:white;	top:26;}
+.Dialog .StretchBorder .right_repeaty	{ background:url(img/Dialog_right_repeaty.png) repeat-y;right:0;top:26;bottom:15;width:5;}
+.Dialog .StretchBorder .bottom_left 	{ background:url(img/Dialog_bottom_left.png) no-repeat;bottom:0;left:0;width:10;height:15;}
+.Dialog .StretchBorder .bottom_repeatx	{ background:url(img/Dialog_bottom_repeatx.png) repeat-x;bottom:0;left:10;right:10;height:15;}
+.Dialog .StretchBorder .bottom_right 	{ background:url(img/Dialog_bottom_right.png) no-repeat;bottom:0;right:0;width:10;height:15;}	
+
+
+
+/* Field */
+.Field_left, .normal .Field_left { background:url(img/normal-Field_left.png) no-repeat;width:6;height:24;}
+.Field_repeatx, .normal .Field_repeatx { background:url(img/normal-Field_repeatx.png) repeat-x;width:100%;height:24;}
+.Field_right, .normal .Field_right { background:url(img/normal-Field_right.png) no-repeat;width:6;height:24;}
+.hover .Field_left, :focus .Field_left { background:url(img/hover-Field_left.png) no-repeat;width:6;height:24;}
+.hover .Field_repeatx, :focus .Field_repeatx { background:url(img/hover-Field_repeatx.png) repeat-x;width:100%;height:24;}
+.hover .Field_right, :focus .Field_right { background:url(img/hover-Field_right.png) no-repeat;width:6;height:24;}
+.selected .Field_left { background:url(img/selected-Field_left.png) no-repeat;width:6;height:24;}
+.selected .Field_repeatx { background:url(img/selected-Field_repeatx.png) repeat-x;width:100%;height:24;}
+.selected .Field_right { background:url(img/selected-Field_right.png) no-repeat;width:6;height:24;}
+
+/* Menu StretchBorder */
+.Menu .BorderSpacing 				{ margin:11px 5px 15px 5px; }
+.Menu .StretchBorder .top_left 		{ background:url(img/ShadowPanel_top_left.png) no-repeat;left:0;top:0;width:10;height:11;}
+.Menu .StretchBorder .top_repeatx 	{ background:url(img/ShadowPanel_top_repeatx.png) repeat-x;left:10;top:0;right:10;height:11;}
+.Menu .StretchBorder .top_right 	{ background:url(img/ShadowPanel_top_right.png) no-repeat;right:0;top:0;width:10;height:11;}
+.Menu .StretchBorder .left_repeaty 	{ background:url(img/ShadowPanel_left_repeaty.png) repeat-y;left:0;top:11;bottom:15;width:5;}
+.Menu .StretchBorder .repeat 		{ background-color:white;	top:11;}
+.Menu .StretchBorder .right_repeaty { background:url(img/ShadowPanel_right_repeaty.png) repeat-y;right:0;top:11;bottom:15;width:5;}
+.Menu .StretchBorder .bottom_left 	{ background:url(img/ShadowPanel_bottom_left.png) no-repeat;bottom:0;left:0;width:10;height:15;}
+.Menu .StretchBorder .bottom_repeatx{ background:url(img/ShadowPanel_bottom_repeatx.png) repeat-x;bottom:0;left:10;right:10;height:15;}
+.Menu .StretchBorder .bottom_right 	{ background:url(img/ShadowPanel_bottom_right.png) no-repeat;bottom:0;right:0;width:10;height:15;}	
+
+/* MenuItem */
+.MenuItem TD, .normal.MenuItem TD { background:url(img/normal-MenuItem_repeatx.png) repeat-x;height:24;}
+.hover.MenuItem TD { background:url(img/hover-MenuItem_repeatx.png) repeat-x 0px 1px white;height:24;}
+.down.MenuItem TD { background:url(img/down-MenuItem_repeatx.png) repeat-x;height:24;}
+
+
+
+
+/* Panel StretchBorder */
+.Panel .BorderSpacing					{ margin:9px 1px 9px 1px;	}
+.Panel .StretchBorder .top_left 		{ background:url(img/Panel_top_left.png) no-repeat;left:0;top:0;width:6;height:9;}
+.Panel .StretchBorder .top_repeatx 		{ background:url(img/Panel_top_repeatx.png) repeat-x;left:6;top:0;right:6;height:9;}
+.Panel .StretchBorder .top_right 		{ background:url(img/Panel_top_right.png) no-repeat;right:0;top:0;width:6;height:9;}
+.Panel .StretchBorder .left_repeaty 	{ background:url(img/Panel_left_repeaty.png) repeat-y;left:0;top:9;bottom:9;width:1;}
+.Panel .StretchBorder .repeat 			{ background-color:white;	top:11;}
+.Panel .StretchBorder .right_repeaty 	{ background:url(img/Panel_right_repeaty.png) repeat-y;right:0;top:9;bottom:9;width:1;}
+.Panel .StretchBorder .bottom_left 		{ background:url(img/Panel_bottom_left.png) no-repeat;bottom:0;left:0;width:6;height:9;}
+.Panel .StretchBorder .bottom_repeatx 	{ background:url(img/Panel_bottom_repeatx.png) repeat-x;bottom:0;left:6;right:6;height:9;}
+.Panel .StretchBorder .bottom_right 	{ background:url(img/Panel_bottom_right.png) no-repeat;bottom:0;right:0;width:6;height:9;}
+
+
+/* Radio */
+.Radio, .normal .Radio { background:url(img/normal-Radio.png) no-repeat;width:16;height:16;}
+.down .Radio { background:url(img/down-Radio.png) no-repeat;width:16;height:16;}
+.down.checked .Radio, BUTTON:active.checked .Radio { background:url(img/down-selected-Radio.png) no-repeat;width:16;height:16;}
+.hover .Radio, BUTTON:focus .Radio { background:url(img/hover-Radio.png) no-repeat;width:16;height:16;}
+.hover.checked .Radio, BUTTON:focus.checked .Radio { background:url(img/hover-selected-Radio.png) no-repeat;width:16;height:16;}
+.checked .Radio, .normal .checked .Radio { background:url(img/normal-selected-Radio.png) no-repeat;width:16;height:16;}
+
+/* RadioWhite */
+.RadioWhite, .normal .RadioWhite { background:url(img/normal-RadioWhite.png) no-repeat;width:16;height:16;}
+.down .RadioWhite { background:url(img/down-RadioWhite.png) no-repeat;width:16;height:16;}
+.down.selected .RadioWhite, BUTTON:active.selected .RadioWhite { background:url(img/down-selected-RadioWhite.png) no-repeat;width:16;height:16;}
+.hover .RadioWhite, BUTTON:focus .RadioWhite { background:url(img/hover-RadioWhite.png) no-repeat;width:16;height:16;}
+.hover.selected .RadioWhite, BUTTON:focus.selected .RadioWhite { background:url(img/hover-selected-RadioWhite.png) no-repeat;width:16;height:16;}
+.selected .RadioWhite, .normal .selected .RadioWhite { background:url(img/normal-selected-RadioWhite.png) no-repeat;width:16;height:16;}
+
+/* smallButton */
+.smallButton, .normal .smallButton { background:url(img/normal-smallButton.png) no-repeat;width:17;height:17;}
+.down .smallButton { background:url(img/down-smallButton.png) no-repeat;width:17;height:17;}
+.hover .smallButton, BUTTON:focus .smallButton { background:url(img/hover-smallButton.png) no-repeat;width:17;height:17;}
+
+/* smallButtonWhite */
+.smallButtonWhite, .normal .smallButtonWhite { background:url(img/normal-smallButtonWhite.png) no-repeat;width:17;height:17;}
+.down .smallButtonWhite { background:url(img/down-smallButtonWhite.png) no-repeat;width:17;height:17;}
+.hover .smallButtonWhite, BUTTON:focus .smallButtonWhite { background:url(img/hover-smallButtonWhite.png) no-repeat;width:17;height:17;}
+
+
+/* SquareButton StretchImage */
+.SquareButton_spacing												{ margin:0 6 0 6; height:24px;}
+.SquareButton_left, 			.normal .SquareButton_left 			{ background:url(img/normal-SquareButton_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.SquareButton_repeatx, 			.normal .SquareButton_repeatx 		{ background:url(img/normal-SquareButton_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.SquareButton_right, 			.normal .SquareButton_right 			{ background:url(img/normal-SquareButton_right.png) no-repeat;right:0;width:6;height:24;}
+.hover .SquareButton_left, 		BUTTON:focus .SquareButton_left 	{ background:url(img/hover-SquareButton_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.hover .SquareButton_repeatx,	BUTTON:focus .SquareButton_repeatx 	{ background:url(img/hover-SquareButton_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.hover .SquareButton_right, 	BUTTON:focus .SquareButton_right 	{ background:url(img/hover-SquareButton_right.png) no-repeat;right:0;width:6;height:24;}
+.down .SquareButton_left 											{ background:url(img/down-SquareButton_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.down .SquareButton_repeatx 										{ background:url(img/down-SquareButton_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.down .SquareButton_right											{ background:url(img/down-SquareButton_right.png) no-repeat;right:0;width:6;height:24;}
+
+/* SquareButtonWhite StretchImage */
+.SquareButtonWhite_spacing													{ margin:0 6 0 6; height:24px;}
+.SquareButtonWhite_left, 			.normal .SquareButtonWhite_left 			{ background:url(img/normal-SquareButtonWhite_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.SquareButtonWhite_repeatx, 		.normal .SquareButtonWhite_repeatx 		{ background:url(img/normal-SquareButtonWhite_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.SquareButtonWhite_right, 			.normal .SquareButtonWhite_right 		{ background:url(img/normal-SquareButtonWhite_right.png) no-repeat;right:0;width:6;height:24;}
+.hover .SquareButtonWhite_left, 	BUTTON:focus .SquareButtonWhite_left 	{ background:url(img/hover-SquareButtonWhite_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.hover .SquareButtonWhite_repeatx,	BUTTON:focus .SquareButtonWhite_repeatx { background:url(img/hover-SquareButtonWhite_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.hover .SquareButtonWhite_right, 	BUTTON:focus .SquareButtonWhite_right 	{ background:url(img/hover-SquareButtonWhite_right.png) no-repeat;right:0;width:6;height:24;}
+.down .SquareButtonWhite_left 												{ background:url(img/down-SquareButtonWhite_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.down .SquareButtonWhite_repeatx 											{ background:url(img/down-SquareButtonWhite_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.down .SquareButtonWhite_right												{ background:url(img/down-SquareButtonWhite_right.png) no-repeat;right:0;width:6;height:24;}
+
+
+/* Tab StretchImage */
+.Tab_spacing										{ margin:0 6 0 6; height:24px;}
+.Tab_left, 				.normal .Tab_left 			{ background:url(img/normal-Tab_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.Tab_repeatx, 			.normal .Tab_repeatx 		{ background:url(img/normal-Tab_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.Tab_right, 			.normal .Tab_right 			{ background:url(img/normal-Tab_right.png) no-repeat;right:0;width:6;height:24;}
+.hover .Tab_left, 		BUTTON:focus .Tab_left 		{ background:url(img/hover-Tab_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.hover .Tab_repeatx,	BUTTON:focus .Tab_repeatx 	{ background:url(img/hover-Tab_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.hover .Tab_right, 		BUTTON:focus .Tab_right 	{ background:url(img/hover-Tab_right.png) no-repeat;right:0;width:6;height:24;}
+.down .Tab_left 									{ background:url(img/down-Tab_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.down .Tab_repeatx 									{ background:url(img/down-Tab_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.down .Tab_right									{ background:url(img/down-Tab_right.png) no-repeat;right:0;width:6;height:24;}
+.selected .Tab_left 								{ background:url(img/selected-Tab_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.selected .Tab_repeatx 								{ background:url(img/selected-Tab_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.selected .Tab_right								{ background:url(img/selected-Tab_right.png) no-repeat;right:0;width:6;height:24;}
+
+
+/* TabBottom StretchImage */
+.TabBottom_spacing											{ margin:0 6 0 6; height:24px;}
+.TabBottom_left, 			.normal .TabBottom_left 			{ background:url(img/normal-TabBottom_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.TabBottom_repeatx, 		.normal .TabBottom_repeatx 		{ background:url(img/normal-TabBottom_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.TabBottom_right, 			.normal .TabBottom_right 		{ background:url(img/normal-TabBottom_right.png) no-repeat;right:0;width:6;height:24;}
+.hover .TabBottom_left, 	BUTTON:focus .TabBottom_left 	{ background:url(img/hover-TabBottom_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.hover .TabBottom_repeatx,	BUTTON:focus .TabBottom_repeatx { background:url(img/hover-TabBottom_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.hover .TabBottom_right, 	BUTTON:focus .TabBottom_right 	{ background:url(img/hover-TabBottom_right.png) no-repeat;right:0;width:6;height:24;}
+.down .TabBottom_left 										{ background:url(img/down-TabBottom_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.down .TabBottom_repeatx 									{ background:url(img/down-TabBottom_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.down .TabBottom_right										{ background:url(img/down-TabBottom_right.png) no-repeat;right:0;width:6;height:24;}
+.selected .TabBottom_left 									{ background:url(img/selected-TabBottom_left.png) no-repeat;left:0;top:0;width:6;height:24;}
+.selected .TabBottom_repeatx 								{ background:url(img/selected-TabBottom_repeatx.png) repeat-x;left:6;right:6;height:24;}
+.selected .TabBottom_right									{ background:url(img/selected-TabBottom_right.png) no-repeat;right:0;width:6;height:24;}
+
+
+/* ShadowPanel StretchBorder */	
+.ShadowPanel .BorderSpacing					{ margin:11px 5px 15px 5px; }
+.ShadowPanel .StretchBorder .top_left 		{ background:url(img/ShadowPanel_top_left.png) no-repeat;left:0;top:0;width:10;height:11;}
+.ShadowPanel .StretchBorder .top_repeatx 	{ background:url(img/ShadowPanel_top_repeatx.png) repeat-x;left:10;top:0;right:10;height:11;}
+.ShadowPanel .StretchBorder .top_right 		{ background:url(img/ShadowPanel_top_right.png) no-repeat;right:0;top:0;width:10;height:11;}
+.ShadowPanel .StretchBorder .left_repeaty 	{ background:url(img/ShadowPanel_left_repeaty.png) repeat-y;left:0;top:11;bottom:15;width:5;}
+.ShadowPanel .StretchBorder .repeat 		{ background-color:white;	top:11;}
+.ShadowPanel .StretchBorder .right_repeaty 	{ background:url(img/ShadowPanel_right_repeaty.png) repeat-y;right:0;top:11;bottom:15;width:5;}
+.ShadowPanel .StretchBorder .bottom_left 	{ background:url(img/ShadowPanel_bottom_left.png) no-repeat;bottom:0;left:0;width:10;height:15;}
+.ShadowPanel .StretchBorder .bottom_repeatx	{ background:url(img/ShadowPanel_bottom_repeatx.png) repeat-x;bottom:0;left:10;right:10;height:15;}
+.ShadowPanel .StretchBorder .bottom_right 	{ background:url(img/ShadowPanel_bottom_right.png) no-repeat;bottom:0;right:0;width:10;height:15;}	
+
+
+
+/* SelectBorder StretchImg */
+.SelectBorder_spacing		{	margin:0 26 0 6; height:24px;}
+.SelectBorderDownArrow		{	right:6px;				}
+.SelectBorderRight 			{	left:auto !important; width:20px;	}
+
+/* SelectMenu StretchBorder */
+.SelectMenu									{ top:24px;	}
+.SelectMenu .BorderSpacing					{ margin:0px 5px 15px 5px;	}
+.SelectMenu .StretchBorder .left_repeaty 	{ background:url(img/ShadowPanel_left_repeaty.png) repeat-y;left:0;top:0;bottom:15;width:5;}
+.SelectMenu .StretchBorder .right_repeaty 	{ background:url(img/ShadowPanel_right_repeaty.png) repeat-y;right:0;top:0;bottom:15;width:5;}
+.SelectMenu .StretchBorder .bottom_left 	{ background:url(img/ShadowPanel_bottom_left.png) no-repeat;bottom:0;left:0;width:10;height:15;}
+.SelectMenu .StretchBorder .bottom_repeatx	{ background:url(img/ShadowPanel_bottom_repeatx.png) repeat-x;bottom:0;left:10;right:10;height:15;}
+.SelectMenu .StretchBorder .bottom_right 	{ background:url(img/ShadowPanel_bottom_right.png) no-repeat;bottom:0;right:0;width:5;height:15;}	

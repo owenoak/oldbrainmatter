@@ -1,0 +1,124 @@
+
+<script type='template' id='AddServersForm' style='display:none'>
+<form class='Form addServersForm' mode='attach' error='false'
+	  onsubmit='return #{getReference()}.save()'
+>
+	<div class='errorMessage'><!-- error message here --></div>
+	<table class='FormTable'>
+	<tr class='nameRow ifService'>
+		<td class='label'>#{message:service.addServers.name.label}</td>
+		<td class='field' colspan='3'>
+			<input class='name' onblur='#{getReference()}.onBlurName(this)'>
+			<span class='label'	class='ifCantCreate ifCloud'>#{message:service.addServers.name.label.suffix}</span>
+		</td>
+	</tr>
+	<tr class='ifCanCreate'>
+		<td class='label'>
+			<span class='ifPool'>#{message:service.addServers.action.pool}</span>
+			<span class='ifService'>#{message:service.addServers.action.server}</span>
+		</td>
+		<td class='radio'>
+			<input type='radio' name='action' value='attach' class='ifCanCreate'
+				   onclick='return #{getReference()}.onRadioClick(this)'>
+		</td>
+		<td colspan='2' class='radioLabel' value='attach' 
+			onclick='return #{getReference()}.onRadioClick(this)'>
+				<span class='ifPool'>#{message:service.addServers.attach.label.pool}</span>
+				<span class='ifService'>#{message:service.addServers.attach.label.server}</span>
+		</td>
+	</tr>
+	<tr enableif='mode=attach'>
+		<td colspan='3' class='label'>
+			<span class='ifCantCreate'>
+				<span class='ifPool'>#{message:service.addServers.ips.label.modify.pool}</span>
+				<span class='ifService'>#{message:service.addServers.ips.label.modify.server}</span>
+			</span>
+		</td>
+		<td class='field'>
+			<input class='ips'>
+		</td>
+	</tr>
+	<tr enableif='mode=attach'>
+		<td></td>
+		<td></td>
+		<td></td>
+		<td class='hint' style='padding-bottom:5px;'>#{message:service.addServers.ips.hint}</td>
+	</tr>
+	<tr class='ifCanCreate'>
+		<td class='label'></td>
+		<td class='radio'>
+			<input type='radio' name='action' CHECKED value='create' 
+				   onclick='return #{getReference()}.onRadioClick(this)'>
+		</td>
+		<td colspan='2'>
+			<table class='NestedFormTable' cellspacing='0' cellpadding='0'><tr>
+				<td class='radioLabel' value='create' 
+					onclick='return #{getReference()}.onRadioClick(this)'>
+						<span class='ifPool'>#{message:service.addServers.create.label}</span>
+				</td>
+				<td class='field'>
+					<input class='number serverCount' value='1'>
+				</td>
+				<td class='radioLabel' value='create' 
+					onclick='return #{getReference()}.onRadioClick(this)'>
+						<span class='ifPool'>#{message:service.addServers.create.label.suffix.pool}</span>
+						<span class='ifService'>#{message:service.addServers.create.label.suffix.server}</span>
+				</td>
+			</tr></table>
+		</td>
+	</tr>
+	<tr class='ifCanCreate' enableif='mode=create'>
+		<td></td>
+		<td></td>
+		<td colspan='2' style='padding-bottom:5px;'>
+			<table class='NestedFormTable' cellspacing='0' cellpadding='0'>
+			<tr>
+				<td class='label'>#{message:service.addServers.machineType.label}</td>
+				<td class='select'  style='width:100%;'>
+					<select class='machineType'>
+						<option>blah</option>
+					</select>
+				</td>
+			</tr>
+			</table>
+		
+		</td>
+	</tr>
+	</table>
+	<center>
+			<span enableif='mode=create' class='hint' colspan='2'>
+				<br>#{message:service.addServers.cost.hint}<br>
+			</span>
+			<button onclick='return #{getReference()}.save()'>
+				#{message:UI.OK}
+			</button>
+			<button onclick='return #{getReference()}.cancel()'>
+				#{message:UI.Cancel}
+			</button>
+	</center>
+</form>
+</script><!-- AddServersForm -->
+
+<script type='template' id='RenameServiceForm' style='display:none'>
+<form class='Form renameServiceForm' error='false' 
+	  onsubmit='return #{getReference()}.save()'>
+	<div class='errorMessage'><!-- error message --></div>
+	<table class='FormTable'>
+	<tr>
+		<td></td>
+		<td class='label'>
+			<span class='ifPool'>#{message:service.renameService.name.label.pool}</span>
+			<span class='ifService'>#{message:service.renameService.name.label.server}</span>
+		</td>
+		<td class='field'>
+			<input class='serviceName' onblur='#{getReference()}.onBlurName(this)'>
+		</td>
+	</tr>
+	</table>
+	<center>
+		<button onclick='return #{getReference()}.save()'>#{message:UI.OK}</button>
+		<button onclick='return #{getReference()}.cancel()'>#{message:UI.Cancel}</button>
+	</center>
+</form>
+</script><!-- RenameServiceForm -->
+

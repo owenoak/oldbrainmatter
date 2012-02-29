@@ -1,0 +1,223 @@
+/***************************************************
+ *   Window -- heavy border with titlebar
+ *
+ *   Generic "Windows" are light green.
+ *   Create a subclass of window to apply colors.
+ *
+ ***************************************************/	
+
+
+	/* Outer class for windows */
+	
+	.Window {
+		position:relative;
+		-moz-border-radius:8px;
+		-webkit-border-radius:8px;
+		#zoom:1;
+		border-style:solid;
+		border-width:1px;
+		z-index:0;
+
+		background-color:#c3d095;
+		border-color:#c3d095 #888 #888 #c3d095;
+		vertical-align:top;
+	}
+
+	/** If window can be collapsed, show expand arrow. */
+	.Window[collapsed] .Expander {
+		padding-left:17px;
+		background-image:url(images/window_arrow_expanded.gif);
+		background-position:left center;
+		background-repeat:no-repeat;
+		cursor:pointer;
+		padding-top:2px;
+	}
+
+	/* show collapsed arrow when window is collapsed */
+	.Window[collapsed=true] .Expander {
+		background-image:url(images/window_arrow_collapsed.gif);
+	}
+
+	/* hide the bottom of the window when collapsed */
+	.Window[collapsed=true] .WindowBottom {
+		display:none !important;
+	}
+	
+	/* Window header section */
+	.Window .Header {
+		position:relative;
+		margin:0px 12px;
+		padding:3px 0px;
+		height:25px;
+		font-weight:bold;
+	}
+
+	.Window .Header table {
+		height:100%;
+	}
+
+	.Window .Header td {
+		vertical-align:middle;
+	}
+
+	.Window .Header .title,
+	.Window .Header .label,
+	.Window .Header .hint {
+		white-space:nowrap;
+		height:100%;
+		vertical-align:middle;
+		margin-right:2px;
+	}
+	
+	/* title == main title, boldest color */
+	.Window .Header .title {
+		font-weight:bold;
+		color:black;
+	}
+
+	/* label == subsidiary text */ 
+	.Window .Header .label {
+		font-weight:bold;
+		color:#666666;
+	}
+
+	/* hint == subsidiary text, smaller */ 
+	.Window .Header .hint {
+		vertical-align:bottom;
+		font-weight:bold;
+		font-size:.9em;
+		color:#666666;
+	}
+
+	.Window .Header .UsageGraph {
+		position:absolute;
+		top:4px; right:-5px;
+		width:200px;
+		font-size:.9em;
+	}
+
+	.Window .Header .MenuButton {
+		margin-left:5px;
+		margin-bottom:0px;
+		background-color:#eeeeee;
+		border-color:#fff #999 #999 #fff;
+		color:black;
+	}
+
+	.Gecko .Window .Header .MenuButton {
+		padding-top:1px;
+		padding-bottom:1px;
+	}
+
+	/* Window body section 
+		WindowBody  == the main section (only one per window)
+		Inset	   == smaller inset section (may be more than one per line)
+	*/
+	.Window .Body,
+	.Window .Inset {
+		position:relative;
+		background-color:white;
+		-moz-border-radius:5px;
+		-webkit-border-radius:5px;
+		border-style:solid;
+		border-width:1px;
+		border-color:#888 white white #888;
+	}
+
+
+	.Window .Body {
+		overflow:auto;
+		margin:0px 5px 5px 5px;
+		overflow-y:hidden;
+	}
+	
+	.Window .Inset {
+		display:inline-block;
+		#display:inline; #zoom: 1; 
+		padding:10px;
+	}
+
+
+	/* tabs that go below window */
+	.Window .Bottom {
+		position:absolute;
+		top:100%; width:100%;
+		margin-top:1px;
+	}
+
+	/* Drawer at the bottom of the window for forms and such */
+	.Window .Drawer {
+		width:95%;
+		margin:0 2.5%;
+		padding:1px;		
+		border-style:solid;
+		border-width:0 1px 1px 0;
+		border-color:black;
+		-moz-border-radius:0px 0px 8px 8px;
+		-webkit-border-bottom-left-radius:8px;
+		-webkit-border-bottom-right-radius:8px;
+		-moz-box-shadow:5px 5px 10px rgba(0,0,0,.5);
+		-webkit-box-shadow:5px 5px 10px rgba(0,0,0,.5);
+	}
+	
+	.Window .Drawer .Inset {
+		position:relative;
+		display:block;
+		margin:7px;
+	}
+	
+	
+	/* tabs below a window */
+	.Window .BottomTabBar {
+		position:relative;
+		width:100%;
+		text-align:center;  
+	}
+	
+	.Window .BottomTab {
+		position:relative;
+		top:-1px;
+		display:inline-block;
+		color:white; font-size:.8em;
+		font-weight:bold;line-height:18px;
+		-moz-border-radius:0px 0px 8px 8px;
+		-webkit-border-bottom-left-radius:8px;
+		-webkit-border-bottom-right-radius:8px;
+		padding:0px 20px 2px 25px;
+		background-repeat:no-repeat;
+		background-position:5px 1px;
+		cursor:pointer;
+		border-style:solid;
+		border-width:0 1px 1px 1px;
+		#margin-right:5px;
+
+		top:-2px;
+		-moz-box-shadow:3px 3px 10px rgba(0,0,0,.3);
+		-webkit-box-shadow:3px 3px 10px rgba(0,0,0,.3);
+	}
+
+	HTML.WebKit .Window .BottomTab {
+		top:0px;
+	}
+
+
+	.Window .BottomTab:hover {
+		text-decoration:underline;
+	}
+
+	.Window .BottomTab.HIGHLIGHT {
+		top:-1px !important;
+		background-position:5px 3px;
+		padding-top:2px;
+		border-right-color:black !important;
+		border-bottom-color:black !important;
+		color:black !important;
+		-moz-box-shadow:5px 5px 10px rgba(0,0,0,.5);
+		-webkit-box-shadow:5px 5px 10px rgba(0,0,0,.5);
+	}
+	
+	.Window .BottomTab.Deselected {
+		top:-2px;
+		-moz-box-shadow:3px 3px 10px rgba(0,0,0,.3);
+		-webkit-box-shadow:3px 3px 10px rgba(0,0,0,.3);
+	}

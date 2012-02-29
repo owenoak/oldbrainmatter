@@ -1,0 +1,79 @@
+Overall JS Semantics for ProtoWidgets
+	- Classes take at least a single properties object on initialize
+	- You should pretty much ALWAYS call $super in your initializer
+	- properties you expect should be in your Class.create properties as undefined
+		Class.create(SUPERCLASS, {
+						someProperty : undefined,
+						otherProperty: "defaultValue"
+					});
+	- if you just need to massage some values, override
+			initializeProperties()
+		rather than initialize()
+	- use getHTML() to generate HTML for a widget,
+		this should generally be a collection of getPieceHTML() calls
+		so a subclass can override just the pieces
+	- use this pattern for mapping events to pieces:
+			<piece>EventHandlerMap : {mouseover:"_onButtonOver", mouseout:"_onButtonOut", mousedown:"_onButtonDown", mouseup:"_onButtonUp"},
+	- Use an
+			_eventDispatcher
+		if you need to do standard stuff on events for pieces, 
+		like getting the piece from the event, etc
+	- use 	delay(callback, interval, timerName)  instead of timers
+	- instead of passing "true" or "false" for a flag, use a CONSTANT, e.g.
+		SKIP_ANIMATION : "SKIP_ANIMATION"
+	- use the   setEnabled(), toggleEnabled(), enable(), disable() paradigm
+		- think about the "-foo", "+bar" paradigm for toggle
+	- check to see if window.Scriptaculous is defined before doing a scripto thing
+
+	- define a <piece>Properties object for anonymous pieces, eg:
+			tabProperties : {
+				tabid 		: "Internal id for callbacks",
+				title		: "Text shown in the label of the tab"
+				...
+			}
+		? use as initializers with defaults?  always create subclasses?
+	- if you're going to use a bound handler over and over, bind it once in initializeELements()
+
+Naming
+	- "klass" is the canonical name of our class, eg:  klass='Mouse'
+	- if class.klass can't be converted to plural by simply adding 's', 
+		have 'klasses', eg:  klasses='Mice'
+	- private properties & methods start with "_"
+	- transient properties ALWAYS start with "_"
+	- references to elements start with "$", eg:  $main, $parent
+	- templates are in UpperCamelCase
+	- lists are always plural
+	- maps are always called Maps
+	- event plumbing routines which should NOT generally be overriden start with "_",
+		e.g. "_onMouseDown"
+	- event callbacks we expect to be overridden start with "on",  eg:  "onButtonDown"
+	- # of msec for a timer is called "Interval", eg. "updateInterval"
+		- value of 0 means 'no delay' [handled automatically in widget.delay()]
+	- it's always "<piece>ClassName" and "<piece>Selector"
+	- 'Callbacks' are for dealing with dynamic data, eg: _updateSuccessCallback
+	- 'Handlers' are for dealing with user input, eg:  _
+CSS Semantics
+	- default css classes for Classes should have same name as concept in the code,
+		and are in UpperCamelCase
+	- 
+	
+When to do things:
+	- onAfterDraw -- get pointers to elements, set up events
+	
+	
+TODO
+	- convert updating widget to use delay
+	- expand main template as default for drawing?
+	- TabContainer needs a lot of updating to ProtoWidget conventions
+	- put generic template into Section
+	
+Questions:
+	? maps and registries in UPPER_CASE?  eg.  
+	? showButton property vs.  showMenu method
+	? build child semantics in?  
+		? place between onDraw and onAfterDraw
+		? have initializeElements() ?
+	? how can we insert in place reliably?
+	? draw() has a lot of plumbing, but we want to be able to call it like that... ?
+	? it's "HTML" but "Url" (??)
+	? setEnabled(), automatically in initializer?

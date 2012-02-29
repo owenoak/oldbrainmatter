@@ -1,0 +1,60 @@
+DataSource thoughts
+
+- Rather than having a grab-bag of API calls,
+  think in terms of DataSources which have operations defined on them:
+		- list w/paging
+		- details
+		- create
+		- edit (may be many forms of edit)
+		- delete
+
+  We may have more than one of each type of operation, so think of the above as abstract operations.
+  
+  ? Think of operations as classes which we instantiate to perform a call?
+  		- this way same operation can be active more than once (think batch)
+  		- the instantiated operation is itself the promise
+		
+- Default is that we're dealing with a list of things that 
+	we may or may not be able to into memory entirely
+		- start with summary
+		- pull in full details
+		- master/detail relationships
+		- we'll generally index by some primary key(s)
+
+- App interacts with the datasource by calling operations
+  and registering callbacks for when operations complete or error.
+		- have friendly-named operations which take discrete params
+			and translate into low-level ajax calls
+		- return promises?
+		- mine statsproxy api for patterns re: showing messages, etc
+	  	- can have global errback behavior
+
+- Have a 'batchOperation' mode where you can queue up a bunch of discrete operations
+	and bunch them into a single client/server call
+
+
+Hmm, we want to think more about the DataSource, not about the operation,
+	so having to manage discrete operation objects seems onerous.
+	
+
+
+Enhance the 'request' object with additional magic so we can work with that directly:
+	- responseText
+	- responseXML
+	- responseJSON
+	- responseScript
+	- 
+
+
+MemcacheServices.load()
+MemcacheServices.load.onSuccess(function(){})
+MemcacheServices.load.onError(function(){})
+
+tell MemcacheServices to 'load' with a,b,c
+	when done
+	
+	
+	on error
+
+	
+end tell

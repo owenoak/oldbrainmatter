@@ -1,0 +1,733 @@
+<html>
+<head>
+	<title>Gear6 BrutisClient API </title>
+	<link type="text/css" rel="stylesheet" href="support.css">
+	<!-- load jquery from jQuery's CDN -->
+	<script src='http://code.jquery.com/jquery-latest.js'></script>
+	<script src='support.js'></script>
+</head>
+<body>
+
+	<h2>Gear6 BrutisClient API Documentation</h2>
+
+
+	<div class='action' id='brutisServices'>
+		<div class='name'>List Brutis Pools</div>
+		<div class='description'>
+			Fetch the list of BrutisClient Pools and their associated BrutisClient machines.
+		</div>
+		<div class='role'><label>Role:</label>view</div>
+		<div class='method'><label>Method:</label>GET</div>
+		<div class='url'><label>Url:</label>/api/BrutisClient/latest/config</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+				<data>
+					<brutisPools time='2009-04-29 00:41:22' v='1'>
+						<brutisPool>
+							<!-- info for the pool itself; anything else to go here?  -->
+							<name>Brutis Pool 1</name>
+					
+							<!-- list of clients in this pool.  Not sure what data we have or each client. -->
+							<brutisClient>
+								<ip>1.2.3.4</ip>
+								<port>???</port>
+								<status>???</status>
+							</brutisClient>
+					
+							<brutisClient>
+								<ip>1.2.3.5</ip>
+								<port>???</port>
+								<status>???</status>
+							</brutisClient>
+							<!-- possibly more brutisClients -->
+						</brutisPool>
+						
+						<!-- possibly more brutisPools -->
+					</brutisPools>
+				</data>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+
+	</div><!-- action -->
+	
+	<div class='action' id='testconfigs'>
+		<div class='name'>List Test Configs</div>
+		<div class='description'>
+			Fetch a full set of built in test configs
+		</div>
+		<div class='role'><label>Role:</label>view</div>
+
+		<div class='method'><label>Method:</label>GET</div>
+		<div class='url'><label>Url:</label>/api/BrutisClient/latest/test-configs</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+				<data>
+					<testConfigs>
+						<!-- one or more of the following -->
+						<testConfig
+							 id="#{testConfigId}"
+							 name="#{testConfigName}"
+							 description="#{testConfigDescription}"
+							 version="#{testConfigVersion}" 
+							 endless="#{endless}"
+							 jobCount="#{jobCount}"
+							 />
+					</testConfigs>
+				</data>
+			</response>
+		</textarea>
+		<div class='xmlExplanation'>
+			Where
+			<ul class='tight'>
+				<li><b>testConfigId</b> is a number</li>
+				<li><b>testConfigName</b> is a string of length <b>???</b> which can have spaces and special characters in it</li>
+				<li><b>testConfigDescription</b> is a string of length 255 which can have spaces and special characters in it</li>
+				<li><b>version</b> is a version string (eg: 1.0)</li>
+				<li><b>endless</b> is the string "true" if this test runs forever, 
+									or "false" if the test will end on its own.</li>
+				<li><b>jobCount</b> is the number of discrete 'jobs' in the test (eg: number of &lt;jobset&gt; elements).</li>
+			</ul>
+		</div>		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+
+	</div><!-- action -->
+	
+	<div class='action' id='testconfig'>
+		<div class='name'>Get Test Config Details</div>
+		<div class='description'>
+			Fetch detailed information about a test config
+		</div>
+		<div class='role'><label>Role:</label>view</div>
+		<div class='method'><label>Method:</label>GET</div>
+
+		<div class='url'><label>Url:</label>/api/BrutisClient/latest/test-configs/#{testConfigId}</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+				<data>
+					<!-- brutis test config data -->
+					<brutis>
+						<test name='Set' desc='Divided set test' version='1.0'>
+							<jobset name='set' forks='2' operations='100000' library='danga'>
+								<dataset>
+									<key name='set' start='1' end='100000' pattern='sequential' prefix='brutis-' divide='true'/>
+									<value name='generated' mode='generated' size='32'/>
+								</dataset>
+								<operations>
+									<operation type='set' keyset='set' valueset='generated'/>
+								</operations>
+							</jobset>
+						</test>
+					</brutis>
+				</data>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+	
+	
+	<div class='action' id='tests'>
+		<div class='name'>List tests</div>
+		<div class='description'>
+			Fetch a list of existing tests.
+		</div>
+		<div class='role'><label>Role:</label>view</div>
+		<div class='method'><label>Method:</label>GET</div>
+		<div class='url'><label>Url:</label>/api/BrutisClient/latest/tests?
+				<div class='urlParam'>sort=#{sortField}&</div>
+				<div class='urlParam'>direction=#{direction}&</div>
+				<div class='urlParam'>offset=#{number}&</div>
+				<div class='urlParam'>count=#{number}&</div>
+				<div class='urlParam'>state=#{state}</div>
+		</div>
+
+		<div class='urlExplanation'>
+			<br>Where:
+				<ul class='tight'>
+					<li><b>sortField</b> is one of:  <b>name</b>, <b>createTime</b>, <b>startTime</b> or <b>endTime</b></li>
+					<li><b>direction</b> is one of:  <b>ascending</b> or <b>descending</b></li>
+					<li><b>state</b> restricts the results to tests with a specific test state.
+						<br>Value is one the following <b>all</b>, <b>not-started</b>, <b>running</b>, <b>finished</b>, <b>cancelled</b>, <b>error</b>
+					<li>Default query if no params is:
+						<br>
+						<b>?sort=createTime&direction=descending&offset=0&count=100&state=all</b>
+				</ul>
+		</div>
+
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+				<data>
+					<tests count='#{numberOfTests}'>
+						<!-- one or more of the following -->
+						<test
+							id="#{testId}"
+							name="#{testName}"
+							notes="#{testNotes}"
+							state="#{testState}"
+							testConfigId="#{testConfigId}"
+							createTime="#{testCreationTime}"
+							startTime="#{testStartTime}"
+							endTime="#{testEndTime}"
+							ips="#{ips}" 
+							brutisClients="#{brutisClientIps}"
+							series="#{series}"
+							currentJob="#{currentJob}"
+							percentComplete="#{percentComplete}"
+							/>
+					</tests>
+				</data>
+			</response>
+		</textarea>
+		<div class='xmlExplanation'>
+			Notes
+			<ul class='tight'>
+				<li><b>testState</b> is one of the following: 
+					<b>not-started</b>, <b>running</b>, <b>finished</b>, <b>cancelled</b>, <b>error</b>.
+				<li>There CAN be more than one test with <b>state=not-started</b>.</li>
+				<li>There MUST NOT be more than one test with <b>state=running</b>.</li>
+				<li><b>ips</b> is a comma-separated list of <b>ip:port</b> of servers the test was run <b>against</b></li>
+				<li><b>brutisClients</b> is a comma-separated list of <b>ip:port</b> of BrutisClient machines involved in the test</li>
+				<li><b>series</b> is a list of relevant data series this test omits, whose
+					value is a comma-separated list of the following:
+					<ul class='tight'>
+						<li><b>bytes_read</b></li>
+						<li><b>bytes_written</b></li>
+						<li><b>cmd_get</b></li>
+						<li><b>cmd_set</b></li>
+						<li><b>composite</b></li>
+						<li><b>connection_structures</b></li>
+						<li><b>curr_connections</b></li>
+						<li><b>curr_items</b></li>
+						<li><b>evictions</b></li>
+						<li><b>get_hits</b></li>
+						<li><b>get_misses</b></li>
+						<li><b>sync_queue_size</b></li>
+					</ul>
+				<li>For jobs which are in <b>state=running</b> ONLY:
+					<ul>
+						<li><b>currentJob</b> is the number of the current JobSet</li>
+						<li><b>percentComplete</b> is a number from 0-100 for percent complete
+								of the current JobSet, or the string <b>endless</b> for 
+								jobs of indeterminate length.
+						</li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+	
+	
+	<div class='action' id='test'>
+		<div class='name'>Get Test Details</div>
+		<div class='description'>
+
+			Fetch detailed information about a single test.
+		</div>
+		<div class='role'><label>Role:</label>view</div>
+		<div class='method'><label>Method:</label>GET</div>
+		<div class='url'><label>Url:</label>/api/BrutisClient/latest/tests/#{testId}</div>
+		<div class='urlExplanation'>
+			<br>Where:
+				<ul class='tight'>
+					<li><b>testId</b> is either the <b>numeric testId</b> of an existing test,
+						<br>or <b>current</b> to indicate either:
+							<ul class='tight'>
+								<li>the currently running test (ie: test with state=running)</li>
+								<li>the LAST test which was currently running (if nothing is running now).
+							</ul>
+					</li>
+				</ul>
+		</div>
+		<textarea class='requestdata'></textarea>
+
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+				<data>
+					<!-- (Note: same semantics as the 'List tests' query above) -->
+					<test
+						id="#{testId}"
+						name="#{testName}"
+						notes="#{testNotes}"
+						state="#{testState: not-started|running|finished|cancelled|error}"
+						testConfigId="#{testConfigId}"
+						createTime="#{testCreationTime}"
+						startTime="#{testStartTime}"
+						endTime="#{testEndTime}"
+						ips="#{ips}" 
+						ips="#{ips}" 
+						brutisClients="#{brutisClientIps}"
+						series="#{series}"
+						currentJob="#{currentJob}"
+						percentComplete="#{percentComplete}"
+						/>
+					</tests>
+				</data>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+	
+	
+	<div class='action' id='stats'>
+		<div class='name'>Get Brutis client statistics</div>
+		<div class='description'>
+			Fetch a particular series of statistics data for all brutis clients.
+		</div>
+
+		<div class='role'><label>Role:</label>view</div>
+		<div class='method'><label>Method:</label>GET</div>
+		<div class='url'><label>Url:</label>/api/BrutisClient/latest/tests/#{testId}/stats/#{seriesId}/#{ip:port}?
+						<div class='urlParam'>start=#{startTime}&</div>
+						<div class='urlParam'>end=#{endTime}&</div>
+						<div class='urlParam'>samples=#{sampleCount}</div>
+		</div>
+		<div class='urlExplanation'>
+			<br>Where:
+				<ul class='tight'>
+					<li><b>seriesId</b> is one of:
+						<ul class='tight'>
+							<li><b>bytes_read</b></li>
+							<li><b>bytes_written</b></li>
+							<li><b>cmd_get</b></li>
+							<li><b>cmd_set</b></li>
+							<li><b>composite</b></li>
+							<li><b>connection_structures</b></li>
+							<li><b>curr_connections</b></li>
+							<li><b>curr_items</b></li>
+							<li><b>evictions</b></li>
+							<li><b>get_hits</b></li>
+							<li><b>get_misses</b></li>
+							<li><b>sync_queue_size</b></li>
+						</ul>					
+					</li>
+					<li><b>ip:port</b> specifies the single brutis client from which to retreive results.
+						The keyword <b>all</b> indicates that we should receive combined results for all clients.</li>
+					<li><b>startTime</b> and <b>endTime</b> are two dates in the form <b>YYYY-MM-DDTHH:MM:SS</b> in GMT, 
+					<br>&nbsp;&nbsp;&mdash; <b>or</b> &mdash;</li>
+					<li><b>endTime</b> is <b>now</b> and <b>startTime</b> is the number of seconds back from now, as a negative number.
+					<br>&nbsp;&nbsp;&mdash; <b>or</b> &mdash;</li>
+					</li>
+					<li>Default query if no params should return data across the entire time range of the test, eg:
+						<br>
+						<b>?start=#{test start time}&end=#{test end time}&samples=#{maxDataSamples}</b>
+					</li>
+				</ul>
+		</div>
+		
+		<textarea class='requestdata'></textarea>
+
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+				<data>
+					<brutisStats>
+						<!-- one or more of the following -->
+						<series>
+							<seriesId>#{seriesId}</seriesId>
+							<attr>#{seriesAbbr}</attr>
+						</series>
+						
+						<!-- one or more of the following for each data point in the series-->
+						<d l="#{timeLabel}" #{seriesAbbr}="#{value}" #{seriesAbbr}="#{value}" /> 
+
+						<!-- one or more of the following -->
+						<e l="#{timeLabel}" name='#{eventName}' /> 
+                        
+					</brutisStats>
+				</data>
+			</response>
+		</textarea>
+		<div class='xmlExplanation'>
+			<br>Where:
+				<ul class='tight'>
+					<li><b>seriesId</b> is the same as #{seriesId} in the request</li>
+					<li><b>seriesAbbr</b> maps the seriesId to a single letter abbreviation:
+						<ul class='tight'>
+							<li><b>bytes_read</b> = <b>r</b></li>
+							<li><b>bytes_written</b> = <b>w</b></li>
+							<li><b>cmd_get</b> = <b>g</b></li>
+							<li><b>cmd_set</b> = <b>s</b></li>
+							<li><b>connection_structures</b> = <b>n</b></li>
+							<li><b>curr_connections</b> = <b>c</b></li>
+							<li><b>curr_items</b> = <b>i</b></li>
+							<li><b>evictions</b> = <b>e</b></li>
+							<li><b>get_hits</b> = <b>h</b></li>
+							<li><b>get_misses</b> = <b>m</b></li>
+							<li><b>sync_queue_size</b> = <b>q</b></li>
+						</ul>					
+					</li>
+					<li>For each data point in the specified time range, there will be a single data
+						(<b>&lt;d&gt;</b>) element with data for all series specified in the query.  
+						The server should pad datapoints that are missing from the data, eg:
+						<b>&lt;d l='11:22:33' r='' w=''&gt;</b>.
+					</li>
+					<li>
+						For each event in the specified time range, there will be a single 
+						event (<b>&lt;e&gt;</b>) element which specifies the name of the event.  
+						Events are transmitted for <b>all</b> requests, no matter the specified data series.
+					</li>
+					<li><b>timeLabel</b> is a string of the form <b>HH:MM:SS</b> in GMT time;
+						this string is currently not interpreted on the client.
+					</li>
+					<li>Note that the <b>timeLabel</b> of the event (&lt;e&gt;) elements 
+						<b>MUST</b> correspond to the timeLabel of one of the data (&lt;d&gt;) elements 
+						in the result set, so the client can match the events up with the data points.
+					</li>
+				</ul>
+		</div>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+	
+	
+	<div class='action' id='create'>
+		<div class='name'>Create a test</div>
+		<div class='description'>
+			Create a test given a test config by associating a list of ips with a test config.
+		</div>
+
+		<div class='role'><label>Role:</label>modify</div>
+		<div class='method'><label>Method:</label>POST</div>
+		<div class='url'><label>Url:</label>/api/BrutisClient/latest/create</div>
+		<textarea class='requestdata'>
+			<request>
+				<data>
+					<testConfigId>#{testConfigId}<testConfigId/>
+					<ips>#{ips}</ips>
+					<name>#{testName}</name>
+					<notes>#{testNotes}</notes>
+				</data>
+			</request>
+		</textarea>
+		<div class='xmlExplanation'>
+			<br>Where:
+				<ul class='tight'>
+					<li><b>ips</b> is a comma-separated list of <b>ip:port</b>.</li>
+					<li><b>testName</b> is a user-supplied name for the test, max 255 characters.</li>
+					<li><b>testNotes</b> is for arbitrary notes, max 2000 characters.</li>
+				</ul>
+		</div>
+		
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+				<data>
+					<testId>#{testId}</testId>
+				</data>
+			</response>
+		</textarea>
+		<div class='xmlExplanation'>
+			<br>Where:
+				<ul class='tight'>
+					<li><b>testId</b> is the identifier for the new test.
+				</ul>
+		</div>
+
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+	
+
+	
+	<div class='action' id='edit'>
+		<div class='name'>Edit a test</div>
+		<div class='description'>
+			Edit the name, description and possibly ip addresses of a test.
+		</div>
+
+		<div class='role'><label>Role:</label>modify</div>
+		<div class='method'><label>Method:</label>POST</div>
+		<div class='url'><label>Url:</label>/api/BrutisClient/latest/edit/#{testId}</div>
+		<textarea class='requestdata'>
+			<request>
+				<data>
+					<ips>#{ips}</ips>
+					<name>#{testName}</name>
+					<notes>#{testNotes}</notes>
+				</data>
+			</request>
+		</textarea>
+		<div class='xmlExplanation'>
+			<br>Where:
+				<ul class='tight'>
+					<li><b>ips</b>, <b>testName</b> and <b>testNotes</b> are as in <b>Create a test</b> above.</li>
+					<li><b>ips</b> are only editable for tests which have NOT been started.</li>
+					<li><b>testName</b> and <b>testNotes</b> are editable at all times for all tests.</li>
+				</ul>
+		</div>
+		
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+	
+	
+	<div class='action' id='start'>
+		<div class='name'>Start a test</div>
+		<div class='description'>
+			Start a created test.  The test must be in the "not started" state. 
+			Test will be in "running" state on start success or "error" state on start error.
+		</div>
+		<div class='role'><label>Role:</label>modify</div>
+
+		<div class='method'><label>Method:</label>POST</div>
+		<div class='url'><label>Url:</label>/api/BrutisClient/latest/start/#{testId}</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+
+	</div><!-- action -->
+	
+	
+	<div class='action' id='stop'>
+		<div class='name'>Stop a test</div>
+		<div class='description'>
+			Stop a running test.  This has the following effect:
+			<ul class='tight'>
+				<li>If the test was in <b>state=running</b>, test state will change to <b>cancelled</b>.</li>
+				<li>If the test state was one of the following: 
+					<b>not-started</b>, <b>finished</b>, <b>cancelled</b> or <b>error</b>,
+					the operation will complete successfully and the state will not change.
+				<li>If there was an error stopping a running test, test state will change to <b>error</b>
+					and the error result will specify what happened.
+				</li>
+			</ul>
+		</div>
+		<div class='role'><label>Role:</label>modify</div>
+		<div class='method'><label>Method:</label>POST</div>
+
+		<div class='url'><label>Url:</label>/api/BrutisClient/latest/stop/#{testId}</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+	
+
+	<div class='action' id='delete'>
+		<div class='name'>Delete all previous tests</div>
+		<div class='description'>
+			Permanently delete *all* tests and their data.
+			If a test is currently running, will stop it first.
+		</div>
+		<div class='role'><label>Role:</label>modify</div>
+		<div class='method'><label>Method:</label>POST</div>
+
+		<div class='url'><label>Url:</label>/api/BrutisClient/latest/delete/all</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+
+
+	<div class='action' id='delete single'>
+		<div class='name'>Delete a single existing test.</div>
+		<div class='description'>
+			Permanently delete a single existing test.
+			If the test is currently running, will stop it first.
+		</div>
+		<div class='role'><label>Role:</label>modify</div>
+		<div class='method'><label>Method:</label>POST</div>
+
+		<div class='url'><label>Url:</label>/api/BrutisClient/latest/delete/#{testId}</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+
+	<div class='action' id='delete range'>
+		<div class='name'>Delete a set of tests</div>
+		<div class='description'>
+			Permanently delete one or more tests. Parameter semantics are the same as in
+			the <b>List tests</b> operation above, but instead of listing a set of tests,
+			this operation deletes them.
+			If a test to be deleted is currently running, will stop it forst.
+		</div>
+		<div class='role'><label>Role:</label>modify</div>
+		<div class='method'><label>Method:</label>POST</div>
+
+		<div class='url'><label>Url:</label>/api/BrutisClient/latest/delete
+				<div class='urlParam'>sort=#{sortField}&</div>
+				<div class='urlParam'>direction=#{direction}&</div>
+				<div class='urlParam'>offset=#{number}&</div>
+				<div class='urlParam'>count=#{number}&</div>
+				<div class='urlParam'>state=#{state}</div>		
+		</div>
+		<div class='urlExplanation'>
+			<br>Where:
+				<ul class='tight'>
+					<li><b>sortField</b>, <b>direction</b>, <b>offset</b>, <b>count</b> and <b>state</b> 
+						have the same semantics as the <b>List tests</b> operation above.
+					<li>If no parameters are specified, this operation returns an error result.
+				</ul>
+		</div>
+
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+	
+	
+</body>
+</html>
+
+

@@ -1,0 +1,145 @@
+<!-- generic class for parent/child semantics -->
+<!-- TODO:
+		* have "onsetflag" event?  "onremoveFlag"?
+
+-->
+<class id='Parentable'>
+	<!-- short name, no spaces, must only be one of name x with class y in parent -->
+	<property name='name'></property>
+
+	<!-- id is either passed in, or auto-generated -->
+	<property name='id'></property>
+	
+	<!-- title is a longer, human-friendly identifier -->
+	<property name='title'></property>
+	
+	<!-- parent of this thing in its heiarchy -->
+	<property name='parent'></property>
+
+	<!-- children of this thing in its hierarchy -->
+	<property name='children'></property>
+
+	<!-- flags are transient state items which are either on or off -->
+	<property name='flags' type='object'><!-- map? --></property>
+
+
+	<script language='javascript' dialect='SmartJS'>
+		function Parentable() {
+			this.mixin.apply(this, arguments);
+			// make sure everything has a reasonably unique id (pass one in as prop to override)
+			this.generateId();
+			this.init();
+		}
+
+
+
+		function generateId() {
+			if (this.id != undefined) return;
+			this.id = this.propertyOfAncestors("name", true).join("-");
+		}
+
+		//
+		//	parenting semantics
+		//
+	
+		function addChild(child, addToChildrenArray) {
+			// TODO:	- move our domElement into the new parent
+			//			- fix up the message hierarchy
+			if (addToChildrenArray != false) {
+				if (!this.children) this.children = [];
+				if (this.children.indexOf(child) != -1) return;
+				this.children.push(child);
+			}
+			
+			child.parent = this;
+			return child;
+		}
+		
+		
+		// TODO: remove domElement?
+		function removeChild(child) {
+			hope.removeItem(this.children, child);
+			delete child.parent;
+		}
+
+
+		//
+		//	ancestors and children
+		// 	NOTE: "ancestor chain" or "first ancestor" in the below includes this object (???)
+		//
+		
+		// method can be a function, or the name of a method to call on each child
+		function forEachChild(method, arg1, arg2, etc) {
+			if (!this.children || this.children.length == 0) return;
+			var args = arguments[1->],
+				isString = typeof method == "string",
+				output = []
+			;
+			for (var i = 0, child; child = this.children[i++]; ) {
+				if (isString) {
+					output.push((typeof child[method] == "function") ? child[method].apply(child, args) : null);
+				} else {
+					output.push(method.apply(child, args));
+				}
+			}
+			return output;
+		}
+	
+		// method can be a function, or the name of a method to call on each ancestor
+		// NOTE: ancestor here is strictly parents, not us!
+		function forEachAncestor(method, arg1, arg2, etc) {
+			var parent = this.parent;
+			var args = arguments[1->],
+				isString = typeof method == "string",
+				output = []
+			;
+			while (parent) {
+				if (isString) {
+					output.push((typeof parent[method] == "function") ? parent[method].apply(parent, args) : null);
+				} else {
+					output.push(method.apply(parent, args));
+				}
+				parent = parent.parent;
+			}
+			return output;
+		}
+		
+		// return the value of the specified property for each ancestore
+		//	returns a list with closest parent first
+		function propertyOfAncestors(property, startWithThis) {
+			var list = [],
+				parent = (startWithThis == true ? this : this.parent)
+			;
+			while (parent) {
+				list.unshift(parent[property]);
+				parent = parent.parent;
+			}
+			return list;
+		}
+	
+	
+		// return the first ancestor where ancestor[prop] == value
+		// TODO: this is pretty verbose...  tighten up?
+		function firstAncestorWhere(what, value) {
+			var parent = this,
+				isString = typeof what == "string",
+				isUndefined = typeof value == "undefined",
+				parentValue
+			;
+	
+			while (parent) {
+				if (isString) {
+					parentValue = parent[what];
+				} else {
+					parentValue = what.apply(parent);			
+				}
+				if (isUndefined && typeof parentValue == "undefined") return parent;
+				if (value == parentValue) return parent;
+				parent = parent.parent;
+			}
+		}
+
+	
+	</script>
+
+</class>m

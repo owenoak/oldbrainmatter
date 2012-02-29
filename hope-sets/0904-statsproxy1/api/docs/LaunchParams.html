@@ -1,0 +1,113 @@
+<html>
+<head>
+    <title>Gear6 Memcached Launch Params </title>
+    <link type="text/css" rel="stylesheet" href="support.css">
+</head>
+<body>
+    <h2>Gear6 Memcached Launch Params</h2>
+
+    <div class='indent'>
+<pre>
+
+The following launch parameters may be specified as part of the user data
+option of ec2-run-instances or through the Amazon Web Services management
+console.
+
+When specifying parameters via the command line, use the -d option and 
+enclose a space-separated list of key=value pair parameters within 
+double quotes. For example:
+
+  -d "password=none:,view:fnord,modify:plugh defaultAccess=view"
+
+
+<b>allow-user-login=</b><i>y|n</i>
+
+   By default, the Gear6 Memcached does not allow users to log into the system
+   via ssh. By supplying this parameter with the value '<i>y</i>', the user
+   will be able to log into the instance(s) using their standard EC2
+   keypair (if provided at time of launch). 
+
+   Note that users do not have root access to the instance and instead login
+   using the username '<i>gear6-user</i>'.
+
+   There are no password logins allowed with this (or any) user, only key
+   based logins via ssh.
+
+   To login, the customer should run the following (much like they would
+   for an ordinary AWS login but with a different username):
+
+       ssh -i &lt;private_key_path&gt; gear6-user@&lt;ip_address&gt;
+
+   Default is <i>n</i> (no logins allowed).
+
+
+<b>attach=</b><i>SERVICE_NAME</i>
+<b>attach=</b><i>PRIVATE_IP/SERVICE_NAME</i>
+
+   In the first form of this parameter, the default service name of the
+   Gear6 Memcached instance is set to the provided string. This service name
+   is used to identify instances meant to join a common memcache pool.
+   However, when no IP address is provided (as in this first form) the
+   launched instance(s) have no knowledge of other launched instances with
+   the same service name and must be manually added to the pool using the
+   Gear6 Memcached web-based management interface.
+
+   When an IP address is provided prior to the service name (and separated
+   with a forward slash '/'), the launched instance(s) will contact the
+   existing instance at the IP address provided and attempt to join the
+   existing memcache pool (of the same name) that instance already belongs to.
+
+   Note:
+      1. Service names cannot contain spaces, commas or forward slashes.
+      2. When passing an IP address, the instance at that IP address must
+         already be a member of a memcache pool (perhaps as its only member)
+         with the same service name.
+
+
+<b>dram-only=</b><i>y|n</i>
+
+   Unlike traditional memcached servers, the Gear6 Memcached is capable of using
+   block devices, such as the ephemeral storage devices provided within AWS. By
+   default, the Gear6 Memcached will auto-configure itself based on the amount
+   of DRAM and ephemeral storage available, and use the appropriate combination
+   of the two to maximize available cache size. Typically, this results in a
+   much larger available cache size than if one were to use exclusively DRAM.
+
+   Unfortunately, due to the difference in access speeds of the underlying
+   media, there can be a performance disadvantage to using both DRAM and
+   ephemeral storage. If desired, the Gear6 Memcached can be forced to run
+   using only DRAM by passing this parameter with the value '<i>y</i>'.
+
+   Default is <i>n</i> (use both DRAM and ephemeral storage).
+
+    
+<b>defaultAccess=</b><i>ACCESS_LEVEL</i>
+
+   Sets the default access level for the web management interface for the
+   Gear6 Memcached instances launched. This will be the access level used when
+   no user credentials have been supplied.
+
+   Default is <i>none</i>. 
+
+
+<b>password=</b><i>PASSWORD_STRING</i>
+
+   Sets the password(s) for the different access levels for the Gear6 Memcached
+   management interface. The password string contains a comma separated list of
+   <i>Level:password</i> pairs. Passwords are entered in plaintext and should
+   not contain either commas or double-quotes.
+                 
+   Defined access levels are:  <i>none</i>, <i>view</i>, <i>modify</i>.
+
+   Example:    <i>password=none:,view:fnord,modify:plugh</i>
+                            
+   This will set no password for level none, "fnord" for level view, and "plugh"
+   for modify.
+
+
+</pre>    
+</div>
+</body>
+</html>
+
+

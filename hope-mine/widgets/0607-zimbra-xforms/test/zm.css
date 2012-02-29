@@ -1,0 +1,2182 @@
+/*
+ * ***** BEGIN LICENSE BLOCK *****
+ * Version: ZPL 1.2
+ *
+ * The contents of this file are subject to the Zimbra Public License
+ * Version 1.2 ("License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.zimbra.com/license
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
+ * the License for the specific language governing rights and limitations
+ * under the License.
+ *
+ * The Original Code is: Zimbra Collaboration Suite Web Client
+ *
+ * The Initial Developer of the Original Code is Zimbra, Inc.
+ * Portions created by Zimbra are Copyright (C) 2005, 2006 Zimbra, Inc.
+ * All Rights Reserved.
+ *
+ * Contributor(s):
+ *
+ * ***** END LICENSE BLOCK *****
+ */
+
+/*
+* Conventions
+*
+* - Classes that start with "Dwt" or "Zm" have a corollary Javascript object.
+* - Use one line if there is only one selector and one declaration. Otherwise, indent each declaration on its own line.
+* - Group selectors to avoid repetition of styles, as appropriate (ie group within a section). That means you may have
+*   to look at more than one definition to figure out all the applicable styles, but it lets you give the styles a
+*   hierarchy. That way, you're more likely to need to change a style in just one place.
+* - Use shorthand styles when possible (font, margin, padding, etc).
+* - When grouping selectors that correspond to our Javascript objects, show inheritance by using a different line for
+*   each level of inheritance. CSS doesn't care about our object hierarchy, but doing that enhances readability.
+* - Use hex RGB values for colors that don't have names (eg:  #EEEEEE)
+* - Try to stick to hex values of   00, 33, 66, 99, AA, FF so they map cleanly to the web palette,
+*    eg: #666666 rather than #616161
+* - Modifiers are lower case, whether they're a class (eg .activated) or tacked on (eg -selected).
+*
+* Classes are laid out in the following general order:
+*	- HTML elements
+*	- General app stuff (shell, overlays, banner)
+*	- Widgets that tend toward abstract (minimal subclassing), such as tool tips and sashes
+*	- Heavier use widgets such as buttons and dialogs
+*		- General widget stuff, then specialized subclasses
+*	- List views, with common stuff first
+*	- Other views (lots of them)
+*	- Miscellaneous stuff that multiple apps might use (objects, autocomplete)
+*	- Modifiers
+*
+* Many of the Dwt widgets don't have corresponding classes here, since they are only subclassed. 
+* If you create and display one of those widgets, you'll have to add a class for it.
+*/
+
+
+/*
+* Top-level (shell) stuff
+*/
+
+.DwtShell, .MainShell {
+	position:absolute;
+	left:0px;
+	top:0px;
+	@FullSize@
+}
+
+.MainShell {}
+
+
+
+
+
+/* Dwt-created elements that have their ID set so we can tweak them specifically here */
+
+/* MOVE TO SKIN ??? */
+#ZmTagColorMenu {
+	width: 100px;	/* ??? SIZE */
+	height: 22px;
+}
+
+
+
+/*
+ * Banner - shows username, quota bar
+ *			(enlarges, turns green when angry)
+ */
+
+
+/* Outside container for the banner */
+.BannerBar {}
+
+.BannerBar .quotabar {
+	@ProgressBarContainer@
+	width: 100px;
+	height: 6px;
+}
+
+.BannerBar .quotaUsed {
+	@ProgressBarBg-info@
+	height: 6px;
+}
+
+/* 65% - 85% of quota used */
+.BannerBar .quotaWarning {
+	@ProgressBarBg-warning@
+	height: 6px;
+}
+
+/* 85%+ of quota used */
+.BannerBar .quotaCritical {
+	@ProgressBarBg-critical@
+	height: 6px;
+}
+
+
+/* percent used label */
+.BannerBar .percent {
+	@FontSize-smaller@
+	@ChromeText@
+	@NoWrap@
+/*	@FixIESizeQuirk@	/* WEIRD IE QUIRK */
+	
+}
+
+.BannerBar td {
+	padding-right: @BoxPaddingSize@;
+}
+
+/* ??? USED? */
+.BannerBar img {
+	border: none;
+	margin-right: 2px;
+}
+
+/* Quota label */
+.BannerBar .BannerText {
+	@ChromeText@
+	@NoWrap@
+	text-align: center;
+}
+
+/* User label */
+.BannerBar .BannerTextUser {
+	@ChromeText@
+	@NoWrap@
+	text-align: center;
+	font-weight: bold;
+
+}
+
+
+
+
+
+/* Status bar stuff */
+
+.ZmStatusMainText {	
+	@ToastText@
+}
+
+.ZmStatusToastText { 
+	@ToastText@
+}
+
+.ZmStatusInfoToast {
+	@ToastContainer@
+	@ToastBg-info@
+}
+.ZmStatusWarningToast {	
+	@ToastContainer@
+	@ToastBg-warning@
+}
+.ZmStatusCriticalToast {	
+	@ToastContainer@
+	@ToastBg-critical@
+}
+
+.ZmStatusHistory { 
+	width: 400px; 				/* ??? SIZE */
+	height: 285px; 
+	@BoxMargin@
+	margin-bottom: 0px;
+	overflow: auto;
+}
+
+
+
+/*
+ *  Dwt Overrides
+ */
+
+
+
+/*
+ *	Overview tree (list of folders)
+ */
+
+
+/* Override so first level of the tree does not indent */
+/* ??? DO WE WANT THIS FOR ALL TREES, OR JUST IN THE OVERVIEW TREES */
+.DwtTreeItemLevel1ChildDiv {
+	padding-left:0px;
+	margin-bottom:5px;
+}
+
+
+
+/*
+ * Tool Bars
+ */
+
+
+/* ???? USED? */
+.ZmToolBar {
+	@FullWidth@
+}
+
+/* Search toolbar */
+.ZmSearchToolbar {
+	@FullSize@
+}
+
+/* Search builder toolbar (buttons only) */
+.ZmBrowseToolBar {
+	@SearchHelperToolbarMargin@
+	@FullSize@
+}
+
+/* Main (horizontal) application toolbar */
+.ZmAppToolBar {
+	@FullSize@
+}
+
+
+/* Navigation portion of the main app toolbar -- arrows and count label */
+.ZmNavToolBar {
+	/*background-color: transparent;*/
+}
+
+/* toolbar in child window */
+.ZmAppToolBar_cw {
+	@ToolbarContainer@
+	@FullWidth@
+}
+
+/* toolbar in child window for message view */
+.ZmMsgViewToolBar_cw {
+	@ToolbarContainer@
+	@FullWidth@
+}
+
+/* toolbars in read message view that let you accept an appointment, share, etc (with no border) */
+.ZmInviteToolBar, .ZmShareToolBar {
+	@InlineToolbarContainer@
+	padding-left:@BoxPaddingSize@
+}
+
+
+.ZmNavToolBar .DwtText {white-space: nowrap;}
+
+
+/* ??? USE ? */
+td.DDSepVisible div {
+	background-color:black; 
+	width:1px;
+	overflow:hidden;
+}
+td.DDSepInvisible div {
+	background-color:transparent;
+	width:1px;
+	overflow:hidden;
+}
+
+
+
+/* 
+ * Search bar
+ */
+
+/* Search bar outer container */
+.SearchPanel {	}
+
+
+/* Search input field */
+.search_input {
+	width:100%;
+}
+
+
+
+/* 
+ * Search builder
+ */
+
+/* Search builder outer container */
+.ZmBrowseView {
+	height: 225px;		/* ??? SIZE */
+	width: 100%;
+	overflow: hidden;
+}
+
+
+/* 
+ * Search builder "pickers" or panes 
+ */
+
+/* outer container for an individual picker */
+.ZmPicker {
+	@PickerContainer@
+}
+
+/* Header for each picker */
+.ZmPicker .DwtToolBar {
+	@WidgetHeaderContainer@
+	@WidgetHeaderSize-medium@
+}
+
+/* Name of the picker in the header */
+.ZmPickerLabel .Text {
+	@FontSize-big@
+	font-weight:bold;
+}
+
+/* Container for the body of each picker */
+.ZmPickerOverview {
+	overflow: hidden;
+}
+
+/* ??? SHOTGUN */
+.ZmPickerOverview td {
+	 @Label@ 
+}
+
+
+
+
+/*
+ * Conversation view stuff
+ */
+
+/* message fragment text */
+.ZmConvListFragment,
+.Row-Selected .ZmConvListFragment { 
+	@Text-disabled@
+	font-weight: normal; 
+}
+
+/* Conversation view outer container (header, list and reading pane) */
+.ZmConvView {}
+
+/* Remove the border around the email conversation/message panes */
+#ZmConvListView,
+.ZmConvView .DwtListView,
+.ZmTradView .DwtListView {
+	border:0px;
+}
+
+ 
+
+/* ??? SHOTGUN */
+.ZmConvView td { 
+	@NoWrap@
+}
+
+/* Container for the header of this particular conversation */
+.ZmConvView .SubjectBar {
+	@PageHeaderBg@
+	@BottomSeparator@
+}
+
+/* Label for the header of this conversation */
+.ZmConvView .Subject {
+	@Text@
+	@FontSize-bigger@
+	@BoxPadding@
+	@NoWrap@
+	@OverflowEllipsis@
+}
+
+.ZmConvView .Tags {
+	vertical-align:bottom;
+}
+
+/* put space between display of tag icons and their names */
+.Tags a { 
+	@NoWrap@
+	padding-right: @BoxPaddingSize@; 	/* ??? SIZE */
+}
+
+
+
+/* Container for the view of one particular message 
+	-- there can be two instances, one for "conversation" view and one for "messages" view */
+.ZmMailMsgView {
+	@FullWidth@
+	@MailMsgBg@
+	@Text@
+}
+
+/* Container for the body of the message */
+.MsgBody {
+	@AppBg@
+	@Text@
+}
+
+/* ??? USE? */
+.ZmMailMsgView .ZmToolBar {
+	@InlineToolbarContainer@
+	margin-left: 12px;
+	height: auto;
+	width: auto;
+}
+
+/* Container for the header of the message */
+.ZmMailMsgView .MsgHeaderTable {
+	padding-top:5px;
+	@WidgetHeaderContainer@
+}
+
+.ZmMailMsgView .SubjectCol { 
+	@FontSize-bigger@
+	@Text@
+}
+
+.ZmMailMsgView .LabelColName {
+	@NoWrap@
+	@Label@		/* ??? bold?*/
+	vertical-align: top;
+	text-align: right;
+	padding: 3 0 3 0;
+}
+
+.ZmMailMsgView .LabelColValue {
+	@Text@
+	white-space: normal;
+	vertical-align: top;
+	padding: 3px;
+}
+
+/* ??? USE? */
+.ZmMailMsgView .AttName, 
+.ZmMailMsgView .AttName-matched {
+	padding-right: 8px;
+}
+
+/* ??? USE? */
+.ZmMailMsgView .AttName-matched { 
+	@Anchor-matched@
+	white-space: nowrap; 
+}
+
+/* ??? MOVE ME */
+/* "Display Images" button in mail message view to show hidden images */
+/* ??? "Displayimages" CLASS REALLY SHOULD BE SHARED WITH "SpellCheckModeDiv"  */
+/* CLASS DEFINED IN spellcheck.css SINCE THEY SHOULD HAVE THE SAME VISUAL LOOK */
+.Displayimages {
+	cursor: pointer;
+	background-color: #FFFFCC;
+	padding: 7px;
+	font-size: 10pt;
+	border-bottom: 1px solid #777777;
+}
+
+.ZmMailMsgView .Displayimages td {
+	font-size: 10pt;
+}
+
+
+/* ??? USE? */
+.colButtons {
+	width: 62px;
+}
+
+/* ??? USE? */
+.hSpace {
+	width: @BoxPaddingSize@;
+}
+
+
+
+/* Styles below apply to attachments table in iframe */
+.iframeTable {
+	table-layout: fixed;
+}
+
+
+
+/*
+ * Message compose view 
+ */ 
+/* Outer container of message compose view */
+.ZmComposeView {
+	@PageBg@
+	@FullWidth@
+}
+
+/* ??? SHOTGUN */
+.ZmComposeView td {
+	@Text@
+}
+
+.ZmComposeView input,
+.ZmComposeView textarea
+{}
+
+/* ??? USE? */
+.ZmComposeView .composerTable {
+	table-layout: fixed;
+	width: 100%;
+}
+
+.ZmComposeView .subjectField {
+	@FullWidth@
+	border: 1px solid rgb(206,209,201);
+	padding: 3 6 0 6;
+}
+
+/* to/cc/bcc textareas */
+.ZmComposeView .addresses {
+	@FullWidth@
+	border: 1px solid rgb(206,209,201);
+	padding: 3 6 3 6;
+}
+
+/* textarea where you type in the message? */
+/* ??? USED? */
+.ZmComposeView .msgArea {
+	@FontFamily-fixed@
+	@FullWidth@
+	overflow: auto;
+}
+
+/* ??? USE? */
+.ZmComposeView .attachText {
+	width:60px;			/* ??? SIZE */
+	text-align:right;
+	@NoWrap@
+}
+
+/* ??? USE? */
+.ZmComposeView .addLink {
+	margin: 0 0 0 65px;
+}
+
+
+
+/*
+ *	ZmHtmlEditor -- HTML editor stuff
+ */ 
+ 
+/* Outer container */
+.ZmHtmlEditor {
+	@BoxPadding@
+}
+
+/* textarea where you type plain-text */
+.ZmHtmlEditor .DwtHtmlEditorTextArea {
+	@FontSize-big@
+	@FontFamily-fixed@
+	@FullWidth@
+	overflow: auto;
+	padding: 1px;
+}
+
+/* iframe where you edit HTML WYSIWYG-stylee */
+/* NOTE: this is deliberately always black text on white */
+.ZmHtmlEditor .DwtHtmlEditorIFrame {
+	@AppBorder@
+	@FullWidth@
+	background-color: white;
+	color:black;
+}
+
+
+
+/* ??? USE? */
+.ZmHEDialog td.Label { 
+	@NoSelect@
+	text-align: right; 
+	width: 12em; 
+	padding-right: 3px;
+}
+.ZmHEDialog td.SmallLabel { 
+	@NoSelect@
+	text-align: right; 
+	padding-right: 3px;
+}
+.ZmHEDialog td.col2 { width: 7em; }
+.ZmHEDialog label { @NoSelect@ }
+.ZmHEDialog .ShowPickedColor {
+	@NoSelect@
+	border: 1px dashed #888;
+	width: 1.2em;
+	line-height: 1.2em;
+	cursor: default;
+}
+.ZmHEDialog td.VSep-L { padding-left: 3px; font-size: 1px; border-right: 1px solid #aaa; }
+.ZmHEDialog td.VSep-R { padding-right: 3px; font-size: 1px; }
+.ZmHEDialog .Cursor-Pointer, .ZmHEDialog .Cursor-Pointer * { cursor: pointer !important; }
+
+
+/* ??? USED? */
+#IFDEF MSIE
+.ZmComposeTBButton {filter:progid:DXImageTransform.Microsoft.Gradient(startColorStr=#FFFFFFFF,endColorStr=#20808080);}
+#ENDIF
+/* ??? USED? */
+#IFDEF MSIE
+.ZmComposeTBButton.toggled {
+	filter:progid:DXImageTransform.Microsoft.Gradient(startColorStr=#FFFFFFFF,endColorStr=#20808080);
+	background-color: white;
+}
+#ENDIF
+
+#IFNDEF MSIE
+.ZmComposeTBButton.toggled {
+	background-color: white;
+}
+#ENDIF
+
+
+
+
+/* ??? USED? */
+.NtdDialogTable .NtdLabel {
+	white-space:nowrap; 
+	padding:2px 5px; 
+	text-align:right;
+}
+
+/* ??? USED? */
+.NtdDialogTable fieldset {
+	margin-left:5px;
+	margin-right:5px;
+}
+
+/* ??? USED? */
+.TpdDialogTable .BorderColorSwatch {
+	padding:2px;
+	border:1px outset;
+	width:21px;
+	height:21px;
+	background-color:black;
+}
+
+
+
+
+
+/*
+ *  Contacts app
+ */
+
+
+/*
+ * ZmContactSplitView -- list of contacts w/display of one contact to the right
+ */
+
+/* Outer container for both panes */
+.ZmContactSplitView {
+	@BoxPadding@
+}
+
+.ZmContactAlphabetBar {
+	padding-top: 5px;
+}
+
+.AlphabetBarTable {
+	background-color:@WidgetBgColor@
+}
+
+.AlphabetBarCell {
+	@LeftSeparator@
+	text-align:center;
+	@ActiveCursor@
+	width:30px;
+	cursor: pointer;
+}
+
+.AlphabetBarDisabled {
+	#IFDEF MSIE
+	filter:alpha(opacity=50);
+	#ENDIF
+	-moz-opacity:0.5;
+	opacity:0.5;
+	cursor: default;
+}
+
+
+/* Container for list of contacts */
+/* ??? RENAME */
+.ZmContactSimpleView {
+	@ListContainer@
+}
+
+/* ??? WHY IS THIS NECESSARY? */
+.ZmContactSimpleView .SimpleContact,
+.ZmContactSimpleView .SimpleContact-right,
+.ZmContactSimpleView .SimpleContact-drag {
+	width: 100%;
+	overflow-x: hidden;
+}
+
+.ZmContactSimpleView .SimpleContact-right,
+.ZmContactSimpleView .SimpleContact-drag {
+	@RightClickBg@
+}
+
+.ZmContactSimpleView .SimpleContact-drag {
+	@DragBg@
+}
+
+/* ???  USE? */
+.ZmContactSimpleView .SimpleContactHover {
+	@AppBg@	/* ??? */
+}
+
+
+
+/* Container for big display of one contact  */
+.ZmContactInfoView {
+	@AppBg@
+	@AppBorder@
+	overflow: hidden;
+}
+
+.ZmContactInfoView .contactHeaderRow,
+.ZmContactView .contactHeaderRow {
+	height: 40px;
+	@WidgetHeaderSize-big@
+}
+
+.ZmContactInfoView .contactHeader,
+.ZmContactView .contactHeader {
+	@FontSize-biggest@
+	@Text@
+	padding-left:@BoxPaddingSize@;
+	@NoWrap@
+	@OverflowEllipsis@
+}
+
+.ZmContactInfoView .companyName {
+	@FontSize-bigger@
+}
+
+.ZmContactInfoView .companyFolder {
+	@FontSize-big@
+	@NoWrap@
+	width: 1%;
+}
+
+
+/* ??? -> Text */
+.ZmContactInfoView .contactOutput {
+	@Text@
+}
+
+/* ??? -> ZmFieldLabelRight */
+.ZmContactInfoView .contactLabel {
+	@Label@
+	width: 1%;
+	text-align: right;
+}
+
+
+/*
+ *	Contact edit screen stuff
+ */
+
+
+/* Container for the edit screen */
+/* ??? RENAME -> ZmContactEditView */
+.ZmContactView {
+	@PageBg@
+}
+
+
+/* ??? -> ZmFieldLabelRight */
+.ZmContactView .editLabel {
+	@Label@
+	text-align:right;
+}
+
+
+.sectionLabel {
+	@SectionLabel@
+}
+
+/* ??? USED? */
+.contactEditHeader {
+	@FontSize-bigger@
+	@BottomSeparator@
+	padding-top: 15;
+	padding-left: @BoxPaddingSize@;
+	margin-bottom: @BoxMarginSize@;
+	overflow: hidden;
+}
+
+/* ??? USED? */
+.contactEditLabel {
+	text-align:right;
+	padding-left: @BoxPaddingSize@;
+	padding-right: @BoxPaddingSize@;
+	overflow: hidden;
+}
+
+
+/*
+ * ZmContactCardsView -- view of the contacts as a set of "cards"
+ */
+.ZmContactCardsView {
+	@PageBg@
+	@FullSize@
+}
+
+/* Container for a single contact card in various states */
+.ZmContactCard, 
+.ZmContactCard-selected, 
+.ZmContactCard-selected-right,
+.ZmContactCard-drag, 
+.ZmContactCard-selected-drag,
+.ZmContactCard-dnd {
+	@AppBg@
+	@ContactsCardSize@
+	overflow: hidden;
+	@OverflowEllipsis@
+}
+
+.ZmContactCard {
+	@OutsetBorder@
+}
+
+/* "Finish Loading" banner in cards view to initiate GetContactRequest for
+ *  unloaded contacts */
+.FinishLoading {
+	cursor: pointer;
+	background-color: #FFFFCC;
+	padding: 4px;
+	border-width: 1 0 0 0;
+	border-style: solid;
+	border-color: #777777;
+}
+
+
+/* Container for a single card when it is selected */
+.ZmContactCard-selected, .ZmContactCard-selected-right .ZmContactCard-focused {
+	@FocusBorder@
+}
+
+/* Header for the contact cards view */
+.ZmContactCardsView .contactHeader,
+.ZmContactCard-dnd .contactHeader {
+	@FontSize-bigger@
+	@Text@
+	@NoWrap@
+	@OverflowEllipsis@
+	padding: 3 0 3 2;
+}
+
+.ZmContactCard-selected .contactHeader,
+.ZmContactCard-dnd .contactHeader,
+.ZmContactCard-selected-dnd .contactHeader{
+	@SelectedBg@
+}
+
+.ZmContactCard-drag .contactHeader,
+.ZmContactCard-selected-right .contactHeader,
+.ZmContactCard-selected-drag .contactHeader {
+	@DragBg@
+}
+
+/* Label of field in a contact card */
+/* ??? RENAME -> ZmFieldLabelRight */
+.ZmContactFieldValue {
+	@Label@
+}
+
+/* Display of a field in the contact card */
+.ZmContactField {
+	@Text@
+	@OverflowElipsis@
+	@NoWrap@
+}
+
+
+
+/* ??? USE? */
+.AddressContent {
+	width: 350px;
+	height: 250px;
+	border: solid gray 1px;
+}
+
+
+
+
+/*
+ *	Calendar application
+ */
+
+/* Outer container for all of calendar (display and edit) */
+.ZmCalViewMgr {
+	@PageBg@
+	@FullSize@
+}
+
+/* Outer container for all calendar display views */
+.calendar_view {
+	@FullSize@
+	@AppBg@
+}
+
+/* ??? SHOTGUN   NECESSARY?  calendar_body? */
+.calendar_view BODY {
+	margin: 0px;
+}
+
+/* ??? SHOTGUN   NECESSARY?  */
+.calendar_view TABLE {
+	@CompactTable@
+}
+
+/* ??? SHOTGUN   NECESSARY?  */
+.calendar_view_table {
+	@FullWidth@
+}
+
+/* ??? USE? */
+.calendar_sched_union_div {
+	text-align:center;
+	/*background-color: red;*/
+	background-color:#D90000;
+	color:black;
+	overflow: hidden;
+}
+
+/* ??? USED? */
+.calendar_grid_table {
+	table-layout:fixed;
+}
+
+.calendar_grid_day_table {
+	@FullSize@
+}
+
+.calendar_grid_day_table td {
+	padding:0px;
+}
+
+/* cell in the calendar grid that is selected */
+.calendar_time_selection {
+	@SelectedBg@
+}
+
+/* Container for the head of the calendar grid */
+.calendar_heading {
+	@WidgetHeaderContainer@
+	height: 20px;			/* ??? SIZE */
+	overflow: hidden;
+}
+
+/* Year label */
+.calendar_heading_year_text {
+	@Label@
+	padding-top:@TextPaddingSize@;
+	position: absolute;
+	left: 0;
+	overflow: hidden;
+	vertical-align:middle;
+	text-align:center;
+}
+
+/* day label in various states */
+.calendar_heading_day,
+.calendar_heading_day-selected,
+.calendar_heading_day_today,
+.calendar_heading_day_today-selected {
+	@Label@
+	@FullSize@
+	@NoWrap@
+	padding-top:@TextPaddingSize@;
+	text-align:center;
+	vertical-align:middle;
+}
+
+.calendar_heading_day-selected {
+	@SelectedBg@
+}
+
+.calendar_heading_day_today {
+	@Text-today@
+	font-weight:bold;
+}
+
+.calendar_heading_day_today-selected {
+	@SelectedBg@
+	@Text-today@
+	font-weight:bold;
+}
+
+/* Separator between all-day and hourly sections */
+.calendar_header_allday_separator {
+	@HSashContainer@
+}
+
+/* Separator between individual days of the calendar */
+.calendar_day_separator {
+	@SeparatorBg@
+}
+
+/* container for the hour labels of the day grid */
+.calendar_hour_scroll {
+	position:absolute;
+	overflow: hidden;
+}
+
+.calendar_union_scroll,
+.calendar_allday_appt {
+	position:absolute;
+	overflow: hidden;
+}
+
+/* this is used when we don't want horizontal scroll in the appt grid */
+.calendar_body,
+.calendar_allday_appt_vert {
+	position:absolute;
+	@VerticalScrollOverflow@
+}
+
+/* this is used when we want h/v scroll in the appt grid */
+.calendar_body_hscroll {
+	position:absolute;
+	overflow: auto;
+}
+
+/* outer scrolling container for the month view */
+.calendar_month_body {
+	position:relative;
+	overflow:hidden;
+/* ??? -> VerticalScrollOverflow? */
+/*  	overflow auto seems to work in firefox 1.5b2
+	overflow:-moz-scrollbars-vertical;
+  	overflow:auto;
+*/
+  	overflow-x:hidden;
+  	overflow-y:auto;
+}
+
+/* container for a particular time label */
+.calendar_grid_body_time_td {
+	vertical-align:top;
+	text-align:right;
+	border:none;
+}
+
+/* actual time label -- a div so it can be moved up */
+.calendar_grid_body_time_text {
+	@Label@
+	@TextPadding@
+}
+
+
+/* set the width of each day column in the month view 
+	-- extra space goes to the last column  			*/
+.month_calendar_c0,
+.month_calendar_c1,
+.month_calendar_c2,
+.month_calendar_c3,
+.month_calendar_c4,
+.month_calendar_c5 { 
+	width: 14%; 
+}
+
+.month_calendar_c6{ 
+	width: 16%; 
+}
+
+
+/* outer table for the month view */
+.calendar_month_table {
+	@FullSize@
+	@CompactTable@
+	table-layout:fixed;
+}
+
+/* header for the month */
+.calendar_month_header_table {
+	@FullSize@
+	@CompactTable@
+	@PageHeaderBg@
+}
+
+/* label for the month */
+.calendar_month_header_month {
+	@PageHeaderBg@
+	@PageHeaderText@
+	@FontSize-biggest@
+	@Label@
+	text-align:center;
+}
+
+/* day of week label for the month */
+.calendar_month_header_cells_text {
+	@PageHeaderBg@
+	@PageHeaderText@
+	@FontSize-big@
+	@SmallBoxPadding@
+	@BottomSeparator@
+	@Label@
+	text-align:center;
+}
+
+
+
+/* cell for each day in the month view in various states*/
+.calendar_month_cells_td {
+	@SeparatorBorder@
+	@NoWrap@
+	height:16%;
+	vertical-align:top;
+}
+
+/* ??? -Selected -> -selected */
+.calendar_month_cells_td-Selected {
+	@SelectedBg@
+	@SeparatorBorder@
+	@NoWrap@
+	vertical-align:top;
+	height:16%;
+}
+
+/* table inside a particular day */
+.calendar_month_day_table {
+	@FullWidth@
+}
+
+/* label of a particular day in various states */
+.calendar_month_day_label,
+.calendar_month_day_label_today,
+.calendar_month_day_label_off_month,
+.calendar_month_day_label_off_month_today
+{
+	@NoWrap@
+	@FontSize-big@
+	@TextPadding@
+	text-align:right;
+}
+
+.calendar_month_day_label_today {
+	@Text-today@
+}
+
+.calendar_month_day_label_off_month {
+	@Text-disabled@
+}
+
+.calendar_month_day_label_off_month_today {
+	@Text-disabled@
+	@Text-today@
+}
+
+
+/* ??? USED? */
+.calendar_month_day_allday {
+	height:18px;			/* ??? SIZE */
+}
+
+/* row for one particular appt in the month view in various states */
+.calendar_month_day_item_row {}
+
+.calendar_month_day_item_row-Selected {
+	@SelectedBg@
+}
+
+/* ??? USE?  text color comes from OrangeC, RedC, etc... */
+.calendar_month_day_item_row-Selected .calendar_month_day_item {
+	color: white;
+}
+
+
+/* ??? NO LONGER USED?
+.calendar_month_day_item LI {
+	padding-left:4px;
+}
+*/
+
+/* text box for a single appt in the month view in various states */
+.calendar_month_day_item {
+	@NoWrap@
+	padding-left:@BoxPaddingSize@;
+	color:#2869FF;		/* ??? USE?  text color comes from OrangeC, RedC, etc? */
+}
+
+.calendar_month_day_item-dnd {
+	@DragBorder@
+	@DragBg@
+	@NoWrap@
+	padding-left:@BoxPaddingSize@;
+}
+
+
+
+
+
+/* label of a calendar day when shown in a hover balloon */
+.calendar_tooltip_month_day_label {
+	@NoWrap@
+	@SectionLabel@
+	text-align:center;
+}
+
+
+
+
+
+/* ??? USED? */
+.allday {
+        left:0;
+        top:0;
+        width:100%;
+}
+
+/* ??? USED? */
+.allday td {
+	padding:0px;
+}
+
+
+/* 
+ * appearance of appointments in day views -- NOTE: colors of these items are not skinned
+ */
+.appt							{ 	z-index:10;	}
+.appt-selected					{ 	z-index:20;	}
+
+.appt-selected TD		 		{											font-weight:bold;											}
+
+/* ??? USE? */
+.appt_new_tag					{											font-weight:bold;	color:#FFCC00;							}
+
+.appt_name						{	@SmallBoxPadding@;															}
+.appt_new_name					{	@SmallBoxPadding@;						font-weight:bold;	color:white; 							}
+
+.appt_30_name,
+.appt_allday_name				{	@SmallBoxPadding@;	padding-top:1px;										@NoWrap@	}
+.appt_30_new_name,
+.appt_allday_new_name 			{	@SmallBoxPadding@;	padding-top:1px; 	font-weight:bold;	color:white;	@NoWrap@	}
+
+
+.appt_time						{	@SmallBoxPadding@;																}
+.appt_new_time					{	@SmallBoxPadding@;	font-weight:bold;	color:white;							}
+.appt_end_time					{	@SmallBoxPadding@;						color:#666666;	@NoWrap@	}
+
+.appt_status-					{	@SmallBoxPadding@;										@NoWrap@	}
+.appt_status-NE					{	@SmallBoxPadding@;	font-weight:bold;	color:FFE640;	@NoWrap@	}
+.appt_status-TE					{	@SmallBoxPadding@;						color:FF3300;	@NoWrap@	}
+.appt_status-AC					{	@SmallBoxPadding@;						color:black;	@NoWrap@	}
+.appt_status-DE					{	@SmallBoxPadding@;						color:black;	@NoWrap@	}
+.appt_status-DG					{	@SmallBoxPadding@;						color:black;	@NoWrap@	}
+
+.appt_location					{	@SmallBoxPadding@;						}
+
+.appt_top_sash,
+.appt_bottom_sash{ 
+	height: 5px; 
+	width:100%; 
+	position:absolute; 
+	font-size: 2pt; 
+}
+
+.appt_top_sash {
+	top: 0; 
+	cursor: n-resize;
+}
+.appt_bottom_sash { 
+	bottom: 0; 
+	cursor: s-resize;
+}
+
+.appt_body,
+.appt_30_body {
+	position:relative;
+	overflow:hidden;
+	border:2px solid;
+	border-color:#AAAAAA #333333 #333333 #AAAAAA;
+	-moz-border-radius:2 2 2 2;
+	margin:0 0 0 -1;
+}
+
+.appt-selected .appt_body,
+.appt-selected .appt_30_body {
+	position:relative;
+	overflow:hidden;
+	border:4px solid;
+	border-color:#339999 #003030 #003030 #339999;
+	-moz-border-radius:2 2 2 2;
+	margin:0 -2 -2 0;
+}
+
+.appt_allday_body {
+	position:relative;
+	overflow:hidden;
+	border:2px solid #333333;
+	-moz-border-radius:2 2 2 2;
+	border-top-width:1px;
+	border-bottom-width:1px;
+	margin:0 0 -1 0;
+}
+
+.appt-selected .appt_allday_body {
+	position:relative;
+	overflow:hidden;
+	border-left:3px solid #339999;
+	border-top:2px solid #339999;
+	border-right:3px solid #003030;
+	border-bottom:2px solid #003030;
+	-moz-border-radius:2 2 2 2;
+	margin: 0 -1 -1 0;
+}
+
+.appt-selected .appt_body TD,
+.appt-selected .appt_allday_body TD,
+.appt-selected .appt_30_body TD {
+	padding-top:0px;
+	padding-left:0px;
+	padding-right:0px;
+}
+
+/* tweak the padding for firefox so the appts don't jump when selected */
+HTML>BODY .appt-selected .appt_body TD,
+HTML>BODY .appt-selected .appt_allday_body TD,
+HTML>BODY .appt-selected .appt_30_body TD {
+	padding-left:2px;
+	padding-top:2px;
+	padding-right:2px;
+}
+HTML>BODY .appt-selected .appt_body,
+HTML>BODY .appt-selected .appt_30_body,
+HTML>BODY .appt-selected .appt_allday_body
+{
+	margin-top:-3px;
+	margin-left:-3px;
+}
+
+
+
+
+
+/* 
+ *  Print view of the calendar -- note this is always black text on white
+ *		??? USED?  Calendar print view seems to be hard-coding
+ */
+.calendar_print_date_header {
+	@BoxMargin@
+	@BoxPadding@
+	@FullWidth@
+	@FontSize-biggest@
+	border-bottom: 2px solid #DDDDDD;
+}
+.calendar_print_date_header_weekday {
+	@FontSize-normal@
+}
+
+.calendar_print_appointment_container {
+	position:relative;
+	height:60px;		/* ??? SIZE */
+}
+
+.calendar_print_appointment_time {
+  position:absolute;
+  top:0px;
+  left:0px;
+  width:140px;			/* ??? SIZE */
+  font-weight:bold;
+}
+
+.calendar_print_appointment_name {
+  position:absolute;
+  top:0px;
+  left:140px;
+  width:240px;
+  height:12px;
+  overflow:hidden;
+  font-weight:bold;
+}
+
+.calendar_print_appointment_notes {
+  position:absolute;
+  top:12px;
+  left:140px;
+  width:240px;
+  height:40px;
+  overflow:hidden;
+  font-weight:normal;
+}
+
+.calendar_print_appointment_location {
+  position:absolute;
+  top:0px;
+  left:400px;
+  width:240px;
+  font-weight:bold;
+}
+
+
+
+/* ??? USED? */
+/* filler for a blank all day item row in month view */
+.allday_item_filler {
+	height:20;		/* ??? SIZE */
+}
+
+
+
+/*
+* Miscellaneous
+*/
+
+/* Objects */
+
+/* Blank page (view) with some text in it */
+/* ??? USE? */
+.TextPage {
+	color: black;
+	background-color:#EEEEEE;
+	text-align: center;
+	width: 100%;
+}
+.TextPage span {margin: 10ex 0 0 0}
+
+
+
+/* 
+ * Reminder Dialog 
+ */
+
+.ZmReminderDialog { 
+	overflow: auto;
+	width: 475px; 			/*??? SIZE */
+	@BoxMargin@
+	margin-bottom: 0px;
+}
+
+/* Overdue appt text */
+.ZmReminderOverdue {
+	@Text-important@
+	font-weight:bold;
+}
+
+/* Appt coming soon text */
+.ZmReminderSoon {
+	@Text-important@
+	font-weight: bold;
+}
+
+/* Appt somewhere in the future */
+.ZmReminderFuture {
+
+}
+
+/* ??? USE?  Label or field value */
+.ZmReminderField {
+	@NoWrap@
+	@Label@
+	text-align: right;
+}
+
+
+
+/*
+ *	Edit appointment view (the one with the tabs)
+ */
+.ZmApptComposeView {
+	@PageBg@
+	@FullWidth@
+}
+
+/* Label for appt edit form */
+/* ??? RENAME TO ZmFieldLabelRight ? */
+.ZmApptTabViewPageField {
+	@Label@
+	@NoWrap@
+	text-align: right;
+	width: 1%;
+}
+
+
+
+/*
+ *	Free/busy view
+ */ 
+/* Colors for the free/busy blocks */		/*??? SKIN THIS ? */
+.ZmScheduler-free 		{	background-color: #FFFFFF;	}
+.ZmScheduler-busy 		{	background-color: #990000;	}
+.ZmScheduler-tentative 	{	background-color: #FF3300;	}
+.ZmScheduler-outOfOffice {	background-color: #FFCC00;	}
+.ZmScheduler-unknown 	{	background-color: #FFF5CC;	}
+
+
+.ZmSchedulerNormalRow {
+	@AppBg@
+}
+
+.ZmSchedulerDisabledRow {
+	@PageBg@
+}
+
+.ZmSchedulerGridTable {
+	@BottomSeparator@
+}
+
+.ZmSchedulerGridTable-allAttendees {
+	@TopSeparator@
+	@BottomSeparator@
+}
+
+/* Container for the 'key' explaining the colors */
+.ZmSchedulerKey {
+	vertical-align: top;
+	text-align: right;
+}
+
+
+/* label for the current date */
+.ZmSchedulerDate {
+	@FontSize-bigger@
+	@NoWrap@
+	text-align: center;
+}
+
+/* Table that contains the hour labels -- scootch it to the right a little bit */
+.ZmSchedulerGridHeaderTable {
+	position:relative;
+	left:-13px;
+	top:4px;
+}
+
+.ZmSchedulerGridHeaderCell {
+	@FreeBusyViewHeaderWidth@;
+	@NoWrap@
+	@Label@
+	text-align: center;
+}
+
+.ZmSchedulerOrgIconTd {
+	@RightSeparator@
+	@LeftSeparator@
+}
+
+.ZmSchedulerNameTd {
+	@FreeBusyViewGridHeight@
+	@NoWrap@
+	@RightSeparator@
+	@BottomSeparator@
+	vertical-align: middle;
+	@TextCursor@
+/*	color: #AAAAAA;	*/
+}
+
+/* "All attendees" label */
+.ZmSchedulerAllTd {
+	@SeparatorBorder@
+	@NoWrap@
+	@Text-disabled@
+	font-weight: bold;
+	text-align: center;
+	@InactiveCursor@
+}
+
+/* input field for f/b attendees */
+.ZmSchedulerInput {
+	@FullSize@
+	border: 0px;
+	padding-top: 3px;
+}
+
+.ZmSchedulerInputDisabled {
+	@TextPadding@
+}
+
+/*
+.ZmSchedulerEmail {
+	@FreeBusyViewGridHeight@
+	@NoWrap@
+	@TextCursor@
+	color: #AAAAAA;
+	width: 160px;
+}
+*/
+
+
+.ZmSchedulerNameTdBorder {
+	@FreeBusyViewGridHeight@
+	@FreeBusyViewGridWidth@;
+	@RightSeparator@
+	@BottomSeparator@
+	border-right-color: #000000;
+	@NoWrap@
+	@Label@
+	@TextCursor@
+	vertical-align: middle;
+}
+
+
+
+.ZmSchedulerGridDiv,
+.ZmSchedulerGridDiv-halfHour,
+.ZmSchedulerGridDiv-start,
+.ZmSchedulerGridDiv-end {
+	@FreeBusyViewGridWidth@;
+	@FreeBusyViewGridHeight@
+}
+
+.ZmSchedulerGridDiv {
+	@RightSeparator@
+}
+
+.ZmSchedulerGridDiv-halfHour {
+	@RightSeparator-light@
+}
+
+.ZmSchedulerGridDiv-start {
+	border-right:3px solid green;
+	#IFNDEF MSIE
+	width: 10px;
+	#ENDIF
+}
+
+.ZmSchedulerGridDiv-end {
+	border-right:3px solid darkred;
+	#IFNDEF MSIE
+	width: 10px;
+	#ENDIF
+}
+
+
+
+
+/* MAKE THE RIGHT BORDER BLACK */
+.ZmSchedulerGridDivBorder {
+	@FreeBusyViewGridWidth@;
+	@FreeBusyViewGridHeight@
+	@RightSeparator@
+	@BottomSeparator@
+	border-right-color: #000000;
+}
+
+.ZmSchedulerGridTopCellBorder {
+	@FreeBusyViewGridWidth@;
+	@FreeBusyViewGridHeight@
+
+	@TopSeparator@
+	@RightSeparator@
+	@BottomSeparator@
+	border-right-color: #000000;
+}
+
+
+/* grid marker for hours */
+.ZmSchedulerGrid-hour {
+	@RightSeparator@
+	width: 10px;			/* ??? SIZE */
+	height: 21px;
+}
+
+.ZmSchedulerGrid-halfHour {
+	@RightSeparator-light@
+	width: 10px;			/* ??? SIZE */
+	height: 21px;
+}
+
+/* marker cell in the grid (showing currently selected time) */
+.ZmSchedulerGrid-start {
+	border-right:3px solid green;
+	width: 8px;			/* ??? SIZE */
+	height: 21px;
+}
+
+/* marker cell in the grid (showing currently selected time) */
+.ZmSchedulerGrid-end {
+	border-right:3px solid darkred;
+	width: 8px;			/* ??? SIZE */
+	height: 21px;
+}
+
+.ZmSchedulerBottomBorder {
+	@BottomSeparator@
+}
+
+
+
+
+
+
+/* ??? REMOVE? */
+.ZmApptChooserTabViewPage fieldset {
+	@BoxMargin@
+}
+
+
+/*
+ *	Chat application
+ */ 
+
+.ZmChatMultiWindowView, .ZmChatTabbedView {
+	@PageBg@
+	@FullSize@
+}
+
+.ZmChatWindowContainer {
+	@FullSize@
+	overflow: auto;
+}
+
+.ZmChatWindow {
+	@WindowContainer@
+	width: 400px;			/* ??? SIZE */
+	height: 300px;
+}
+
+.ZmChatWindow-selected {
+	@WindowContainer-focused@
+	width: 400px;
+	height: 300px;	
+}
+
+.ZmChatDialogField {
+	@Label@
+	@NoWrap@
+	text-align: right;
+	width: 1%;
+}
+
+/* ??? */
+.ZmChatWindow .DwtToolBar {
+	@ListItemContainer@
+}
+
+
+.ZmChatWindow-selected .DwtToolBar {
+	@ListItemContainer-selected@
+	height:24px;
+}
+
+/* ??? REMOVE
+.ZmChatWindow .DwtToolBar .DwtToolbarButton {
+	border: 1px solid #CCCCCC;
+}
+.ZmChatWindow-selected .DwtToolBar .DwtToolbarButton {
+	border: 1px solid #CCCCCC;
+}
+
+*/
+
+
+/* label for the chat window itself -- eg: who chat is with or "group chat" */
+.ZmChatWindowLabel TD {
+	font-weight: bold;
+}
+
+/* label for "online" or "offline" etc status */
+.ZmChatWindowStatusLabel TD {
+	@Label@
+}
+
+/* Body of the chat window */
+.ZmChatWindowChat {
+	@AppBg@
+	@AppBorder@
+	overflow: hidden;
+}
+
+/* list of chat members for multi-person chat */
+.ZmChatMemberList {
+	/*overflow: hidden;*/
+	@AppBg@
+	@AppBorder@
+}
+
+/* label in the chat record by text that user has typed, eg:  [2:10 PM] username: */
+.ZmChatWindowChatEntryMe {
+	@Text@
+	font-weight: bold;
+	padding: 1px;
+	padding-left: 2px;
+}
+
+/* label in the chat record for system notes (eg: roland goes offline, etc) */
+.ZmChatWindowChatEntrySystem {
+	@Label@
+	font-style: italic;
+	padding: 1px;
+	padding-left: 2px;
+}
+
+/* label in the chat record by text that chatees have typed */
+.ZmChatWindowChatEntryThem {
+	color: blue;
+	font-weight: bold;	
+	padding: 1px;
+	padding-left: 2px;
+}
+
+.ZmChatWindowInput {
+	border: 0px;
+	overflow: auto;
+/*	border: 1px solid #999999;*/
+}
+
+.ZmChatWindowInput textarea {
+	@TextArea@
+}
+
+
+/*
+ *	App chooser
+ */
+
+.ZmAppChooser {
+	margin-left:@SmallBoxPaddingSize@;
+	margin-top:@BoxMarginSize@;
+	height: 100%;
+}
+
+
+/*
+ *	Name of the app in the inset
+ */
+.currentAppLabel .Text {
+	@FontSize-big@
+	font-weight:bold;
+	@InsetText@
+}
+
+
+
+
+/*
+ *
+ */
+
+
+
+/*
+ * Contact picker from the email compose screen
+ */
+
+.ZmContactPicker  {}
+
+
+
+/*
+ *  Autocompletion
+ */
+.ZmAutocompleteListView {
+	@MenuContainer@
+	background-color:@ItemBgColor@;
+	width: auto;
+}
+
+/* ??? USE? */
+.ZmAutocompleteListView .Row, 
+.ZmAutocompleteListView .Row-selected {
+	@TextPadding@
+    height:auto;
+}
+.ZmAutocompleteListView .Row-selected { 
+	/* color: white; */
+}
+
+
+
+/*
+ * Filter rules 
+ */
+
+/* list of filters */
+.ZmFilterListView {
+	@AppBg@
+	@AppBorder@
+	width: 100%;
+}
+
+/* ??? USE? */
+.ZmFilterRuleDialog .paddedTableCell {
+  vertical-align:middle;
+  @TextPadding@
+}
+
+/* ??? USE? */
+.ZmFilterRuleDialog .chooserButton {
+	width: 120px;
+}
+
+.ZmFilterRuleDialog .plusMinusButton {
+	width: 20px;
+}
+
+/*
+* Print View
+*/
+.ZmPrintView-username {
+	@FontSize-bigger@
+}
+
+.ZmPrintView-company {
+	@FontSize-biggest@
+}
+
+
+
+
+/*
+ * Preferences
+ */
+
+/* Container for the set of preference pages (including tabs) */
+.ZmPrefView {
+	@PageBg@
+	@FullSize@
+}
+
+/* ??? USE?  Seems to be the entire preferences form body.  RENAME? */
+.ZmPrefView .TitleBar {
+	padding-top: @BoxPaddingSize@;
+}
+
+/* Background for the pref tabs */
+.ZmPrefView .DwtTabTable {
+	@PageHeaderBg@
+}
+
+/* Box that shows a color, allows you to click to set the color */
+.ZmPrefView .colorBox {
+	@AppBorder@		/* ??? */
+	width:18px; 
+	height:18px; 
+}
+
+
+/* Divider between groups of related preferences */
+.ZmPrefView .horizSep {
+	@BottomSeparator@
+	margin-top: @BoxMarginSize@;
+}
+
+/* Prefs are laid out in a table */
+.prefTable {
+	table-layout: fixed;
+	width: auto;
+}
+
+/* label for pereferences */
+.prefLabel {
+	@Label@
+	text-align:right;
+	width: 300px;		/* ??? SIZE */
+}
+.prefContent {
+	width: 420px;		/* ??? SIZE */
+}
+
+/* button sizing */
+.ZmPreferencesPage .changePasswordButton { }
+.ZmPreferencesPage .exportButton { }
+.ZmPreferencesPage .resetButton {	width: 100px;	}
+
+.Row .ZmFilterDetailsView td {
+	@NoWrap@
+	vertical-align: middle;
+}
+
+
+/*
+ *	Change password dialog
+ */
+.ZmChangePasswordDialogInput {
+	@BoxMargin@
+	width:200px;
+}
+
+
+/*
+ *	Login dialog
+ */
+.ZmLoginDialog {
+	@ChromeBg@
+	overflow:hidden;
+}
+.ZmLoginDialog-Transparent {background-color: transparent;}
+
+
+/*
+ *	Share properties dialog
+ */
+/* ??? USE? */
+.ZmSharePropsDialog .GrouperLabel {
+	font-weight: normal;
+	font-size: 10pt;
+	color: #666;
+}
+
+
+/*
+ *  Notes application
+ */
+
+.ZmNotebookPageView {
+	@AppBg@
+}
+
+.ZmPageEditView {
+ 	@PageBg@
+}
+
+.ZmPageEditView .RenameWarning {
+	background-color: #ffffcc;
+	@Text-important@
+}
+
+.ZmNotebookPageView {
+	overflow: auto;
+}
+
+
+/* ??? I THINK THIS SHOULD BE DYNAMICALLY WRITTEN ACCORDING TO THEIR PREFERENCES...? */
+.ZmNotebookPageView, .ZmNotebookPageView P, .ZmNotebookPageView TD, .ZmNotebookPageView DIV,
+.ZmNotebookPageView SPAN, .ZmNotebookPageView SELECT, .ZmNotebookPageView INPUT,
+.ZmNotebookPageView TEXTAREA, .ZmNotebookPageView BUTTON, .ZmNotebookPageView A {
+	font-family:inherit;
+	font-size:inherit;
+}
+.ZmNotebookPageView H1 {
+	margin-top: 0;
+	margin-bottom: @BoxMarginSize@;
+}
+.ZmNotebookPageView H2 {
+	margin-top: @BoxMarginSize@;
+	margin-bottom: @BoxMarginSize@;
+}
+
+.ZmNotebookPageView SPAN.Object, .ZmNotebookPageView SPAN.Object-activated {}
+
+.ZmPageEditView {
+}
+.ZmPageEditView .Label {
+	@FontFamily-html@
+	@FontSize-bigger@
+	text-align: right;
+	width: 1%;
+}
+.ZmEditNoteView .DwtInputField {
+	width: 100%;
+}
+.ZmEditNoteView .DwtHtmlEditorIFrame {
+	height: 100%;
+}
+
+
+/* Label for assist dialog */
+/* ??? RENAME TO ZmFieldLabelRight ? */
+.ZmAsstFieldLabel {
+	@Label@
+	@NoWrap@
+	text-align: right;
+	width: 1%;
+}
+
+.ZmAsstField, .ZmAsstField TD {
+	color: black;
+	font-style: normal;
+}
+
+.ZmAsstFieldDefValue, .ZmAsstFieldDefValue TD {
+	color: gray;
+	font-style: italic;
+}
+
+.ZmAsstContactHelp {
+	height: 200px;
+	overflow: auto;
+}
+
+.ZmAsstContactHelpHeader TD {
+	font-weight: bold;
+	@BottomSeparator@
+}
+
+/*
+ * Colors, for use in calendar and elsewhere.
+ *
+ * Use the base color (eg: "Red") to show a list of colors.
+ * Use the "Bg" version ("RedBg" as background in a list, etc)
+ * Dark and Light are primarily for use in borders
+ *
+ */
+
+.Selection			{ background-color:#ADD6D6;}
+.SelectionDark		{ background-color:#91C8C8; }
+.SelectionLight		{ background-color:#C8E4E4; }
+.SelectionBg		{ background-color:#E3F1F1; }
+
+.Red				{ background-color:#E34040;}
+.RedDark			{ background-color:#D90000; }
+.RedLight			{ background-color:#EC8080; }
+.RedBg				{ background-color:#F5BFBF; }
+.RedC				{ color:#E34040;}
+.RedDarkC			{ color:#D90000; }
+.RedLightC			{ color:#EC8080; }
+.RedBgC				{ color:#F5BFBF; }
+
+.Pink				{ background-color:#F492BF;}
+.PinkDark			{ background-color:#F06EA9; }
+.PinkLight			{ background-color:#F8B7D4; }
+.PinkBg				{ background-color:#FBDBE9; }
+.PinkC				{ color:#F492BF;}
+.PinkDarkC			{ color:#F06EA9; }
+.PinkLightC			{ color:#F8B7D4; }
+.PinkBgC			{ color:#FBDBE9; }
+
+.Orange				{ background-color:#FF9940;}
+.OrangeDark			{ background-color:#FF7700; }
+.OrangeLight		{ background-color:#FFBB80; }
+.OrangeBg			{ background-color:#FFDDBF; }
+.OrangeC			{ color:#FF9940;}
+.OrangeDarkC		{ color:#FF7700; }
+.OrangeLightC		{ color:#FFBB80; }
+.OrangeBgC			{ color:#FFDDBF; }
+
+.Yellow				{ background-color:#FFE640;}
+.YellowDark			{ background-color:#FFDD00; }
+.YellowLight		{ background-color:#FFEE80; }
+.YellowBg			{ background-color:#FFF6BF; }
+.YellowC			{ color:#FFE640;}
+.YellowDarkC		{ color:#FFDD00; }
+.YellowLightC		{ color:#FFEE80; }
+.YellowBgC			{ color:#FFF6BF; }
+
+.Green				{ background-color:#40A05F;}
+.GreenDark			{ background-color:#00802A; }
+.GreenLight			{ background-color:#80C095; }
+.GreenBg			{ background-color:#BFDFCA; }
+.GreenC				{ color:#40A05F;}
+.GreenDarkC			{ color:#00802A; }
+.GreenLightC		{ color:#80C095; }
+.GreenBgC			{ color:#BFDFCA; }
+
+.Cyan				{ background-color:#40D9D9;}
+.CyanDark			{ background-color:#00CCCC; }
+.CyanLight			{ background-color:#80E6E6; }
+.CyanBg				{ background-color:#BFF2F2; }
+.CyanC				{ color:#40D9D9;}
+.CyanDarkC			{ color:#00CCCC; }
+.CyanLightC			{ color:#80E6E6; }
+.CyanBgC			{ color:#BFF2F2; }
+
+.Blue				{ background-color:#4073D9;}
+.BlueDark			{ background-color:#0044CC; }
+.BlueLight			{ background-color:#80A2E6; }
+.BlueBg				{ background-color:#BFD0F2; }
+.BlueC				{ color:#4073D9;}
+.BlueDarkC			{ color:#0044CC; }
+.BlueLightC			{ color:#80A2E6; }
+.BlueBgC			{ color:#BFD0F2; }
+
+.Purple				{ background-color:#7940A0;}
+.PurpleDark			{ background-color:#4C0080; }
+.PurpleLight		{ background-color:#A680C0; }
+.PurpleBg			{ background-color:#D2BFDF; }
+.PurpleC			{ color:#7940A0; }
+.PurpleDarkC		{ color:#4C0080; }
+.PurpleLightC		{ color:#A680C0; }
+.PurpleBgC			{ color:#D2BFDF; }
+
+.Gray				{ background-color:#BFBFBF;}
+.GrayDark			{ background-color:#A9A9A9; }
+.GrayLight			{ background-color:#D4D4D4; }
+.GrayBg				{ background-color:#E9E9E9; }
+.GrayC				{ color:#BFBFBF;}
+.GrayDarkC			{ color:#A9A9A9; }
+.GrayLightC			{ color:#D4D4D4; }
+.GrayBgC			{ color:#E9E9E9; }

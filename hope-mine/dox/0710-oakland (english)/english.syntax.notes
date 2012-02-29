@@ -1,0 +1,31 @@
+-- class definition
+		class <classname> is [a] <classname> <<[and [a] <classname>>
+			<<handlers>>
+		end class
+		
+-- checking boolean properties of an object, ref is implicitly started at "this"
+		<ref> is <property>
+  -eg-
+  		if this is selected then <statement>
+  -or-
+  		when this is selected [do]
+  			<<statements>
+  		end when
+  -or-
+  		if the page is shown then <statement>
+  
+  
+  
+-- referencing 
+	- examples below are for a control in the hierarchy: 
+			control -> panel -> page -> app -> site
+	- default scope is "this"
+	- if they use a class name, it's the first ancestor of this of that clas
+			"the page" == control.parent.parent
+	- what about nesting contexts (eg: controls inside other controls, etc)
+
+
+
+
+- checking types
+	if <ref> is a <className> or a <className> then

@@ -1,0 +1,197 @@
+* {
+	-moz-box-align:start;
+	box-flex:0; -webkit-box-flex:0; -moz-box-flex:0;
+}
+
+
+html {
+	background:pink;
+	padding:0;
+}
+
+body {
+	background:blue;
+	margin:0; padding:0;
+	height:100%; width:100%;
+}
+
+
+/*******
+ **
+ **	CSS3 shorthand functions to avoid browser differences
+ **
+ *******/
+ 
+/* round corners: you can do a single value or 4 values for:  tl tr br bl */
+.round(@r:5px) {	border-radius:@r; -moz-border-radius: @r; -webkit-border-radius: @r;	}
+
+
+
+/*******
+ **
+ **	layout semantics -- apply class to outer element to lay out children
+ **
+ **	Note: children must be display:block or display:inline-block to lay out properly
+ **
+ *******/
+
+/* shorthand classes for layouts */
+.display_box 		{	display:box; display:-webkit-box; display:-moz-box;	}
+.box-orient(@val)	{	box-orient:@val;-webkit-box-orient:@val;-moz-box-orient:@val; }
+.box-align(@val)	{	box-align:@val;-webkit-box-align:@val;-moz-box-align:@val; }
+.box-stretch(@val)	{	box-stretch:@val;-webkit-box-stretch:@val;-moz-box-stretch:@val; }
+.box-pack(@val)		{	box-pack:@val;-webkit-box-pack:@val;-moz-box-pack:@val; }
+.flex(@flex:1)		{	box-flex:@flex; -webkit-box-flex:@flex; -moz-box-flex:@flex; }
+
+
+/* vertical stretch layout */
+.layout_vertical, 	
+*[layout~="vertical"],
+{
+	.display_box; .box-orient(vertical); .box-align(stretch); 
+}
+
+/* horizontal stretch layout */
+.layout_horizontal, 
+*[layout~="horizontal"]	
+{
+	.display_box; .box-orient(horizontal); .box-align(stretch); 
+}
+
+/* center vertically and horizontally */
+.layout_center, 
+*[layout~="center"]
+{
+	.display_box; .box-pack(center); .box-align(center);
+}
+
+
+/* center vertically only */
+.layout_vcenter, 
+*[layout~="vcenter"]
+{
+	.display_box; .box-orient(vertical); .box-pack(center);
+}
+
+/* center horizontally only */
+.layout_hcenter, 
+*[layout~="hcenter"]
+{
+	.display_box; .box-orient(horizontal); .box-pack(center);
+}
+
+
+
+/* make something inside a box-layout stretch to varying degrees */
+*[stretch]  {	.flex(1);	}
+*[flex="1"] {	.flex(1);	}
+*[flex="2"] {	.flex(2);	}
+*[flex="3"] {	.flex(3);	}
+*[flex="4"] {	.flex(4);	}
+*[flex="5"] {	.flex(5);	}
+
+
+
+
+/* add a small dropshadow */
+*[shadow] {
+	box-shadow: 3px 3px 5px rgba(0,0,0,.4);
+	-moz-box-shadow: 3px 3px 5px rgba(0,0,0,.4);
+	-webkit-box-shadow: 3px 3px 5px rgba(0,0,0,.4);
+}
+
+
+/*	Generic container which expands to size of parent and SCROLLS children.
+	If you put it inside a flex layout, will inset for siblings automatically.
+*/
+scroller {
+	display:block;
+	position:relative;
+	.flex(1); width:100%; height:100%;
+	overflow:auto;
+}
+
+/*  Scrollers should have a single child, which must be absolutely positioned. */
+scroller > * {
+	position:absolute;
+}
+
+
+
+/*	Generic container which expands to size of parent and CLIPS children.
+	If you put it inside a flex layout, will inset for siblings automatically.
+*/
+hclipper {
+	z-index:1;
+	position:absolute;
+	position:relative;
+	display:block;
+	.flex(1);
+	overflow:visible;
+	background:salmon;
+}
+
+hclipper > content {
+	position:absolute;
+}
+
+/* arrow buttons */
+arrow {
+	z-index:3;
+	position:relative; display:inline-block;
+	background-color:gray; color:white;
+	cursor:pointer;
+}
+arrow[direction=left] 	{ width:16px;height:100%; }
+arrow[direction=right] 	{ width:16px;height:100%; }
+arrow[direction=up] 	{ width:100%;height:16px; }
+arrow[direction=down] 	{ width:100%;height:16px; }
+
+
+
+
+
+
+
+/* panel with header and footers -- you'll generally give this layout='vertical' */
+panel {
+	display:block;
+	.layout_vertical;
+	position:relative;
+	background:lightblue;
+	border:0px solid darkblue;
+}
+
+panel.frame {
+	border-width:3px;
+}
+
+/* header section (eg: in a panel) */
+header {
+	.layout_horizontal;
+	position:relative;
+	white-space:nowrap;
+	overflow:hidden;
+	background:pink;
+	height:20px;	/* URF: webkit needs a height or you can't 100% height children :-( */
+}
+
+
+/* content section (eg: in a panel) */
+content {
+	display:block;
+	background:green;
+	min-width:100%; min-height:100%;
+}
+
+
+/* footer section (eg: in a panel) */
+footer {
+	.layout_horizontal;
+	position:relative;
+	background:pink;
+}
+
+
+
+

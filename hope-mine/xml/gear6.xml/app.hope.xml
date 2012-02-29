@@ -1,0 +1,111 @@
+<App name='statsproxy' url='/'>
+	<docs>Gear6 statsproxy application, aka 'Cloud Cache' or 'Web Cache'.</docs>
+
+	<preferences>
+		<Preference name='refreshDelay' type='number' default='15' />
+	</preferences>
+
+	<Skin name='honeycomb'/>
+
+	<pages>
+		<Page name='start' default='true' />
+		
+		<Page name='overview'/>
+
+		<StatsPage name='stats_clients' />
+		<StatsPage name='stats_keys' />
+		<StatsPage name='stats_basic' />
+		<StatsPage name='stats_items' />
+		<StatsPage name='stats_memory' />
+		<StatsPage name='stats_health' />
+		<StatsPage name='stats_slabs' />
+		<StatsPage name='stats_storage' />
+
+		<TrafficPage name='traffic_overall' />
+		<TrafficPage name='traffic_get_hits' />
+		<TrafficPage name='traffic_get_misses' />
+		<TrafficPage name='traffic_gets' />
+		<TrafficPage name='traffic_sets' />
+		<TrafficPage name='traffic_bytes_sent' />
+		<TrafficPage name='traffic_bytes_received' />
+		<TrafficPage name='traffic_evictions' />
+		<TrafficPage name='traffic_items' />
+		<TrafficPage name='traffic_connections' />
+		<TrafficPage name='traffic_connection_structures' />
+
+		<Page name='brutus_results' />
+	</pages>
+	
+	<!-- app-level controls -->
+	<controls>
+		<Menu name='serviceMenu' />
+		<Menu name='pageMenu' />
+		<Menu name='memcacheServerMenu' />
+		<Menu name='memcacheServerMenuButton' />
+
+		<!-- top-of-windowstuff -->
+		<Button name='logo' />
+		<Label name='appName' />
+		<Button name='supportButton' />
+		<Button name='roleButton' />
+		<Button name='loginButton' />
+
+		<!-- bottom-of-window stuff -->
+		<Button name='refreshMenuButton' />
+		<Button name='refresNowButton' />
+		<Label name='refreshTimeTitle' value='Last Refresh:' />
+		<Label name='refreshTimeLabel' />
+		<Link name='acknowledgements' />
+		<Button name='addToOverview' />
+
+		<!-- refresh stuff -->
+		<Timer name='refreshTimer' />
+		<Menu name='refreshMenu' />
+		
+		<!-- service windows list -->
+<ListViewer name='serviceWindows' />
+		<Dialog name='acknowledgementsDialog' />
+	</controls>
+
+
+	<apis>
+		<Api name='config'/>
+		<Api name='memcacheServer'/>
+		<Api name='serviceController'/>
+	</apis>
+
+	<!-- properties we load from config.xml -->
+	<property name='lastRefreshTime' save='no' />
+	<property name='mode' value='cloud' save='no' />
+	<property name='authorization' value='enabled' save='no' />
+	<property name='appname' value='Web Cache' save='no' />
+	<property name='serviceProvider' value='' save='no' />
+	<property name='version' value='2.3.7' save='no' />
+	<property name='reporter' value='on' save='no' />
+	<property name='timezoneOffset' value='0' type='number' save='no' />
+	<property name='timezoneName' value='GMT' save='no' />
+	<property name='maxDataSamples' value='500' save='no' />
+	<property name='storageEnabled' value='true' save='no' />
+	<property name='logoUrl' value='http://www.gear6.com' type='url' save='no' />
+	<property name='supportUrls' type='JSON' save='no'>
+		{	Support : "http://www.gear6.com/cloud-support-reg"	}
+	</property>
+
+
+	<property name='services' type='list of services' index='name' />
+	<property name='selectedService' type='reference to service' />
+
+	<property name='memcacheServers' type='list of services' index='name' />
+	<property name='selectedMemcacheServer' type='reference to memcacheServer' />
+
+
+	<method name='refresh'>
+		tell api 'config' to 'update'
+		when done
+			tell the page to refresh
+		end 
+	</method>
+	
+	<command name='select service (string:service)' />
+	<command name='select instance (string:instance)' />
+</app>

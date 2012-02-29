@@ -1,0 +1,178 @@
+<!-- generic interface for drawing semantics, always applied with Parentable -->
+<!-- TODO:
+		* how to put in enableIf and showIf support?
+		* 
+
+-->
+<class id='Drawable'>
+	<property name='autodraw' type='boolean'>true</property>
+
+	<property name='disabled' type='boolean'>false</property>
+	<property name='enableIf' type='conditional'></property>
+
+	<property name='hidden' type='boolean'>false</property>
+	<property name='showIf' type='conditional'></property>
+
+	<property name='template'></property>
+
+	<script language='javascript' dialect='SmartJS'>
+		// no constructor because we're never initialized directly?
+		
+
+		// TODO: how to get this init to be called automatically?
+		function init() {
+			super();
+			if (this.enableIf) {
+				this.checkEnable();
+			} else if (this.disabled) {
+				this.disable();
+			}
+			
+			if (this.showIf) {
+				this.checkShow();
+			} else if (this.hidden) {
+				this.hide();
+			}
+		}
+		
+		//
+		//	enable/disable semantics
+		//		- this is a no-op if enabled state doesn't actually change
+		//		- enable/disable command is sent to all children as well,
+		//			but they will not update their "disabled" property
+		//			so if the parent is shown the children's disabled state will be the same
+		//
+		function isEnabled() {
+			return !this.disabled && !this.parentsFlagIsSet("disabled");
+		}
+		
+		// enable this thing
+
+		function enable(_fromParent) {
+			return this.setEnabled(true, _fromParent);
+		}
+		function disable(_fromParent) {
+			return this.setEnabled(false, _fromParent);		
+		}
+
+		function setEnabled(enable, _fromParent) {
+			return this.setFlagAndProperty(enable, _fromParent, "disabled", "enable", "disable");
+		}
+
+		function checkEnable() {
+			var wasEnabled = this.isEnabled();
+			if (!this.enableIf) return wasEnabled;
+			var isEnabled = this.enableIf();
+			if (isEnabled == wasEnabled) return wasEnabled;
+			if (isEnabled)	return this.enable();
+			else			return this.disable();
+		}
+
+		
+
+		//
+		//	show/hide semantics
+		//		- this is a no-op if shown state doesn't actually change
+		//		- show/hide command is sent to all children as well,
+		//			but they will not update their "hidden" property,
+		//			so if the parent is shown the children's hidden state will be the same
+		//
+		function isShown() {
+			return !this.hidden && !this.parentsFlagIsSet("hidden");
+		}
+
+		function show(_fromParent) {
+			return this.setShown(true, _fromParent);
+		}
+		function hide(_fromParent) {
+			return this.setShown(false, _fromParent);		
+		}
+
+		function setShown(show, _fromParent) {
+			return this.setFlagAndProperty(show, _fromParent, "hidden", "show", "false");
+		}
+
+		function checkShown() {
+			var wasShown = this.isShown();
+			if (!this.showIf) return wasShown;
+			var isShown = this.showIf();
+			if (isShown == wasShown) return wasShown;
+			if (isShown)	return this.show();
+			else			return this.hide();
+		}
+		
+		
+		//
+		//	event semantics
+		//
+
+		//	handle events that we make up
+		//	NOTE: like normal browser events and addEventListener,
+		//			these events can be listened to by many listeners
+		function addEventListener = hope.addEventListener;
+		function removeEventListener = hope.removeEventListener;
+		function fireEvent = hope.fireEvent;
+
+
+
+
+		//
+		//	flag semantics:
+		//		- flags are transient state that is either on or off
+		//		- call setFlag(flag) to set a flag, removeFlag() to clear
+		//		- flagIsSet(flag) returns true if the flag is actually set
+		//		- parentsFlagIsSet(flag) is true only if the flag is 
+		//			actually set for all ancestors, including this object
+		//
+		function setFlag(flag, turnOn) {
+			if (!flag) return undefined;
+
+			turnOn = turnOn != false;
+			if (turnOn)
+				this.flags[flag] = newState;
+			} else {
+				delete this.flags[flag];
+			}
+			return turnOn;
+		}
+		
+		function removeFlag(flag, newState) {
+			return this.setFlag(flag, false);
+		}
+		
+		function flagIsSet(flag) {
+			return this.flags[flag] !== undefined;
+		}
+
+		function parentsFlagIsSet(flag) {
+			var parent = this;
+			while (parent) {
+				if (typeof parent.flags[flag] == "undefined") return false;
+				parent = parent.parent;
+			}
+			return true;
+		}
+
+		protected function setFlagAndProperty(turnOn, _fromParent, flag, onMethod, offMethod) {
+			_fromParent = _fromParent != true;
+			var flagWasSet = _fromParent ? !turnOn : this.parentsFlagIsSet(flag),
+				wasOn = this[flag] != true && flagWasSet
+			;
+			if (!_fromParent) {
+				if (turnOn) 	delete this[flag];
+				else			this[hidden] = true;
+			}
+			var isOn = this[flag] != true && flagWasSet;
+			if (isOn == wasOn) return;
+			
+			var childMethod = isOn ? onMethod, offMethod;
+			this.setFlag(flag, !isOn);
+			this.forEachChild(childMethod, true);
+			this.fireEvent(childMethod);
+			return isOn;
+		}
+
+		
+	</script>
+</class>
+

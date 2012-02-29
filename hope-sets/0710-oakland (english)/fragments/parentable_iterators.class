@@ -1,0 +1,46 @@
+<class id='parentable'>
+
+	<property name='children' type='list' itemType='element'></property>
+
+	private _children;
+	set children(list) {
+		this._children = list;
+	}
+	get children() {
+		var index = 0;
+		var copy = (this._children ? [].concat(this._children) : []);
+		copy.index = -1;
+		copy.next = function() {
+			if (copy.index >= copy.length) return undefined;
+			return copy[++copy.index];
+		}
+		return copy;
+	}
+
+
+	// with this you can do:
+	
+	// with a list that you know has no nulls in it
+	var kids = parentable.children, kid;
+	while (kid = kids.next()) {
+		console.log(kid + " is number " + kids.index);
+	}
+
+	// for a list that might have nulls in it
+	var kids = parentable.children, kid;
+	while ((kid = kids.next()) !== undefined) {
+		console.log(kid + " is number " + kids.index);	
+	}
+	
+	
+	// notes:
+	//	- this is a copy of the original list, so you don't have to worry about
+	//		the original list changing out from under you
+	//	- if you change kids, you will NOT affect the original list
+	//	- kids.length is the number of items in the list
+	//	- kids.index is the number of the current item from kids.next()
+	//	- kids.next() gives you the next item in the list
+
+	
+
+</class>

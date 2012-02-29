@@ -1,0 +1,42 @@
+<skin name='honeycomb'>
+	<stylesheet src='honeycomb_styles.css'/>
+
+	<screen type='medium' scroll='vertical'>
+		<layout name='outer' type='compass' fill='true'>
+			<container name='topLeft'>
+				<contents>
+					control 'logo' of app
+					control 'appName' of app
+				</contents>
+			</container>
+			<container name='top' align='left'>
+				<contents>
+					control 'serviceMenu' of app
+				</contents>
+			</container>
+			<container name='topRight'>
+				<contents>
+					control 'supportButton' of app
+					control 'roleButton' of app
+					control 'loginButton' of app
+				</contents>
+			</container>
+			<container name='bottomLeft'>
+				<contents>
+					control 'refreshMenuButton' of app
+					control 'refreshNowButton' of app
+					control 'lastRefreshTitle' of app
+					control 'lastRefreshTime' of app
+				</contents>
+			<container>
+			<container name='bottomRight'>
+				<contents>
+					control 'acknowledgements' of app
+					control 'addToOverview' of app
+				</contents>
+			</container>
+			<container name='body' />
+		</layout>
+	</screen>
+
+</skin>

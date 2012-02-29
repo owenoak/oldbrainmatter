@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+  <result>ERROR</result>
+  <data>
+	<error>
+      <ip>127.0.0.1</ip>
+      <message>AWSLite: failed to create local credentials</message>
+	</error>
+  </data>
+</response>

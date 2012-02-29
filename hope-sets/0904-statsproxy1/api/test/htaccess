@@ -1,0 +1,39 @@
+RewriteEngine On
+#pattern:   <appname - $1>/<version - $2>/<instance - $3>/<thing - $4>?<params - $5>
+#eg:		MemcacheServer/latest/1.2.3.4:11211/stats/basic?p1=v1&p2=v2
+
+
+
+# config file
+RewriteRule ^MemcacheServer/latest/config$ test/MemcacheServer/config/config.xml [L]
+
+#clientsForKeys request
+RewriteRule ^MemcacheServer/latest/([^/]+)/stats/clients/key/(.*)\??(.*)$ test/MemcacheServer/stats/clients.xml [L]
+
+# keysForClient request
+RewriteRule ^MemcacheServer/latest/([^/]+)/stats/keys/client/(.*)\??(.*)$ test/MemcacheServer/stats/keys.xml [L]
+
+# generic stats request
+RewriteRule ^MemcacheServer/latest/([^/]+)/stats/([^?]+)\??(.*)$ test/MemcacheServer/stats/$2.xml?$3 [L]
+
+# generic data request
+RewriteRule ^MemcacheServer/latest/([^/]+)/data/([^?]+)\??(.*)$ test/MemcacheServer/data/$2.xml?$3 [L]
+
+# stop/start instance reporting
+RewriteRule ^MemcacheServer/latest/config/instance/([^/]+)/(start|stop)-reporting$ test/MemcacheServer/config/instance/$2-reporting.xml [L]
+
+# generic "config/instance" requests
+RewriteRule ^MemcacheServer/latest/config/(.*)$ test/MemcacheServer/config/$1.xml [L]
+
+# generic ServiceController requests
+RewriteRule ^ServiceController/latest/([^/]*)$ test/ServiceController/$1.xml [L]
+RewriteRule ^ServiceController/latest/([^/]*)/(.*)+$ test/ServiceController/$1.xml [L]
+
+# query dispatcher
+Options +ExecCGI
+AddHandler cgi-script php
+RewriteRule ^RequestDispatcher test/RequestDispatcher.php [L]
+RewriteRule ^ServiceController/latest test/RequestDispatcher.php [L]
+
+
+

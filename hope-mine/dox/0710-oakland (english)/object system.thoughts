@@ -1,0 +1,27 @@
+- each class has a debug level
+	- debug stuff above the level is written to a global debug object,
+		to one for the class, and to one for each instance
+	- in our object explorer you can look at each of these,
+		tweak debug levels (which are persisted in a cookie)
+
+- given a list of items, we have pages:
+	- list/filter
+	- instance view(s) -- card/background paradigm
+	- editor (possibly combined with view)
+	
+	- gear the object system toward quickly setting up a view (list/whatever)
+		on a set of data, expressed in XML or JS
+		- use path syntax to evaluate "ref" for object same for XML/JS
+		- pre-calculate ref expressions when compiling class
+			- compile both for JS or XML?  make them set it?
+			- for XML, unify attributes and properties
+				(? if > 1 item of a given tag, combine into a pluralized array?)
+
+- for each class, have 'childProperties' variable:
+	{ 
+		<className> : {prop:value, prop:value},		// for one specific class
+		"*"		  	: {...}							// for all classes
+	}
+  that is applied automatically when children are created
+  	- is "*" class additive with specific class?
+  	- COOL:  have theme-level childAttributes as well?

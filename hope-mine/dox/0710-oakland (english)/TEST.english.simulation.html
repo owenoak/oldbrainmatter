@@ -1,0 +1,93 @@
+<html>
+	<style type='text/css'>
+		constants				{	display:block;		margin:5px 20px;	border:1px solid black;	}
+
+		EXPRESSION, E, R		{	color:darkred;		}
+		KEYWORD, K				{	font-weight:bold;	}
+		COMMAND, C				{	color:dodgerblue;	}
+		CLASSNAME, N			{	text-decoration:underline; font-weight:bold;}
+		CLASSNAME:hover			{	color:blue;	}
+		COMMENT, T				{	color:green;	}
+		CONSTANT, LITERAL, L	{	color:brown;}
+		
+		
+		HEADER					{	}
+		
+		IDENTIFIER, I			{	color:brown; font-weight:bold;	}
+
+		NEWVARIABLE,NV			{	color:orange; text-decoration: underline;	}		
+		
+
+		TIP						{	position:absolute; display:block; background:mintcream; border:2px inset turquoise; padding:25px; opacity:.3; }
+		TIP:HOVER				{	margin:20px;  opacity:.9;}
+		TIP						{	left:76px; top:228;		}
+		
+		
+		constants L				{	display:block;	}
+		L V						{ 	opacity:.3;}
+		L V:HOVER				{ 	opacity:.9; cursor:s-resize; color:darkblue;}
+		L V:HOVER:AFTER		{ 	content:"Y"}
+	</style>
+<body>
+
+
+<otalk for='global'>
+
+	<tip>
+			COMMAND
+	</tip>
+
+
+
+	<constants>
+		<L>SUNDAY			<V>0</V></L>
+		<L>MONDAY			<V>1</V></L>
+		<L>TUESDAY			<V>2</V></L>
+		<L>WEDNESDAY		<V>3</V></L>	
+		<L>THURSDAY			<V>4</V></L>
+		<L>FRIDAY			<V>5</V></L>
+		<L>SATURDAY			<V>6</V></L>
+		<L>DAYS OF WEEK 	<V>SUNDAY MONDAY TUESDAY WEDNESDAY THURSDAY FRIDAY SATURDAY</V></L>
+		<L>TODAY			<V>new Date()</V></L>
+	</constants>
+	
+
+	<method name='program'>
+--		<e><k>on</k> <i>program</i> <k>with</k> <V>file</V> <k>as</k> <N>File</N></e>
+<br>--	<e><k>on</k> <identifier>program</identifier> <k>with</k> <V>file</V> <k>as</k> <N>File</N></e>
+		<br><T>// this method will invoke as mMC or m m c</T>
+		<br><T>//	only if it has exactly one Date argument</T>
+		<br><T>//	if no date <op>is</op> passed, it assumes TODAY</T>
+		<br><T>// WE CAN MIX IN HTML INDESCRIMINANTLY IF IT MATCHES</T>
+
+
+		<br><method>
+		<br><k>on</k> <nv>make mini cal</nv> <k>with</k> <V>date</V> <k>as</k> <N>Date</N> <k>default</k> <L>TODAY</L>
+		
+		<br><V>output</V> <op>=<op> <header id='miniCalMonth'> <op>&&</op> <k><G>month</G></k> <k>of</k> <v>date</v> <op>&&<op> <k>year</k> <k>of</k> <v>date</v></header>
+		<br><c>set</c> <v>startDay</v> <k>to</k> <ok>the</ok> <ord>first</ord> <n>day</n> <k>of</k> <ok>the</ok> <k><G>month</G></k> <k>of</k> <v>date</v> 
+		<br><c>set</c> startMonth to <ok>the</ok> <G>month</G> <k>of</k> date
+		<br><c>set</c> <ok>the</ok> day <k>of</k> week <k>of</k> startDay 
+		<br>rewind startDay to SUNDAY
+		<br>while startMonth <op>is</op> <ok>the</ok> <G>month</G> <k>of</k> startDay
+		<br>	for each day in DAYSOFWEEK
+		<br>		add to output new <n>mini cal indicator</n> : startDay
+		<br>		increment startDay
+		<br>	end for
+		<br>	write EOL
+		<br>	startMonth = <ok>the</ok> <G>month</G> <k>of</k> startDay
+		<br>end while
+
+		<br>end make mini cal
+
+		<br>on <n>mini cal indicator</n> : startDay as Date <k>default</k> <L>TODAY</L>
+	
+		<br>end <n>mini cal indicator</n>
+		
+	</method>
+	
+</otalk>
+
+
+</body>
+</html>

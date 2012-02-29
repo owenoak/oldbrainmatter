@@ -1,0 +1,8 @@
+<button name='refresh menu button'>
+	<on event='activate'>
+		show menu refreshMenu
+	</on>
+	<bind to='preference "refresh delay"' as='delay'>
+		set my title to "Auto-Refresh:" && format delay as time
+	</bind>
+</button>

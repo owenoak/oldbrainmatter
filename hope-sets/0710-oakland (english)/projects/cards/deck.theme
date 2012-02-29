@@ -1,0 +1,59 @@
+<Stylesheet src='${page}/deck.css'></Stylesheet>
+
+<CardDeck id='deck'>
+	<card id='AceOfSpades'		value='52' suit='Spades' color='black' rank='Ace'></card>
+	<card id='KingOfSpades' 	value='48' suit='Spades' color='black' rank='King'></card>
+	<card id='QueenOfSpades' 	value='44' suit='Spades' color='black' rank='Queen'></card>
+	<card id='JackOfSpades' 	value='40' suit='Spades' color='black' rank='Jack'></card>
+	<card id='TenOfSpades' 		value='36' suit='Spades' color='black' rank='Ten'></card>
+	<card id='NineOfSpades' 	value='32' suit='Spades' color='black' rank='Nine'></card>
+	<card id='EightOfSpades' 	value='28' suit='Spades' color='black' rank='Eight'></card>
+	<card id='SevenOfSpades' 	value='24' suit='Spades' color='black' rank='Seven'></card>
+	<card id='SixOfSpades' 		value='20' suit='Spades' color='black' rank='Six'></card>
+	<card id='FiveOfSpades' 	value='16' suit='Spades' color='black' rank='Five'></card>
+	<card id='FourOfSpades' 	value='12' suit='Spades' color='black' rank='Four'></card>
+	<card id='ThreeOfSpades' 	value='8'  suit='Spades' color='black' rank='Three'></card>
+	<card id='TwoOfSpades' 		value='4'  suit='Spades' color='black' rank='Two'></card>
+	
+	<card id='AceOfHearts' 		value='51' suit='Hearts' color='red' rank='Ace'></card>
+	<card id='KingOfHearts' 	value='47' suit='Hearts' color='red' rank='King'></card>
+	<card id='QueenOfHearts' 	value='43' suit='Hearts' color='red' rank='Queen'></card>
+	<card id='JackOfHearts' 	value='39' suit='Hearts' color='red' rank='Jack'></card>
+	<card id='TenOfHearts' 		value='35' suit='Hearts' color='red' rank='Ten'></card>
+	<card id='NineOfHearts' 	value='31' suit='Hearts' color='red' rank='Nine'></card>
+	<card id='EightOfHearts' 	value='27' suit='Hearts' color='red' rank='Eight'></card>
+	<card id='SevenOfHearts' 	value='23' suit='Hearts' color='red' rank='Seven'></card>
+	<card id='SixOfHearts' 		value='19' suit='Hearts' color='red' rank='Six'></card>
+	<card id='FiveOfHearts' 	value='15' suit='Hearts' color='red' rank='Five'></card>
+	<card id='FourOfHearts' 	value='11' suit='Hearts' color='red' rank='Four'></card>
+	<card id='ThreeOfHearts' 	value='7'  suit='Hearts' color='red' rank='Three'></card>
+	<card id='TwoOfHearts' 		value='3'  suit='Hearts' color='red' rank='Two'></card>
+	
+	<card id='AceOfDiamonds' 	value='50' suit='Diamonds' color='red' rank='Ace'></card>
+	<card id='KingOfDiamonds' 	value='46' suit='Diamonds' color='red' rank='King'></card>
+	<card id='QueenOfDiamonds' 	value='42' suit='Diamonds' color='red' rank='Queen'></card>
+	<card id='JackOfDiamonds' 	value='38' suit='Diamonds' color='red' rank='Jack'></card>
+	<card id='TenOfDiamonds' 	value='34' suit='Diamonds' color='red' rank='Ten'></card>
+	<card id='NineOfDiamonds' 	value='30' suit='Diamonds' color='red' rank='Nine'></card>
+	<card id='EightOfDiamonds' 	value='26' suit='Diamonds' color='red' rank='Eight'></card>
+	<card id='SevenOfDiamonds' 	value='22' suit='Diamonds' color='red' rank='Seven'></card>
+	<card id='SixOfDiamonds' 	value='18' suit='Diamonds' color='red' rank='Six'></card>
+	<card id='FiveOfDiamonds' 	value='14' suit='Diamonds' color='red' rank='Five'></card>
+	<card id='FourOfDiamonds' 	value='10' suit='Diamonds' color='red' rank='Four'></card>
+	<card id='ThreeOfDiamonds' 	value='6'  suit='Diamonds' color='red' rank='Three'></card>
+	<card id='TwoOfDiamonds' 	value='2'  suit='Diamonds' color='red' rank='Two'></card>
+	
+	<card id='AceOfClubs' 		value='49' suit='Clubs' color='black' rank='Ace'></card>
+	<card id='KingOfClubs' 		value='45' suit='Clubs' color='black' rank='King'></card>
+	<card id='QueenOfClubs' 	value='41' suit='Clubs' color='black' rank='Queen'></card>
+	<card id='JackOfClubs' 		value='37' suit='Clubs' color='black' rank='Jack'></card>
+	<card id='TenOfClubs' 		value='33' suit='Clubs' color='black' rank='Ten'></card>
+	<card id='NineOfClubs' 		value='29' suit='Clubs' color='black' rank='Nine'></card>
+	<card id='EightOfClubs' 	value='25' suit='Clubs' color='black' rank='Eight'></card>
+	<card id='SevenOfClubs' 	value='21' suit='Clubs' color='black' rank='Seven'></card>
+	<card id='SixOfClubs' 		value='17' suit='Clubs' color='black' rank='Six'></card>
+	<card id='FiveOfClubs' 		value='13' suit='Clubs' color='black' rank='Five'></card>
+	<card id='FourOfClubs' 		value='9'  suit='Clubs' color='black' rank='Four'></card>
+	<card id='ThreeOfClubs' 	value='5'  suit='Clubs' color='black' rank='Three'></card>
+	<card id='TwoOfClubs' 		value='1'  suit='Clubs' color='black' rank='Two'></card>
+</CardDeck>

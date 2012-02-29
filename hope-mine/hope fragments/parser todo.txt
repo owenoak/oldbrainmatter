@@ -1,0 +1,46 @@
+BUGS
+	* "1 or"	=>	" || "
+		- bug in descending, don't get a complete match and still returning something
+	* when building syntax tree, note if two vars in one place have different replacement names
+			eg:		"(expression:thing)"...
+					"(expression:set)"....
+
+TODO:
+	* all of the 'i'/'me' stuff?
+	
+	
+	* commas as discreet tokens (eg: expressionList)
+	* generate a single parse tree that we can manipulate?
+		- list of statement objects?
+			[
+				{type:'statement', children:'...'}
+			
+			]
+	* clone stream?  when?
+	* statement/block as specials so we can match lines?
+		- go back to smarter stream concept?
+	* if/repeat/etc as specials?
+		- necessary?  less elegant, but seems safer
+		- 
+
+CONSIDER
+	* requre 'the' in front of local variables?
+	* how to do parenthesis generically?
+	* how did OMO do custom properties for things?
+	* map variables to "_XXX" so that we can use "class" etc in the english?
+
+
+OPTIMIZATIONS?
+
+
+
+
+
+COOL STUFF TODO
+	* any command can be extended intelligently to a list with "each", eg:
+		round each item of myList
+	* expressionList can take a series of values OR an actual list
+
+
+INCLUDE SOMEHOW?
+	- conditional operator?  	"(...?...:...)" :

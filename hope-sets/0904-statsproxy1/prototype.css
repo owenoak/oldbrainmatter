@@ -1,0 +1,526 @@
+/* Prototype mechanics */
+
+	#leftColumnContainer {
+		width:210px;
+	}
+	
+	#leftColumn {
+		width:200px;
+	}
+
+
+/* Real stuff */
+
+	hr {
+		border:1px solid #ddd;
+		border-width:1px 0 0 0;
+	}
+
+	.big {
+		font-size:1.1em;
+	}
+
+	.nowrap {
+		white-space:nowrap;
+	}
+
+	.subtleClose {
+		background-repeat:no-repeat;
+		background-position:center 2px;
+		background-image:url(images/subtle_close.png);
+		width:11px;
+		height:100%;
+		position:absolute;
+		right:3px;
+	}
+
+	.Item.Selected .subtleClose {
+		display:none;
+	}
+
+	/* Forms */
+	table.form {
+		width:100%;
+	}
+	
+	table.form > tbody > tr > td {
+		vertical-align:top;
+		padding:10px;
+	}
+
+	table.form .col1 {
+		width:50%;
+	}
+	
+	table.form .col2 {
+		width:50%;
+		border-left:1px solid #ddd;
+	}
+
+	table.form .label {
+		font-weight:bold;
+		color:#666;
+	}
+
+	table.form .value {
+		font-weight:bold;
+	}
+
+	table.form .hint {
+		color:#666;
+		font-size:.9em;
+	}
+
+	table.form .controlContainer {
+		margin-left:20px;
+		padding:3px;
+	}
+
+	table.form .fullWidth {
+		width:95%;
+	}
+	
+	table.form input {
+		font-weight:bold;
+	}
+	
+	table.form textarea {
+		padding:3px;
+		font-weight:bold;
+		border: solid;
+		border-width:2px 1px 1px 1px;
+		-moz-border-top-colors:#909090 #cecece;
+		border-color:#cecece #e4e4e4 #e4e4e4 #e4e4e4;
+	}
+
+	textarea[disabled] {
+		border-top-width:1px !important;
+		-moz-border-top-colors:#e4e4e4 !important;
+	}
+
+	/* generics */
+	.padTop 	{	padding-top:5px !important;	}
+	.padBottom 	{	padding-bottom:5px !important;	}
+
+
+	/* Brutus windows */
+
+    .Window[wd=BrutusPool] {
+        background-color:#005c8a;
+        border-color:#005c8a #002c43 #002c43  #005c8a;
+    }
+
+    .Window[wd=BrutusPool] .WindowBody,
+    .Window[wd=BrutusPool] .WindowInset  {
+        border-color:#002c43 white white #002c43;
+    }
+
+    .Window[wd=BrutusPool] .WindowHeader {
+        height:20px;
+    }
+    
+    .Window[wd=BrutusPool] .WindowHeader .title {
+        color:white;
+    }
+
+    .Window[wd=BrutusPool] .WindowHeader .hint,
+    .Window[wd=BrutusPool] .WindowHeader .label {
+        color:#93cee4;
+    }
+
+    .Window[collapsed][wd=BrutusPool] .Expander {
+        background-image:url(images/window_arrow_expanded_white.gif);
+    }
+
+    /* show collapsed arrow when window is collapsed */
+    .Window[collapsed=true][wd=BrutusPool] .Expander {
+        background-image:url(images/window_arrow_collapsed_white.gif);
+    }
+
+    .Window[wd=BrutusPool] .WindowDrawer {
+        background-color:#749cad;
+    }
+
+    .Window[wd=BrutusPool] .WindowBottomTab {
+        background-color:#749cad;
+        border-color:#749cad black black #749cad;
+        color:#444;
+    }
+
+
+	.Window[wd=BrutusPool] .WindowBody .col1 {	width:40%; padding-right:20px;	}
+	.Window[wd=BrutusPool] .WindowBody .col2 {	width:auto;	}
+	.Window[wd=BrutusPool] .WindowBody .col3 {	width:50%; padding-left:30px; font-weight:bold;	}
+	.Window[wd=BrutusPool] .WindowBody .col4 {	padding-right:20px;	}
+	
+	.Window[wd=BrutusPool] .WindowBody td {
+		font-size:.9em;
+		padding:2px 5px 2px 5px;
+		vertical-align:top;
+		height:15px;
+	}
+
+	.Window[wd=BrutusPool] .InsetHeader td {
+		background-color:#dce6eb;
+		padding-top:4px;
+		padding-bottom:4px;
+		font-size:1em;
+		font-weight:bold;
+	}
+
+	.Window[wd=BrutusPool] td:first-child {
+		-moz-border-radius-topleft:5px;
+		-webkit-border-top-left-radius:5px;
+		padding-left:15px;
+	}
+	.Window[wd=BrutusPool] td:last-child {
+		-moz-border-radius-topright:5px;
+		-webkit-border-top-right-radius:5px;
+	}
+
+	.Window[wd=BrutusPool] .WindowBody .label {
+		color:#666;
+		font-weight:bold;
+		text-align:right;
+		white-space:nowrap;
+	}
+
+	.Window[wd=BrutusPool] .InsetHeader .value {
+		font-weight:bold;
+	}
+
+
+	.Window[wd=BrutusPool] .InstancesTable td {
+		padding: 3px 10px 3px 5px;
+	}
+
+	.Window[wd=BrutusPool] .WindowDrawer .WindowInset {
+		padding:0px;
+	}
+
+
+
+	.ViewSelectorBody li {
+		position:relative;
+		height:16px;
+	}
+	.ViewSelectorBody li span {
+		position:absolute;
+		top:3px;
+		left:2px; right:25px;
+		overflow:hidden;
+	}
+
+	.ViewSelector .BrutusTestItem {
+		background-image:url(images/chart_black.gif);
+		background-repeat:no-repeat;
+		background-position:2px center;
+		padding-left:19px;
+	}
+
+	.ViewSelector .NewItem {
+		background-image:url(images/famfamfam/add.png);
+		background-repeat:no-repeat;
+		background-position:left center;
+		padding-left:19px;
+	}
+
+
+
+
+
+
+/**************
+  
+  WindowTabBar, WindowTabGroup and WindowTab widgets
+  
+ **************/
+
+	.WindowTabBar {
+		position:relative;
+		height:26px;
+		padding:0px;
+		margin:0px;
+		width:100%;
+		overflow:hidden;
+	}
+
+	.WindowTabGroup {
+		display:inline-block;
+		#display:inline; #zoom: 1; 
+	}
+	
+	.WindowTabScroller {
+		position:absolute;
+		height:100%;
+		left:0px; right:0px;
+		overflow:hidden;
+		z-index:1;
+	}
+
+	.WindowTabBar.scrolling   .WindowTabScroller {
+		left:23px; right:23px;
+	}
+
+	
+	.WindowTab,
+	.WindowTabScrollButton {
+		position:relative;
+		display:inline-block;
+		#display:inline; #zoom: 1; 
+		vertical-align:top;
+		list-decoration:none;
+		padding:3px 10px 4px 10px;
+		margin:0 3px 0 0;
+		font-weight:bold;
+		text-decoration:none;
+		cursor:pointer;
+		-moz-border-radius:5px 5px 0 0;
+		border-style:solid;
+		border-width:1px 1px 0px 1px;
+		color:#61675e;
+		background-color:#e1e6c9;
+		border-color:#e1e6c9;
+	}
+
+	.WindowTab:hover {
+		background-color:white;
+	}
+
+	.WindowTab.Selected {
+		background:white;
+		color:black;
+		border-color:white #666 white white;
+		cursor:default;
+		z-index:5;
+	}
+
+	.WindowTabScrollLeft,
+	.WindowTabScrollRight {
+		position:absolute;
+		top:-100px;
+		z-index:2;
+		width:20px;
+		padding-left:0px;
+		padding-right:0px;
+	}
+	
+	.WindowTabBar.scrolling .WindowTabScrollLeft,
+	.WindowTabBar.scrolling .WindowTabScrollRight {
+		top:0px;
+	}
+	
+	
+	.WindowTabScrollLeft {
+		left:0px;
+		-moz-border-radius-topleft:50%;
+		-moz-border-radius-bottomleft:50%;
+		-webkit-border-top-left-radius:10px;
+		-webkit-border-bottom-left-radius:10px;
+		border-left-width:2px;
+		border-right-width:2px;
+	}
+
+	.WindowTabScrollRight {
+		right:0px;
+		-moz-border-radius-topright:11px;
+		-moz-border-radius-bottomright:11px;
+		-webkit-border-top-right-radius:10px;
+		-webkit-border-bottom-right-radius:10px;
+		border-right-width:2px;
+		border-left-width:2px;
+	}
+
+	.WindowTabLeftArrow,
+	.WindowTabRightArrow {
+		position:absolute;
+		top:4px; left:6px;
+		width:7px;
+		height:14x;
+		cursor:pointer;
+	}
+	
+	.WindowTabLeftArrow {
+		background:url(images/tab_scroll_left.png) no-repeat;
+		top:3px;
+	}
+	
+	.WindowTabRightArrow {
+		background:url(images/tab_scroll_right.png) no-repeat;
+	}
+
+	.WindowTabScrollButton.disabled .WindowTabLeftArrow,
+	.WindowTabScrollButton.disabled .WindowTabRightArrow {
+		opacity:.2;
+		filter: alpha(opacity=20);
+	}
+	
+
+
+
+
+/**************
+  
+  ButtonBar, ButtonGroup and ButtonBarButton widgets
+  
+ **************/
+
+	.ButtonBar {
+		position:relative;
+		height:26px;
+		padding:0px;
+		margin:0px;
+		width:100%;
+		overflow:hidden;
+	}
+
+	.ButtonGroup {
+		display:inline-block;
+		#display:inline; #zoom: 1; 
+	}
+	
+	.ButtonBarScroller {
+		position:absolute;
+		height:100%;
+		left:0px; right:0px;
+		overflow:hidden;
+		z-index:1;
+	}
+
+	.ButtonBar.scrolling   .ButtonScroller {
+		left:23px; right:23px;
+	}
+
+	
+	.ButtonBarButton,
+	.ButtonBarScrollButton {
+		position:relative;
+		display:inline-block;
+		#display:inline; #zoom: 1; 
+		vertical-align:top;
+		list-decoration:none;
+		padding:3px 10px 4px 10px;
+		margin:0;
+		font-weight:bold;
+		text-decoration:none;
+		cursor:pointer;
+		border-style:solid;
+		border-width:2px 1px 2px 1px;
+
+		background-color:#555;
+		background-image:url(images/honeycomb/tab_bg.png);
+		border-color:#777 #444 #444 #777;
+		color:#ddd;
+	}
+
+	.ButtonBarButton:hover {
+		background-color:#666;
+	}
+
+	.ButtonBarButton.Selected {
+		cursor:default;
+		z-index:5;
+
+		background-color:#9cce00;
+		border-top-color:#c3d095;
+		border-bottom-color:#465d00;
+		background-image:url(images/honeycomb/tab_selected_bg.png);
+		background-position:bottom;
+		color:black;
+	}
+
+
+	.ButtonBarButton:first-child {
+		-moz-border-radius-topleft:50%;
+		-moz-border-radius-bottomleft:50%;
+		-webkit-border-top-left-radius:10px;
+		-webkit-border-bottom-left-radius:10px;
+		border-left-width:2px;
+	}
+
+	.ButtonBarButton:last-child {
+		-moz-border-radius-topright:50%;
+		-moz-border-radius-bottomright:50%;
+		-webkit-border-top-right-radius:10px;
+		-webkit-border-bottom-right-radius:10px;
+		border-right-width:2px;
+	}
+
+	.ButtonBar.scrolling .ButtonBarButton:first-child {
+		-moz-border-radius-topleft:0;
+		-moz-border-radius-bottomleft:0;
+		-webkit-border-top-left-radius:0;
+		-webkit-border-bottom-left-radius:0;
+		border-left-width:2px;
+	}
+
+	.ButtonBar.scrolling .ButtonBarButton:last-child {
+		-moz-border-radius-topright:0;
+		-moz-border-radius-bottomright:0;
+		-webkit-border-top-right-radius:0;
+		-webkit-border-bottom-right-radius:0;
+		border-right-width:2px;
+	}
+
+	
+	.ButtonScrollLeft,
+	.ButtonScrollRight {
+		position:absolute;
+		top:-100px;
+		z-index:2;
+		width:20px;
+		padding-left:0px;
+		padding-right:0px;
+	}
+	
+	.ButtonBar.scrolling .ButtonScrollLeft,
+	.ButtonBar.scrolling .ButtonScrollRight {
+		top:0px;
+	}
+	
+	
+	.ButtonScrollLeft {
+		left:0px;
+		-moz-border-radius-topleft:50%;
+		-moz-border-radius-bottomleft:50%;
+		-webkit-border-top-left-radius:10px;
+		-webkit-border-bottom-left-radius:10px;
+		border-left-width:2px;
+		border-right-width:2px;
+	}
+
+	.ButtonScrollRight {
+		right:0px;
+		-moz-border-radius-topright:11px;
+		-moz-border-radius-bottomright:11px;
+		-webkit-border-top-right-radius:10px;
+		-webkit-border-bottom-right-radius:10px;
+		border-right-width:2px;
+		border-left-width:2px;
+	}
+
+	.ButtonLeftArrow,
+	.ButtonRightArrow {
+		position:absolute;
+		top:4px; left:6px;
+		width:7px;
+		height:14x;
+		cursor:pointer;
+	}
+	
+	.ButtonLeftArrow {
+		background:url(images/Button_scroll_left.png) no-repeat;
+		top:3px;
+	}
+	
+	.ButtonRightArrow {
+		background:url(images/Button_scroll_right.png) no-repeat;
+	}
+
+	.ButtonBarScrollButton.disabled .ButtonLeftArrow,
+	.ButtonBarScrollButton.disabled .ButtonRightArrow {
+		opacity:.2;
+		filter: alpha(opacity=20);
+	}
+	
+

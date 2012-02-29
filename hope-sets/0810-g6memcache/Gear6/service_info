@@ -1,0 +1,68 @@
+
+
+page.setDirtyState(false);
+// moduleList: 1 12 
+// Generated at Mon Aug 24 14:53:05 PDT 2009
+var service;
+window.defaultInterface = 'eth0';
+// Service php
+service = MemcacheService.byId('php', true);
+service.setData({
+  id        : 'php',
+  enabled   : true,
+  tcpPort   : 11211,
+  udpPort   : 11211,
+  threads   : 16,
+  defaultMaskLen : 22,
+  ethernetInterface : '',
+  serviceItemsUsed : 47710142,
+  instanceMemSizeMB  : 13307,
+  instanceDramMB : 6390, 
+  serviceTotalDramMB : 12780, 
+  packageName   : 'memcached-gear6',
+  serviceDramMB    : 1331,
+  serviceDram  : 1395654656,
+  replicationMode: 'mirror',
+  replicationState: 'mirrored',
+  itemSize : 200        ,
+  instanceItemCount : 69767004,
+  serviceItemCount : 139534008,
+  itemCountAuto : 'true',
+  serviceMemSize : 26614,
+  flashBufferSizeAuto : 'true'
+});
+// mods: 1 12 
+    Service.Setinstancedata('10.3.6.236', {
+      Ip : '10.3.6.236',
+      Statsport : '8080',
+      Hostname: 'Lb-Berry-4.Gear6.Com' ,
+      Mask: '22',
+      Module:  1,
+      Mirrorstate: 'Mirrored',
+      Showprogress: False,
+      Ramallocated: 6700782008 ,
+      Devallocated: 13958643712 ,
+      Remoteset       : 36122666,
+      Remoteupdate    : 0,
+      Remotedelete    : 0,
+      Ramused: 12380781372,
+      Itemsused: 23855071
+    });
+    Service.Setinstancedata('10.3.6.237', {
+      Ip : '10.3.6.237',
+      Statsport : '8080',
+      Hostname: 'Lb-Berry-3.Gear6.Com' ,
+      Mask: '22',
+      Module:  12,
+      Mirrorstate: 'Mirrored',
+      Showprogress: False,
+      Ramallocated: 6700782008 ,
+      Devallocated: 13958643712 ,
+      Remoteset       : 67218,
+      Remoteupdate    : 0,
+      Remotedelete    : 0,
+      Ramused: 12380781372,
+      Itemsused: 23855071
+    });
+
+

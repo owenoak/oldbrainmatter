@@ -1,0 +1,41 @@
+<define what='stylable' implements='stylable'/>
+
+<expression>
+	en: [the] class of <stylable>
+	js:	<stylable>.className
+</expression>
+
+<condition>
+	en:	<stylable> has class "<string>"
+	js:	<stylable>.hasClass("<string>")
+</condition>
+
+<condition>
+	en:	<stylable> does not have class "<string>"
+	js:	!<stylable>.hasClass("<string>")
+</condition>
+
+<command>
+	en: set [the] class of <stylable> to "<string>"
+	js:	<stylable>.setClass("<string>")
+</command>
+
+<command>
+	en: add class "<string>" to <stylable>
+	js:	<stylable>.addClass("<string>")
+</command>
+
+<command>
+	en: remove class "<string>" from <stylable>
+	js:	<stylable>.removeClass("<string>")
+</command>
+
+<command>
+	en:	get attribute <identifier> of <stylable>
+	js:	<stylable>.getAttribute("<identifier>")
+</command>
+
+<command>
+	en:	set attribute <identifier> of <stylable> to <expression>
+	js:	<stylable>.setAttribute("<identifier>", "<expression>")
+</command>

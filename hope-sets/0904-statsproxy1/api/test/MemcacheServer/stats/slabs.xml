@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+	<result>OK</result>
+	<data>
+		<memcachedStats 
+			category="slabs" 
+			service="php"
+			server="10.3.6.236:11211" 
+			proxy="10.3.6.236:8080" 
+			time="2009-11-11T13:27:18PST"
+			v="2" 
+		>
+			<stat><key>3:name</key> <value type='string'>Data48</value></stat> 
+			<stat><key>3:chunk_size</key> <value type='string'>48</value></stat> 
+			<stat><key>3:chunks_per_slab</key> <value type='string'>85</value></stat> 
+			<stat><key>3:total_slabs</key> <value type='string'>1</value></stat> 
+			<stat><key>3:total_chunks</key> <value type='string'>85</value></stat> 
+			<stat><key>3:used_chunks</key> <value type='string'>1</value></stat> 
+			<stat><key>3:free_chunks</key> <value type='string'>84</value></stat> 
+			<stat><key>28:name</key> <value type='string'>Data288</value></stat> 
+			<stat><key>28:chunk_size</key> <value type='string'>288</value></stat> 
+			<stat><key>28:chunks_per_slab</key> <value type='string'>14</value></stat> 
+			<stat><key>28:total_slabs</key> <value type='string'>23407</value></stat> 
+			<stat><key>28:total_chunks</key> <value type='string'>327698</value></stat> 
+			<stat><key>28:used_chunks</key> <value type='string'>327674</value></stat> 
+			<stat><key>28:free_chunks</key> <value type='string'>24</value></stat> 
+			<stat><key>64:name</key> <value type='string'>MemoryPoolMeta</value></stat> 
+			<stat><key>64:chunk_size</key> <value type='string'>64</value></stat> 
+			<stat><key>64:chunks_per_slab</key> <value type='string'>63</value></stat> 
+			<stat><key>64:total_slabs</key> <value type='string'>456</value></stat> 
+			<stat><key>64:total_chunks</key> <value type='string'>28728</value></stat> 
+			<stat><key>64:used_chunks</key> <value type='string'>28552</value></stat> 
+			<stat><key>64:free_chunks</key> <value type='string'>176</value></stat> 
+			<stat><key>99:name</key> <value type='string'>Data48-cookie</value></stat> 
+			<stat><key>99:chunk_size</key> <value type='string'>680</value></stat> 
+			<stat><key>99:chunks_per_slab</key> <value type='string'>6</value></stat> 
+			<stat><key>99:total_slabs</key> <value type='string'>1</value></stat> 
+			<stat><key>99:total_chunks</key> <value type='string'>6</value></stat> 
+			<stat><key>99:used_chunks</key> <value type='string'>1</value></stat> 
+			<stat><key>99:free_chunks</key> <value type='string'>5</value></stat> 
+			<stat><key>124:name</key> <value type='string'>Data288-cookie</value></stat> 
+			<stat><key>124:chunk_size</key> <value type='string'>112</value></stat> 
+			<stat><key>124:chunks_per_slab</key> <value type='string'>36</value></stat> 
+			<stat><key>124:total_slabs</key> <value type='string'>652</value></stat> 
+			<stat><key>124:total_chunks</key> <value type='string'>23472</value></stat> 
+			<stat><key>124:used_chunks</key> <value type='string'>23407</value></stat> 
+			<stat><key>124:free_chunks</key> <value type='string'>65</value></stat> 
+			<stat><key>148:name</key> <value type='string'>item</value></stat> 
+			<stat><key>148:chunk_size</key> <value type='string'>56</value></stat> 
+			<stat><key>148:chunks_per_slab</key> <value type='string'>73</value></stat> 
+			<stat><key>148:total_slabs</key> <value type='string'>4491</value></stat> 
+			<stat><key>148:total_chunks</key> <value type='string'>327843</value></stat> 
+			<stat><key>148:used_chunks</key> <value type='string'>327675</value></stat> 
+			<stat><key>148:free_chunks</key> <value type='string'>168</value></stat> 
+		</memcachedStats> 
+	</data>
+</response>

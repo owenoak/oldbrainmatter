@@ -1,0 +1,63 @@
+-- when beginning to parse
+	- remove all <¬\n> or <\\n> to bridge lines  (¬ char on windows? alternate? =?)
+	- remove all comments (store them somehow so we can put them back into the stream later?)
+	- normalize all runs of \n\s to a single EOL
+	- put an EOL at the end
+	- put an EOF at the end
+	- tokenize
+	- break into lines???
+
+-- parsing questions
+	- how can we relate the original english string (with comments and all) to the output?
+	- it seems like if the tokenizer can break the original string up into chunks it might make things easier (?)
+		- this seems like what the tokenizer does in YACC/LEX
+
+		- so "foo bar baz" becomes a "string token"
+		- // foo bar bax EOL becomes a "comment token"
+		- -12324.32 becomes a "number token"
+		- etc?
+
+	-- how can we make it so that, e.g., comments can come anywhere in the line?
+		- just have the parser skip them?
+
+
+- rules need:
+	- name (implicit in english.rules)
+	- specific error message
+	- translation
+	- some sort of superclass
+
+-- base types?
+Identifier
+integer
+
+-- complex types
+
+Literal (String?)
+OptionalLiteral
+
+Sequence
+OptionalSequence
+
+Choice
+OptionalChoice
+
+Expression
+
+Rule?
+
+recursion?
+
+
+-- with each keystroke, we modify the contents of the visible buffer
+-- re-balance and display, at each keystroke, the current state of the parser
+
+construct is our unit of measure
+	- literals and constants don't need to be Classed()
+	- each parse match must declare what happens with it, optional status, translation semantics
+	
+THE PARSER works like Occam's razor
+	- evaluate all possible occurances we can handle in a specific timeframe
+	-		pick the simplest
+	
+AT ANY TIME you can dip into the code that's running

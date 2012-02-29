@@ -1,0 +1,937 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+  <head>
+    <title>Gear6 Javascript Unit Tests</title>
+    <script type="text/javascript" src="/js/script.js"></script>
+    <script type="text/javascript" src="/js/validation.js"></script>
+    <script type="text/javascript" src="/js/sortTable.js"></script>
+    <script src="/js/percent_bar.js" type="text/javascript"></script>
+    <script src="/js/prototype.js" type="text/javascript"></script>
+    <script src="/js/scriptaculous.js" type="text/javascript"></script>
+    <script src='/js/lib/prototype.extensions.js'></script>
+    <script src='/js/lib/ProtoWidget.js'></script>
+    <script src='/js/lib/Notifier.js'></script>
+    <script src='/js/lib/CookieMixin.js'></script>
+    <script src='/js/lib/ExpanderMixin.js'></script>
+    <script src='/js/lib/AutoUpdater.js'></script>
+    <script src='/js/lib/DataWidget.js'></script>
+    <script src='/js/lib/MasterWidget.js'></script>
+    <script src='/js/lib/ClickMask.js'></script>
+    <script src='/js/lib/Dialog.js'></script>
+    <script src='/js/lib/DynaForm.js'></script>
+    <script src='/js/lib/PopupForm.js'></script>
+    <script src='/js/lib/Control.js'></script>
+    <script src='/js/lib/Slider.js'></script>
+    <script src='/js/lib/Page.js'></script>	
+    <script src='/js/Gear6/Page.js'></script>
+    <style type="text/css">
+        @import "/style/mow-style.css";
+        @import url(/style/lib.css);
+        @import url(/style/memcache.css);
+    </style>
+  </head>
+
+  <body>
+    <div class="pageHolder">
+    <div class="contentHolder">
+<script type="text/javascript">
+
+// these vars are set by the G6 page wrapping code, and are
+// present on all G6 pages.
+var badvips = "0.0.0.0 10.3.4.5 10.3.4.7 10.3.6.235 10.3.6.236 "+
+    "10.3.6.237 10.3.7.80 10.3.7.82 10.3.7.95 10.3.7.96 10.3.7.97 "+
+    "10.3.7.98 127.0.0.1 169.254.218.134 169.254.78.81 255.255.255.255";
+window.badvips = badvips;
+window.DRAMmax = 50 * 1024;  // let's have some memory to play with
+window.FlashMax = 128 * 1024;
+window.primaryInterface = 'eth0';
+window.interfaceList = 'eth0 eth1 eth2 eth3 eth4 vlan11 ';  
+window.packageList = 'memcached-1.2.5 memcached-1.2.6 memcached-gear6 ';
+window.replicationModes = 'none mirror';
+</script>
+
+<!-- these have to be loaded AFTER the wrapper vars are defined -->
+<script src='/js/Gear6/MemcacheService.js'></script>
+<script src='/js/Gear6/MemcacheInstance.js'></script>
+<script src='/js/Gear6/MemcacheService.editor.js'></script>
+<script src='/js/Gear6/memcache/MemcacheService.js'></script>
+<script src='/js/Gear6/memcache/MemcacheInstance.js'></script>
+
+<script src='/js/Gear6/UserTable.js'></script>
+<script src='/js/Gear6/users/UserTable.js'></script>
+<script src='/js/Gear6/User.js'></script>
+<script src='/js/Gear6/User.editor.js'></script>
+<script src='/js/Gear6/User.password.js'></script>
+<script src='/js/Gear6/users/User.js'></script>
+
+<script src='/js/Gear6/RecipientTable.js'></script>
+<script src='/js/Gear6/recipients/RecipientTable.js'></script>
+<script src='/js/Gear6/Recipient.js'></script>
+<script src='/js/Gear6/Recipient.editor.js'></script>
+<script src='/js/Gear6/recipients/Recipient.js'></script>
+
+<script type="text/javascript">
+var defaultpkg = "memcached-gear6";
+var stockpkg   = "memcached-1.2.6";
+var newpkg = "memcached-test";
+
+// global service object
+var MS = new Object;
+// global user table object
+var UT = new Object;
+// global recipientTable object
+var RT = new Object;
+// global page object
+var page = new Page({
+    id : "unit test"
+});
+page.pause();                   // don't update the page.
+
+// TEST ARRAY
+//
+// Why this array?  Why not just have one big function to run the
+// tests?  The reason is that most browser's Javascript engines are
+// single-threaded, and we need to yield execution periodically to
+// allow the DOM to update, like when we add the MemcacheService
+// object and int inserts a bunch of HTML into the page.  Subsequent
+// tests won't be able to find that HTML unless we let the DOM go
+// ahead and stuff it into its data structures.  While we are still
+// running our function, that won't happen.
+//
+// What we do instead is sequence through this array.  For each test we do this:
+//  * run the test code, which should use fireunit primitives to report test 
+//    success or failure.
+//  * catch any excptions thrown by the test.  The test should catch any
+//    expected exceptions; this is a backup to that.
+//  * if this is not the last test, use setTimeout to arrange for the next 
+//    test to be called "in a little while."  Currently it's 100ms which 
+//    should be plenty to let the browser catch up with any DOM changes.
+//  * If we just ran the last test, report the summary of tests.
+//
+// Adding New Tests:
+//    Make each test a function; place it in sequence in the test array.
+//    If you add it to the end of the array, be SURE to put a comma after the 
+//      test that used to be last, and do NOT put a comma after the new last
+//      test.  Javascript hates those unneeded commas at the end of lists.
+//    If your test changes any parameters and doesn't change them back, 
+//      either make sure subsequent tests change it back, or add code to
+//      the cleanup function to change it back.
+var tests = 
+    [
+     function() { with(fireunit) {
+             // TEST: CREATE MemcacheService OBJECT
+             try {
+                 MS = Gear6.MemcacheService.byId("test service", true);
+
+                 ok(typeof MS == "object", "created MemcacheService object");
+             } catch (e) {
+                 log("Exception creating MemcacheService object: ");
+                 log(e.message);
+                 log(e.stack);
+                 ok(false, "Cannot create MemcacheService object");
+             }
+         }},
+     function() { with(fireunit) {
+             ok(typeof BadVips == "object", "Is BadVips an object?"); 
+         }},
+     function() { with(fireunit) {
+             // TEST: Make sure all page operations are registered
+             ok(Gear6.Page != undefined, "Page exists");
+             ok(Gear6.Page.operations != undefined, "Page.operations exists");
+             try {
+                 ok(Gear6.Page.updateOperation == MemcacheService.update, 
+                    "Update operation exists");
+                 ok(Gear6.Page.operations["MemcacheService.deleteInstance"] != undefined, 
+                    "deleteInstance exists");
+                 ok(Gear6.Page.operations["MemcacheService.deleteService"] != undefined, 
+                    "deleteService exists");
+                 ok(Gear6.Page.operations["MemcacheService.disable"] != undefined, 
+                    "disable exists");
+                 ok(Gear6.Page.operations["MemcacheService.disableReplication"] != undefined, 
+                    "disableReplication exists");
+                 ok(Gear6.Page.operations["MemcacheService.enable"] != undefined, 
+                    "enable exists");
+                 ok(Gear6.Page.operations["MemcacheService.enableReplication"] != undefined, 
+                    "enableReplication exists");
+                 ok(Gear6.Page.operations["MemcacheService.resolveDNSForHost"] != undefined, 
+                    "resolveDNSForHost exists");
+                 ok(Gear6.Page.operations["MemcacheService.resolveDNSForAddress"] != undefined, 
+                    "resolveDNSForAddress exists");
+                 ok(Gear6.Page.operations["MemcacheService.saveInstance"] != undefined, 
+                    "saveInstance exists");
+                 ok(Gear6.Page.operations["MemcacheService.saveService"] != undefined, 
+                    "saveService exists");
+                 ok(Gear6.Page.operations["MemcacheService.update"] != undefined, 
+                    "update exists");
+             } catch (e) {
+                 log("Exception verifying Page operations: ");
+                 log(e.message);
+                 log(e.stack);
+                 ok(false, "Cannot verify Page operations");
+             }
+         }},
+     function() { with(fireunit) {
+             // TEST: setId
+             newid = "testservice new ID";
+             MS.setId(newid);
+             // should set both ids.
+             compare(MS.id, newid, "Check MS id");
+             compare(MS.data.id, newid, "Check MS.data id");
+         }},
+     function() { with(fireunit) {
+             // TEST: isFlashEnabled: g6 pkg
+             var oldval = window.FlashMax;
+             window.FlashMax = 0;
+             ok(MS.isFlashEnabled() == false, "isFlashEnabled test1");
+             window.FlashMax = 100000;
+             ok(MS.isFlashEnabled() == true, "isFlashEnabled test2");
+             window.FlashMax = oldval;
+         }},
+     function() { with(fireunit) {
+             // TEST: isGear6Package, should be true
+             ok(MS.isGear6Package(), "IS gear6 package");
+         }},
+     function() { with(fireunit) {
+             // TEST: setPackageName, to same name
+             MS.majorChange = false;
+             MS.setPackageName(defaultpkg);
+             compare(MS.data.packageName, defaultpkg, "Check package name");
+             ok(MS.majorChange == false, "not a major change");
+             // set back to gear6 for later tests
+             MS.setPackageName(defaultpkg);
+         }},
+     function() { with(fireunit) {
+             // TEST: setPackageName, to different name
+             MS.setPackageName(newpkg);
+             compare(MS.data.packageName, newpkg, "Check new package name");
+             ok(MS.majorChange == true, "IS a major change");
+             MS.majorChange = false; // reset for next test
+         }},
+     function() { with(fireunit) {
+             // TEST: isGear6Package, should be false
+             ok(MS.isGear6Package() == false, "IS NOT gear6 package");
+         }},
+     function() { with(fireunit) {
+             // TEST: isFlashEnabled: stock pkg
+             window.FlashMax = 0;
+             ok(MS.isFlashEnabled() == false, "isFlashEnabled test3");
+             window.FlashMax = 100000;
+             ok(MS.isFlashEnabled() == false, "isFlashEnabled test4");
+         }},
+     function() { with(fireunit) {
+             // TEST: setReplicationState
+             MS.setReplicationState("none");
+             ok(MS.data.replicationState == "none", "setReplicationState 1");
+             ok(MS.majorChange == false, "not a major change");
+             MS.setReplicationState("mirror");
+             ok(MS.data.replicationState == "mirror", "setReplicationState 1");
+             ok(MS.majorChange == true, "IS not a major change");
+             MS.majorChange = false; // reset for next test
+         }},
+     function() { with(fireunit) {
+             // TEST: setEnabled
+             ok(MS.setEnabled(false) == false, "setEnabled 1");
+             ok(MS.data.enabled == false, "setEnabled check 1");
+             ok(MS.setEnabled(true) == true, "setEnabled 2");
+             ok(MS.data.enabled == true, "setEnabled check 2");
+         }},
+     function() { with(fireunit) {
+             // TEST: getEstimatedDRAM
+             try {
+                 var estdram = Math.floor(MS.getEstimatedDRAM());
+                 expected = 58833033;
+
+                 compare(expected, estdram, "Expected vs actual estimated DRAM: "+expected+"/"+estdram);
+             } catch (e) {
+                 log("Exception verifying getEstimatedDRAM: ");
+                 log(e.message);
+                 log(e.stack);
+                 ok(false, "Cannot verify getEstimatedDRAM");
+             }
+         }},
+     function() { with(fireunit) {
+             // TEST: getItemCount
+             ok(MS.getItemCount() == 335544, "getItemCount");
+         }},
+     function() { with(fireunit) {
+             // TEST: getFlashBufferSize
+             compare(6.4, MS.getFlashBufferSize(), "getFlashBufferSize");
+
+             // test: getServiceDramUsage
+             var sdu = MS.getServiceDramUsage(2);
+             // Free	"0 B"
+             // Percent	"0%"
+             // Ratio	"0%"
+             // Total	"0 B"
+             // Used	"0 B"
+             // free	0
+             // name	"dram"
+             // percent	0
+             // ratio	0
+             // title	"DRAM"
+             // total	0
+             // used	0
+             compare("DRAM", sdu.title, "getServiceDramUsage 1");
+             compare("dram", sdu.name,  "getServiceDramUsage 2");
+             // check rest after there are some instances
+         }},
+     function() { with(fireunit) {
+             ////////////////////////////////////////////////////////////////////////
+             // CREATE INSTANCES
+        
+             MS.setInstanceData('10.3.6.236', {
+                 ip : '10.3.6.236',
+                                        statsport : '8080',
+                                        hostname: 'lb-berry-4.gear6.com' ,
+                                        mask: '22',
+                                        module:  1,
+                                        mirrorState: 'mirrored',
+                                        showProgress: false,
+                                        ramAllocated: 6700782008 ,
+                                        devAllocated: 13958643712 ,
+                                        remoteSet       : 36122666,
+                                        remoteUpdate    : 0,
+                                        remoteDelete    : 0,
+                                        ramUsed: 12380781372,
+                                        itemsUsed: 23855071
+                                        });
+             MS.setInstanceData('10.3.6.237', {
+                 ip : '10.3.6.237',
+                                        statsport : '8080',
+                                        hostname: 'lb-berry-3.gear6.com' ,
+                                        mask: '22',
+                                        module:  2,
+                                        mirrorState: 'mirrored',
+                                        showProgress: false,
+                                        ramAllocated: 6700782008 ,
+                                        devAllocated: 13958643712 ,
+                                        remoteSet       : 67218,
+                                        remoteUpdate    : 0,
+                                        remoteDelete    : 0,
+                                        ramUsed: 12380781372,
+                                        itemsUsed: 23855071
+                                        });
+             delete MS.majorChange;
+             MS.draw();
+             log("Created instances");
+         }},
+     ////////////////////////////////////////////////////////////////////////
+     // RUN MEMCACHESERVICE TESTS THAT NEED INSTANCES
+
+     function() { with(fireunit) {
+             // test: getServiceDramUsage
+             var sdu = MS.getServiceDramUsage(2);
+             compare("DRAM", sdu.title, "getServiceDramUsage 3");
+             compare("dram", sdu.name, "getServiceDramUsage 4");
+             compare("12.48 GB", sdu.Total, "getServiceDramUsage 5");
+             compare("20.22 GB", sdu.Used, "getServiceDramUsage 6");
+             compare("162.05", sdu.ratio, "getServiceDramUsage 7");
+             compare("13401564016", sdu.total, "getServiceDramUsage 8");
+             compare("21718106112", sdu.used, "getServiceDramUsage 8");
+         }},
+     function() { with(fireunit) {
+             // TEST: getMemoryUsage
+             try {
+                 var memuse = MS.getMemoryUsage();
+                 log("Mem usage: ", memuse);
+                 log("   Total:    ", memuse.Total);
+                 log("   Flash:    ", memuse.FlashPercent);
+                 log("   Buffer:   ", memuse.BufferPercent);
+                 log("   Overhead: ", memuse.OverheadPercent);
+             } catch (e) {
+                 log("Exception verifying getMemoryUsage: see console for details");
+                 console.log(e.message);
+                 console.log(e.stack);
+                 ok(false, "Cannot verify getMemoryUsage");
+             }
+         }},
+     //     function() { with(fireunit) {
+     //             MS.hideNewInstanceForm();
+     //             // end this step to allow DOM to update and hide form.
+     //         }},
+     //     function() { with(fireunit) {
+     //             var res = confirm("New Instance form is hidden?");
+     //             ok(res, "hideNewInstanceForm");
+     //         }},
+     function() { with(fireunit) {
+             setNewInstanceParams("", "notAnIPaddress", "ss");
+             var res = MS.validateNewInstanceForm();
+             ok(res == false, "validateNewInstanceForm badly formed IP");
+         }},
+     function() { with(fireunit) {
+             setNewInstanceParams("", "", "");
+             var res = MS.validateNewInstanceForm();
+             ok(res == false, "validateNewInstanceForm case 1");
+         }},
+     function() { with(fireunit) {
+             setNewInstanceParams("oxygen", "1.2.3.4", "22");
+             var res = MS.validateNewInstanceForm();
+             ok(res == false, "validateNewInstanceForm case 2a");
+         }},
+     function() { with(fireunit) {
+             setNewInstanceParams("oxygen", "10.1.1.95", "22");
+             var res = MS.validateNewInstanceForm();
+             ok(res == false, "validateNewInstanceForm case 2b");
+         }},
+     function() { with(fireunit) {
+             setNewInstanceParams("oxygen", "10.1.1.95", "22");
+             var res = MS.validateNewInstanceForm();
+             ok(res == false, "validateNewInstanceForm case 2c");
+         }},
+     function() { with(fireunit) {
+             setNewInstanceParams("", "10.1.1.10", "22");
+             var res = MS.validateNewInstanceForm();
+             ok(res == true, "validateNewInstanceForm case 3");
+         }},
+     function() { with(fireunit) {
+             setNewInstanceParams("oxygen", "", "22");
+             var res = MS.validateNewInstanceForm();
+             ok(res == true, "validateNewInstanceForm case 4");
+         }},
+     function() { with(fireunit) {
+             setNewInstanceParams("", "0.0.0.0", "22");
+             var res = MS.validateNewInstanceForm();
+             ok(res == false, "validateNewInstanceForm badvip broadcast 1");
+         }},
+     function() { with(fireunit) {
+             setNewInstanceParams("", "255.255.255.255", "22");
+             var res = MS.validateNewInstanceForm();
+             ok(res == false, "validateNewInstanceForm badvip broadcast 2");
+         }},
+     function() { with(fireunit) {
+             badvips.split(" ").each(function(vip){
+                                         setNewInstanceParams("", vip, "22");
+                                         var res = MS.validateNewInstanceForm();
+                                         ok(res == false, "validateNewInstanceForm badvip "+vip);
+                                     });
+         }},
+     function() { with(fireunit) {
+             setNewInstanceParams("", "10.1.1.10", "");
+             var res = MS.validateNewInstanceForm();
+             ok(res == false, "validateNewInstanceForm no mask");
+         }},
+     function() { with(fireunit) {
+             setNewInstanceParams("", "10.1.1.10", "abcdef");
+             var res = MS.validateNewInstanceForm();
+             ok(res == false, "validateNewInstanceForm badly formed mask ");
+         }},
+     function() { with(fireunit) {
+             setNewInstanceParams("", "10.1.1.10", "12345");
+             var res = MS.validateNewInstanceForm();
+             ok(res == false, "validateNewInstanceForm out of range mask ");
+         }},
+     function() { with(fireunit) {
+             // last new Instance test, reset new instance form to clear errors
+             setNewInstanceParams("", "10.1.1.10", "24");
+             var res = MS.validateNewInstanceForm();
+             ok(res == true, "instanceForm reset");             
+             MS.clearInstanceMessage();
+         }},
+     function() { with(fireunit) {
+             ok(typeof Gear6.MemcacheService.editor == "object", "Service editor exists");
+         }},
+     function() { with(fireunit) {
+             // disable fade in/out for testing
+             Gear6.MemcacheService.editor.fadeDuration=0;  
+
+             MemcacheService.editNewItem();  // show editor
+             ok(true, "new service editor should be showing");
+         }},
+     function() { with(fireunit) {
+             log("Show advanced options");
+             click("editService_moreButton");
+             // return to allow DOM to update with advanced options
+         }},
+     function() { with(fireunit) {
+             log("initial state check for item count (Bug 4178)");
+             var val = byId("editService_itemCountAuto").value
+             ok(val == "on", "item count auto OK");
+
+             val = byId("editService_itemCountAutoOff").value;
+             ok(val == "on", "item count auto OFF OK");
+
+             val = byId("editService_itemCountSlider").attributes.getNamedItem("disabled").nodeValue;
+             ok(val == "true", "item count slider disabled");
+
+             var o = byId("editService_itemSizeSlider");
+             val = byId("editService_itemSizeSlider").attributes.getNamedItem("disabled");
+             ok(val == null, "item size slider enabled");
+         }},
+     function() { with(fireunit) {
+             click("editService_itemCountAutoOff");
+
+             log("state check for item count auto OFF (Bug 4178)");
+             var val = byId("editService_itemCountAuto").value
+             ok(val == "on", "item count auto OK");
+
+             val = byId("editService_itemCountAutoOff").value;
+             ok(val == "on", "item count auto OFF OK");
+
+             val = byId("editService_itemCountSlider").attributes.getNamedItem("disabled");
+             ok(val == null, "item count slider enabled");
+
+             val = byId("editService_itemSizeSlider").attributes.getNamedItem("disabled");
+             ok(val.nodeValue == "true", "item size slider disabled");
+         }},
+     function() { with(fireunit) {
+             var ctl = findControl(PopupForms[0], "editService_serviceDramSlider");
+             ok(ctl.maxValue == window.DRAMmax, "Item Size slider cap == DRAMmax (Bug 4178)");
+         }},
+     function() { with(fireunit) {
+             var o = byId("editService_estmatedDramTr");
+             reCompare(".*[0-9][0-9].[0-9] MB.*", o.innerHTML, "Est DRAM no error");
+         }},
+     function() { with(fireunit) {
+             // BUG 4081, OK with no entries used to error.
+             click("editService_okButton");
+         }},
+     function() { with(fireunit) {
+             // BUG 4081, OK with no entries used to error.
+             compare("Service name cannot be empty",
+                     Gear6.MemcacheService.editor.notifier.$message.innerHTML, 
+                     "serviceNameEmptyMessage posted OK (Bug 4081)");
+         }},
+     function() { with(fireunit) {
+             // set itemcount way high to triggger too many items warning
+             var ctl = findControl(PopupForms[0], "editService_instanceItemCount");
+             // enter new value -- 100 billion, way too many
+             value("editService_instanceItemCount", "100b");
+             // fire onChange event
+             ctl.onChange(null, byId("editService_instanceItemCount") );
+          }},
+     function() { with(fireunit) {
+             // check for warning
+             var o = byId("editService_estmatedDramTr");
+             reCompare(".*Too many items.*", o.innerHTML, 
+                       "Est DRAM too many items (Bug 4178)");
+         }},
+     function() { with(fireunit) {
+             // set itemcount back down
+             var ctl = findControl(PopupForms[0], "editService_instanceItemCount");
+             // enter new value -- 100 thousand, OK
+             value("editService_instanceItemCount", "100000");
+             // fire onChange event
+             ctl.onChange(null, byId("editService_instanceItemCount") );
+             
+             // set flash mem very high so we can increase item buffer size
+             value("editService_instanceMemSizeMB", "128 GB");
+             ctl = findControl(PopupForms[0], "editService_instanceMemSizeMB");
+             ctl.onChange(null, byId("editService_instanceMemSizeMB"));
+
+             // now set item buffer size too big.
+             click("editService_flashBufferSizeAutoOff");
+             ctl = findControl(PopupForms[0], "editService_serviceDramMB")
+             value("editService_serviceDramMB", "64GB");
+             ctl.onChange(null, byId("editService_serviceDramMB"));
+          }},
+     function() { with(fireunit) {
+             // check for warning
+             var o = byId("editService_estmatedDramTr");
+             reCompare(".*Item buffer and item management together exceed physical memory.*", o.innerHTML, 
+                       "Too much item buffer (Bug 4178)");
+         }},
+     function() { with(fireunit) {
+             Gear6.MemcacheService.editor.cancel();  
+             MS.clearInstanceMessage();
+         }},
+     // BUG 4168: Warning when disabled is confusing.
+     // test plan: use our test service, turn mirroring on and cycle through disabled/enabled.
+     function() { with(fireunit) {
+             // Choose G6 package, turn on mirroring and enable service
+             MS.setPackageName(defaultpkg);
+             MS.data.enabled = true;
+             MS.data.replicationMode = "mirror";
+             MS.showInstanceCountMessage();
+         }},
+     function() { with(fireunit) {
+             compare(MS.getInstanceMessageElement().innerHTML, "&nbsp;", 
+                     "4168: enable/mirror no error");
+             MS.data.replicationMode = "none";
+             MS.data.replicationState = "suspended";
+             MS.showInstanceCountMessage();
+         }},
+     function() { with(fireunit) {
+             compare(MS.getInstanceMessageElement().innerHTML, "&nbsp;", 
+                     "4168: enable/none no error");
+             MS.data.enabled = false;
+             MS.data.replicationMode = "mirror";
+             MS.data.replicationState = "suspended";
+             MS.showInstanceCountMessage();
+         }},
+     function() { with(fireunit) {
+             reCompare("WARNING: This service is <b>disabled</b>", 
+                       MS.getInstanceMessageElement().innerHTML, 
+                       "4168: disable/mirror disable error");
+             MS.data.enabled = true;
+             MS.data.replicationMode = "mirror";
+             MS.data.replicationState = "suspended";
+             MS.showInstanceCountMessage();
+         }},
+     function() { with(fireunit) {
+             reCompare("WARNING: Mirroring on this service is <b>suspended</b>.",
+                        MS.getInstanceMessageElement().innerHTML, 
+                       "4168: enable/mirror/susp with error");
+         }},
+     // BUG 4163: stock memcache per instance DRAM display is wrong
+     function() { with(fireunit) {
+             // Choose stock package, set various memsizes and make sure table
+             // entry is correct.  snapshot.instance.dram.Total is the text for the 
+             // cell.
+             MS.setPackageName(stockpkg);
+             MS.data.instanceMemSizeMB = 1024;
+             MS.redraw();       // updates snapshot
+         }},
+     function() { with(fireunit) {
+             compare("1 GB", MS.snapshot.instance.dram.Total, "4163 1GB");
+             MS.data.instanceMemSizeMB = 64;
+             MS.redraw();       // updates snapshot
+         }},
+     function() { with(fireunit) {
+             compare("64 MB", MS.snapshot.instance.dram.Total, "4163 64MB");
+             MS.data.instanceMemSizeMB = 1024*1024;
+             MS.redraw();       // updates snapshot
+         }},
+     function() { with(fireunit) {
+             compare("1 TB", MS.snapshot.instance.dram.Total, "4163 1TB");
+             
+         }},
+     // bug 4162: deleting a service leaves its instance ips in BadVips
+     // we already have a service with ips '10.3.6.237' and '10.3.6.236'
+
+     function() { with(fireunit) {
+             ok(BadVips.isBad("10.3.6.237"), "4162 check 237 in badvips");
+             ok(BadVips.isBad("10.3.6.236"), "4162 check 236 in badvips");
+             MS.remove();
+             ok(BadVips.isBad("10.3.6.237") == false, "4162 check 237 NOT in badvips");
+             ok(BadVips.isBad("10.3.6.236") == false, "4162 check 236 NOT in badvips");
+         }},
+
+     // Bug 4052: Can't add a previously deleted user without reloading the page.
+     function() { with(fireunit) {
+             // first clean up from MS tests
+             var els = $$(".MemcacheService");
+             els.each(function(el){
+                          el.remove();
+                      });
+             delete MS;
+         }},
+     function() { with(fireunit) {
+             // TEST: CREATE UserTable OBJECT
+             try {
+                 UT = Gear6.UserTable.byId('userTable', true);
+                 ok(typeof UT == "object", "created UserTable object");
+             } catch (e) {
+                 log("Exception creating UserTable object: ");
+                 log(e.message);
+                 log(e.stack);
+                 ok(false, "Cannot create UserTable object");
+             }
+         }},
+     function() { with(fireunit) {
+             var oldLen = UT.users.length;
+             log("starting with "+oldLen+" users");
+             // create 4 users
+             UT.setUser('jim', {
+                 id : 'jim', 
+                 gecos : 'User Jim', 
+                 firstName : '', 
+                 lastName : '', 
+                 role: '', 
+                 email : '',
+                 enabled : '',
+                 password : '',
+                 gid : '0'
+             });
+             UT.setUser('fred', {
+                 id : 'fred', 
+                 gecos : 'User Fred', 
+                 firstName : '', 
+                 lastName : '', 
+                 role: '', 
+                 email : '',
+                 enabled : '',
+                 password : '',
+                 gid : '0'
+             });
+             UT.setUser('barney', {
+                 id : 'barney', 
+                 gecos : 'User Barney', 
+                 firstName : '', 
+                 lastName : '', 
+                 role: '', 
+                 email : '',
+                 enabled : '',
+                 password : '',
+                 gid : '0'
+             });
+             UT.setUser('wilma', {
+                 id : 'wilma', 
+                 gecos : 'User Wilma', 
+                 firstName : '', 
+                 lastName : '', 
+                 role: '', 
+                 email : '',
+                 enabled : '',
+                 password : '',
+                 gid : '0'
+             })
+             log("ending with "+UT.users.length+" users");
+             ok(UT.users.length == oldLen + 4, "Created 4 users");
+         }},
+     function() { with(fireunit) {
+             // find barney in users table
+             var i; var result = false; var index;
+             for (i = 0; i < UT.users.length; i++) {
+                 if (UT.users[i] != undefined) {
+                     if (UT.users[i].data.id == "barney") {
+                         index = i;  // save barney's index
+                         result = true;
+                         // break;
+                     }
+                 }
+             }
+             // fix up a fake transaction and request
+             var transaction = new Object;
+             var request = new Object;
+             transaction.params = {};
+             transaction.params.target = Gear6.User.Instances.Gear6_User2;
+             // call the delete user onSuccess method, which removes the user object
+             Gear6.User.Instances.Gear6_User2.operations["Gear6.User.deleteUser"].onSuccess(transaction, request);
+             // Barney should be gone.
+             ok(UT.users[index] == undefined, "Barney's gone");
+         }},
+     function() { with(fireunit) {
+             // re-add barney
+             UT.setUser('barney', {
+                 id : 'barney', 
+                 gecos : 'User Barney', 
+                 firstName : '', 
+                 lastName : '', 
+                 role: '', 
+                 email : '',
+                 enabled : '',
+                 password : '',
+                 gid : '0'
+             });
+             // look for barney in the users table
+             var i; var result = false;
+             for (i = 0; i < UT.users.length; i++) {
+                 if (UT.users[i] != undefined) {
+                     if (UT.users[i].data.id == "barney") {
+                         result = true;
+                         break;
+                     }
+                 }
+             }
+             // Barney should be back
+             ok(result == true, "Barney's back");
+         }},
+     function() { with(fireunit) {
+             // TEST: CREATE RecipientTable OBJECT
+             try {
+                 RT = new Gear6.RecipientTable;
+                 ok(typeof RT == "object", "created RecipientTable object");
+             } catch (e) {
+                 log("Exception creating RecipientTable object: ");
+                 log(e.message);
+                 log(e.stack);
+                 ok(false, "Cannot create RecipientTable object");
+             }
+         }},
+     function() { with(fireunit) {
+             // Create some recipients
+             RT.setRecipient('foo@bar.com', {
+                 name: 'foo@bar.com', 
+                 get_detail : "true",
+                 get_infos: "true",
+                 get_failures: "true"
+             });
+             RT.setRecipient('foo1@bar.com', {
+                 name: 'foo1@bar.com', 
+                 get_detail : "true",
+                 get_infos: "true",
+                 get_failures: "true"
+             });
+             RT.setRecipient('foo2@bar.com', {
+                 name: 'foo2@bar.com', 
+                 get_detail : "true",
+                 get_infos: "true",
+                 get_failures: "true"
+             });
+             RT.setRecipient('foo3@bar.com', {
+                 name: 'foo@3bar.com', 
+                 get_detail : "true",
+                 get_infos: "true",
+                 get_failures: "true"
+             });
+             ok(RT.recipients.length == 4, "Created 4 recipients");
+         }},
+     function() { with(fireunit) {
+             // find foo2 in recipients table
+             var i; var result = false; var index;
+             for (i = 0; i < RT.recipients.length; i++) {
+                 if (RT.recipients[i] != undefined) {
+                     if (RT.recipients[i].data.name == "foo2") {
+                         index = i;  // save foo2's index
+                         result = true;
+                         // break;
+                     }
+                 }
+             }
+             // fix up a fake transaction and request
+             var transaction = new Object;
+             var request = new Object;
+             transaction.params = {};
+             transaction.params.target = Gear6.Recipient.Instances.Gear6_Recipient2;
+             // call the delete recipient onSuccess method, which removes the recipient object
+             Gear6.Recipient.Instances.Gear6_Recipient2.operations["Gear6.Recipient.deleteRecipient"].onSuccess(transaction, request);
+             // Foo2 should be gone.
+             ok(RT.recipients[index] == undefined, "Foo2's gone");
+         }},
+     function() { with(fireunit) {
+             // re-add foo2
+             RT.setRecipient('foo2', {
+                 name : 'foo2', 
+                 get_detail : "true",
+                 get_infos: "true",
+                 get_failures: "true"
+             });
+             // look for foo2 in the recipients table
+             var i; var result = false;
+             for (i = 0; i < RT.recipients.length; i++) {
+                 if (RT.recipients[i] != undefined) {
+                     if (RT.recipients[i].data.name == "foo2") {
+                         result = true;
+                         break;
+                     }
+                 }
+             }
+             // Foo2 should be back
+             ok(result == true, "Foo2's back");
+         }},
+     // LAST TEST.  DO NOT REMOVE
+     function() { with(fireunit) {
+             fireunit.log("END OF TESTS");
+             // XXX   cleanup();
+         }}
+     ];
+    
+function findControl(form, id) {
+    var i;
+    for(i=0; i < form.controls.length; i++) {
+        if (form.controls[i].id == id) {
+            return form.controls[i];
+        }
+    }
+    return null;
+}
+            
+function setNewInstanceParams(dnsname, IP, mask) {
+    var inputs = MS.$main.select("INPUT");
+    if (inputs.length != 3) {
+        ok(false, "new instance form does NOT have three inputs");
+    } else {
+        if (dnsname == "") { inputs[0].setValue(null);} else {inputs[0].setValue(dnsname); }
+        if (IP      == "") { inputs[1].setValue(null);} else {inputs[1].setValue(IP); }
+        if (mask    == "") { inputs[2].setValue(null);} else {inputs[2].setValue(mask); }
+    }
+}
+
+function runtest() {
+    // start with the first test, of course.
+    run_one_test(0);
+}
+
+function run_one_test(n) { with(fireunit) {
+        // call test n.  Catch any exceptions not handled by the 
+        // test and report them.
+        try {
+            (tests[n])();
+        } catch (e) {
+            console.log("Exception running test "+n+":");
+            console.log(e.message);
+            console.log(e.stack);
+            ok(false, "test "+n+" threw an exception");
+        }
+        if ( n+1 < tests.length) {
+            // log("setting up callback for test "+(n+1));
+            // in 100 ms, call "run_one_test" with argument "n+1" to 
+            // run next test
+            setTimeout(run_one_test, 10, n+1);
+        } else {
+            testDone();
+        }
+    }}
+
+// Clean up
+function cleanup() {
+    var els = $$(".MemcacheService");
+    fireunit.log("CLEANUP: removing "+els.length+" elements "+els);
+    els.each(function(el){
+                 fireunit.log(" * removing element "+el);
+                 el.remove();
+             });
+    fireunit.log("CLEANUP: Deleting MS object ");
+    delete MS;
+    var els = $$(".SectionBody");
+    fireunit.log("CLEANUP: removing "+els.length+" elements "+els);
+    els.each(function(el){
+                 fireunit.log(" * removing element "+el);
+                 el.remove();
+             });
+    fireunit.log("CLEANUP: Deleting UserTable object ");
+    byId("userList").remove();
+    delete UT;
+
+    fireunit.log("CLEANUP: Resetting vars ");
+    window.FlashMax = 0;
+    if (isFunction(MS.setPackageName)) {
+        MS.setPackageName(defaultpkg);
+        MS.setReplicationState("none");
+        MS.setEnabled(false);
+        // in case an editor test left it showing.
+        Gear6.MemcacheService.editor.cancel();
+    }
+    
+}
+
+</script>
+
+    <h1>Gear6 Javascript Unit Tests</h1>
+<p>These tests require Firefox AND both the Firebug and Fireunit 
+extensions, available from the usual places.
+<p>
+<p><i>
+Make sure you are logged in to the system under test 
+before running tests, or tests that require 
+queries to the system will all fail.
+</i></p>
+
+    <button onclick="runtest();">
+      Run Tests
+    </button>
+
+    <br>
+    <p/>
+
+    <button onclick="cleanup();">
+      Clean up
+    </button>
+
+    <hr>
+<div id='memcacheServers'></div>  <!-- Created services go here -->
+<div id='userList'></div>
+
+<!-- Created: Fri Aug 21 10:21:11 PDT 2009 -->
+<!-- hhmts start -->
+Last modified: Fri Sep 11 13:22:04 PDT 2009
+<!-- hhmts end -->
+<hr>
+</div>
+</div>
+  </body>
+</html>
+<!-- Local Variables: -->
+<!-- mode: javascript -->
+<!-- End: -->
+ 

@@ -1,0 +1,127 @@
+
+Elevator Pitch
+	Hope allows non-programmers to create advanced web programs, and allows
+	programmers to develop web applications in a fraction of time that it takes
+	to create web apps today.
+
+Value Proposition
+	Most AJAX development systems concentrate on smoothing over the differences between different browsers and providing tools for the application developer to create their application.
+	
+	Hope is designed to make it easy to create and deploy advanced, attractive, efficient web interfaces, from soup to nuts.  Given web services that can field HTTP requests and generate JSON replies, Hope allows you to easily create applications.
+
+Principles
+	* least surprise
+	* least PITA
+
+
+Distinguishing factors:
+	* enhance JS with simple, natural class semantics
+		* augments JS with formal inherited class semantics
+		* automatically parses "SmartJS" (dialect of JS2) to support
+			missing language features such as "super()", private variables, etc
+			without you having to structure your code in idiomatic hacks
+		* public/private/protected semantics
+		* simple and robust debug/console/throw/timing semantics
+		* 
+
+	* extends HTML to allow for declarative programming
+		* create your own HTML tags with associated JS Classes
+		* class creation mixes script and HTML in a natural way
+		* application semantics 
+
+	* powerful, attractive set of widgets
+		* theming support built-in
+		* flow- and grid-based layout semantics
+
+	* site / application / page semantics built in
+		* automatically load your app in pieces as they are needed
+		* pre-load pieces as necessary
+		* automatic inclusion of classes and other pieces your app needs
+		* plug-innable authentication framework built in
+		
+	* english or SmartJS as the "glue language" for application development
+	
+	* transparent IDE for application development
+		* drag and drop layout of application pages
+		* live editing/automatic saving of pages, controls and scripts
+		* version control for your application built in
+		* automatic deployment generation and optimization
+		* graphics development via canvas
+
+	* internationalization semantics built-in
+		* create your interface in your language of choice (defult english)
+			and system automatically generates translation lists
+		* translation repository for default auto-translation
+		* deploy in multiple languages (? server piece?)
+	
+
+
+Target audience:
+	* UI designers (prototyping development tool)
+	* internal applications for enterprises (quick, less to learn)
+	* extending web site development to non-programmers
+		* hobbyists
+		* beginning programmers
+
+
+Supported Platforms
+	* Mozilla Firefox 2.0+ (and other Gecko-based browsers)
+	* Apple WebKit 3+ (and thus Flex/AIR/iPhone/et. al)
+	* explicitly does NOT support:
+		- IE 6-7 (? although maybe IE8 ?)
+		- Opera (too small)
+	- rationale:
+		- testing burden on IE is too great
+		- IE squirrely with custom HTML
+		- uses advanced features of Moz/Webkit
+			- getters/setters
+			- canvas
+			- data URLs (? for canvas borders/etc)
+
+
+Think through:
+	? what's needed for peering? 
+		- much easier to do it now rather than later
+		- install all scripts (easier if all children of hope.)
+		- install all CSS
+		- ???
+	? when to throw, when to debug, etc? 
+		- permissive/allow for sloppy code
+		- efficiency in debugging
+		- use debug levels?
+		-> do "TOTHROW" for now, go back and do consistently everywhere
+		-> have a compile mode where we eliminate debug stuff?
+	? library scoping?  eg:  hope.foo,  app.foo, etc?
+		+ fashionable
+		+ most hope stuff is already that way
+		+ classes/etc are instantiated automatically
+		+ plays better with others (a concern?)
+		+ easier for auto-peering
+		+ if we're pedantic about it, can be easier for auto-including
+		- can be a pain
+		- slower
+	? use getters and setters?  
+		- biggest never-in-IE thing I can think of...
+		? some way in SmartJS to make this work, or at least to do smart caching?
+			- define getters/setters with special semantics
+			- in IE, do these on construction?  
+				will work if we only do them for static values, not memoizing
+		
+	? leave original node in place as top-level DOM object?
+		+ should be faster
+		+ easier to know what to write our when saving
+		+ CSS semantics are clearly segmented
+		- CSS semantics may be a pain for subclasses?
+		- browser differences?
+		? programmatic instantiation? 
+	? event handling at HOPE top-level rather than on each object?
+		? interaction of made up events and DOM events?
+		
+	? auto-expansion in sub-templates?
+	? when to parse?
+	? IDE back-end?
+		* PHP as simple as possible
+	? dynamic data vs static app state which is saved?
+	? how to handle async lib loading and inlining calls (eg: load controls)?
+
+

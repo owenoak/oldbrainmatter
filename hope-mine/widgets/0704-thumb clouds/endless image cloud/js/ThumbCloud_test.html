@@ -1,0 +1,84 @@
+<html>
+<script src="_util.rhtml"></script>
+<script src="_animation.rhtml"></script>
+<style type='text/css'>
+	@import url(../media/kumogo.css);
+</style>
+<script src='ThumbCloud.js' language='JavaScript'></script>
+<script language='JavaScript'>
+
+
+function init() {
+	//HACK HERE:
+	k0.document_body = document.getElementsByTagName("BODY")[0];
+
+
+	var t0 = new Date();
+	window.cloud = new ThumbCloud("display");
+
+
+	var items = [
+		{id:0, shape:"h", text:"<span class='hotTitle'>What's Hot In Movies<\/span>"}
+	];
+	var photoNum = 0;
+	for (var i = 1; i < 300; i++) {
+		items[i] = {
+						id:i, 
+						shape:"s", 
+						photo:"../media/thumbs/" + photoNum++ + ".jpg",
+						source : (Math.random() < .5 ? "flickr" : "youtube")
+				};
+		if (photoNum > 13) photoNum = 0;
+	}
+	cloud.placeItems(items);
+}
+
+
+</script>
+<body onload='init()'>
+
+<div id='pagehead'>
+	<div id='logo'>Kumogo</div>
+
+	<div id='searchPanel'>
+		<div id='searchBox'>
+			<div id='searchGo'>Kumogo!</div>
+			<input id='searchField' type=text value='search by tag'>
+		</div>
+	</div>
+
+	<div id='whats_this'>What is this?</div>
+</div>
+
+
+<div class='tabs'>
+	<ul class='tabList'>
+		<div class='tabHeader'>What's Hot:</div>
+		<li class='tab'>All Over</li>
+		<li class='tab'>In Sports</li>
+		<li class='tab selected'>In Movies</li>
+		<li class='tab'>In Politics</li>
+		<li class='tab'>In Technology</li>
+	</ul>
+</div>
+
+
+<div id='display_viewport'>
+	<div id='display'></div>		
+
+	<div class='display_mask display_mask_TL' onmousedown="cloud.drag(event||window.event)"></div>
+	<div class='display_mask display_mask_T' onmousedown="cloud.drag(event||window.event)"></div>
+	<div class='display_mask display_mask_TR' onmousedown="cloud.drag(event||window.event)"></div>
+	<div class='display_mask display_mask_L' onmousedown="cloud.drag(event||window.event)"></div>
+	<div class='display_mask display_mask_R' onmousedown="cloud.drag(event||window.event)"></div>
+	<div class='display_mask display_mask_BL' onmousedown="cloud.drag(event||window.event)"></div>
+	<div class='display_mask display_mask_B' onmousedown="cloud.drag(event||window.event)"></div>
+	<div class='display_mask display_mask_BR' onmousedown="cloud.drag(event||window.event)"></div>
+</div>
+
+
+
+
+
+</body>
+</html>

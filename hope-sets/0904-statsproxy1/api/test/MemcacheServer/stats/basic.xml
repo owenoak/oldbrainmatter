@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+	<result>OK</result>
+	<data>
+		<memcachedStats 
+			category="basic" 
+			service="php"
+			server="10.3.6.236:11211" 
+			proxy="10.3.6.237:8080" 
+			time="2009-11-11T13:27:18"
+			v="2" 
+		>
+		  <stat><key>pid</key><value type='string'>4227</value></stat>
+		  <stat><key>uptime</key><value type='string'>101960</value></stat>
+		  <stat><key>time</key><value type='string'>1257974836</value></stat>
+		  <stat><key>version</key><value type='string'>1.2.8</value></stat>
+		  <stat><key>pointer_size</key><value type='string'>64</value></stat>
+		  <stat><key>rusage_user</key><value type='string'>51063.543272</value></stat>
+		  <stat><key>rusage_system</key><value type='string'>8113.551065</value></stat>
+		  <stat><key>curr_items</key><value type='string'>327676</value></stat>
+		  <stat><key>total_items</key><value type='string'>6495115</value></stat>
+		  <stat><key>bytes</key><value type='string'>94259332</value></stat>
+		  <stat><key>curr_connections</key><value type='string'>27</value></stat>
+		  <stat><key>total_connections</key><value type='string'>244589</value></stat>
+		  <stat><key>connection_structures</key><value type='string'>49</value></stat>
+		  <stat><key>cmd_flush</key><value type='string'>0</value></stat>
+		  <stat><key>cmd_get</key><value type='string'>3155836233</value></stat>
+		  <stat><key>cmd_set</key><value type='string'>3174277</value></stat>
+		  <stat><key>get_hits</key><value type='string'>805191073</value></stat>
+		  <stat><key>get_misses</key><value type='string'>2350645160</value></stat>
+		  <stat><key>evictions</key><value type='string'>0</value></stat>
+		  <stat><key>bytes_read</key><value type='string'>46119726650</value></stat>
+		  <stat><key>bytes_written</key><value type='string'>229648663211</value></stat>
+		  <stat><key>limit_maxbytes</key><value type='string'>21474836480</value></stat>
+		  <stat><key>threads</key><value type='string'>17</value></stat>
+		  <stat><key>accepting_conns</key><value type='string'>1</value></stat>
+		  <stat><key>listen_disabled_num</key><value type='string'>0</value></stat>
+		  <stat><key>delete</key><value type='string'>0</value></stat>
+		  <stat><key>replace</key><value type='string'>3014741</value></stat>
+		</memcachedStats>
+	</data>
+</response>

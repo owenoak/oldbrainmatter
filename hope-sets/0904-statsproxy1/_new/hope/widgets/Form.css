@@ -1,0 +1,89 @@
+/*************
+ *   Forms
+ *************/	
+
+	/* Div that contains the entire table */
+	.Form {}
+
+	
+	.FormTable {
+		border-collapse:collapse;
+	}
+	
+	.NestedFormTable {
+		border-collapse:collapse;
+	}
+
+
+	.Form button {
+		margin-top:6px;
+		min-width:8em;
+	}
+
+	.Form input {
+		font-weight:bold;
+	}
+
+	.Form input.number {
+		text-align:right;
+	}
+
+	.Form select {
+		font-weight:bold;
+	}
+
+
+	.Form input[type=checkbox],
+	.Form input[type=radio] {
+		position:relative;
+		width:1.5em;
+		height:1.5em;
+		top:-1px; 
+	}
+	
+	.Form .errorMessage {
+		display:none;
+		background-color:#fcf2c2;
+		padding:5px 20px;
+		font-weight:bold;
+		color:darkred;
+		background-image:url(images/famfamfam/error.png);
+		background-repeat:no-repeat;
+		background-position:left center;
+	}
+	
+	.Form .radio {
+		padding:3px 0px;
+		color:#333;
+	}
+	.Form .field {
+		padding:0px;
+	}
+
+	.Form .header {
+		padding:3px;
+		font-weight:bold;
+		white-space:nowrap;
+	}
+
+	.Form .label {
+		padding:3px;
+		font-weight:bold;
+		color:#333;
+		white-space:nowrap;
+		text-align:right;
+		padding-right:3px;
+	}
+
+	.Form .radioLabel {
+		padding:3px 0px;
+		vertical-align:middle;
+		font-weight:bold;
+		white-space:nowrap;
+		cursor:pointer;
+	}
+
+	.Form .hint {
+		color:#666;
+	}
+	

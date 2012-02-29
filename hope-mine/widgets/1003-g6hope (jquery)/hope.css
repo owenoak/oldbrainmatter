@@ -1,0 +1,149 @@
+/********************
+ *   Generic Stuff
+ ********************/
+
+	html {
+		height:100%;
+		margin:0px; padding:0px;
+	}
+		
+	body {
+		margin:0px;
+		padding:0px;
+		width:100%; height:100%;
+	}
+	
+	ul, li {
+		margin:0px; padding:0px;
+	}
+	
+	li {
+		list-style:none;
+	}
+	
+	input {
+		font-family:inherit;
+		font-size:inherit;
+	}
+	
+	.ui-helper-hidden {
+		display:none !important;
+	}
+	
+	.NOSELECT {
+		/* stop text selection for this and items*/
+		-moz-user-select:none;  
+		-webkit-user-select:none;
+		-khtml-user-select:none;
+		user-select:none;
+		cursor:default;
+		/* end selection */
+	}
+	
+	.smaller {
+		font-size:80%;
+	}
+	
+	.bigger {
+		font-size:120%;
+	}
+	
+	
+	.subtleAnchor {
+		opacity:.75;
+		filter: alpha(opacity=75);
+		cursor:pointer;
+	}
+	
+	.subtleAnchor:hover {
+		opacity:1;
+		filter: alpha(opacity=100);
+		text-decoration:underline;
+	}
+	
+	
+	
+	/* white-backgrund inset */
+	.Inset {
+		position:relative;
+		background-color:white;
+		-moz-border-radius:8px;
+		-webkit-border-radius:8px;
+		border-style:solid;
+		border-width:1px;
+		border-color:#ccc white white #ccc;
+		background-color:white;
+		margin:4px 4px 5px 4px;
+		padding:0px;
+	}
+	
+
+	.SQUARE {
+		-moz-border-radius:0px !important;
+		-webkit-border-radius:0px !important;
+		border-radius:0px !important;
+	}
+
+	.INLINE {
+		display:inline-block;
+		#display:inline; #zoom: 1; 
+	}
+
+
+/*****************
+ *   ClickMask   *
+ *****************/
+	#ClickMask {
+		display:none;
+		position:fixed;
+		z-index:1000;
+		left:0px;top:0px;
+		width:100%;height:100%;
+		opacity:.5;
+		filter: alpha(opacity=50);
+		background:white;
+	}
+
+
+
+
+/***************
+ *   Section
+ ***************/
+
+    /* sections WIHTOUT a header should have class 'Section' */
+    .Section {
+        position:relative;
+        padding:10px;
+        -moz-border-radius:5px;
+        -webkit-border-radius:5px;
+
+        border-style:solid;
+        border-width:0 1px 1px 0px;
+    }
+    
+    /* sections WITH a header should have two elements:
+        one with class 'SectionHeader' and one with 'SectionBody' */
+    .SectionHeader {
+        font-size:1em;
+        height:15px; 
+        font-weight:bold;
+        color:black;
+        border-style:solid; 
+        border-width:0px 1px 1px 0px;
+        cursor:pointer;
+        margin:0px;
+        padding:3px 10px;
+        -moz-border-radius:5px;
+        -webkit-border-radius:5px;
+    }
+    
+    .SectionBody {
+        position:relative;
+        padding:10px;
+        border-style:solid;
+        border-width:1px;
+        -moz-border-radius:5px;
+        -webkit-border-radius:5px;
+    }
+    

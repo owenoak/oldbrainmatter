@@ -1,0 +1,359 @@
+/**********************************************************************
+	Stylesheet for statsproxy HTML display in "Gear6" mode
+
+Copyright (c) 2009-2010, Gear Six, Inc.  Subject to a BSD-style
+license whose text is available at /license.txt on this machine
+ **********************************************************************/
+
+/**************
+  page setup
+ **************/
+
+	html {
+		font-family:Verdana;
+		font-size:12px;
+		background-color:#333;
+	}
+		
+	body {
+
+/*REFACTOR		min-width:1024px; */
+	}
+	
+
+
+
+
+	
+/*REFACTOR*/	
+	/* Highlight bottom menu button (skip in IE7 due to rendering bug) */
+	html.honeycomb.Gecko	button.dark:hover,
+	html.honeycomb.WebKit   button.dark:hover,
+	html.honeycomb.MSIE8	button.dark:hover {
+		color:#9cce00;
+	}
+
+
+/*REFACTOR*/	
+	html.honeycomb #flasherShadow {
+		background-color:#9bcb00;
+	}
+
+/*REFACTOR*/	
+	html.honeycomb #flasherBody {
+		background-color:black;
+		color:#9bcb00;
+	}
+
+/*REFACTOR*/	
+	html.honeycomb #flasherClose {
+		background:url(images/round_close_green.png) no-repeat;
+	}
+
+
+
+
+
+/**************
+
+	Hide bits of the UI via CSS classes
+
+ **************/
+
+	/* "loggedIn" flag  (SP.config.role != "none") */
+	body.loggedOut .ifLoggedIn,
+	body.loggedIn .ifLoggedOut {
+		display:none !important;
+	}
+
+
+	/* "canModify" flag (SP.config.role == "modify" || "super") */
+	body.cantModify .ifCanModify,
+	body.canModify .ifCantModify {
+		display:none !important;
+	}
+	
+	/* "canCreate" flag (SP.config.role == "super") */
+	body.cantCreate .ifCanCreate,
+	body.canCreate .ifCantCreate {
+		display:none !important;
+	}
+
+	/* "canChangeRole" flag (SP.config.authorization == "enabled") */
+	body.cantChangeRole .ifCanChangeRole,
+	body.canChangeRole .ifCantChangeRole {
+		display:none !important;
+	}
+
+	/* "hasStorage" flag (SP.config.storage == "true") */
+	body.hasNoStorage .ifCanChangeRole,
+	body.hasStorage .ifCantChangeRole {
+		display:none !important;
+	}
+
+	/* "hasStorage" flag (SP.config.storage == "true") */
+	body.replicationOff .ifReplicationOn,
+	body.replicationOn .ifReplicationOff {
+		display:none !important;
+	}
+
+	/* "mode" flag -- appliance or cloud  */
+	body.inCloudMode .ifAppliance,
+	body.inApplianceMode .ifCloud {
+		display:none !important;
+	}
+	
+	/* "isGear6" flag */
+	body.isNotGear6 .ifGear6,
+	body.isGear6 .ifNotGear6 {
+		display:none !important;
+	}
+	
+
+/**************
+
+	Main portions of the UI
+
+ **************/
+
+
+	#top {	  /* top section with logo, tabs */
+		margin:0px;
+		margin-right:10px;
+		height:40px;
+		overflow:visible;
+	}
+	
+	#main {	 /* contains main UI */
+		z-index:10;
+		position:relative;
+		position:relative;
+		margin:0px 8px 0px 8px;
+		min-height:50%;
+		-moz-border-radius:13px;
+		-webkit-border-radius:13px;
+		border-style:solid;
+
+		border-width:2px;
+		border-color:black #666 #666 black;
+		background-color:#333;
+		background-image:url(images/honeycomb/main_bg_strong.png);
+	}
+
+	#bottom {   /* bottom section w/links and buttons */
+		height:25px;
+		margin:10px 10px 5px 10px;
+		vertical-align:bottom;
+	}
+
+
+	/* outer element which contains all of the serviceViews */
+	#overview {
+		position:relative;
+		z-index:1;
+		overflow:visible;
+		margin:10px 10px 2px 10px;
+	}
+
+
+	/* outer element which contains all of the stats tables */
+	#pageContainer {
+		position:relative;
+		z-index:0;
+		overflow:visible;
+		margin:0px 8px 8px 8px;
+	}
+	
+	.MSIE7 #pageContainer {
+		padding-bottom:1px;
+	}
+
+	#statsDisplayTable {
+		width:100%;
+		table-layout:fixed;
+	}
+
+	#leftColumnContainer {
+		width:178px;
+		vertical-align:top;
+	}
+	
+	#rightColumnContainer {
+		width:100%;
+		vertical-align:top;
+	}
+
+	#leftColumn {   /* left part which shows the list of views */
+		position:relative;
+		width:170px;
+	}
+
+	#rightColumn {  /* right section which shows stats or traffic */
+		position:relative;
+	}
+
+	/* container of the stats tables sections */
+	#statsTablesOuter {
+		position:relative;
+		display:none;
+		z-index:0;
+	}
+	
+	/* main (left column) stats window */
+	#statsMainWindow {
+		margin-bottom:10px;
+		margin-right:10px;
+	}
+
+
+	/* right column stats window -- only shows for some stats */
+	#statsRightWindow {
+	}
+	#statsTablesOuter[rightwindow=false] #statsRightWindow {
+		display:none;
+	}
+	
+	/* bottom stats window -- for keys/clients */
+	#statsBottomWindow {
+		margin-top:10px;
+	}
+	#statsTablesOuter[bottomwindow=false] #statsBottomWindow {
+		Xdisplay:none;
+	}
+
+	/* container of the traffic chart section */
+	#trafficWindow {
+		display:none;
+		position:relative;
+		left:0px; right:0px;
+		height:424px;   /* HACK -- change this if the height of the ViewSelector changes */
+		margin:0px;
+		overflow:hidden;
+	}
+
+
+/*******************
+ *   top section   *
+ *******************/
+ 
+	#top table {
+		width:100%;
+		height:100%;
+		border-spacing:0px;
+	}
+
+	#top table td {
+		vertical-align:middle;
+	}
+
+	/* app name and logo graphic */
+	#logo {
+		position:relative;
+		display:inline-block;
+		#display:inline; #zoom: 1; 
+		background:url(images/logo.png) no-repeat;
+		height:25px;
+		width:70px;
+		margin-left:15px; margin-top:3px;
+	}
+
+	/* app name and logo graphic */
+	#appname {
+		color:white;
+		font-weight:bold;
+		padding-left:10px;
+		padding-right:20px;
+		white-space:nowrap;
+	}
+
+	#supportButtonContainer {
+		padding-right:5px;
+	}
+
+	#roleMenuContainer {
+		padding-right:5px;
+	}
+
+	body.loggedOut #roleMenuButton {
+		color:#9cce00;
+	}
+
+
+
+/**********************
+ *   bottom section   *
+ **********************/
+
+
+	#bottom td {
+		color:#999;
+		white-space:nowrap;
+		padding-right:10px;
+		vertical-align:middle;
+	}
+
+	#bottom .label,
+	#bottom .value,
+	#bottom A {
+		padding-left:5px;
+		padding-right:5px;
+		font-size:85%;
+	}
+
+
+	#bottom .label {}
+
+	#bottom .value {
+		color:#ccc;
+	}
+
+	#bottom A {
+		color: #999 !important;
+		text-decoration:none;
+	}
+
+	#bottom A:hover {
+		text-decoration:underline;
+	}
+	
+	#bottom #lastRefreshContainer {
+		white-space:nowrap;
+		width:100%;
+	}
+
+	#bottom #lastRefreshContainer span {
+		white-space:nowrap;
+	}
+
+	#bottom #.acknowledgementsContainer {
+		width:100%;
+		text-align:right;
+	}
+
+
+
+
+/*************
+ *   menus   *
+ *************/
+
+	#roleMenu {
+		margin-right:5px;
+		width: 150px;
+	}
+
+	.MSIE7 #roleMenu {
+		padding-left:0px !important;
+		padding-right:0px !important;
+	}
+
+	#refreshMenu {
+		width: 120px;
+		padding:5px 0px;
+	}
+
+	#refreshMenu .MenuItem {
+		text-align:right;
+		padding-right:1.5em;
+	}
+	

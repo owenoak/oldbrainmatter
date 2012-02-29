@@ -1,0 +1,40 @@
+Notes from class example:
+
+ * Need easy way to set base directories
+ 	- <base/> ?
+ 	- for:  standard libraries/classes, themes
+ * How/when to get class parser auto-loading?
+ * How/when to get template expander to work?
+ 	
+ * Need compact way to say "load a bunch of files"
+		<script src='../../scripts/hope.js'></script>
+		<script src='../../scripts/Template.js'></script>
+		<script src='../../scripts/hope.js'></script>
+		<script src='../../scripts/ClassParser.js'></script>
+		<script src='../../scripts/SmartJS.js'></script>
+		<script src='../../scripts/Control.js'></script>
+		<class src='../../scripts/controls.classes'></class>
+	- "standard" hope libs?
+
+* arrays -- ADD TO ARRAY?
+	- shuffle()
+	- next()
+	- remove()
+
+* need to do reverse case sensitive map for <property>s
+* parsing in page -- how to get around FF not doing unary tags properly?
+* want to be able to add script directly to an object when creating it
+* wierd nesting issues with <cardgame><table><pile></></></>
+* need better debugging when functons are being initialized
+	-- catch exceptions when setting script and show lines around problem area
+* child initializing: 
+	- defered child init is nice, but it seems wierd to set things up after draw()
+* templates are not inheriting (think CardPile and CardStockPile)
+
+* really want a debugging control panel
+	- turn on/off debugging/timing for things in a cookie
+* 
+
+
+CARD SPECIFIC STUFF:
+ * how to do cardOffset with CSS only?

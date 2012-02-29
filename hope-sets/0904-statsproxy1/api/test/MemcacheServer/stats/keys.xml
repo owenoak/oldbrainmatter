@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+	<result>OK</result>
+	<data>
+		<memcachedKeys 
+			client='1.1.1.2:37871'
+			service="php"
+			server="10.3.6.236:11211" 
+			proxy="10.3.6.236:8080" 
+			time="2009-11-11T13:27:18PST"
+			v="2" 
+		>
+			<key>
+				<rank>1</rank>
+				<value>somekey</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>
+		
+			<key>
+				<rank>2</rank>
+				<value>someotherkey</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>3</rank>
+				<value>yetanotherkey</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>3</rank>
+				<value>key:with/strange|characters</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+			<key>
+				<rank>4</rank>
+				<value>keyWithAReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyReallyLongName</value>
+				<length>7</length>
+				<gets>128</gets>
+				<sets>431</sets>
+				<all>559</all>
+				<total units='MB'>12</total>
+				<reads units='MB'>8</reads>
+				<writes units='MB'>4</writes>
+			</key>	
+		</memcachedKeys>
+	</data>
+</response>

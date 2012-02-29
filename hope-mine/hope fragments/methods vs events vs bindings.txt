@@ -1,0 +1,57 @@
+Methods vs. Events vs Bindings
+
+Methods == expected code paths
+Setters == special property setters
+Events	== UI or other made up events (eg: change)
+Binding == binding property of one object to value of another
+	
+
+What do we want?
+	- Methods:
+		- expected, normal code paths
+		- easy super(), incl. to mixins
+			- mixins need a way to stick their stuff in there
+			? from english, assume auto-super() at function start unless explicitly override='no' ?
+		- some methods define events (eg: draw) which generally fire AFTER the method of the same name
+		- setXXX is a setter, can use set() to execute
+			- on class instantiation
+				- setters are installed first
+				- prototype.set() is called for each property
+				- change events are NOT fired
+			- on object instantiation
+				- setters are installed first
+				- prototype.set() is called for each property
+				- change events are NOT fired
+			- on normal set(x)
+				- setters are ignored
+				- change events ARE fired
+	
+	
+	- Events:
+		- user events or well-known events from the system (eg: change, draw)
+		- event handlers always start with "on", eg "onDraw" and are case sensitive
+		- quick, smart observe
+		- events bubble up through the containment heirarchy if not caught
+		- events must be explicilty passed if caught
+		- classes notify which events they broadcast in their declaration
+		- subclasses and instances should generally use method overrides rather than events
+
+
+	- Bind:
+		- either explicitly specify property to bind to "change" event of another thing:
+			<bind property='foo' to='propertyExpression' />
+			
+		- or bind on change of something else to execute concrete script:
+			<bind to='propertyExpression'>
+				...code to execute on change...
+			</bind>
+
+		- propertyExpression is <property> of <thing> or just <thing> for all change events on thing
+		- bindings are automatically executed on setup as well as on change
+
+
+
+Classes and Mixins
+	- mixin methods MUST be static
+	- mixins do NOT know which classes they have been 
+	- classes know a

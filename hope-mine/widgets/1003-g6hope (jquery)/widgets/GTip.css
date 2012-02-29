@@ -1,0 +1,32 @@
+/************************************
+*   GTip -- super simple tooltip   *
+************************************/
+
+#GTip {
+	position:absolute;
+}
+
+.GTipBorder {
+	position:absolute;
+	left:2px; width:100%;
+	top:2px;  height:100%;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	opacity:.7;
+	filter: alpha(opacity=70);
+}
+
+.GTipBody {
+	white-space:nowrap;
+	font-size:.8em;
+	line-height:1.5em;
+	background-color:#FCF2C2;
+	border:1px solid;
+	border-color:#ccc #333 #333 #ccc;
+	margin:5px;
+	padding:3px 5px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+	-moz-box-shadow:5px 5px 10px rgba(0,0,0,.8);
+	-webkit-box-shadow:5px 5px 10px rgba(0,0,0,.8);
+}

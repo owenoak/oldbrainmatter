@@ -1,0 +1,97 @@
+Compiler Plan Again
+
+- Get basic front end and back end xml compiler working
+	- 'file' abstraction for browser and JS
+	- 'script' abstraction for loading
+	- our own XML parsing, based on chop
+		- put line numbers in the output
+	- 'opaque' tags (html, template, etc)
+
+- Compile the XML into JS ClassInfo, PropertyInfo, etc 
+	- XXXInfo aren't hope.classes for expediency (?)
+	- can load these quickly and efficiently
+	- count on having the ClassInfo for supers, etc when you compile classes
+	- count on having the ClassInfo for all base classes when compiling apps
+	- recompile dependents when changing a base class
+		(won't happen much at runtime)
+
+- Compile the ClassInfo into hope.Classes for runtime
+
+- Save pattern:
+	- have ClassInfo (at least property subset?) in memory when editing
+	- changes are:
+		- packaged as 'deltas' in realtime
+		- update the xml
+		- recompile
+
+
+ASSUMPTIONS
+	- at this point, assume when we're compiling that we can load quickly (or already have in memory)
+	- have a manifest structure so loading files is very quick (so we can block on load?)
+	- dependencies are injected via the compiler process
+	- 
+
+
+TO FIGURE
+	- how do we embed a reference to a control from another context, 
+		eg: the memcacheServerMenuButton in the StatsTable
+			- have a manifest structure so loading files is very quick (so we can block on load?)
+	- 'reference to xxx'?
+		- just name or id expression, etc?
+
+	- method vs. command vs. 'on'
+		
+	- how will dependency mapping work?
+		- maybe make a package per app, divide files into tags per page?
+		- work with html5 manifests?
+		
+
+
+
+We need to describe classes:
+	- for the compiler to work
+	- to edit them effectively and automatically
+	- for auto-documentation
+	
+	What do we need to store?
+		- class
+			- super
+			- mixins
+			- class methods/props?
+			
+		- properties
+			- name
+			- type(s)
+			- default
+			- required
+			- save?
+			- docs
+			- group (tags?)
+			- getter?  setter?
+			- src (where the property was (last) defined)
+			- class (class where this was (last) defined)
+			
+		- methods
+			- name
+			- arguments
+			- return type
+			- docs
+			- group (tags?)
+			- src (where the method was (last) defined)
+			- class (class where this was (last) defined)
+
+	- Since classes inherit, description should also inherit
+	- Description must be very lightweight so it can be loaded quickly
+	? Load this at runtime in edit mode?
+
+
+
+How will we compile?
+	- Assumptions
+		- compilation occurs on the back end OR the front end
+			- if on front end, may not keep all bits of the compile
+		- efficient re-compile semantics
+		- compiled lives away from code
+			- so we can search
+			- so we can blow away compiled easily
+		- can have intermediate compilation steps, like class.info

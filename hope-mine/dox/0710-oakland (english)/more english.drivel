@@ -1,0 +1,108 @@
+
+- stack/card metaphor applied to any data set
+	- one business card vs a set of cards
+		- at least three views
+			- lister (finder?)
+			- viewer
+			- editor
+		- maybe the above are panel classes?
+
+- HC backgrounds = themes for pages
+	- set of panels, css, colors, scripts, etc
+	- theme has it sown logic
+- users and groups for access control (see OpenPortal CL)
+
+- authentication events for site/app/page
+	- accessible if preference is true
+	- "policy" 
+	
+- note that when we're looking up variables and references, "this" is implicit...
+
+
+logical: <ref> is <property>		-- 	check a boolean property and return true
+
+
+
+class definition syntax:
+	class FooBar is a This and a That and a Other
+		on blarg
+			-- instance method		
+		end blarg
+	end class
+
+	a Foobar is a This and a That and an Other 
+		on blarg
+			-- instance method		
+		end blarg
+	end Foobar
+
+ -- how to do a class method?  necessary?
+ 		on Foobar blah
+
+control structures match the beginning of a line
+if we can't match a control structure, try to match a command
+command & identifiers can be multiple words -- translates into camelCase in JS
+
+all 'commands' go into a word-trie (wry? wrie?)
+	when we can't match a control structure, try to match a command acoording to the token on the first line
+
+when <this> changes[,] [tell] <it> <message with params>
+when the page size changes, tell the message list to resize to width of page
+
+
+command definitions are either generic (duck typing) 
+		or specific to one or more classes
+		
+
+
+"\n\s+or" and "\n\s+and" as line start indicators (implicit ¬)
+	if blah blah blah
+		or blah blah then
+			double blah
+	end if
+
+
+goal is to keep adding parsing rules until we cant add no mo
+
+the parse tree is a data structure in and off itself, which gets added to
+	- when you add, you put in the token number
+	- all matched and named identifiers are added to a scope
+	- parse tree gets the JS as well as the english
+
+instead of creating JS objects, we create data in XML
+and bind it to a client JS object via flyweight pattern (links to and fro from XML object)
+
+scope is key
+	-- in JS, scope is "this" and its parent heirarchy
+	- in a reference, if you say "the something" we look for that in this object and parent chain
+		and peers of both of those
+
+if <that> is dragged over me add class dragHilite
+	-- better "when <that> is ..." ?  synonyms?
+
+
+- some things like class definition, etc also seem like they could be forced to 
+	the beginnng of the line to cut down the number of things to match at any given time
+
+- if a word can't be parsed, do a thesaurus lookup and use that to suggest alternates
+ 		(ala google spell suggest)
+ 
+- have a canonical set of mappers for each word
+		- the is a single "thesaurus" that everyone can use once it's been mapped once
+		- make that super easy, with a more tortuous way to look up further details
+	- have a site which hosts these canonical objects
+		assume that we're looking there for in realtime as we program to find the canoncicals
+	- this is also the site for folks who don't want to host their own to use to publish
+	- encourage folks (recongnition? points? pay?) to post wrappers there, with moderation
+
+- if we assume they are editing in our editor, 
+	we can compile as they go, then save both the english & compiled at the same time
+	- thus no separate compilation step
+
+- is it possible to use duck typing for everything?
+
+-- 	when loading
+	
+	end loading
+
+-- add properties of someObject to anotherObject

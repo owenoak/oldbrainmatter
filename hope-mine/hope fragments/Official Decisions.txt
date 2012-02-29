@@ -1,0 +1,73 @@
+====================
+ Official Decisions
+====================
+
+* Target is WebKit 4+ & Gecko 3.6+  ONLY
+	- IE9 is a 'well see', IE8 is a definite no
+
+
+* We're building on our own library base
+	- jQuery/etc are too opaque
+	- don't need the browser hack cruft
+	- want to build as much up from first principles as possible
+
+
+* Classes and globals:
+	- Modifying top-level objects (Element, String, etc) directly is OK
+	- Everything else goes on hope
+	- hope.<Class>, hope.<Mixin>,  hope.as("<Class>|<Mixin>", [method], argsArray)
+	- custom elements are hope elements by default
+	- can have custom packages: gear6.MemcacheServer, <gear6:MemcacheServer />
+	- classes don't have to worry too much about meta-info or saving
+		- we'll use ClassInfo objects for that (?)
+	- mixin methods apply BEFORE class-defined methods
+		- classes know which mixins they implement, mixins do not
+		- this way mixin methods are static
+
+
+* Case sensitive (for now at least)
+	- classes    are UpperCamel (TagName, CssClass, FileName)
+	- properties are lowerCamel (tagName, cssClass, fileName)
+	- abbreviations stay UPPERCASE (CSSClass)
+	- do NOT try to do the multi-space-name thing, just camelCase
+	- do NOT worry about aliases, just pick good names for things
+
+* Drawing particulars
+	- 
+
+* Work on the compiler first, except for:
+	- hope
+	- browser object extension (Element, etc)
+	- compiler/ClassInfo/etc
+
+	- if you don't want to work on the compiler, work on Element, Events, etc
+
+
+* JS Code semantics
+	- //! for doc comment (if starts line, until non-comment line, if inline, that line only)
+	- setXXX, all setting through set()
+	- onXXX == <on event='XXX'/> == auto-set up (via set)
+	- assume we always super, except for set()s
+	- use getters/setters where it feels natural
+
+
+* Naming semantics
+	- 'parent' is called 'container' 	(even in Element?)
+	- 'children' are 'items'			(even in Element?)
+	- 'controller' is a hope object which manipulates elements
+	- 
+
+
+
+Things I Know:
+	1)  Things are loaded from Files
+	2)  More than one thing may be in a given file
+	3)  Files are organized into packages and groups
+	4)  Files may belong to more than one group
+	5)  We don't want to load a thing's definition twice when loading two groups
+	6)  We want to be able to load the XML directly, for development and for editing  (????)
+	7)  We want to be able to load compiled JS for production (but still may need the XML if we edit)
+	8)  URL is as relevant a primary key as anything else (think email as account name)
+	9)  we want to be able to save as quickly as possible
+	10) we don't want to have to have a back-end process to just load (???)
+	11) if 'compiling' on the server, we can at least SEE what the compiled code did by inspecting scripts in the browser

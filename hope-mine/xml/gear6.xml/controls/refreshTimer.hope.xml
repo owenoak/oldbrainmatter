@@ -1,0 +1,7 @@
+<timer name='refreshTimer' continuous='yes'>
+	<docs>Global refresh timer for the statsproxy app.</docs>
+	<bind property='interval' to='preference "refresh delay"' />
+	<on event='activate'>
+		tell the app to refresh
+	</on>
+</timer>

@@ -1,0 +1,339 @@
+if (window.k0 == null) window.k0 = {}
+
+k0.util = {
+/*
+		os:"Win",
+		ua : "IE",
+		v : "6",
+		name : "ie6"
+*/
+// should the above comment be removed from the deployed script? to save bandwidth? (v)
+	sniffBrowser : function() {
+		if (k0.util.browser) return k0.util.browser;
+		
+		var ua = navigator.userAgent,
+			vers = navigator.appVersion,
+			k0b = k0.util.browser = {}
+		;
+		
+		k0b.vers = parseFloat(vers);
+		
+		if (vers.indexOf("Macintosh") >= 0) k0b.os = "Mac";		
+		else if (vers.indexOf("Windows") == -1) k0b.os = "Other";
+		else k0b.os = "Win";
+		
+		if (ua.indexOf("Opera") >= 0) k0b.ua = "Opera";
+		else if (vers.indexOf("KHTML") >= 0) k0b.ua = "Safari";
+		else if (ua.indexOf("Gecko")) k0b.ua = "Gecko";
+		if (document.all && k0b.ua != "Opera") k0b.ua = "IE";
+		
+		if (k0b.ua == "IE") {
+			k0b.vers = parseFloat(vers.substr(vers.indexOf("MSIE ")+5));
+		}
+		k0b.vers = parseInt((""+k0b.vers).split(".").join(""));
+		k0b.name = k0b.ua + k0b.vers;
+
+		return k0b;
+	},
+	
+	addUAClasses : function(el) {
+		var browser = k0.util.sniffBrowser();
+		name = " k0_os_"+browser.os
+			  + " k0_ua_"+browser.ua
+			  + " k0_ua_"+browser.name;
+		if (browser.ua == "IE" && browser.vers < 7) name += " k0_ua_"+browser.ua+"7-";
+		el.className = el.className + name;
+//alert(el.className); // good place for a debug call? (v)
+	},
+
+	drag: function (event, id)
+	{
+		var el = k0.util.byId(id);
+//		var originalPosition = k0.util.getComputedStyle(el, "position");
+//		el.style.position = "absolute";
+//		el.style.right = '';
+//		el.style.bottom = '';
+
+		k0.document_body.ondrag = function () { return false; };
+		k0.document_body.onselectstart = function () { return false; };
+
+		event = event || window.event;
+
+		var deltaX = k0.util.offsetX(el) - event.clientX,
+			deltaY = k0.util.offsetY(el) - event.clientY,
+
+			startLeft = parseInt(k0.util.getComputedStyle(el, "left")),
+			startTop = parseInt(k0.util.getComputedStyle(el, "top")),
+
+			startX = event.clientX,
+			startY = event.clientY
+		;
+		
+		document.onmousemove = function(event) {		
+			event = event || window.event;
+			el.style.left = (startLeft + (event.clientX - startX)) + 'px';
+			el.style.top = startTop + (event.clientY - startY) + 'px';
+
+		};		
+		
+		/*
+		document.onmousemove = function(event) {		
+			event = event || window.event;
+
+			el.style.left = parseInt(event.clientX) + deltaX + 'px';
+			el.style.top = parseInt(event.clientY) + deltaY + 'px';
+		};
+		*/
+
+		document.onmouseup = function(event) {
+			k0.document_body.ondrag = null;
+			k0.document_body.onselectstart = null;
+			document.onmousemove = null;
+			document.onmouseup = null;
+
+//			el.style.position = originalPosition;
+		};
+	},
+	
+	byId: function(element)
+	{
+		return (typeof(element) == "string") ? document.getElementById(element) : element;
+	},
+	
+	listenFor: function (object, callback)
+	{
+		if (eval(object) != undefined)
+			try {
+				return callback();
+			} catch (err) {
+				if (window.console) console.log(err);
+			}
+		else
+			setTimeout(function () { k0.util.listenFor(object, callback); }, 200);
+	},
+	
+	createElement: function (type, attributes)
+	{
+		var element = document.createElement(type);
+		for (var attribute in attributes) {
+			if (attribute == "style") {
+				var styles = attributes[attribute].split(";");
+				for (var i = 0; i < styles.length; i++) {
+					var it = styles[i].split(":");
+					element.style[it[0]] = it[1];
+				}
+			} else {
+				var value = (attribute.match(/(class|id)/) && !attributes[attribute].match(RegExp("^"+k0.prefix, "i")) ? k0.prefix : '')+attributes[attribute];
+				element.setAttribute(attribute, value);
+				if (attribute == "class")
+					element.className = value;
+			}
+		}
+		return element;
+	},
+
+	offsetX: function (target) // Untested. Confirm. (v)
+	{
+		if (target.getBoundingClientRect) {
+			return target.getBoundingClientRect().left;
+		} else if (target.offsetParent)
+			return target.offsetLeft + k0.util.offsetX(target.offsetParent);
+		else if (target.x) 
+			return target.x;
+		else
+			return 0;
+	},
+	
+	offsetY: function (target) // Untested. Confirm. (v)
+	{
+		if (target.getBoundingClientRect) {
+			return target.getBoundingClientRect().top;
+		} else if (target.offsetParent)
+			return target.offsetTop + k0.util.offsetY(target.offsetParent);
+		else if (target.y) 
+			return target.y;
+		else
+			return 0;
+	},
+	
+	toSelectorCase : function (selector)
+	{
+		// adapted from dojo.html.toSelectorCase (o)
+		 return selector.replace(/([A-Z])/g, "-$1" ).toLowerCase();  //  string (o)
+	},
+	
+	getComputedStyle : function (element, property, defaultValue)
+	{
+		// adapted from dojo.html.getComputedStyle (o)
+		element = k0.util.byId(element);
+		if (!element || !element.style){
+			return defaultValue;
+		}
+		
+		var propInSelectorCase = k0.util.toSelectorCase(property);
+		if (document.defaultView){ // W3, gecko, KHTML
+			try{
+				// mozilla segfaults when margin-* and element is removed from doc
+				// FIXME: need to figure out a if there is quicker workaround
+				var cs = document.defaultView.getComputedStyle(element, "");
+				if(cs){
+					return cs.getPropertyValue(propInSelectorCase);
+				} 
+			}catch(err){}
+		} else if (element.currentStyle) { // IE
+			return element.currentStyle[property];
+		}
+		
+		if (element.style.getPropertyValue) { // W3
+			return element.style.getPropertyValue(propInSelectorCase);
+		} else {
+			return defaultValue;
+		}
+	},
+	
+	getDimensions : function(element, props) {
+		var values = {};
+		for (var i = 0, prop; prop = props[i]; i++) {
+			var units = "px";
+			if (prop.charAt(prop.length-1) == "%") {
+				units = "%";
+				prop = prop.substr(0, prop.length-1);
+			}
+			values[prop] = this.getDimension(element, prop, units) + units;
+		}
+		return values;
+	},
+	
+	getDimension : function(element, prop, units)
+	{
+		// TODO: take scrolling into account (o)
+		var value;
+		
+		if (prop == "left" && element.offsetLeft) {
+			value = element.offsetLeft;
+		} else if (prop == "top" && element.offsetTop) {
+			value = element.offsetTop;
+		} else {
+			value = k0.util.getComputedStyle(element, prop, 0);
+		}
+		if (value == null) return null;
+
+		if (value == "auto") value = 0;	///XXX THIS IS DEFINITELY NOT OPTIMAL
+		else value = parseInt(value);
+		
+		if (units != "%") {
+			return value;
+			
+		} else {
+			switch (prop) {
+				case "left":
+				case "right":
+				case "width":
+					var percentValue = k0.document_body.clientWidth;
+					break;
+					
+				case "top":
+				case "bottom":
+				case "height":
+					var percentValue = k0.document_body.clientHeight;
+					break;
+				
+				default:
+					k0.util.debug("percent units not valid for property " + prop);
+					return value;
+			}
+
+			return Math.round((value / percentValue) * 100)
+		}
+	},	
+	
+	trim: function (string, s)
+	{
+		return string.replace(RegExp("^"+(s || "\s")+"+"), '').replace(RegExp((s || "\s")+"+$"), '');
+	},
+	
+	addTimestamp : function(url) {
+		return url + (url.indexOf("?") == -1 ? "?" : "&") + "k0_ts=" + new Date().getTime();
+	},
+	
+	loadStylesheet: function (url)
+	{
+		if (k0.debugging) 	url = k0.util.addTimestamp(url);	
+
+		if (document.createStyleSheet) {
+			document.createStyleSheet(url);
+		} else {
+			var styles = "@import url(' "+url+" ');";
+			var newSS=document.createElement('link');
+			newSS.rel='stylesheet';
+			newSS.href='data:text/css,'+escape(styles);
+			document.getElementsByTagName("head")[0].appendChild(newSS);
+		}
+	},
+	
+	_findClass : function (element, name)
+	{
+		for (var list = element.className.split(" "), i = 0; i < list.length; i++) {
+			if (list[i] == name) return i;
+		} 
+		return -1;
+	},
+	
+	addClass : function (element, name)
+	{
+		element = k0.util.byId(element);
+		var index = k0.util._findClass(element, name);
+		var newClass = element.className.split(" ");
+		if (index == -1) {
+			newClass.push(name);
+		} else {
+			newClass[index] = name;
+		}
+		element.className = newClass.join(" ");
+	},
+	
+	removeClass : function (element, name)
+	{
+		element = k0.util.byId(element);
+		var index = k0.util._findClass(element, name);
+		if (index == -1) return;
+
+		var newClass = element.className.split(" ");
+		newClass.splice(index, 1);
+		element.className = newClass.join(" ");
+	},
+	
+	disable : function(element)
+	{
+		k0.util.removeClass(element, "k0_enabled");	
+	},
+	
+	enable : function(element)
+	{
+		k0.util.addClass(element, "k0_enabled");	
+	},
+	
+	// debugging does this work in safari? (v)
+	// doesn't work in IE* (v)
+	debug: function (string)
+	{
+		if (k0.util.debugging == true) {
+			if (window.console && window.console.log) {
+				window.console.log(string);
+			} else {
+				k0.util.debugging = confirm(string);
+			}
+		}
+	},
+	
+	debugObject : function(obj) {
+		var output = ["{"];
+		for (var prop in obj) {
+			output.push([prop, ":", obj[prop]].join(""));
+		}
+		output.push("}");
+		k0.util.debug(output.join(" "));
+	}	
+};
+
+k0.util.sniffBrowser();

@@ -1,0 +1,58 @@
+byNamespace
+	- get all full start and end tags
+	- use a stack to process starts and ends
+	
+
+
+template semantics
+	- need to make sure certain things are always set on the outer node for a template replacement
+		- id, _rendered, _control, etc
+	- need to have a way to replace inner HTML of template sometimes, but sometimes think of outerHTML
+	
+	-> each template has a 'tagName' property (default = 'div')
+		when we expand the template, we start by creating an outer node with that tagname
+		**and any attributes that the template has?  only some?**
+		then the template is really the innerHTML
+	
+	-> special logic to handle 'table' and 'tr' and 'td' templates and insert into a table
+
+
+
+specification of objects:
+	<hope:Page id='' ...>
+		<hope:TabPanel id='' ...>
+			<hope:Panel id='english' src='foo.html'/>
+			<hope:Panel id='parsed' src='foo.html'/>
+			<hope:Panel id='rules' src='foo.html'/>
+		</hope:TabPanel>
+	</hope:Page>
+
+
+
+instantiation pattern for controls
+	- on parse
+		- find all hope elements in the page from the outside
+		- for each element
+			- instantiate a Class instance of the proper type (what if can't find one?)
+			- for each child element
+				- instantiate child with parent set
+				- ? parent callback after create of child to munge properties?
+			- get html contents of node to insert later
+	
+	- on draw
+		- get pointer to node outer element from HTML
+		- if not same type as template.tagName, replace with new node (including HTML)
+		- set id of outer node
+		- set any properties from template tag (including expanding props)
+			- have default "style" and "className" application? assumes templates are HTML only?
+			- have this in the class somewhere?
+		- set the innerhtml
+		- recurse for children?
+
+OPEN
+	- how to specify dynamic IDs (eg: for composed controls) where you want 
+		to be attached to the ID of your parent? 
+			- id='${parent.id}_foo' ???
+	- how to make tags not case senstitive?
+			- for each class instantiated, have a Class variable which has lc version
+			- also a way to have aliases...

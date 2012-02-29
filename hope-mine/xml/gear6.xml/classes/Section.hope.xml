@@ -1,0 +1,13 @@
+<class name='Section' isA='Drawable'>
+	<layout type='directonal'>
+		<container name='top'>
+			my control 'header'
+		</container>
+		<container name='body'>
+			my control 'main'
+		</container>
+		<container name='bottom'>
+			my control 'footer'
+		</container>
+	</layout>
+</class>

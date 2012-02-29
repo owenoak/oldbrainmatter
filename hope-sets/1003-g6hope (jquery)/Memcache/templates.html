@@ -1,0 +1,100 @@
+<script type='template' id='MemcacheServiceView' style='display:none'>
+	<div class='Window ServiceView MemcacheServiceView' style='display:none' drawer='closed'>
+		<div class='Header NOSELECT'>
+			<div>
+				<span onclick='#{getReference()}.toggleCollapse()' class='Expander'>
+					<span class='label ifPool'>#{message:service.memcachePool.title}</span>
+					<span class='label ifService'>#{message:service.memcacheService.title}</span>
+					<span class='title' part='service.name'></span>
+					<span class='hint ifPool' part='serverCountMessage()'></span>
+				</span>
+				<span class='clippyContainer' tooltip='#{message:UI.copyIpsToClipboard}'></span>
+			</div>
+			<div class='UsageGraph ifPool' part='tooltip|_graph.hint'
+					><div class='used' part='css:width|_graph.usedPercent'></div
+					><div class='title' part='_graph.label'></div
+			></div>
+		</div>
+		<div class='Body Container'></div>
+		<div class='Bottom'>
+			<div class='Drawer' style='display:none'>
+				<div class='Inset Inset formContainer'></div>
+			</div>
+			<div class='BottomTabBar ifCloud'>
+				<a class='WindowBottomTab BottomTab AddIcon addServersFormTab ifCanModify NOSELECT'
+				   onclick='#{getReference()}.toggleDrawer("addServersForm")' >
+				   		#{message:service.addServers.title}
+				</a>
+			    <!-- REFACTOR: suppress rename tab for 2.3.7, until we can implement it correctly-->
+				<a class='WindowBottomTab BottomTab PencilIcon renameServiceFormTab ifCanModify NOSELECT'
+				   onclick='#{getReference()}.toggleDrawer("renameServiceForm")' >
+				   		#{message:service.renameService.title}
+				</a>
+<!--			    -->
+			</div>
+		</div>
+	</div>
+</script><!-- MemcacheServiceView -->
+
+
+<script type='template' id='MemcacheServersTemplate' style='display:none'>
+	<table class='ServersTable'>
+		#{_serversHTML}
+	</table>
+</script>
+
+<script type='template' id='MemcacheServerTemplate' style='display:none'>
+	<tr class='MemcacheServer #{_selected}' memcacheState='#{memcacheState}' server='#{getIdentifier()}' 
+		rehashing='#{rehashState}' reporter='#{reporterStatus}' status='#{status}' showPublicIp='#{_showPublicIp}'>
+		<td class='infoCell'><div class='info' tooltip='#{_info}'></div></td>
+		<td class='ip' onclick='MemcacheController.selectAndGo(#{getReference()})'>
+			<span class='ipValue value' tooltip='#{message:instance.ip.hint}'>#{ip}</span>
+		</td>
+		<td class='publicIp' onclick='MemcacheController.selectAndGo(#{getReference()})'>
+			<label class='ifHasPublicIp'>/&nbsp;</label>
+			<span class='value ifHasPublicIp' tooltip='#{message:instance.publicIp.hint}'>#{publicIp}</span>
+		</td>
+		<td class='status'><label class='value'>#{_statusTitle}</label></td>
+		<td class='memcacheState'>
+			<label class='value'>#{_memcacheStateTitle}</label>
+		</td>
+		<td class='rehash'>
+			<div class='UsageGraph rehashGraph ifRehashing'
+				><div class='used' style='width:#{rehashPercent}%'></div
+				><div class='title'>#{getRehashMessage()}</div
+			></div>								
+			</div>
+		</td>
+		<td class='memory'>
+				<div class='UsageGraph' tooltip='#{graph.hint}'
+					><div class='used' style='width:#{graph.usedPercent}'></div
+					><div class='title'>#{graph.label}</div
+				></div>
+		</td>
+		<td class='reporter ifAppliance ifReporterModify'>
+			<a tooltip='#{message:instance.actions.reporter.hint}' 
+				class='reporterLink subtleAnchor NOSELECT ifCanModify ifReporterModify' 
+				onclick='MemcacheController.toggleReporter(#{getReference()})'
+			>
+					#{_reporterTitle}
+			</a>
+			<span class='reporterMessage ifAppliance ifReporterView'>#{_reporterTitle}</span>
+		</td>
+		<td class='shutDown ifCanCreate ifCloud'>
+			<a tooltip='#{message:instance.actions.stop.hint}' 
+				class='shutDownLink subtleAnchor NOSELECT ifCanCreate' 
+				onclick='MemcacheController.stopInstance(#{getReference()})'
+			>
+					#{message:instance.actions.stop.title}
+			</a>
+		</td>
+		<td class='detach ifCanModify ifCloud ifPool'>
+			<a tooltip='#{message:instance.actions.detach.hint}' 
+				class='detachLink subtleAnchor NOSELECT ifCanModify' 
+				onclick='MemcacheController.detachInstance(#{getReference()})'
+			>
+				#{message:instance.actions.detach.title}
+			</a>
+		</td>
+	</tr>
+</script>

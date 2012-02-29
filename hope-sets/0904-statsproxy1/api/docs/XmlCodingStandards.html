@@ -1,0 +1,219 @@
+<html>
+<head>
+	<title>Request/Response XML Coding Standards</title>
+	<link type="text/css" rel="stylesheet" href="support.css">
+	<!-- load jquery from jQuery's CDN -->
+	<script src='http://code.jquery.com/jquery-latest.js'></script>
+	<script src='support.js'></script>
+</head>
+<body>
+	<h3>Request/Response XML Coding Standards</h3>
+	<ol class='CodingStandards'>
+		<li> ALL xml elements MUST BE camelCaseWithInitalCapLower.
+			<textarea class='example'>
+				<request>, <memcacheConfig>, <reporterStatus>
+			</textarea>
+		</li>
+
+		<li> ALL xml element attribute names MUST BE camelCaseWithInitalCapLower.
+			<textarea class='example'>
+				<memcacheConfig time="2009-04-29 00:41:22" applicationName="ServiceController">
+			</textarea>
+		</li>
+		
+		<li>Requests to the server with one or two variables that can be cleanly encoded in REST url style SHOULD use a REST url and SHOULD omit a request body.
+
+			<textarea class='example'>
+				/api/ServiceController/latest/stop/#{ips}
+			</textarea>
+		</li>
+
+		<li>Requests to the server with a significant number of variables or which cannot cleanly be REST encoded SHOULD provide a request body in the following format:
+			<textarea class='example'>
+				<request>
+					<data>#{...data in xml format ...}</data>
+				</request>
+			</textarea>
+
+			where <data> is expressed in an XML format which makes sense for the call, 
+
+			<textarea class='example'>
+				/api/ServiceController/latest/rename
+
+				<request>
+					<data>
+						<oldName>#{oldname}</oldName>
+						<newName>#{oldname}</newName>
+					</data>
+				</request>
+			</textarea>
+		</li>
+
+		
+		<li>ALL SUCCESSFUL responses from the server MUST encode the response data in XML in the following format:
+			<textarea class='example'>
+				<response>
+					<result>OK</result>
+					<data>#{...data in xml format ...}</data>
+				</response>
+			</textarea>
+			where
+			<ul>
+				<li><span class='tag'>&lt;result></span> MUST equal <b>OK</b> for a successful response.</li>
+				<li><span class='tag'>&lt;data></span> is optional.</li>
+				<li>if <span class='tag'>&lt;data></span> If present, it should be the return data encoded in XML as makes sense for that specific operation.</li>
+			</ul>
+		</li>		
+				
+		<li>ALL UNSUCCESSFUL responses from the server MUST encode the response data in XML in the follwing format:
+			<textarea class='example'>
+				<response>
+					<result>ERROR</result>
+					<data>
+						<error>
+							<message>#{errorMessage}</message>
+							<!-- ... additional data for this error in xml format} ... -->
+						</error>
+						<error>
+							<message>#{anototherErrorMessage}</message>
+							<!-- ... additional data for this error in xml format} ... -->
+						</error>
+					</data>
+				</response>
+			</textarea>
+			where
+			<ul>
+				<li><span class='variable'>#{resultCode}</span> is a positive integer</li>
+				<li>each unsuccessful response MUST include at least one <span class='tag'>&lt;error></span> node</li>
+				<li>unsuccessful responses MAY include more than one <span class='tag'>&lt;error></span> node</li>
+				<li><span class='variable'>#{errorMessage}</span> is a short string describing the error, which will be looked up
+					in a message dictionary to show an error message to the user</li>
+				<li><span class='tag'>&lt;data></span> is optional for each <span class='tag'>&lt;error></span> element</li>
+				<li>if <span class='tag'>&lt;data></span> is present, it should be the return data encoded in XML as makes sense for that specific error.</li>
+			</ul>
+		</li>
+	</ol>
+	
+	
+	<h3>Stacking Requests</h3>
+	<ol class='CodingStandards'>
+		<li>A client can <i>stack</i> a set of requests in a single HTTP round trip by POSTing to:
+			<p><b>/api/ServiceController/latest</b></p>
+			with a series of <span class='tag'>&lt;request&gt;</span> objects like so:
+			<textarea class='example'>
+				<requests order='#{order}' onerror='#{onerror}'>
+					<request>
+						<url>api/ServiceController/latest/config</url>
+					</request>
+					<request>
+						<url>api/SomeOtherService/latest/someRequest</url>
+					</request>
+					<request>
+						<url>api/aThirdService/latest/tests?sort=name&direction=ascending</url>
+					</request>
+				</requests>
+			</textarea>
+			where
+			<ul>
+				<li>The <span class='tag'>&lt;requests&gt;</span> object is mandatory.
+				<li>There is a single <span class='tag'>&lt;request&gt;</span> element per stacked request.</li>
+				<li><span class='variable'>#{order}</span> is the string <b>serial</b> or <b>parallel</b>:
+					<ul>
+						<li><span class='variable'>#{order}</span> indicates if the server can run the requests in parallel or not.</li>
+						<li><span style='color:darkred'>The default <span class='variable'>#{order}</span> if not specified is <b>serial</b>.</span></li>
+					</ul>
+				</li>
+				<li><span class='variable'>#{onerror}</span> is the string <b>stop</b> or <b>continue</b>:
+					<ul>
+						<li><span class='variable'>#{onerror}</span> indicates the server behavior if it encounters an error in a <b>serial</b> stacked request.</li>
+						<li>If the value is <b>stop</b>, then for a <b>serial</b> stacked request, the 
+							server MUST NOT execute any results after a request that returns an error, but
+							MUST return all of the results up to and including the result that generated the error.</li>
+						<li><span style='color:darkred'>The default <span class='variable'>#{onerror}</span> if not specified is <b>stop</b> for <b>serial</b> requests.</span></li>
+						<li><span class='variable'>#{onerror}</span> should be completely ignored for <b>parallel</b> requests.</li>
+					</ul>
+				</li>
+			</ul>
+		</li>
+			
+			
+		<li>If there is client data to be encoded for any request, the client will include a 
+				<span class='tag'>&lt;data&gt;</span> element within the body of 
+				the <span class='tag'>&lt;request&gt;</span>:
+			<textarea class='example'>
+				<requests order='parallel'>
+					<request>
+						<url>api/ServiceController/latest/create-servers</url>
+						<data>
+							<service>php</service>
+							<count>3</count>
+						</data>
+					</request>
+					<request>
+						<url>api/MemcacheServer/latest/config</url>
+					</request>
+				</requests>
+			</textarea>
+		</li>
+		
+		<li>The server response to a stacked request mirrors the client requests.
+			<textarea class='example'>
+				<responses>
+					<response>
+						<url>/ServiceController/latest/config</url>
+						<result>OK</result>
+						<data>....</data> 
+					</response>
+			
+					<response>
+						<url>/MemcacheServer/latest/config</url>
+						<result>OK</result>
+						<data>....</data> 
+					</response>
+			
+					<response>
+						<url>api/BrutisClient/latest/tests?sort=name&direction=ascending</url>
+						<result>ERROR</result>
+						<data>
+							<error>
+								<message>something went wrong</message>
+							</error>
+						</data> 
+					</response>
+				</responses>
+			</textarea>
+			where
+			<ul>
+				<li>The <span class='tag'>&lt;responses&gt;</span> element is mandatory.</li>
+				<li>There MUST BE exactly ONE <span class='tag'>&lt;response&gt;</span> section for 
+					each <span class='tag'>&lt;request&gt;</span> in the original request.</li>
+				<li>The <span class='tag'>&lt;url&gt;</span> element of each <span class='tag'>&lt;response&gt;</span>
+					MUST BE exactly the same as that of the <span class='tag'>&lt;request&gt;</span>.</li>
+				<li>The <span class='tag'>&lt;result&gt;</span> and <span class='tag'>&lt;data&gt;</span>
+					elements of each <span class='tag'>&lt;response&gt;</span> are formatted
+					exactly as if the client had requested the url as a non-stacked request, as detailed above.</li>
+				<li>For <b>serial</b> stacked requests:
+					<ul>
+						<li>The server MUST return the <span class='tag'>&lt;response&gt;</span>
+							elements in the same order as in the original <span class='tag'>&lt;requests&gt;</span>.</li>
+						<li>If the <span class='variable'>#{onerror}</span> value is <b>stop</b>, the
+							server MUST stop after executing a sub-request that generates an error, as detailed above.</li>
+						<li>If the <span class='variable'>#{onerror}</span> value is <b>continue</b>, the
+							server MUST provide a <span class='tag'>&lt;response&gt;</span> for
+							each <span class='tag'>&lt;request&gt;</span>, no matter the error state
+							of previous requests.</li>
+					</ul>
+				</li>
+				<li>For <b>parallel</b> stacked requests:
+					<ul>
+						<li>The server MAY return the <span class='tag'>&lt;response&gt;</span> elements in any order.</li>
+						<li>The <span class='variable'>#{onerror}</span> value is ignored.
+					</ul>
+				</li>
+			</ul>
+		</li>
+	</ol>
+</body>
+</html>
+
+

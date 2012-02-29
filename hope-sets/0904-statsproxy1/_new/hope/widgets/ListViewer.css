@@ -1,0 +1,89 @@
+/******************
+ *   ListViewer   *
+ ******************/
+	
+	.ListViewer {
+		position:relative;
+		background-color:#ccc;
+		border-color:#888;
+		padding:5px;
+		-moz-border-radius:8px;
+		-webkit-border-radius:8px;
+	}
+
+	.ListViewer .Header {
+		position:relative;
+		left:-3px;
+		font-weight:bold;
+		border-width:0 !important;
+		padding:3px 10px;
+		font-size:1em;
+		height:16px;
+		color:#666;
+		-moz-border-radius:0px;
+	}
+
+	.ListViewer .Header:first-item {
+		padding-top:0px;
+	}
+	
+	.ListViewer .Body {
+		-moz-border-radius:5px;
+		margin:0px;
+		background:white;
+		padding:2px 0px 1px 0px;
+		border-color:#888 #c8c8c8 #c8c8c8 #888;
+	}
+	
+	.ListViewer .Item {
+		background-repeat:no-repeat;
+		background-position:right center;
+		font-size:.9em;
+		white-space:nowrap;
+		cursor:pointer;
+		padding:2px 25px 2px 6px;
+		margin:1px 2px 1px 3px;
+		-moz-border-radius:5px;
+		-webkit-border-radius:5px;
+	}
+
+	.ListViewer .Item:hover { 
+		background-color:#ddd;
+		background-image:url(images/selected_view_indicator.gif);
+	}
+	
+	.ListViewer .HIGHLIGHT {
+		background-color:#c3cf98 !important;
+		color:black;
+		font-weight:bold;
+		background-image:url(images/selected_view_indicator.gif);
+	}
+
+
+
+
+
+	.ListViewer .StatsTableItem {
+		background-image:url(images/table_icon.gif);
+		background-repeat:no-repeat;
+		background-position:left center;
+		padding-left:19px;
+	}
+
+	.ListViewer .ColorItem {
+		padding-left:6px;
+	}
+	
+	.ListViewer .ColorDisplay {
+		position:relative;
+		top:2px;
+		display:inline-block;
+		width:13px;
+		height:10px;
+		margin-right:3px;
+		vertical-align:top;
+		background-image:url(images/chart_icon.gif);
+		background-position:left center;
+		background-repeat:no-repeat;
+	}
+	

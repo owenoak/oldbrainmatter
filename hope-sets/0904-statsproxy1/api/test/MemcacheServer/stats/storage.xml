@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+	<result>OK</result>
+	<data>
+		<memcachedStats 
+			category="storage" 
+			service="php"
+			server="10.3.6.236:11211" 
+			proxy="10.3.6.236:8080" 
+			time="2009-11-11T13:27:18PST"
+			v="2" 
+		>
+			<stat><key>memory_cache_hit</key> <value type='string'>820173528</value></stat> 
+			<stat><key>memory_cache_miss</key> <value type='string'>33322</value></stat> 
+			<stat><key>0:name</key> <value type='string'>/dev/disk/by-id/scsi-SATA_SAMSUNG_MCBQE32SY836A3197-part2</value></stat> 
+			<stat><key>0:total_bytes</key> <value type='string'>5368709120</value></stat> 
+			<stat><key>0:total_in_use</key> <value type='string'>24993792</value></stat> 
+			<stat><key>0:dirty_data</key> <value type='string'>557056</value></stat> 
+			<stat><key>0:bytes_read</key> <value type='string'>0</value></stat> 
+			<stat><key>0:bytes_written</key> <value type='string'>2665156608</value></stat> 
+			<stat><key>0:write_MBPS</key> <value type='string'>5</value></stat> 
+			<stat><key>0:eff_write_MBPS</key> <value type='string'>0</value></stat> 
+			<stat><key>0:average_write_size</key> <value type='string'>4863</value></stat> 
+			<stat><key>0:write_overhead_percentage</key> <value type='string'>74</value></stat> 
+			<stat><key>0:write_idle_percentage</key> <value type='string'>99</value></stat> 
+			<stat><key>0:read_MBPS</key> <value type='string'>0</value></stat> 
+			<stat><key>0:average_read_size</key> <value type='string'>0</value></stat> 
+			<stat><key>0:evictions</key> <value type='string'>0</value></stat> 
+			<stat><key>0:total_lock</key> <value type='string'>9</value></stat> 
+			<stat><key>1:name</key> <value type='string'>/dev/disk/by-id/scsi-SATA_SAMSUNG_MCBQE32SY836A3194-part2</value></stat> 
+			<stat><key>1:total_bytes</key> <value type='string'>5368709120</value></stat> 
+			<stat><key>1:total_in_use</key> <value type='string'>24879104</value></stat> 
+			<stat><key>1:dirty_data</key> <value type='string'>278528</value></stat> 
+			<stat><key>1:bytes_read</key> <value type='string'>0</value></stat> 
+			<stat><key>1:bytes_written</key> <value type='string'>2671308800</value></stat> 
+			<stat><key>1:write_MBPS</key> <value type='string'>11</value></stat> 
+			<stat><key>1:eff_write_MBPS</key> <value type='string'>0</value></stat> 
+			<stat><key>1:average_write_size</key> <value type='string'>4249</value></stat> 
+			<stat><key>1:write_overhead_percentage</key> <value type='string'>77</value></stat> 
+			<stat><key>1:write_idle_percentage</key> <value type='string'>99</value></stat> 
+			<stat><key>1:read_MBPS</key> <value type='string'>0</value></stat> 
+			<stat><key>1:average_read_size</key> <value type='string'>0</value></stat> 
+			<stat><key>1:evictions</key> <value type='string'>0</value></stat> 
+			<stat><key>1:total_lock</key> <value type='string'>9</value></stat> 
+			<stat><key>2:name</key> <value type='string'>/dev/disk/by-id/scsi-SATA_SAMSUNG_MCBQE32SY836A3195-part2</value></stat> 
+			<stat><key>2:total_bytes</key> <value type='string'>5368709120</value></stat> 
+			<stat><key>2:total_in_use</key> <value type='string'>23261184</value></stat> 
+			<stat><key>2:dirty_data</key> <value type='string'>315392</value></stat> 
+			<stat><key>2:bytes_read</key> <value type='string'>0</value></stat> 
+			<stat><key>2:bytes_written</key> <value type='string'>2582044672</value></stat> 
+			<stat><key>2:write_MBPS</key> <value type='string'>10</value></stat> 
+			<stat><key>2:eff_write_MBPS</key> <value type='string'>0</value></stat> 
+			<stat><key>2:average_write_size</key> <value type='string'>4454</value></stat> 
+			<stat><key>2:write_overhead_percentage</key> <value type='string'>87</value></stat> 
+			<stat><key>2:write_idle_percentage</key> <value type='string'>99</value></stat> 
+			<stat><key>2:read_MBPS</key> <value type='string'>0</value></stat> 
+			<stat><key>2:average_read_size</key> <value type='string'>0</value></stat> 
+			<stat><key>2:evictions</key> <value type='string'>0</value></stat> 
+			<stat><key>2:total_lock</key> <value type='string'>6</value></stat> 
+			<stat><key>3:name</key> <value type='string'>/dev/disk/by-id/scsi-SATA_SAMSUNG_MCBQE32SY836A3189-part2</value></stat> 
+			<stat><key>3:total_bytes</key> <value type='string'>5368709120</value></stat> 
+			<stat><key>3:total_in_use</key> <value type='string'>22745088</value></stat> 
+			<stat><key>3:dirty_data</key> <value type='string'>335872</value></stat> 
+			<stat><key>3:bytes_read</key> <value type='string'>0</value></stat> 
+			<stat><key>3:bytes_written</key> <value type='string'>2495647744</value></stat> 
+			<stat><key>3:write_MBPS</key> <value type='string'>4</value></stat> 
+			<stat><key>3:eff_write_MBPS</key> <value type='string'>0</value></stat> 
+			<stat><key>3:average_write_size</key> <value type='string'>4266</value></stat> 
+			<stat><key>3:write_overhead_percentage</key> <value type='string'>91</value></stat> 
+			<stat><key>3:write_idle_percentage</key> <value type='string'>99</value></stat> 
+			<stat><key>3:read_MBPS</key> <value type='string'>0</value></stat> 
+			<stat><key>3:average_read_size</key> <value type='string'>0</value></stat> 
+			<stat><key>3:evictions</key> <value type='string'>0</value></stat> 
+			<stat><key>3:total_lock</key> <value type='string'>12</value></stat> 
+		</memcachedStats> 
+	</data>
+</response>

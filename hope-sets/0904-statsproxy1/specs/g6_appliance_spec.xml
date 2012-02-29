@@ -1,0 +1,78 @@
+<!-- XML for a Gear6 Appliance/Modules/Bays -->
+<?xml version="1.0" encoding="utf-8"?>
+<g6_memcache_appliance time='2009-04-29 00:41:22' v='1'>
+	<params>
+		<param>
+			<key>somekey</key>
+			<value type='integer'>42</value>
+		</param>
+
+		<param>
+			<key>someOtherkey</key>
+			<value type='date'>2009-04-31 00:00:00</value>
+		</param>
+		
+		<param>...</param>
+	</params>
+	
+	<modules>
+		<g6_memcache_module time='2009-04-29 00:41:22' v='1'>
+			<id>1</id>
+			<status>online</status>
+			<rule>master</rule>
+			<ip>10.3.7.81</ip>
+			<hostname>lb-cfx1-b1.lb.gear6.com</hostname>
+			<ram_allocated units='B'>800000000</ram_allocated>
+			<ram_used units='B'>800000000</ram_used>
+		
+			<bay_count>6</bay_count>
+			<bays>
+				<g6_memcache_module_bay module_id='1' v='1'>
+					<id>bay01</id>
+					<status>online</status>
+					<size units='B'>80026361856</size>
+					<health>ok</health>
+					<type>OS var drive</type>
+					<firmware>3.AAB</firmware>
+					<allocated units='B'>320000</allocated>
+					<total units='B'>320000</total>
+					<reads units='B'>320000</reads>
+					<writes units='B'>320000</writes>
+				</g6_memcache_module_bay>
+		
+				<g6_memcache_module_bay module_id='1' v='1'>
+					<id>bay02</id>
+					<status>empty</status>
+				</g6_memcache_module_bay>
+		
+				<g6_memcache_module_bay module_id='1' v='1'>
+					<id>bay03</id>
+					<status>offline</status>
+					<size units='B'>80026361856</size>
+					<health>ok</health>
+					<type>cache device</type>
+					<firmware>3.AAB</firmware>
+					<life_remain>99</life_remain>
+					<g6_model>Gear6 32GB Flash Drive</g6_model>
+					<g6_part_num>1120-00006</g6_part_num>
+					<g6_revision>A</g6_revision>
+					<g6_serial_num>G6F1000035</g6_serial_num>
+					<enabled>true</enabled>
+					<device_path>/dev/disk/by-id/scsi-SATA_SAMSUNG_MCBQE32SY836A3197-part2</device_path>
+					<device_id>scsi-SATA_SAMSUNG_MCBQE32SY836A3197</device_id>
+					<block_size units='B'>16384</block_size>
+					<block_count>1945370</block_count>
+					<offset>7680</offset>
+					<allocated units='B'>320000</allocated>
+					<total units='B'>320000</total>
+					<reads units='B'>320000</reads>
+					<writes units='B'>320000</writes>
+				</g6_memcache_module_bay>
+				
+				<g6_memcache_module_bay module_id='1' v='1'>...</g6_memcache_module_bay>
+			</bays>
+		</g6_memcache_module>
+
+		<g6_memcache_module v='1'>...</g6_memcache_module>
+	</modules>
+</g6_memcache_appliance>

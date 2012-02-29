@@ -1,0 +1,30 @@
+<template id='test' selector='TEST' constructor='ojo.Test' boo=yah>Blargh!</template>
+
+<!--
+<template id='doc'>
+	<layout direction="horizontal">
+		<section id='toc' src='#toc' width='20%'>
+		<section id='toc_content_sash' class='HorizontalSash' sections='[toc,content]'>
+		<section id='content' src='#content' width='*'>
+	</layout>
+</template>
+
+<template id='toc'>
+	I am a toc!
+</template>
+
+<template id='content'>
+	<h1>H1 Title</h1>
+
+	Yo
+	
+	
+	<h2>H2 Title</h2>
+
+	Yo
+	
+	<h2>H2 Title 2</h2>
+	
+	Ma
+</template>
+-->

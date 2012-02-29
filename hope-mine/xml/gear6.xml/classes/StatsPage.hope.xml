@@ -1,0 +1,29 @@
+<class name='StatsPage' isA='Page'>
+<!-- TODO:
+	- bind to instance
+	- show main page on load
+
+-->
+	<!-- this is wierd... I think this works because the base 'page' has a layout -->
+	<layout>
+		<Layout type='compass' container='body'>
+			<Container name='top'>
+				<contents>control 'serviceWindows' of app</contents>
+			</container>
+			<Container name='left'>
+				<contents>control 'pageMenu' of app</contents>
+			</Container>
+			<Container name='right' expand='true' />
+		</Layout>
+	</layout>
+
+	<property name='columns' type='list of DataTableColumns'/>
+
+	<on event='show'>
+		refresh me
+	</end>
+	
+	<on event='refresh'>
+		load my data
+	</on>
+</class>

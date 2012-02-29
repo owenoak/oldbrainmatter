@@ -1,0 +1,30 @@
+<menu name='pageMenu' appearance='vertical list'>
+	<items>
+		<label title='Server Statistics'/>
+		<itemGroup>
+			<pageSelector page='stats_clients' icon='table-small' />
+			<pageSelector page='stats_keys' icon='table-small' />
+			<pageSelector page='stats_basic' icon='table-small' />
+			<pageSelector page='stats_items' icon='table-small' />
+			<pageSelector page='stats_memory' icon='table-small' />
+			<pageSelector page='stats_health' icon='table-small' />
+			<pageSelector page='stats_slabs' icon='table-small' />
+			<pageSelector page='stats_storage' icon='table-small' />
+		</itemGroup>
+
+		<labels title='Server Traffic'/>
+		<itemGroup>
+			<pageSelector page='traffic_overall' icon='chart-small-black' />
+			<pageSelector page='traffic_get_hits' icon='chart-small-green' />
+			<pageSelector page='traffic_get_misses' icon='chart-small-red' />
+			<pageSelector page='traffic_gets' icon='chart-small-orange' />
+			<pageSelector page='traffic_sets' icon='chart-small-blue' />
+			<pageSelector page='traffic_bytes_sent' icon='chart-small-orange' />
+			<pageSelector page='traffic_bytes_received' icon='chart-small-blue' />
+			<pageSelector page='traffic_evictions' icon='chart-small-red' />
+			<pageSelector page='traffic_items' icon='chart-small-gray' />
+			<pageSelector page='traffic_connections' icon='chart-small-black' />
+			<pageSelector page='traffic_connection_structures' icon='chart-small-black' />
+		</itemGroup>
+	</items>
+</menu>

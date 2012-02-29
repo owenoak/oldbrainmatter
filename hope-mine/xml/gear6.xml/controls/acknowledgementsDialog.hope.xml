@@ -1,0 +1,5 @@
+<dialog name='acknowledgements' buttons='OK'>
+	<body>
+		<label src='acknowledgements.html' />
+	</body>
+</dialog>

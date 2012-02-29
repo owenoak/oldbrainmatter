@@ -1,0 +1,9 @@
+Client vs. Server deployment:
+
+Things we need to do on each environment
+	- access hope from other script files!
+	- load scripts
+	- load one or more files
+	- save files
+	- parse XML
+	- console for debugging

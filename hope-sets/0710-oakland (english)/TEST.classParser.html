@@ -1,0 +1,66 @@
+<html>
+<head>
+	<title>Class Parser Tester</title>
+
+<!--	<script type="english/rules" src="scripts/english.rules"></script>	-->
+	<script src='scripts/hope.js'></script>
+</head>
+<body>
+
+
+<Theme id='minty' src='${themes}/minty/minty.theme'></Theme>
+
+	
+
+<table>
+<tr>
+	<td>
+		<Field id='field'>Foo</Button>
+	</td>
+	<td>
+		<Field id='field'>Foo</Button>
+	</td>
+	<td>
+		<Field id='field'>Foo</Button>
+	</td>
+</tr>
+<tr>
+	<td>
+		<Field id='field'>Foo</Button>
+	</td>
+	<td>
+		<Field id='field'>Foo</Button>
+	</td>
+	<td>
+		<Field id='field'>Foo</Button>
+	</td>
+</tr>
+</table>
+	<Button id='Foo' name='bar'>Foo</Button>
+	<Menu>
+		<MenuItem icon='close' value='icon' onselect='alert(1)'>Icon</MenuItem>
+		<MenuItem submenu='#sideMenu' value='sub' onselect='alert(2)'>I have a submenu</MenuItem>
+		<MenuItem value='simple' onselect='alert(3)'>Simple menu</MenuItem>	
+		<MenuItem disabled value='disabled' onselect='alert("You should not be able to click this!")'>Disabled item</MenuItem>	
+	</Menu>
+
+	<ItemViewer>
+		<ItemViewerItem icon='foo'>Item 1</ItemViwerItem>
+		<ItemViewerItem icon='bar'>Item 2</ItemViwerItem>
+		<ItemViewerItem onclick='alert(3)'>Item 300</ItemViwerItem>
+	</ItemViewer>
+<br>
+<Panel>
+Foo Panel!
+</Panel>
+
+<TabPanel>
+
+	<Panel title='Foo'>Panel Foo</Panel>
+	<Panel title='Bar'>Panel Bar</Panel>
+
+</TabPanel>
+
+
+</body>
+</html>

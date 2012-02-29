@@ -1,0 +1,18 @@
+<label name='appName'>
+	<bind to='property "appname" of the app'>
+		reset my title
+	</bind>
+
+	<bind to='property "serviceProvider" of the app'>
+		reset my title
+	</bind>
+	
+	<property name='title'>
+		<setter>
+			put property 'appname' of the app into title
+			get property 'serviceProvider' of the app
+			if it is not empty then add " on" && it to title
+			set my title to title
+		</setter>
+	</property>
+</label>

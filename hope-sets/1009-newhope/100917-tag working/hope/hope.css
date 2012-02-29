@@ -1,0 +1,85 @@
+/******
+ ******	Generic css for hope project
+ ******/
+ 
+ 	/* reset all elements to border-box sizing, as God intended. */
+	* {
+		-moz-box-sizing:border-box;
+		-webkit-box-sizing:border-box;
+		box-sizing:border-box;
+		font-family:Verdana;
+	}
+
+
+
+/******
+ ******	Blocks of inline javascript
+ ******/
+ js,
+ set,
+ get
+ {
+ 	display:none;
+ }
+
+
+/******
+ ******	Generic attribute stuff
+ ******/
+
+	/* hide things with [visible=false] */
+	*[visible=no] {
+		display:none;
+	}
+
+
+
+
+/******
+ ******	Command elements
+ ******/
+
+	/* default for commands is to look like buttons */
+		command {
+			display:inline-block;
+			border:1px outset black;
+			-moz-border-radius:10%;
+			padding:2px 5px;
+		}
+
+
+/******
+ ******	Menu elements
+ ******/
+
+	/* reset menus */
+		menu {
+			left:0;top:0;
+			position:absolute;
+			z-index:10000;
+			background:white;
+			overflow:hidden;
+			display:inline-block;
+			-moz-padding-start:0;
+			-webkit-padding-start:0;
+			list-style-type:none;
+			margin:0;
+		}
+	
+	/* popup menus */
+		menu[type=popup] {
+			border:1px outset black;
+		}
+		
+		/* make commands in popup menus rows with horizontal separators */
+			menu[type=popup] command {
+				display:block;
+				border:solid #ccc;
+				-moz-border-radius:0;
+				border-width:0 0 1px 0;
+			}
+			menu[type=popup] command:last-child {
+				border-bottom-width:0;
+				-moz-border-radius:10%;
+			}
+

@@ -1,0 +1,60 @@
+<html>
+<head>
+	<script src='../js/jquery.js'></script>
+	<script src='../js/jquery.ba-bbq.js'></script>
+</head>
+<body>
+
+<button onclick='goTo("a")'>a</button>
+<button onclick='goTo("b")'>b</button>
+<button onclick='goTo("c")'>c</button>
+<button onclick='goTo("d")'>d</button>
+<button onclick='goTo("e")'>e</button>
+
+<div id='log'>
+
+</div>
+
+
+	<script>
+		function changed() {
+			var currentHash = window.location.hash;
+log("ONCHANGE: '"+currentHash+"' '"+lastHash+"' ("+(currentHash == lastHash)+")");
+			if (currentHash == lastHash) return ;//console.log("NOT changed ("+currentHash+")");
+			goTo(currentHash);
+		}
+		
+		$(window).bind('hashchange', changed);
+		
+		var lastHash = "";
+		function goTo(hash, overwriteUrl) {
+			if (hash.charAt(0) != "#") hash = "#"+hash;
+log("going to "+hash);
+			lastHash = hash;
+			
+			var url = window.location.href,
+				hashChar = url.indexOf("#")
+			;
+			if (hashChar > -1) url = url.substr(0, hashChar);
+			url += hash;
+			if (url == window.location.href) return;
+			
+			if (overwriteUrl) {
+				window.location.replace(url);
+			} else {
+				window.location = url;
+			}
+		}
+
+		function log(msg) {
+			$("#log").append("<div>"+msg+"<\/div>");
+		}
+		
+log("start: "+window.location.hash);
+		if (window.location.hash) goTo(window.location.hash);
+	
+	
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,71 @@
+<html>
+<style type='text/css'>
+
+#display {
+	position:relative;
+	background-color:black;
+}
+.box {
+	position:absolute;
+	background-color:#666666;
+	border:1px solid #cccccc;
+	color:white;
+	text-align:center;
+	vertical-align:center;
+	-moz-box-sizing: border-box;
+}
+
+</style>
+<script src='ThumbCloud.js' language='JavaScript'></script>
+<script language='JavaScript'>
+
+
+function init() {
+	var t0 = new Date();
+	window.cloud = new ThumbCloud("display");
+
+
+	var items = [];
+	for (var i = 0; i < 100; i++) {
+		items[i] = {id:i};
+	}
+	cloud.placeItems(items);
+}
+
+function place(id, shape) {
+	var position = cloud.placeItem(id, shape);
+	
+	if (position != null) {
+		position.shape = shape;
+		
+		var box = document.createElement("div");
+		box.id = "box"+id;
+		box.className = "box";
+		box.style.width = ((position.width * cloud.unitSize) - 4) + "px";
+		box.style.height = ((position.height * cloud.unitSize) - 4) + "px";
+		box.style.left = ((position.x * cloud.unitSize) + 2) + "px";
+		box.style.top = ((position.y * cloud.unitSize) + 2) + "px";
+		box.innerHTML = id;
+		
+		display.appendChild(box);
+		
+	} else {
+		missedCount++;
+		console.log("item " + id + " didn't fit");
+	}
+	return position;
+}
+
+</script>
+<body onload='init()'>
+<div id='display' style='position:relative;border:1px solid red;'>
+
+
+</div>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+	<result>OK</result>
+	<data>
+		<memcachedStats 
+			category="replication" 
+			service="php"
+			server="10.3.6.236:11211" 
+			proxy="10.3.6.236:8080" 
+			time="2009-11-11T13:27:18PST"
+			v="2" 
+		>
+			<stat><key>remote_set</key> <value type='string'>3149000</value></stat> 
+			<stat><key>remote_update</key> <value type='string'>70892410</value></stat> 
+			<stat><key>remote_delete</key> <value type='string'>3023743</value></stat> 
+			<stat><key>remote_set_serviced</key> <value type='string'>3330614</value></stat> 
+			<stat><key>remote_update_serviced</key> <value type='string'>75147279</value></stat> 
+			<stat><key>remote_delete_serviced</key> <value type='string'>3193349</value></stat> 
+			<stat><key>remote_replace</key> <value type='string'>4193</value></stat> 
+			<stat><key>sync_items_initial</key> <value type='string'>0</value></stat> 
+			<stat><key>sync_queue_size</key> <value type='string'>59</value></stat> 
+			<stat><key>sync_items_added</key> <value type='string'>74076436</value></stat> 
+			<stat><key>sync_items_processed</key> <value type='string'>74076377</value></stat> 
+			<stat><key>num_tcp_listeners</key> <value type='string'>1</value></stat> 
+			<stat><key>num_udp_listeners</key> <value type='string'>1</value></stat> 
+			<stat><key>num_sync_slaves</key> <value type='string'>1</value></stat> 
+		</memcachedStats> 
+	</data>
+</response>

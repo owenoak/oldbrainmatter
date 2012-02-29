@@ -1,0 +1,3 @@
+<label name='refreshTimeLabel'>
+	<bind property='title' to='property "lastRefreshTime" of the app'/>
+</label>

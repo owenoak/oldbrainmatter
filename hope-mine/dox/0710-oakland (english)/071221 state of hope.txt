@@ -1,0 +1,89 @@
+Where am I with hope?
+
+	What is done?
+		* small rule set english -> parse tree
+		* spiffy class semantics
+		* Basic class parsing/loading (JS)
+		* Control base class
+		* lots of canvas code to steal from
+		* basic themeing
+		* include scheme
+		
+	What is not done?
+		* multiple inheritance
+		* coherent simple loading of entire framework
+		* scripts attached inline objects in page markup
+		* dragging/advanced events
+		* english -> JS translation
+		* site/app/page semantics
+		* verify class semantics against JS 2 (protected, etc)
+		* PHP/etc based efficient loader thinger
+		* case sensitivity
+		* pre-parse to optimized JS
+		* load/save cycle
+		* docs/project goals
+		* global debug/timing interface
+		* how to debug?
+		* integrate canvas code into hope
+		* second theme to keep it honest
+		* prune current codebase/repackage?
+		* query/behaviour integration
+		* rewrite everything except base in class semantics (with private, etc)
+		* mixing HTML/XML directly into SmartJS
+				var tab = new TabButton({id:kid.id+"_TabButton", title:kid.title, parentNode:this.id+"_TabBar"});
+			becomes
+				var tab = <TabButton id='${kid.id}_TabButton'
+									 title='${kid.title}'
+									 parentNode='${id}_TabBar'>;
+
+			?
+
+	
+	Widgets to do:
+		* d&d code
+		* menu
+		* form
+		* listviewer/editable grid
+		* real tabpanel
+		* status toaster
+		* theme uses a single large graphic for defining multiple widgets
+			- auto-split (interactive via canvas?)
+	
+What to consider now?
+	* base on Dojo/other? (have a cover lib? worth it?)
+	* use of getters/setters?  (ever supported in IE?)
+	* use of canvas?
+	* what is server model?
+	* host somewhere?  (probably not yet)
+	* license?
+	* platforms this will run in?  FF + Webkit?
+	* check out humanized stuff
+	* integrate with DWR/etc?
+
+What's next?
+	* project goals
+		* example apps we are trying to support?
+		* audience?
+		* platform targets?
+		* license?  dojo?
+		* what do I get from doing this?
+		* relationship to Avalon?
+		
+	* simple coherent loading/page parsing
+	* simple include (auto-generate includes for classes?)
+	* site/app/page semantics stub
+	* widget tester
+	* widgets
+		- get all current widgets working
+		- tabPanel
+		- form
+		- popup property sheet
+		- how to bind?
+			- to DOM objects (XML)
+			- to JSON data
+			- other?
+			
+	* d&d interface for controls
+	* start docs (too early?)
+		* doc project done in-tool
+	* 

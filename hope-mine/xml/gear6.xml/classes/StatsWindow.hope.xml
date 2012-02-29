@@ -1,0 +1,19 @@
+<class name='StatsWindow' isA='Section'>
+	<property name='title' />
+	<property name='isMainWindow' type='flag' value='true' />
+	
+	<controls>
+		<group name='header'>
+			<label name='title'>
+				<bind property='value' to='my title'/>
+			</label>
+			<label name='forServer' value='forServer'/>
+		</group>
+	</controls>
+
+	<on event='show'>
+		if my isMainWindow is true then
+			add the instanceMenuButton of the app to group header of my controls
+		end if
+	</on>
+</class>

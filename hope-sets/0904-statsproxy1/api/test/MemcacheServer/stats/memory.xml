@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+	<result>OK</result>
+	<data>
+		<memcachedStats 
+			category="memory" 
+			service="php"
+			server="10.3.6.236:11211" 
+			proxy="10.3.6.236:8080" 
+			time="2009-11-11T13:27:18PST"
+			v="2" 
+		>
+		
+		<stat><key>total_bytes</key> <value type='string'>548585472</value></stat> 
+		<stat><key>total_in_use</key> <value type='string'>118816768</value></stat> 
+		<stat><key>total_free</key> <value type='string'>429768704</value></stat> 
+		<stat><key>0:name</key> <value type='string'>System</value></stat> 
+		<stat><key>0:bytes</key> <value type='string'>4542464</value></stat> 
+		<stat><key>0:evictions</key> <value type='string'>0</value></stat> 
+		<stat><key>1:name</key> <value type='string'>Item</value></stat> 
+		<stat><key>1:bytes</key> <value type='string'>18395136</value></stat> 
+		<stat><key>1:evictions</key> <value type='string'>0</value></stat> 
+		<stat><key>4:name</key> <value type='string'>Cache</value></stat> 
+		<stat><key>4:bytes</key> <value type='string'>95879168</value></stat> 
+		<stat><key>4:evictions</key> <value type='string'>0</value></stat> 
+		<stat><key>clean_cache</key> <value type='string'>94392320</value></stat> 
+		<stat><key>dirty_cache</key> <value type='string'>1486848</value></stat> 
+		<stat><key>total_lock</key> <value type='string'>33</value></stat> 
+		<stat><key>total_malloc</key> <value type='string'>381265185</value></stat> 
+		<stat><key>malloc:0</key> <value type='string'>59808</value></stat> 
+		<stat><key>malloc:1</key> <value type='string'>0</value></stat> 
+		<stat><key>malloc:2</key> <value type='string'>3630337</value></stat> 
+		<stat><key>malloc:3</key> <value type='string'>377487360</value></stat> 
+		<stat><key>malloc:4</key> <value type='string'>87680</value></stat> 
+		</memcachedStats> 
+	</data>
+</response>

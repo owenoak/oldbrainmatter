@@ -1,0 +1,150 @@
+Object.extend(Gear6.UserTable.prototype, 
+              {
+	highlightDifferences : false,
+	updateDifferences : false,
+	
+	parentId : "userList",			// id of parent element to draw the services in
+
+	deferDrawInterval : 0,					// pause a second before drawing to remove initial flash
+	autoDraw : true,						// by default we draw automatically after creation
+
+	bodyClassName : "UserTableDetails",
+	flashMessageInterval : 1,				// number of seconds to show a temporary message
+
+	// messages to show to the user in the below
+    //
+    passwordChangedMessage : "Password changed.",
+
+	workingMessage : "Working...",
+
+    getClassName : function() {
+       var className = "UserTable";
+
+       return className;
+    },
+            
+    prepareToDraw : function() {
+		DataWidget.prototype.prepareToDraw.apply(this);
+		var snapshot = this.snapshot;
+		snapshot.mainClassName = this.getClassName();
+        snapshot.userRowsHTML = this.getUsersHTML();
+        if (window.privileged == "0") {
+            snapshot.newUserButtonHTML = "";
+        } else {
+            snapshot.newUserButtonHTML = this.NewUserButtonTemplate.evaluate(this);
+        }
+    },
+
+
+	// show a message relative to the entire thing
+	showMessage : function(message, autoHide, callback) {
+		if (!this._drawn) return;
+
+		var element = this.getUserTableMessageElement();
+		element.innerHTML = message;
+
+        if (!this._messageIsVisible) {
+			new Effect.Appear(element, {duration: 0.2});
+        }
+		if (this._currentFader) {
+			this._currentFader.cancel();
+		}
+		// TODO: center this vertically
+		this.$main.select(".UserTableMessageMask")[0].style.display = "block";
+		if (autoHide) {
+			var me = this;
+			function clear() {
+				me.clearMessage(callback);
+			}
+			setTimeout(clear, this.flashMessageInterval*1000);
+		}
+		this._messageIsVisible = true;
+	},
+
+	flashMessage : function(message, callback) {
+		this.showMessage(message, true, callback);
+	},
+
+	clearMessage : function(callback) {
+		if (!this._drawn) return;
+		this._messageIsVisible = false;
+
+		this._currentFader = new Effect.Fade(this.getUserTableMessageElement(),
+			{
+				duration: 0.5,
+				afterFinish : function() {
+					this.$main.select(".UserTableMessageMask")[0].style.display = "none";
+					delete this._currentFader;
+					if (callback) callback();
+				}.bind(this)
+			}
+		);
+	},
+
+    getUsersHTML : function() {
+        var html = "";
+
+        // we decide even/oddness here instead of using the index
+        // property in User.prepareToDraw, because the user array can
+        // have "holes" if users have been deleted, and element with
+        // index "8" might wind up on row "7".  The "Even" and "Odd"
+        // strings are CSS Class names that trigger the zebra striping
+        // in the table.
+        var counter = 1;
+        this.users.forEach(function(user){
+            user.prepareToDraw(counter % 2 == 0 ? "Even" : "Odd");
+            html += user.snapshot.innerHTML;
+            counter++;
+        });
+        return html;
+    },
+
+    getUserTableMessageElement : function() {
+        var e = this.$main.select(".UserTableMessage")[0];
+        return e;
+        // return this.$main.select(".UserTableMessage")[0];
+	},
+
+    editNewItem : function() {
+		if (Gear6.User._newItem == null) {
+			Gear6.User._newItemSequence = 1;
+			Gear6.User._newItem = new Gear6.User({
+				autoDraw	: false			// don't draw automatically
+			});
+		}
+	
+		// give the instance a unique id
+		Gear6.User._newItem.id = "user_"+Gear6.User._newItemSequence++;
+	
+		Gear6.User.editor.open(Gear6.User._newItem, 'new');
+    }, 
+
+    NewUserButtonTemplate : new Template(
+        "<div class='button'  \
+    	    onclick='#{globalRef}.editNewItem()'> \
+		 <div class='buttonTitle'>Add New User</div> \
+	     </div>"
+    ),
+
+	OuterTemplate : new Template(
+		"<div class='SectionBody roundBOTTOMmedium'>\
+			<table class='UserTableOuterTable' width='100%' cellspacing='0' cellpadding='0'>\
+            <tr class='UserHeader'> \
+              <td class='UserHeaderCell idCell'>User Name</td> \
+              <td class='UserHeaderCell'>First Name</td> \
+              <td class='UserHeaderCell'>Last Name</td> \
+              <td class='UserHeaderCell'>Role</td> \
+              <td class='UserHeaderCell'>email</td> \
+              <td class='UserHeaderCell'>Status</td> \
+              <td class='UserHeaderCell actionsCell'>Actions</td> \
+             </tr> \
+             #{snapshot.userRowsHTML} \
+           </table>\
+           #{snapshot.newUserButtonHTML}\
+          <div class='UserTableMessageMask roundALLmedium' style='display:none'></div>\
+	      <div class='UserTableMessage' style='display:none'>\
+		    #{message}\
+          </div> \
+	   </div>")
+
+});

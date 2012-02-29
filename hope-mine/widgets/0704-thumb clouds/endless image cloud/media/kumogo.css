@@ -1,0 +1,173 @@
+
+* {
+	color:white;
+	font-weight:bold;
+}
+
+body {
+	background-color:black;
+	margin:0px;
+}
+
+
+
+#pagehead {
+	margin-top:5px;
+	height:35px;
+}
+#logo {
+	float:left;
+	font-family:Zapfino;
+	font-weight:normal;
+	margin-left:10px;
+}
+#whats_this {
+	float:right;
+	line-height:30px;
+	margin-right:10px;
+}
+#searchPanel {
+	float:left;
+	width:255px;
+	margin-left:150px;
+}
+#searchBox {
+	margin-top:5px;
+}
+#searchGo {
+	float:right;
+	border:1px outset red;
+	padding:2px 6px 3px 6px;
+	cursor:pointer;
+}
+#searchGo:hover {
+	background-color:red;
+	color:black;
+}
+#searchGo:active {
+	border:1px inset red;
+	background-color:red;
+	color:black;	
+	padding:3px 6px 2px 6px;
+	-moz-user-select:none;
+}
+
+
+#searchField {
+	color:#cccccc;
+	font-style:italic;
+	padding-left:4px;
+}
+
+.tabContainer {}
+.tabList {
+	height:20px;
+	list-style:none;
+	border-bottom:1px solid red;
+}
+.tabHeader {
+	float:left;
+	font-weight:bold;
+	margin-top:2px;
+}
+.tab {
+	float:left;
+	margin:0px 2px 0px 2px;
+	padding:2px 8px;
+	border:1px solid red;
+	cursor:pointer;
+}
+.tab.selected {
+	background-color:red;
+	color:black;
+	font-weight:bold;
+	border-style:outset;
+	bottom-border-color:red;
+}
+
+
+
+/* viewport for the cloud */
+#display_viewport {
+	position:absolute;
+	left:0px;
+	right:0px;
+	top:73px;
+	bottom:0px;
+	overflow:hidden;
+	cursor:move;
+}
+
+
+
+/* main cloud display */
+#display {
+	position:relative;
+	top:-100px;
+	left:-100px;
+	background-color:black;
+	cursor: pointer;
+}
+
+
+
+/* individual thumbnail in the cloud */
+.cloudThumb {
+	position:absolute;
+	background-color:#666666;
+	border:1px solid #cccccc;
+	color:white;
+	text-align:center;
+	vertical-align:center;
+	-moz-box-sizing: border-box;
+	background-repeat:repeat;
+	background-position:center;
+}
+
+
+.display_mask {
+	position:absolute;
+	cursor:move;
+}
+
+.display_mask_TL {	left:0px;	top:0px;		width:50px;		height:50px;	background-image:url(mask/mask_TL.png);	}
+.display_mask_TR {	right:0px;	top:0px;		width:50px;		height:50px;	background-image:url(mask/mask_TR.png);	}
+.display_mask_BL {	left:0px;	bottom:0px;		width:50px;		height:50px;	background-image:url(mask/mask_BL.png);	}
+.display_mask_BR {	right:0px;	bottom:0px;		width:50px;		height:50px;	background-image:url(mask/mask_BR.png);	}
+.display_mask_T	 {	left:50px;	right:50px; 	top:0px;		height:50px;	background-image:url(mask/mask_T.png);	}
+.display_mask_B	 {	left:50px;	right:50px; 	bottom:0px;		height:50px;	background-image:url(mask/mask_B.png);	}
+.display_mask_L	 {	left:0px;	top:50px; 		bottom:50px;	width:50px;		background-image:url(mask/mask_L.png);	}
+.display_mask_R	 {	right:0px;	top:50px; 		bottom:50px;	width:50px;		background-image:url(mask/mask_R.png);	}
+
+
+.box.hilited {
+	border:1px solid red;
+}
+
+
+
+.badge {
+	position:absolute;
+	background-repeat:no-repeat;
+	opacity:.4;
+	bottom:0px;
+	right:0px;
+	padding:1px;
+	background-position:1px 1px;
+}
+
+.hilited .badge {
+	opacity:1;
+}
+
+.badge_flickr {
+	background-image:url(badges/flickr.png);
+	width:30px;
+	height:9px;
+}
+
+.badge_youtube {
+	background-image:url(badges/youtube.png);
+	width:30px;
+	height:12px;
+}

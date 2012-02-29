@@ -1,0 +1,731 @@
+
+
+##########################
+# client-server operations
+##########################
+
+##### generic errors
+api.error-already-in-service    = This system (#{ip}) is already in a service
+api.error-bad-credentials       = #{ip} rejected this request for security reasons
+api.error-bad-password       	= #{ip} rejected this request because the password was incorrect
+api.error-call-failed           = Could not contact the server
+api.error-executing-callback    = Could not execute success callback
+api.error-invalid-ip-request    = Invalid IP address for request
+api.error-local-reject-join     = Local system refused join response from #{ip}
+api.error-local-reject-leave    = Local system refused leave response from #{ip}
+api.error-no-db                 = Could not initialize local database
+api.error-no-connect            = Couldn't connect to server #{ip}
+api.error-no-route              = No route to host #{ip}
+api.error-not-allowed           = You do not have permission to take this action
+api.error-no-cloud              = Could not connect to management platform
+api.error-parsing-results		= Could not parse server response
+api.error-processing-data		= Could not process server response
+api.error-pool-too-big          = Too many servers in pool
+api.error-overview-too-big      = Too many servers in overview
+api.error-required              = Value is required.
+api.error-stacked-request-failed= Some parts of the request worked and some did not
+api.error-timedout              = Operation timed out
+api.error-unknown-no-data       = An error occurred
+api.error-unknown-with-data     = An error occurred: <br>&nbsp;&nbsp;"#{message}"
+
+##### loadAppConfig operation
+#api.loadAppConfig.loading      = Loading server configuration
+
+##### loadData operation
+#api.loadData.loading           = Loading data for server #{instance}
+
+##### attachIps operation
+api.attachIps.loading           = Attaching servers...
+api.attachIps.success           = Server(s) are being attached
+
+##### detach operation
+#api.detachIps.loading          = Detaching server...
+api.detachIps.success           = Server #{ips} is being detached
+
+##### createServers operation
+api.createServers.loading               = Creating servers...
+api.createServers.error-invalid-count   = You must specify a positive number of servers to create
+api.createServers.error-invalid-ips     = You must specify one or more IP addresses (e.g. 1.2.3.4) separated by commas or spaces
+api.createServers.error-invalid-name    = You must specify a name for this service, composed of letters, numbers and spaces only
+api.createServers.success               = Creating #{count} server(s).
+
+##### renameService operation
+api.renameService.error-required    = You must provide a service name
+api.renameService.success           = Service renamed
+
+##### startReporter operation
+api.startReporter.success           = Reporter started
+
+##### stopInstances operation
+api.stopInstances.success           = #{count} instance(s) are being shut down
+
+##### stopReporter operation
+api.stopReporter.success            = Reporter stopped
+
+##### changeAuthorizationLevel operation
+api.changeAuthorizationLevel.success = Authorization level changed
+api.changeAuthorizationLevel.error      = Authorization level change failed
+
+
+
+##############
+# auth menu
+##############
+auth.logout.title = Log Out
+auth.menuButton.loggedOut.title = Log In
+auth.menuButton.loggedIn.title = Role
+auth.state.chooseRole = Choose a role:
+auth.state.youCan = You can:
+auth.state.orChooseRole = or choose a role:
+auth.state.none = Log Out
+auth.state.view = View
+auth.state.modify = Modify
+auth.state.role = Role:
+auth.state.super = Super
+auth.prompt = Enter password to switch to role "#{level}."
+auth.reminder = Click "Log In" above to manage your Gear6 Memcached services
+
+
+###################
+# "clients" dataset
+###################
+client.accesses.hint = 
+client.accesses.title = Accesses
+client.actions.hint = 
+client.actions.title = Actions
+client.address.hint = 
+client.address.title = Address
+client.hostname.hint = 
+client.hostname.title = Host
+client.ip.hint = 
+client.ip.title = IP Address
+client.port.hint = 
+client.port.title = Port
+client.rank.hint = 
+client.rank.title = #
+client.showTopKeys.title = Show Keys
+
+
+
+###########################
+# memcache instance display
+###########################
+instance.actions.hint = 
+instance.actions.detach.hint = {_Detach this server from the memcached pool _}
+instance.actions.detach.title = Detach
+instance.actions.reporter.hint = {_Toggle reporting on and off for this server_}
+instance.actions.reporter.title.false = Reporter: Off
+instance.actions.reporter.title.true = Reporter: On
+instance.actions.stop.hint = {_Shut down this server_}
+instance.actions.stop.title = Stop Server
+instance.actions.title = Actions
+instance.hostname.hint = 
+instance.hostname.title = Host Name
+instance.info.data_center.title = Data Center:
+instance.info.identifier.title = Server:
+instance.info.imageId.title = Image Id:
+instance.info.vendorType.title = Machine Type:
+instance.info.zone.title = Availability Zone:
+instance.ip.hint = Private IP
+instance.ip.title = IP Address
+instance.memcacheState.active = Active
+instance.memcacheState.disconnected = Disconnected
+instance.memcacheState.joining = Joining
+instance.memcacheState.leaving = Leaving
+instance.memcacheState.error = Error
+instance.memoryGraph.hint = {Server Memory:}[[Used:|#{usedGB}GB|(#{usedPercent})][Free:|#{freeGB}GB|(#{freePercent})][Total:|#{totalGB}GB]]
+instance.memoryGraph.label = Memory: #{usedPercent} in use
+instance.off.title = Off
+instance.on.title = On
+instance.port.hint = 
+instance.port.hint = 
+instance.port.title = Port
+instance.port.title = Port
+instance.publicIp.hint = Public IP
+instance.rehash.title = Rehashing: #{rehashPercent}% complete
+instance.reporter.disabled.title = Disabled
+instance.reporter.false.title = Off
+instance.reporter.hint = 
+instance.reporter.off.title = Off
+instance.reporter.on.title = On
+instance.reporter.title = Reporter
+instance.reporter.true.title = On
+instance.service.hint = 
+instance.service.title = Service
+instance.status.pending = Pending
+instance.status.running = Running
+instance.status.shutting-down = Shutting Down
+instance.status.terminated = Terminated
+instance.status.unreachable = Unreachable
+instance.status.error = Error
+
+
+
+
+################
+# "keys" dataset
+################
+key.all.hint = 
+key.all.title = Ops
+key.gets.hint =
+key.gets.title = Gets
+key.length.hint = 
+key.length.title = Length
+key.rank.hint = 
+key.rank.title = #
+key.reads.hint = 
+key.reads.title = R
+key.sets.hint =
+key.sets.title = Sets
+key.total.hint = 
+key.total.title = Total
+key.value.hint = 
+key.value.title = Key
+key.writes.hint = 
+key.writes.title = W
+
+
+
+##############################
+# page titles / menus / colors
+##############################
+
+##### header names
+page.header.statistics				= Server Statistics
+page.header.traffic					= Server Traffic
+
+
+##### menu item names
+page.menu.mc_stats_basic 			= Basic
+page.menu.mc_stats_clients 			= Top Clients
+page.menu.mc_stats_health 			= Health
+page.menu.mc_stats_items			= Items
+page.menu.mc_stats_keys 			= Top Keys
+page.menu.mc_stats_memory 			= Memory
+page.menu.mc_stats_replication 		= Replication
+page.menu.mc_stats_service 			= Memcached Pool
+page.menu.mc_stats_slabs 			= Slabs
+page.menu.mc_stats_storage 			= Storage
+
+page.menu.mc_traffic_reads			= Bytes Received
+page.menu.mc_traffic_writes			= Bytes Sent
+page.menu.mc_traffic_gets			= Gets
+page.menu.mc_traffic_sets			= Sets
+page.menu.mc_traffic_composite		= Overall Stats
+page.menu.mc_traffic_structures		= Conn. Structs
+page.menu.mc_traffic_connections	= Connections
+page.menu.mc_traffic_items			= Items
+page.menu.mc_traffic_evictions		= Evictions
+page.menu.mc_traffic_hits			= Get Hits
+page.menu.mc_traffic_misses			= Get Misses
+page.menu.mc_traffic_queue			= Sync Queue Size
+
+##### window titles
+page.title.overview			 		= Overview
+
+page.title.mc_stats_basic 			= Basic Stats
+page.title.mc_stats_clients 		= Top Clients
+page.title.mc_stats_clientsForKey 	= Top Clients for '#{key}'
+page.title.mc_stats_configure 		= Configure Service
+page.title.mc_stats_health 			= Health Stats
+page.title.mc_stats_items 			= Items Stats
+page.title.mc_stats_keys 			= Top Keys
+page.title.mc_stats_keysForClient 	= Top Keys for #{client}
+page.title.mc_stats_memory 			= Memory Stats
+page.title.mc_stats_memory2 		= Memory Allocation Stats
+page.title.mc_stats_new 			= New Service
+page.title.mc_stats_replication 	= Replication Stats
+page.title.mc_stats_services 		= Services Summary
+page.title.mc_stats_slabs 			= Slabs Stats
+page.title.mc_stats_storage 		= Storage Stats
+
+page.title.mc_traffic_reads			= Bytes Received/Second
+page.title.mc_traffic_writes		= Bytes Sent/Second
+page.title.mc_traffic_gets			= Gets/Second
+page.title.mc_traffic_sets			= Sets/Second
+page.title.mc_traffic_composite		= Overall Statistics
+page.title.mc_traffic_structures	= Connection Structures
+page.title.mc_traffic_connections	= Connections
+page.title.mc_traffic_items			= Items
+page.title.mc_traffic_evictions	 	= Evictions/Second
+page.title.mc_traffic_hits			= Get Hits/Second
+page.title.mc_traffic_misses		= Get Misses/Second
+page.title.mc_traffic_queue			= Sync Queue Size
+
+
+
+
+
+
+##############
+# refresh menu
+##############
+refresh.menu.title = Auto-Refresh: #{timeMessage}
+refresh.minutes = #{number} minutes
+refresh.off = Off
+refresh.seconds = #{number} seconds
+
+
+##############
+# service view
+##############
+
+##### addServers form
+service.addServers.action.pool = Action:
+service.addServers.action.server = with this Server and:
+service.addServers.attach.label.pool = Attach existing Memcached Server(s) to this Pool:
+service.addServers.attach.label.server = existing Memcached Server(s):
+service.addServers.create.label = Add&nbsp;
+service.addServers.create.label.suffix.pool = &nbsp;new Memcached Server(s) to this Pool
+service.addServers.create.label.suffix.server = &nbsp;new Memcached Server(s)
+service.addServers.cost.hint = Note: per-server charges apply. See your service provider for cost information
+service.addServers.ips.hint =  Enter the IP Address of one or more existing Memcached Servers, separated by commas or spaces
+service.addServers.ips.label.super = IP Address(es):
+service.addServers.ips.label.modify.pool = Attach existing servers to this pool:
+service.addServers.ips.label.modify.server = and existing server(s):
+service.addServers.machineType.label = Machine type:
+service.addServers.name.label = Create a Memcached Pool named:
+service.addServers.name.label.suffix = with this server
+service.addServers.title = Add Memcached Servers
+
+service.renameService.name.label.pool = Name for this Memcached Pool:
+service.renameService.name.label.server = Name for this Memcached Server:
+
+service.instanceCount1 = (#{_instanceCount} server)
+service.instanceCountN = (#{_instanceCount} servers)
+service.instanceMemory.title = Memory for server #{name}:
+service.machineType.title = #{vendorType} (#{_memSize} RAM)
+#service.memcachePool.title = Memcached Pool: #{name}
+service.memcachePool.title = Memcached Pool:
+service.memcacheService.title = Memcached Server: #{name}
+##DEPRECATED>
+service.memcacheServer.title = Memcached Server:
+##<DEPRECATED
+service.memoryGraph.hint = {Total Memory:}[[Used:|#{usedGB}GB|(#{usedPercent})][Free:|#{freeGB}GB|(#{freePercent})][Total:|#{totalGB}GB]]
+service.memoryGraph.label = Total Memory: #{usedPercent} in use
+service.package.title = Memcache version:
+service.renameService.title = Rename
+service.service.title = Memcached Service:
+service.showInstanceMenu.title = Show data for Memcached Server:
+service.startDate.title = Service started:
+service.status.disabled = Disabled
+service.status.enabled = Enabled
+service.status.title = Status:
+service.tcpPort.title = TCP port:
+service.udpPort.title = UDP port:
+
+
+
+############
+# stats data
+############
+stat.accepting_conns.hint =
+stat.accepting_conns.title = Accepting Connections
+
+stat.age.title = Max Age (sec)
+
+stat.bytes_read.hint =  
+stat.bytes_read.title = Reads (b)
+
+stat.bytes_written.hint =   
+stat.bytes_written.title = Writes (b)
+
+stat.Bytes.hint = 
+stat.bytes.title = Bytes
+stat.Bytes.title = Bytes
+
+stat.chunk_size.hint = 
+stat.chunk_size.title = Chunk Size
+
+stat.chunks_per_page.hint = 
+stat.chunks_per_page.title = Chunks<br>per Page
+
+stat.chunks_per_slab.hint = 
+stat.chunks_per_slab.title = Chunks<br>per Slab
+
+stat.clean_cache.hint = 
+stat.clean_cache.title = Clean Cache
+
+stat.cmd_flush.hint = 
+stat.cmd_flush.title = Flushes
+
+stat.cmd_get.hint = 
+stat.cmd_get.title = Gets
+
+stat.cmd_set.hint = 
+stat.cmd_set.title = Sets
+
+stat.connection_structures.hint = 
+stat.connection_structures.title = Connection Structures
+
+stat.connectTimeUs.hint = 
+stat.connectTimeUs.title = Connect Time (usec)
+
+stat.curr_connections.hint = 
+stat.curr_connections.title = Current Connections
+
+stat.curr_items.hint = 
+stat.curr_items.title = Current Item Count
+
+stat.delete.hint = 
+stat.delete.title = Deletes
+
+stat.dirty_cache.hint = 
+stat.dirty_cache.title = Dirty Cache
+
+stat.dirty_data.hint =  
+stat.dirty_data.title = Dirty
+
+stat.eff_write_MBPS.hint =
+stat.eff_write_MBPS.title = W. Effective Thr.
+
+stat.empty.title = &nbsp;
+stat.evicted_time.title = Evicted Time (sec)
+
+stat.evicted.title = Evicted
+stat.Evictions.hint = 
+
+stat.evictions.title = Evictions
+stat.Evictions.title = Evictions
+
+stat.free_chunks_end.hint = 
+stat.free_chunks_end.title = Free<br>Chunks End
+
+stat.free_chunks.hint = 
+stat.free_chunks.title = Free<br>Chunks
+
+stat.get_hits.hint = 
+stat.get_hits.title = Get Hits
+
+stat.get_misses.hint = 
+stat.get_misses.title = Get Misses
+
+stat.getTimeUs.hint = 
+stat.getTimeUs.title = Get Response Time (usec)
+
+stat.id.hint = 
+stat.id.title = ID
+
+stat.key.hint = 
+stat.key.title = Stat
+
+stat.key2.hint = 
+stat.key2.title = Stat
+
+stat.lastpoll.hint = 
+stat.lastpoll.title = Last Poll
+
+stat.limit_maxbytes.hint = 
+stat.limit_maxbytes.title = Limit Max Bytes (b)
+
+stat.listen_disabled_num.hint = 
+stat.listen_disabled_num.title = Listening Disabled Count
+
+stat.liveness.hint = 
+stat.liveness.title = Liveness
+
+stat.Locks.hint = 
+stat.Locks.title = Locks
+
+stat.malloc:0.hint = 
+stat.malloc:0.title = 
+
+stat.malloc:1.hint = 
+stat.malloc:1.title = 
+
+stat.malloc:2.hint = 
+stat.malloc:2.title = 
+
+stat.malloc:3.hint = 
+stat.malloc:3.title = 
+
+stat.malloc:4.hint = 
+stat.malloc:4.title = 
+
+stat.name.hint = 
+stat.name.title = Name
+
+stat.num_sync_slaves.hint = 
+stat.num_sync_slaves.title = Sync Slaves
+
+stat.num_tcp_listeners.hint = 
+stat.num_tcp_listeners.title = TCP Listeners
+
+stat.num_udp_listeners.hint = 
+stat.num_udp_listeners.title = UDP Listeners
+
+stat.number.gear6.title = Size (s)
+
+stat.number.title = Number
+
+stat.outofmemory.title = Out of Memory
+
+stat.pid.hint  = Unix pid of the memcache process
+stat.pid.title = Process Id
+
+stat.pointer_size.hint = 
+stat.pointer_size.title = Pointer Size
+
+stat.read_MBPS.hint =   
+stat.read_MBPS.title = R. Throughput
+
+stat.Reads.hint = 
+stat.Reads.title = Reads (b)
+
+stat.remote_delete_out_of_order.hint = 
+stat.remote_delete_out_of_order.title = Delete Out of Order
+
+stat.remote_delete_serviced.hint = 
+stat.remote_delete_serviced.title = Remote Deletes Serviced
+
+stat.remote_delete.hint = 
+stat.remote_delete.title = Remote Deletes
+
+stat.remote_replace.hint = 
+stat.remote_replace.title = Remote Replace
+
+stat.remote_set_serviced.hint = 
+stat.remote_set_serviced.title = Remote Sets Serviced
+
+stat.remote_set.hint = 
+stat.remote_set.title = Remote Sets
+
+stat.remote_update_serviced.hint = 
+stat.remote_update_serviced.title = Remote Updates Serviced
+
+stat.remote_update.hint = 
+stat.remote_update.title = Remote Updates
+
+stat.replace.hint = 
+stat.replace.title = Replaces
+
+stat.respTimeMs.hint = 
+stat.respTimeMs.title = Response Time (msec)
+
+stat.rusage_system.hint = 
+stat.rusage_system.title = Resource Usage: System (sec)
+
+stat.rusage_user.hint = 
+stat.rusage_user.title =  Resource Usage: User (sec)
+
+stat.setTimeUs.hint = 
+stat.setTimeUs.title = Set Response Time (usec)
+
+stat.statsAge.hint = 
+stat.statsAge.title = Stats Age (sec)
+
+stat.sync_items_added.hint = 
+stat.sync_items_added.title = Sync Items Added
+
+stat.sync_items_initial.hint = 
+stat.sync_items_initial.title = Inital Sync Items
+
+stat.sync_items_processed.hint = 
+stat.sync_items_processed.title = Sync Items Processed
+
+stat.sync_queue_size.hint = 
+stat.sync_queue_size.title = Sync Queue Size
+
+stat.tailrepairs.title = Tail Repairs
+
+stat.threads.hint = 
+stat.threads.title = Threads
+
+stat.time.hint = 
+stat.time.title = Time
+
+stat.total_bytes.hint = 
+stat.total_bytes.title = Total Size
+
+stat.total_chunks.hint = 
+stat.total_chunks.title = Total<br>Chunks
+
+stat.total_connections.hint = 
+stat.total_connections.title = Total Connections
+
+stat.total_free.hint = 
+stat.total_free.title = Total Free
+
+stat.total_in_use.hint =    
+stat.total_in_use.title = In Use
+
+stat.total_items.hint = 
+stat.total_items.title = Total Items
+
+stat.total_lock.hint =  
+stat.total_lock.title = Locks
+
+stat.total_malloc.hint = 
+stat.total_malloc.title = Total Malloc
+
+stat.total_pages.hint = 
+stat.total_pages.title = Total<br>Pages
+
+stat.total_slabs.hint = 
+stat.total_slabs.title = Total<br>Slabs
+
+stat.uptime.hint = Amount of time in milliseconds this process has been running
+stat.uptime.title = Up Time
+
+stat.used_chunks.hint = 
+stat.used_chunks.title = Used<br>Chunks
+
+stat.value.hint = 
+stat.value.title = Value
+
+stat.value2.hint = 
+stat.value2.title = Value
+
+stat.version.hint = 
+stat.version.title = Memcache Version
+
+stat.write_idle_percentage.hint =
+stat.write_idle_percentage.title = W. Idle
+
+stat.write_MBPS.hint =  
+stat.write_MBPS.title = W. Throughput
+
+stat.Writes.hint = 
+stat.Writes.title = Writes (b)
+
+
+
+
+############################
+# traffic datasets
+############################
+
+##### colors
+traffic.color.bytes_read                = #005C8A
+traffic.color.bytes_written             = #F47836
+traffic.color.cmd_get                   = #F47836
+traffic.color.cmd_set                   = #005C8A
+traffic.color.composite                 = #333333
+traffic.color.connection_structures     = #333333
+traffic.color.curr_connections          = #333333
+traffic.color.curr_items                = #666666
+traffic.color.evictions                 = #DE006B
+traffic.color.get_hits                  = #99cc00
+traffic.color.get_misses                = #b42d33
+traffic.color.sync_queue_size      		= #333333
+
+##### titles for live vs historical data
+traffic.data.historicalTitle            = (Historical Data)
+traffic.data.liveTitle                      = (Live Data)
+
+##### menu titles
+traffic.menu.bytes_read                 = Bytes Received
+traffic.menu.bytes_written         		= Bytes Sent
+traffic.menu.cmd_get                    = Gets
+traffic.menu.cmd_set                    = Sets
+traffic.menu.composite           	   	= Overall Stats
+traffic.menu.connection_structures      = Conn. Structs
+traffic.menu.curr_connections           = Connections
+traffic.menu.curr_items                 = Items
+traffic.menu.evictions                  = Evictions
+traffic.menu.get_hits                   = Get Hits
+traffic.menu.get_misses                 = Get Misses
+traffic.menu.sync_queue_size            = Sync Queue Size
+traffic.menu.title                      = Server Traffic
+
+##### chart titles (shown in the window title)
+traffic.title.bytes_read                = Bytes Received/Second
+traffic.title.bytes_written             = Bytes Sent/Second
+traffic.title.cmd_get                   = Gets/Second
+traffic.title.cmd_set                   = Sets/Second
+traffic.title.composite                 = Overall Statistics
+traffic.title.connection_structures     = Connection Structures
+traffic.title.curr_connections     		= Connections
+traffic.title.curr_items                = Items
+traffic.title.evictions                 = Evictions/Second
+traffic.title.get_hits                  = Get Hits/Second
+traffic.title.get_misses                = Get Misses/Second
+traffic.title.sync_queue_size       	= Sync Queue Size
+
+
+
+
+#######################
+# random bits of the UI
+#######################
+UI.acknowledgements = Acknowledgements
+UI.addToOverview.button = Add to Overview
+UI.addToOverview.prompt = Enter one or more IP addresses from another pool, separated by commas:
+UI.appnamePlusProvider = #{appname}<br>on #{serviceProvider}
+UI.Cancel = Cancel
+UI.configuration = Configuration:
+UI.copyToClipboard = Copy to clipboard
+UI.copyIpsToClipboard = Copy IP Addresses to clipboard
+UI.dateUnknown = Unknown
+UI.done = Done
+UI.forServer = for
+UI.instance = Instance
+UI.invalidFormat = Invalid format, please try again
+UI.lastRefresh = Last refresh:
+UI.memory = Memory Usage
+UI.noData = (No data)
+UI.noDataToShow = (No data to show)
+UI.now = Now
+UI.OK = OK
+UI.refreshNow = Refresh Now
+UI.reloadPage = Reload Page
+UI.service = Service
+UI.support.button = Support
+UI.support.link = support.html
+UI.timezone = Use Timezone
+UI.today = Today
+UI.yesterday = Yesterday
+
+
+#######################
+# stats titles
+#######################
+
+##### menu item names
+view.menu.basic = Basic
+view.menu.clients = Top Clients
+view.menu.health = Health
+view.menu.items = Items
+view.menu.keys = Top Keys
+view.menu.memory = Memory
+view.menu.overview = Overview
+view.menu.replication = Replication
+view.menu.service = Memcached Pool
+view.menu.slabs = Slabs
+view.menu.storage = Storage
+view.menu.title = Server Statistics
+
+##### window titles
+view.title.basic = Basic Stats
+view.title.clients = Top Clients
+view.title.clientsForKey = Top Clients for '#{key}'
+view.title.configure = Configure Service
+view.title.health = Health Stats
+view.title.items = Items Stats
+view.title.keys = Top Keys
+view.title.keysForClient = Top Keys for #{client}
+view.title.memory = Memory Stats
+view.title.memory2 = Memory Allocation Stats
+view.title.new = New Service
+view.title.overview = Server Overview
+view.title.replication = Replication Stats
+view.title.services = Services Summary
+view.title.slabs = Slabs Stats
+view.title.storage = Storage Stats
+
+
+
+##############
+# window title
+##############
+
+##DEPRECATE
+window.title.noService =  #{SP.view.title} : #{SP.config.appname} #{SP.config.version}
+window.title.namedService   =  #{SP.view.title} for server #{SP.getInstance().name} (pool '#{SP.getService().name}') : #{SP.config.appname} #{SP.config.version}
+window.title.unnamedService   =  #{SP.view.title} for server #{SP.getInstance().name} : #{SP.config.appname} #{SP.config.version}
+### END DEPRECATE
+
+window.title 				= #{SP:selection.getTitle()} : #{SC:config.appname} #{SC:config.version}
+window.title.memcache.namedService   = #{SP:selection.getTitle()} for server #{MC:selection.getTitle()} (pool '#{SC:selection.name}') : #{SC:config.appname} #{SC:config.version}
+window.title.memcache.unnamedService = #{SP:selection.getTitle()} for server #{MC:selection.getTitle()} : #{SC:config.appname} #{SC:config.version}
+window.title.overview		= Service Overview : #{SC:config.appname} #{SC:config.version}

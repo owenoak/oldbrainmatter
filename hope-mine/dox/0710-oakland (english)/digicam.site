@@ -1,0 +1,142 @@
+<!-- 
+	Digicam example site: 
+		- simple single-user photo management 
+		- (later extend to multi-user ala flickr)
+		
+		? where does skinning fit in?
+-->
+
+<!-- in file:  .../projects/digicam.site -->
+<site id='digicam'>
+	<panel ref='digicam-splash'/>
+
+	<panel ref='digicam-header'>
+	<panel ref='digicam-headerNotLoggedIn'>
+	<panel ref='digicam-footer'/>
+	
+	<app ref='digicam-welcome'/>	<!-- initial state, not logged in -->
+	<app ref='digicam-home'/>
+	<app ref='digicam-gallery'/>
+	<app ref='digicam-account'/>
+	<app ref='digicam-printer'/>
+	<app ref='digicam-admin'/>
+	
+	<action id='digicam-help'>
+		<title>Help</title>
+		<icon>help</title>
+		<callback>...</callback>
+	</action>
+	<action id='digicam-preferences'>
+		<title>Preferences</title>
+		<icon>prefs</title>
+		<help>Edit preferences for this account</help>
+		<callback>...</callback>
+		<enableif>account.loggedIn is true</enableIf>
+	</action>
+	<action id='digicam-login'>
+		<title>Log In</title>
+		<callback>...</callback>
+		<enableif>account.loggedIn is not true</enableIf>
+	</action>
+	<action id='digicam-logout'>
+		<title>Log Out</title>
+		<callback>...</callback>
+		<enableif>account.loggedIn is true</enableIf>
+	</action>
+
+	<action id='digicam-signup'>
+		<title>Free Sign Up!</title>
+		<callback>...</callback>
+		<enableIf>account.loggedIn is not true</enableIf>
+	</action>
+
+	<action id='digicam-search'>
+		<title>Go</title>
+		<callback>...</callback>
+		<enableIf>field digicam-search-critera is not empty</enableIf>
+	</action>
+
+	<action id='digicam-expandedSearch'>
+		<title>More Options</title>
+		<callback>...</callback>
+	</action>
+</site>
+
+<!-- in file: .../projects/digicam/login.panel -->
+<panel id='digicam-splash' align='center' valign='center'>
+	<template  layout='css' border='window'>
+		<image id='digicam-splash-logo' src='logo-big.png'>
+		<label id='digicam-splash-title'>Digicam!</label>
+		<label id='digicam-splash-version'>${site.version}</label>
+		<label id='digicam-splash-copyright'>Copyright &copy; 2007 Dynabooks Designs, LLC.</label>
+	</template>
+</panel>
+
+
+<!-- in file: .../projects/digicam/header.panel -->
+<panel id='digicam-header'>
+	<template>
+		<toolbar layout='horizontal'>
+			<image src='logo-small.png'/>
+			<spacer	width='10'/>
+			<label>Welcome ${account.prefs.name}!</label>
+			<spacer	width='*'/>
+			<panel ref='digicam-search'>
+			<spacer	width='*'/>
+			<link action='digicam-help'/>
+			<link action='digicam-preferences'/>
+			<link action='digicam-logout'/>
+		</toolbar>
+	</template>
+</panel>
+
+
+<!-- in file: .../projects/digicam/headerNotLoggedIn.panel -->
+<panel id='digicam-headerNotLoggedIn'>
+	<template>
+		<form>
+			<toolbar layout='horizontal'>
+				<image src='logo-small.png'/>
+				<spacer	width='*'/>
+				<label>Sign in:</label>
+				<field name='username' hint='email address'>
+				<password name='password' hint='password'>
+				<button action='digicam-login'/>
+				<spacer	width='10'/>
+				<link action='digicam-signup'>
+			</toolbar>
+		</form>
+	</template>
+</panel>
+
+<!-- in file: .../projects/digicam/search.panel -->
+<panel id='digicam-search'>
+	<form id='digicam-search' layout='horizontal'>
+		<label>Find:</label>	
+		<searchfield name='forWhat'>
+		<button action='digicam-search'/>
+		<link action='digicam-expandedSearch'/>
+	</form>
+</panel>
+
+<!-- in file:  .../projects/digicam/gallery.app -->
+<app id='digicam-gallery'>
+	<page ref='digicam-gallery-home' initial='true'/>
+	<page ref='digicam-gallery-albums'/>
+	<page ref='digicam-gallery-album'/>
+	<page ref='digicam-gallery-photo'/>	
+	<page ref='digicam-gallery-slideshow'/>	
+	<script></script>
+</app>
+
+<!-- in file:  .../projects/digicam/gallery/album.page -->
+<page id='digicam-gallery-album'>
+	<datasource ref='photoFolder'></datasource>
+	<template>
+		<panel ref='digicam-header'>
+		<toolbar id='navbar'>...</toolbar>
+		<photoList>...</photoList>
+		<toolbar id='actions'></toolbar>
+		<panel ref='digicam-footer'>
+	</template>
+</page>

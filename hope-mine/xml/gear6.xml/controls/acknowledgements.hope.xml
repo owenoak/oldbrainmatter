@@ -1,0 +1,5 @@
+<link name='acknowledgements'>
+	<on event='activate'>
+		show overlay 'acknowledgements'
+	</on>
+</link>

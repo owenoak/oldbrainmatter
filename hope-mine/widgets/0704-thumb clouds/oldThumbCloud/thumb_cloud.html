@@ -1,0 +1,110 @@
+<HTML>
+<STYLE type='text/css'>
+* 			{	font-family:Verdana;	-moz-box-model:border-box;}
+.s, .small	{	font-size:6px;			}
+.m, .medium {	font-size:18px;			}
+.l, .large 	{	font-size:30px;			}
+
+.cloud {
+	position:relative;
+	width:300px;
+	height:200px;
+	border:1px solid #eeeeee;
+}
+
+.cl, .cloudItemLeft {
+	float:left;
+}
+
+.cr, .cloudItemRight {
+	float:right;
+}
+
+DIV {
+	border:1px solid white;
+}
+</STYLE>
+
+<script language='javascript'>
+var cloudItems = [
+	{name:"Large Item 1", value:100},
+	{name:"Large 2", value:100},
+	{name:"Long Large Item 1", value:100},
+	{name:"Large Item 1", value:100},
+	{name:"Large]1", value:100},
+
+	{name:"Medium Item 1", value:50},
+	{name:"Medium 2", value:50},
+	{name:"Long Medium Item 1", value:50},
+	{name:"Medium Item 1", value:50},
+	{name:"Medium]1", value:50},
+
+
+	{name:"Small Item 1", value:10},
+	{name:"Small 2", value:10},
+	{name:"Long Small Item 1", value:10},
+	{name:"Small Item 1", value:10},
+	{name:"Small]1", value:10},
+
+
+	{name:"Small Item 1", value:10},
+	{name:"Small 2", value:10},
+	{name:"Long Small Item 1", value:10},
+	{name:"Small Item 1", value:10},
+	{name:"Small]1", value:10}
+]
+
+function makeCloud(list) {
+	for (var i = 0; i < list.length; i++) {
+		var it = list[i];
+		if (!it) continue;
+		var size = (it.value < 75 ? (it.value < 25 ? "small" : "medium") : "large");
+		
+	}
+}
+
+</script>
+
+
+<BODY>
+
+
+
+<div class='cloud'>
+	<div class='cr s'>Small Item</div>
+	<div class='cl l'>Large Item</div>
+	<div class='cl s'>Small Item</div>
+	<div class='cl s'>Small Item</div>
+	<div class='cl s'>Small Item</div>
+	<div class='cr m'>Medium Item</div>
+	<div class='cl s'>Small Item</div>
+	<div class='cl s'>Small Item</div>
+	<div class='cr s'>Small Item</div>
+	<div class='cr s'>Small Item</div>
+	<div class='cr s'>Small Item</div>
+	<div class='cl l'>Large Item</div>
+	<div class='cr s'>Small Item</div>
+	<div class='cl s'>Small Item</div>
+	<div class='cr m'>Medium Item</div>
+	<div class='cr s'>Small Item</div>
+	<div class='cr s'>Small Item</div>
+	<div class='cr l'>Large Item</div>
+	<div class='cr s'>Small Item</div>
+	<div class='cr s'>Small Item</div>
+	<div class='cr m'>Medium Item</div>
+	<div class='cl s'>Small Item</div>
+	<div class='cl s'>Small Item</div>
+	<div class='cl s'>Small Item</div>
+	<div class='cr s'>Small Item</div>
+	<div class='cr s'>Small Item</div>
+	<div class='cl l'>Large Item</div>
+	<div class='cr s'>Small Item</div>
+	<div class='cl m'>Medium Item</div>
+	<div class='cr s'>Small Item</div>
+	<div class='cl s'>Small Item</div>
+	<div class='cr s'>Small Item</div>
+</div>
+
+
+</BODY>
+</HTML>

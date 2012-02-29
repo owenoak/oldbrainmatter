@@ -1,0 +1,53 @@
+<controlStatement>		- 
+<object>				- reference to an object (or property of an object?)
+<container>				-
+
+<reference>
+<referenceToObject>
+
+<baseReference>			- reference to a base object (just reference?)
+<boundaryReference>		- another reference, used in ranges
+						- "beginning" == 0
+						- "end" == last
+<statement>				- 
+<statements>			- list of <statements>
+							-- do as <statement...>
+<variable>				- variable name
+<propertyLabel>			- property name
+<indexVar>				- used in JS, somehow ensures that we have a unique indexer
+							so "i" in for (var i...)  doesn't get overrun in a nested loop
+
+<IDvalue>				- value of an ID property (could be 'identifier?')
+<methodName>			- name of a method (could be 'identifier?')
+
+
+<className>				- name of a type, like "word" or "paragraph"
+						- extend to DOM types ?
+<pluralClassName>		- plural name of a type, like "words"
+						- do rails-like pluralization?  it's awfully cool
+						- convert back to 'className' when substituting
+
+-- types
+
+<boolean>				- implicit coercion to true/false
+<class>					- class type (map to tag name?)
+<integer>				- implicit coercion to number
+<real>
+<float>					- implicit coercion floating point number
+<number>				- integer or number
+<string>				- implicit coercion to string
+<date>					- implicit conversion to a date?  
+							- syntax:  date "string"
+							- date has properties 
+								- .day - day number (1-baed)
+								- .weekDay -- constant "Monday", etc
+								- .weekDayNum - 1-based week day number
+								- .month -- constant "January", "February", etc
+								- .month[num] - 1-based month number
+								- .year
+								- .time - # of secs since midnight ???
+								- .date (date to string)
+<data>					- raw data that can't be manipulated but can be stored (eg: data url?)
+<record>				- collection of properties -- <object>?
+<reference>				- reference to an object
+<styledText>			- text with styles in it.  -- <html>?

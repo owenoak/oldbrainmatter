@@ -1,0 +1,484 @@
+/*************************************
+ *   Showing/Hiding parts of the UI
+ *************************************/	
+
+	/* Hide parts of the MemcacheService views based on service type */
+	.MemcachePool   .ifService,
+	.MemcacheService .ifPool {
+		display:none;
+	}
+	
+	
+	/* Hide parts of the MemcacheServer view based on the server state */
+	.MemcacheServer[reporter=off] .ifReporterView,
+	.MemcacheServer[reporter=off] .ifReporterModify,
+	.MemcacheServer[reporter=view] .ifReporterOff,
+	.MemcacheServer[reporter=view] .ifReporterModify,
+	.MemcacheServer[reporter=modify] .ifReporterOff,
+	.MemcacheServer[reporter=modify] .ifReporterView,
+	.MemcacheServer[rehashing=disabled] .ifRehashing,
+	.MemcacheServer[showPublicIp=false] .ifHasPublicIp
+	{
+		display:none;
+	}
+
+
+
+
+
+/***********************************
+ *   Common to all ServiceViews
+ ***********************************/	
+	.ServiceView {
+		margin-bottom:30px; 
+	}
+
+	body[role=view] .ServiceView {
+		margin-bottom:15px; 
+	}
+
+	.ServiceView[collapsed=true] {
+		margin-bottom:15px; 
+	}
+	 
+	.ServiceView .Header {
+		height:20px;
+	}
+
+
+/**************************************
+ *   Base colors for MemcachePools
+ **************************************/	
+	.MemcachePool {
+		background-color:#6b8e00;
+		border-color:#6b8e00 #304000 #304000 #6b8e00;
+	}
+	
+	.MemcachePool .Body,
+	.MemcachePool .Inset {
+		border-color:#465d00 white white #465d00;
+	}	
+
+	.MemcachePool .Header,
+	.MemcachePool .Header .title {
+		color:white;
+	}
+
+	.MemcachePool .Header .hint,
+	.MemcachePool .Header .label {
+		color:#d2dcb4;
+	}
+
+	.MemcachePool .Drawer {
+		background-color:#9cb07b;
+	}
+
+	.MemcachePool .BottomTab {
+		background-color:#9cb07b;
+		border-color:#9cb07b #7b8c63 #7b8c63 #9cb07b;
+		color:#444;
+	}
+
+	.MemcachePool[collapsed] .Expander {
+		background-image:url(images/window_arrow_expanded_white.gif);
+	}
+
+	/* show collapsed arrow when window is collapsed */
+	.MemcachePool[collapsed=true] .Expander {
+		background-image:url(images/window_arrow_collapsed_white.gif);
+	}
+
+
+
+/***************************************
+ *   Base colors for MemcacheServices
+ ***************************************/	
+
+	.MemcacheService {
+		background-color:#888888;
+		border-color:#888888 #666666 #666666 #888888;
+	}
+
+	.MemcacheService .Body,
+	.MemcacheService .Inset {
+		border-color:#666666 white white #666666;
+	}
+
+	.MemcacheService .Header,
+	.MemcacheService .Header .title {
+		color:white;
+	}
+
+	.MemcacheService .Header .hint,
+	.MemcacheService .Header .label {
+		color:#cccccc;
+	}
+
+	.MemcacheService .Drawer,
+	.MemcacheService .BottomTab {
+		background-color:#aaaaaa;
+		color:#444;
+		border-color:#aaaaaa black black #aaaaaa;
+	}
+
+	.MemcacheService[collapsed] .Expander {
+		background-image:url(images/window_arrow_expanded_white.gif);
+	}
+
+	/* show collapsed arrow when window is collapsed */
+	.MemcacheService[collapsed=true] .Expander {
+		background-image:url(images/window_arrow_collapsed_white.gif);
+	}
+
+
+/***************************************
+ *   MemacheServer view
+ ***************************************/	
+
+	/* table that contains a row for each server */
+	.ServersTable {
+		width:100%;
+		border-collapse:collapse;
+	}
+
+	.ServersTable td {
+		font-size:.9em;
+		vertical-align:top;
+		padding:7px 10px 7px 5px;
+		white-space:nowrap;
+		border-bottom:1px solid #ddd;
+	}
+
+	.ServiceView .ServersTable td.memory {
+		width:100%;
+	}
+
+	.MSIE7 .ServiceView[rehashing=true] .ServersTable td.memory {
+		width:25%;
+	}
+
+	.ServiceView[rehashing=true] .ServersTable td.rehash {
+		width:150px !important;
+	}
+
+	.ServiceView[showPublicIps=false] .ServersTable td.publicIp {
+		display:none;
+	}
+
+	.ServersTable tr:last-item td {
+		border-bottom-width:0px;
+	}
+
+
+	.ServersTable td .value,
+	.ServersTable td .subtleAnchor {
+		display:inline-block;
+		#display:inline; #zoom: 1; 
+		height:16px;
+		line-height:16px;
+	}
+
+	/* Row for each MemcacheServer. */
+	.MemcacheServer {}
+	
+	.MemcacheServer.HIGHLIGHT td {
+		background-color:#fcf2c2;
+	}
+	
+	.MemcacheServer .ip,
+	.MemcacheServer .publicIp {
+		cursor:pointer;
+		white-space:nowrap;
+	}
+
+	.MemcacheServer .ip span,
+	.MemcacheServer .publicIp span {
+		font-weight:bold;
+	}
+	.MemcacheServer .ip:hover span,
+	.MemcacheServer .publicIp:hover span {
+		text-decoration:underline;
+	}
+
+	.MemcacheServer .publicIp {
+		padding-left:0px;
+	}
+
+
+	.MemcacheServer .info {
+		cursor:help;
+		width:16px;
+		height:16px;
+		background:url(images/famfamfam/information.png) no-repeat;
+	}
+
+
+	.MemcacheServer:first-item td:first-item {
+		-moz-border-radius-topleft:5px;
+		-webkit-border-top-left-radius:5px;
+	}
+
+	.MemcacheServer:last-item td:first-item {
+		-moz-border-radius-bottomleft:5px;
+		-webkit-border-bottom-left-radius:5px;
+	}
+
+	.MemcacheServer:first-item td:last-item {
+		-moz-border-radius-topright:5px;
+		-webkit-border-top-right-radius:5px;
+	}
+
+	.MemcacheServer:last-item td:last-item {
+		-moz-border-radius-bottomright:5px;
+		-webkit-border-bottom-right-radius:5px;
+	}
+
+	.MemcacheServer td:last-item {
+		padding-right:10px;
+	}
+
+	.MemcacheServer .infoCell {
+		padding-left:8px;
+		padding-right:0px;
+	}
+	
+
+
+	.MemcacheServer .status .value {
+		background-image:url(images/famfamfam/accept.png);
+		background-repeat:no-repeat;
+		background-position:left center;
+		padding-left:20px;
+	}
+
+	.MemcacheServer[status='shutting-down'] .status .value,
+	.MemcacheServer[status='terminated'] .status .value {
+		font-weight:bold;
+		background-image:url(images/famfamfam/error.png);
+	}
+
+	.MemcacheServer[status='error'] .status .value {
+		font-weight:bold;
+		background-image:url(images/famfamfam/exclamation.png);
+	}
+
+
+	.MemcacheServer .UsageGraph {
+		width:100%;
+		min-width:150px;
+	}
+	
+	
+	.MemcacheServer .shutDown {
+		vertical-align:middle;
+		text-align:right;
+		font-size:.8em;
+		padding-left:5px;
+		font-weight:bold;
+		white-space:nowrap;
+	}
+
+	/* shut-down button */
+	.MemcacheServer .shutDownLink {
+		padding-left:20px;
+		margin-bottom:2px;
+		background:url(images/famfamfam/stop.png) no-repeat left top;
+	}
+
+
+	/* reporter on/off message or link */
+	.MemcacheServer td.reporter {
+		font-size:.8em;
+		vertical-align:middle;
+	}
+
+	/* reporter button */
+	.MemcacheServer a.reporterLink {
+		font-weight:bold;
+		padding-left:20px;
+		background:url(images/famfamfam/pencil.png) no-repeat left top;
+	}
+
+	/* detach server message / link */
+	.MemcacheServer td.detach {
+		font-size:.8em;
+		vertical-align:middle;
+	}
+
+	/* reporter button */
+	.MemcacheServer a.detachLink {
+		font-weight:bold;
+		padding-left:20px;
+		background:url(images/famfamfam/delete.png) no-repeat left top;
+	}
+
+
+
+	/* tooltip for memcache server rows */
+	#GTip[targetclass*=serverNote] {
+		text-align:center;
+	}
+	#GTip[targetclass*=serverNote] .col1 {
+		color:#555;
+		text-align:right;
+	}
+	#GTip[targetclass*=serverNote] .col2 {
+		font-weight:bold;
+		text-align:left;
+	}
+
+
+
+/******************************
+ *   Memcache Stats window
+ ******************************/	
+
+.StatsWindow {
+	display:inline-block;
+	#display:inline; #zoom: 1;
+	max-width:100%;
+	min-height:20px;
+}
+
+/*  
+
+	.MSIE7 .StatsWindow .WindowBody,
+	.MSIE7 .StatsWindow .StatsTable {
+		#display:inline; #zoom: 1;	  
+	}
+
+	.MSIE7 .StatsWindow,
+	.MSIE7 .StatsWindow DIV {
+		display:inline; zoom: 1;	
+	}
+*/
+	.StatsWindow .WindowBody {
+		-moz-border-radius:0px;
+		-webkit-border-radius:0px;
+	}
+
+
+
+/********************************
+ *   Memcache Traffic window
+ ********************************/	
+
+	.TrafficWindow .WindowBody {
+		position:absolute;
+		top:30px; left:0px; right:0px; bottom:0px;
+		overflow:hidden;
+	}
+
+
+
+
+/*****************************************
+ *   Menu of MemcacheServer instances    
+ *****************************************/	
+
+	#memcacheServerMenu {
+		background-color:transparent;
+		border:0px;
+		max-height:80%;
+		overflow-y:auto;
+		white-space:nowrap;
+		font-size:.8em;
+		border-width:0px;
+	}
+
+	#memcacheServerMenu ul {
+		width:auto;
+		display:block;
+	}
+	
+
+	#memcacheServerMenu .MenuGroup {
+		padding-bottom:2px;
+	}
+	
+	#memcacheServerMenu .MenuGroup:first-item {
+		-moz-border-radius-topleft:8px;
+		-moz-border-radius-topright:8px;
+		-webkit-border-top-left-radius:8px;
+		-webkit-border-top-right-radius:8px;
+	}
+
+	#memcacheServerMenu .MenuGroup:last-item {
+		-moz-border-radius-bottomleft:8px;
+		-moz-border-radius-bottomright:8px;
+		-webkit-border-bottom left-radius:8px;
+		-webkit-border-bottom-right-radius:8px;
+		border-bottom-color:#333 !important;
+	}
+		
+	#memcacheServerMenu .MenuGroup .Header {
+		padding:3px 8px;
+		font-weight:bold;
+	}
+	
+
+
+/******************************************
+ *   Rehash Graph in MemcacheServer View
+ ******************************************/	
+
+	.rehashGraph {
+		position:relative;
+		width:120px; 
+		overflow:hidden;
+		cursor:default;
+	}
+
+	.rehashGraph .used {
+		background-color:#888;
+	}
+
+	.rehashGraph .title {}
+	
+
+
+
+/*********************************
+ *   Generic to all Stats Pages
+ *********************************/
+
+	.StatsWindow {
+		max-width:100%;
+		min-height:20px;
+	}
+
+
+/*****************************
+ *   Individual Stats Pages
+ *****************************/	
+
+	/* memory's secondary table */
+	#mc_stats_memory2 {
+		margin-left:10px;
+	}
+
+	/* slabs table */
+	#mc_stats_slabs td.write_idle_percentage:after {
+		content:"%";
+	}
+	
+	/* keysForClient table */
+	#mc_stats_keysForClient {
+		margin-left:10px;
+	}
+
+	#mc_stats_keysForClient  .value {
+		cursor:default;
+		text-decoration:none;
+		color:black;
+	}
+	
+	
+	/* clientsForKey table */
+	#mc_stats_clientsForKey {
+		margin-left:10px;
+	}
+	
+	#mc_stats_clientsForKey .actions {
+		display:none;
+	}

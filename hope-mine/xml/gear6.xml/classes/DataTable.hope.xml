@@ -1,0 +1,99 @@
+<class name='DataTable' isA='HtmlDrawable'>
+	<!-- todo:  self-acquire data, remote sorting, selected row, split into columns -->
+	<property name='data' type='list' />
+	<property name='columns' type='list of DataTableColumns' index='key'>
+		<docs>Columns of data we'll display.</docs>
+		<on event='add' with='column'>
+			set the table of column to me
+		</on>
+		<on event='remove' with='column'>
+			clear the table of column
+		</on>
+	</property>
+
+	<property name='sortColumn' type='string' />
+	<property name='sortDirection' value='down' values='up,down' />
+	<method name='sort'>
+		if my sortColumn is empty or my data is empty then return
+		if my sortDirection is "up" then
+			tell my data to sort up by property my key
+		else
+			tell my data to sort down by property my key
+		end if
+	</method>
+
+	<on event='rowClick' with='element'>
+		// Click on a particular row of the data.  Default is to do nothing.
+		put attribute 'index' of element into rowIndex
+		put item rowIndex of my data into row
+		if row is not empty then my rowClick with row, index
+	</on>
+	
+	<method name='rowClick' with='row,index'/>
+
+	<on event='columnClick' with='element'>
+		// Click on a particular column.  Default is to sort if column is sortable.
+		put attribute 'column' of element into key
+		put item key of the index of my columns into column
+		if column is not empty then my columnClick with column, key
+	</on>
+	
+	<method name='columnClick' with='column, key'>
+		if the sortable of column is false then return
+		if my sortColumn is key then
+			if my sortDirection is down then 	put up into my sortDirection
+			else 								put down into my sortDirection
+		else
+			set my sortColumn to key		
+		end if
+		redraw me	
+	</method>
+	
+	<expression name='innerHtml'>
+		sort me
+		if my data is empty then
+			return expand my noDataTemplate
+		else
+			put empty into innerHtml
+			put my headerHTML into html
+			put my rowsHtml with data after html
+			return expand my tableHtmlTemplate with html
+		end if
+	</expression>
+
+	<expression name='headerHtml' returns='text'>
+		put the empty string into html
+		for each column of my columns
+			put the titleHtml of column after html
+		end for
+		return expand my rowHtmlTemplate with html, 'header'		
+	</expression>
+	
+	<expression name='rowsHtml' returns='text' with='data'>
+		put the empty string into html
+		for each row of data
+			append my rowHtml with row to html
+		end for
+		return html
+	</expression>
+	
+	<expression name='rowHtml' with='row' returns='text'>
+		put the empty string into html
+		for each column of my columns
+			put the cellHtml of column with row after html
+		end for
+		return expand my rowHtmlTemplate with html, index
+	</expression>
+	
+	<template name='rowHtmlTemplate' with='innerHtml, index'>
+		<tr index='{{index}}' event='click:rowClick'>{{innerHtml}}</tr>
+	</template>
+	
+	<template name='tableHtmlTemplate' with='innerHtml'>
+		<table class='DataTable {{my name}}'>{{innerHtml}}</table>
+	</template>
+
+	<template name='noDataTemplate'>
+		<label class='emptyMessage'>(No data to show)'</label>
+	</template>
+</class>

@@ -1,0 +1,20 @@
+<template> tag
+	- attributes
+		- id:
+		- selector: auto-applies to all elements that match selector
+		- constructor: an instance of constructor will be created for each
+						(and attached to who?)
+		- replace: ?
+		
+	- notes:
+		- templates CANNOT be nested
+		- a template CAN include output that has elements in it that should be parsed
+
+
+<include> tag
+	- attributes
+		- src: src to load from
+
+<layout>
+	- attributes
+		- direction: [h|v]

@@ -1,0 +1,11 @@
+
+item				property		flag
+
+parent				disabled		true
+	child							true
+		child						true
+
+
+Separate out the two funcitons
+	- setEnabled state
+	- showAsEnabled

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+	<result>OK</result>
+	<data>
+		<configuration time='2009-04-29 00:41:22' v='2'>
+			<config>
+				<name>role</name>
+				<value>modify</value>
+			</config>
+			<config>
+				<name>mode</name>
+				<value>appliance</value>
+			</config>
+			<config>
+				<name>authorization</name>
+				<value>enabled</value>
+			</config>
+			<config>
+				<name>appname</name>
+				<value>Gear6 Memcached</value>
+			</config>
+			<config>
+				<name>serviceProvider</name>
+				<value>Amazon EC2</value>
+			</config>
+			<config>
+				<name>version</name>
+				<value>2.3.7</value>
+			</config>
+			<config>
+				<name>reporter</name>
+				<value>on</value>
+			</config>
+			<config>
+				<name>timezoneOffset</name>
+				<value>0</value>
+			</config>
+			<config>
+				<name>timezoneName</name>
+				<value>GMT</value>
+			</config>
+			<config>
+				<name>maxDataSamples</name>
+				<value>500</value>
+			</config>
+			<config>
+				<name>storageEnabled</name>
+				<value>true</value>
+			</config>
+			<config>
+				<name>supportUrls</name>
+				<value>{Support : 'http://www.gear6.com/cloud-support-reg'}</value>
+			</config>
+		</configuration>
+	</data>
+</response>

@@ -1,0 +1,184 @@
+	/* outer element */
+	.DataTable {
+		display:inline-block;
+		#display:inline; #zoom: 1; 
+		cursor:default;
+	}
+
+	.Gecko .DataTable,
+	.WebKit .DataTable,
+	.MSIE8 .DataTable {
+		min-width:100%;
+	}
+
+	
+	.DataTable .emptyMessage {
+		font-size:.9em;
+		font-style:italic;
+		font-weight:bold;
+		padding:5px 10px;
+		color:#666;
+	}
+	
+
+	/* label of the entire statslist section */
+	.DataTable > label {
+		display:block;
+		background:#6b8e00;
+		color:white;
+		font-weight:bold;
+		font-size:1.1em;
+		padding:3px 8px;
+		border-bottom:1px solid #4e6800;
+		-moz-border-radius:3px 3px 0 0;
+		-moz-border-radius:3px 3px 0 0;
+		-webkit-border-top-left-radius:3px;
+		-webkit-border-top-right-radius:3px;
+	}
+
+	/* outer table */
+	.DataTable table {
+		border-collapse:collapse;
+		width:100%;
+	}
+	
+	/** GRR - MSIE7 makes the table the full width of the page
+				if width is set to 100%,
+				rather than taking width of container. */
+	.MSIE7 .DataTable table {
+		width:30em;
+	}
+
+	/* individual stat row */
+	.DataTable .stat {}
+
+	.DataTable .odd td {
+		background-color:#f8f8f8;
+	}
+
+	/* padding for stat label/values */
+	.DataTable td,
+	.DataTable th {
+		font-size:.9em;
+		padding:3px 8px 3px 6px;
+		border-bottom:1px solid #eee;
+		border-left:1px solid #eee;
+		white-space:nowrap;
+	}
+
+	.DataTable th.separator,
+	.DataTable td.separator {
+		font-size:3px;
+		padding:0px;
+		border-left-color:#bbb;
+	}
+
+	/* table header */
+	.DataTable th {
+		background-color:#eaeaea;
+		color:#666;
+		font-size:.8em;
+		border-color:#bbb;
+		text-align:center;
+		vertical-align:bottom;
+	}
+	
+	.DataTable th.sortable {
+		text-decoration:underline;
+		cursor:pointer;
+	}
+
+	.DataTable th.sortable:hover {
+		background-color:#ddd;  
+	}
+		
+	.DataTable th.sortUp,
+	.DataTable th.sortDown {
+		text-decoration:underline;
+		font-weight:bold;
+		background-color:white !important;
+		border-bottom-color:#eee;
+	}
+	
+	.DataTable TR TD[tooltip] {
+		cursor:help;
+	}
+	
+	.DataTable TR:last-item td,
+	.DataTable TR:last-item th {
+		border-bottom-width:0px;
+		padding-bottom:4px;
+	}
+
+	.DataTable td:first-item,
+	.DataTable th:first-item {
+		border-left-width:0px;
+	}
+	
+	.DataTable .clickable td {
+		cursor:pointer;
+	}
+
+	.DataTable tr.HIGHLIGHT td {
+		background-color:#fcf2c2;
+	}
+	
+	
+	/* different data types */
+	.DataTable td.stringType {}
+
+	.DataTable td.actionsType {
+		color:darkblue;
+		text-decoration:underline; 
+		cursor:pointer;
+	}
+
+	.DataTable td.numberType {
+		text-align:right;
+	}
+
+	.DataTable td.durationType {}
+
+	.DataTable td.secondsType {}
+
+	.DataTable td.bytesType {
+		text-align:right;
+	}
+
+	.DataTable td.percentType {
+		text-align:right;
+	}
+
+	.DataTable td.percentBytesType {
+		text-align:right;
+	}
+
+	.DataTable td.percentType .percent {
+		display:inline-block;
+		#display:inline; #zoom:1;
+		position:relative;
+		width:3.5em;
+		text-align:left;
+		color:#666;
+		font-size:.8em;
+	}
+
+	.DataTableWindow .Header {
+		top:4px;
+	}
+
+
+	/* KeyValueTable */
+	.KeyValueTable td.key {
+		border-left-color:#bbb;
+		white-space:nowrap;
+	}
+
+	.KeyValueTable td.key:first-item {
+		border-left-color:#eee;
+	}
+
+	.KeyValueTable td.value {
+		text-align:right;
+		font-weight:bold;
+	}

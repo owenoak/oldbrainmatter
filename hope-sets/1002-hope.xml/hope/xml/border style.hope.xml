@@ -1,0 +1,10 @@
+<mixin name='bordered'>
+	blah blah blah
+	<property name='border style' type='line style'/>
+	<expression name='showing border' type='flag'/>
+	<expression name='border width' type='number'/>
+	<expression name='border color' type='color'/>
+	<command name='show border'/>
+	<command name='hide border'/>
+</mixin>
+

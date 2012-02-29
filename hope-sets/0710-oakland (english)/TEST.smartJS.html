@@ -1,0 +1,75 @@
+<html>
+<head>
+	<title>SmartJS Tester</title>
+
+<!--	<script type="english/rules" src="scripts/english.rules"></script>	-->
+	<script src='scripts/hope.js'></script>
+	<script src='scripts/Template.js'></script>
+	<script src='scripts/hope.js'></script>
+	<script src='scripts/SmartJS.js'></script>
+
+	<style type='text/css'>
+		@import url(minty/minty.images.css);
+		@import url(minty/minty.css);
+		
+		#testscript  {	position:absolute; width:48%; left:1%; top:1%; border:1px solid black; overflow:auto; padding:5px;}
+		#testresults {	position:absolute; width:48%; left:51%;top:1%; border:1px solid black; overflow:auto; padding:5px;}
+	</style>
+
+
+</head>
+<body>
+
+
+<pre id='testscript' language='smartJS'>
+// comment
+/* comment */
+function foo(name) {				// constructor
+	arguments[];
+	arguments[1->];
+	arguments[1->2];
+	arguments[->2];
+	super("foo");
+	doSomething();
+	doSomethingElse();
+	if (blah) throw("error");
+	throw foo;
+	throw("error", foo, bar);
+	throw("error" + (error? error : null) + "a");
+	if (blah) { blah(); blah();}
+}
+
+default name = "Dumbo";					// default props
+default weight = 3000;					// 
+default children = [];					// 	new array for each instance!
+
+private isStinky = true;				// private variable
+private function aPrivateMethod(){
+	super("foo");
+	super();
+	var list = this.children[];
+	var list = this.children[1->2];
+	var list = this.children[2->];
+	var list = this.children[->3];
+};
+
+function aPublicMethod(var1, var2){};	// public method
+function anotherPublicMethod(){}		// public method
+
+class function aClassMethod(){};		// class method
+class someVar = "aClassVar";			// class prop
+// comment after
+</pre>
+
+<pre id='testresults'></pre>
+
+<script language='javascript'>
+
+	var text = hope.byId("testscript").innerHTML;
+	hope.byId("testresults").innerHTML = SmartJS.transformClassString(text, "Elephant", "Mammal");
+
+</script>
+
+
+</body>
+</html>

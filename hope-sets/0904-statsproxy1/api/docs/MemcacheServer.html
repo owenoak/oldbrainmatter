@@ -1,0 +1,436 @@
+<html>
+<head>
+	<title>Gear6 MemcacheServer API </title>
+	<link type="text/css" rel="stylesheet" href="support.css">
+	<!-- load jquery from jQuery's CDN -->
+	<script src='http://code.jquery.com/jquery-latest.js'></script>
+	<script src='support.js'></script>
+</head>
+<body>
+	<div id='header'></div>
+
+
+
+	<h2>Gear6 MemcacheServer API Documentation</h2>
+
+	<div class='action' id='stats'>
+		<div class='name'>Fetch Memcached server statistics</div>
+		<div class='description'>
+			Fetch a full set of statistics data for a particular memcached
+		instance.  "Category" should be one of: basic, health,
+		replication, slabs, items, memory, storage. 
+		</div>
+		<div class='role'><label>Role:</label>view</div>
+		<div class='method'><label>Method:</label>GET</div>
+		<div class='url'><label>Url:</label>/api/MemcacheServer/latest/#{instance}/stats/#{category}</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+				<data>
+					<memcachedStats
+						category="#{category}" 
+						service="#{service}"
+						server="#{ip}" 
+						proxy="#{statsproxyServer}" 
+						time="#{responseTime}"
+						v="2" 
+					>
+					<!-- one or more of the following -->
+					  <stat>
+						<key>#{key}</key>
+						<value type='#{type}'>#{value}</value>
+					  </stat>
+					  
+					</memcachedStats>
+				</data>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+	
+
+	<div class='action' id='data'>
+		<div class='name'>Fetch server 'traffic' data</div>
+		<div class='description'>
+			Fetch full set of stats data for a particular memcached instance. Data is returned in the form of an XML array.
+		</div>
+		<div class='role'><label>Role:</label>view</div>
+		<div class='method'><label>Method:</label>GET</div>
+		<div class='url'><label>Url:</label>/api/MemcacheServer/latest/#{instance}/stats/#{category}</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+				<data>
+					<memcachedData 
+						service="#{service}"
+						server="#{ip}" 
+						proxy="#{statsproxyServer}" 
+
+						chart="#{category}" 
+						start="#{dataStartTimeInMsec}" 
+						end="#{dataStartTimeInMsec}" 
+						samples="#{sampleCount}" 
+						time="#{responseTime}"
+						v="2" 
+					> 
+						<!-- one or more of the following -->
+						<series> 
+							 <seriesId>#{category}</seriesId> 
+							 <attr>#{categoryAbbreviation}</attr> 
+						</series> 
+						
+						<!-- one or more of the following -->
+						<d l="#{timeLabel}" #{categoryAbbreviation}="#{value}" /> 
+
+					</memcachedData> 
+				</data>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+
+	<div class='action' id='keys'>
+		<div class='name'>Fetch top keys (appliance only)</div>
+		<div class='description'>
+			Fetch top keys data for a memcached instance.
+		</div>
+		<div class='role'><label>Role:</label>view</div>
+		<div class='method'><label>Method:</label>GET</div>
+		<div class='url'><label>Url:</label>api/MemcacheServer/latest/#{instance}/stats/keys</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+				<data>
+					<memcachedKeys 
+						service="#{service}"
+						server="#{ip}" 
+						proxy="#{statsproxyServer}" 
+						time="#{responseTime}"
+						v="2" 
+					>
+						<!-- one or more of the following -->
+						<key>
+							<rank>#{rank}</rank>
+							<value>#{value}</value>
+							<length>#{length}</length>
+							<gets>#{gets}</gets>
+							<sets>#{sets}</sets>
+							<all>#{all}</all>
+							<total units='MB'>#{total}</total>
+							<reads units='MB'>#{reads}</reads>
+							<writes units='MB'>#{writes}</writes>
+						</key>
+						
+					</memcachedKeys>
+				</data>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+
+	<div class='action' id='clients'>
+		<div class='name'>Top Clients (appliance only)</div>
+		<div class='description'>
+			Fetch top clients for a server.
+		</div>
+		<div class='role'><label>Role:</label>view</div>
+		<div class='method'><label>Method:</label>GET</div>
+		<div class='url'><label>Url:</label>api/MemcacheServer/latest/#{instance}/stats/clients</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+				<data>
+					<memcachedClients 
+						service="#{service}"
+						server="#{ip}" 
+						proxy="#{statsproxyServer}" 
+						time="#{responseTime}"
+						v="2" 
+					>
+						<!-- one or more of the following -->
+						<client>
+							<rank>#{rank}</rank>
+							<ip>#{ip}</ip>
+							<hostname>#{hostname}</hostname>
+							<port>#{port}</port>
+							<accesses>#{accesses}</accesses>
+						</client>
+						
+					</memcachedClients>
+				</data>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+
+
+	<div class='action' id='clients'>
+		<div class='name'>Top Clients for key (appliance only)</div>
+		<div class='description'>
+			Fetch top clients for a particular key for a memcached instance.
+		</div>
+		<div class='role'><label>Role:</label>view</div>
+		<div class='method'><label>Method:</label>GET</div>
+		<div class='url'><label>Url:</label>api/MemcacheServer/latest/#{instance}/stats/clients/key/#{key64}</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+				<data>
+					<memcachedClients 
+						key="#{key}"
+						service="#{service}"
+						server="#{ip}" 
+						proxy="#{statsproxyServer}" 
+						time="#{responseTime}"
+						v="2" 
+					>
+						<!-- one or more of the following -->
+						<client>
+							<rank>#{rank}</rank>
+							<ip>#{ip}</ip>
+							<hostname>#{hostname}</hostname>
+							<port>#{port}</port>
+							<accesses>#{accesses}</accesses>
+						</client>
+						
+					</memcachedClients>
+				</data>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+
+	<div class='action' id='stop-reporting'>
+		<div class='name'>Stop reporting for an instance (appliance only)</div>
+		<div class='role'><label>Role:</label>modify</div>
+		<div class='method'><label>Method:</label>POST</div>
+		<div class='url'><label>Url:</label>/api/MemcacheServer/latest/config/instance/#{ip}:#{port}/stop-reporting</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+
+	<div class='action' id='start-reporting'>
+		<div class='name'>Start reporting for an instance (appliance only)</div>
+		<div class='role'><label>Role:</label>modify</div>
+		<div class='method'><label>Method:</label>POST</div>
+		<div class='url'><label>Url:</label>/api/MemcacheServer/latest/config/instance/#{ip}:#{port}/start-reporting</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+
+	<div class='action' id='config'>
+		<div class='name'>Load the UI config file</div>
+		<div class='description'>
+			This is partly an aggregation of other files, so that the web UI only has to make
+			a single call to fetch all of this data. It is not intended for general customer use.
+		</div>
+		<div class='role'><label>Role:</label>view</div>
+		<div class='method'><label>Method:</label>GET</div>
+		<div class='url'><label>Url:</label>/api/MemcacheServer/latest/config</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+				<data>
+					<memcacheServices time='2009-04-29 00:41:22' v='3'>
+						<!-- individual service -->
+						<memcacheService>
+							<!-- (string, alphanumeric, dash or underscore only) name of the service -->
+							<name>Foo</name>
+					
+							<!-- (enum: enabled|disabled) overall status of the service -->
+							<status>enabled</status>
+							
+							<!-- (string, "gear6" indicates a gear6 service) memcached package name --> 
+							<package>memcached-gear6</package>
+					
+							<!-- (number) TCP port -->
+							<tcpPort>11211</tcpPort>
+					
+							<!-- (number) UDP port -->
+							<udpPort>11211</udpPort>
+							
+							<!-- (date) service start time -->
+							<startDate>2009-12-01T01:23:45</startDate>
+					
+							<!-- individual memcached instance -->
+							<memcacheServer>
+								<!-- (string) Machine identifier for this server -->
+								<identifier>I-123456788</identifier>
+
+								<!-- (string) Id of the image used to create the service -->
+								<imageId>emi-91491395</imageId>
+
+								<!-- (enum: i386|x86_64) Processor architecture of this server -->
+								<arch>i386</arch>
+
+								<!-- (string) Name of the 'type' of machine for this server. -->
+								<vendorType>m1.large</vendorType>
+					
+								<!-- (ip address) -->
+								<ip>10.3.6.236</ip>
+					
+								<!-- (number) -->
+								<port>11211</port>
+					
+								<!-- (enum: running|pending|shutting-down|terminated|error) Instance "machine" status -->
+								<status>running</status>
+					
+								<!-- (enum: active|leaving|joining|unreachable) state of the instance -->
+								<memcacheState>active</memcacheState>
+					
+								<!-- (enum: off|view|modify) reporting overall status for instances -->
+								<reporterStatus>modify</reporterStatus>
+					
+								<!-- (boolean) Is the memcache reporter on for this instance? -->
+								<reporterEnabled>true</reporterEnabled>
+					
+								<!-- (bytes) Total memory for this instance -->
+								<memory>800000000</memory>
+					
+								<!-- (bytes) Memory in use for this instance -->
+								<used>300000000</used>
+					
+								<!-- (bytes) Free memory for this instance -->
+								<free>500000000</free>
+					
+								<!-- (enum: enabled|disabled) true if actively rehashing -->
+								<rehashState>disabled</rehashState>
+					
+								<!-- (number, only if actively rehashing) percent complete of rehash process -->
+								<rehashPercent>57</rehashPercent>
+					
+								<!-- config items for this instance -->
+								<config>
+									<div class='name'>data_center</div>
+									<value>data center description</value>
+								</config>
+								<config>
+									<div class='name'>zone</div>
+									<value>availability zone description</value>
+								</config>
+								<!-- ... more config items here ... -->
+							</memcacheServer>
+							<!-- ... more instances here ... -->
+						</memcacheService>
+					
+						<!-- NOTE: below is an unattached instance -->
+						<memcacheService>
+							<memcacheServer>
+								<identifier>I-123456789</identifier>
+								<imageId>emi-91491395</imageId>
+								<arch>i386</arch>
+								<vendorType>m1.large</vendorType>
+								<ip>10.3.6.236</ip>
+								<port>37981</port>
+							</memcacheServer>
+					  </memcacheService>
+					</memcacheServices>
+				</data>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+
+
+
+	<div id='footer'></div>
+</body>
+</html>
+
+

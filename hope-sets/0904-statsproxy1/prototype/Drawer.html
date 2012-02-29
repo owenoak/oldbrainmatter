@@ -1,0 +1,78 @@
+<table class='form'><tr>
+<td class='col1'>
+	<div class='label big'>Pool Name:</div>
+	<div class='controlContainer'>
+		<input class='fullWidth' value='Brutus Pool 1'>
+	</div>
+
+	<br>
+	
+	<div class='label big'>Add BrutusClients:</div>
+	<div class='controlContainer' style='font-weight:bold'>
+		<input type='checkbox'>
+			<span style='opacity:.3'>Add <input value='' style='width:30px;text-align:right'> new BrutusClient(s) to this Pool.</span>
+			<center style='padding-top:5px;'>
+				<button class=''>OK</button>
+				<button class=''>Cancel</button>
+			</center>
+	</div>
+
+</td><td class='col2'>
+
+	<div class='label big padTop'>BrutusClients in This Pool:</div>
+	<div class='controlContainer'>
+		<table class="InstancesTable" style='border:1px solid #ccc;-moz-border-radius:10px;'>
+			<tr status="running" reporter="modify" rehashing="enabled" instance="10.3.6.236" memcachestate="active" class="MemcacheInstance ">
+				<td class="ip">
+					<span onclick="$.serviceView.onSelectInstance(this)" class="value instanceNote">10.3.6.236</span>
+				</td>
+				<td class="status"><label class="value">Running</label></td>
+				<td class="shutDown">
+					<a onclick="$.serviceView.onStopInstance(this)" class="shutDownLink subtleAnchor noselect " tooltip="{_Shut down this server_}">
+							Stop Server
+					</a>
+				</td>
+				<td class="detach">
+					<a onclick="$.serviceView.onDetachInstance(this)" class="detachLink subtleAnchor noselect " tooltip="{_Detach this server from the memcached pool _}">
+						Detach
+					</a>
+				</td>
+			</tr>
+			<tr status="error" reporter="modify" rehashing="disabled" instance="10.3.6.237" memcachestate="active" class="MemcacheInstance ">
+				<td class="ip">
+					<span onclick="$.serviceView.onSelectInstance(this)" class="value instanceNote">10.3.6.237</span>
+				</td>
+				<td class="status"><label class="value">Error</label></td>
+				<td class="shutDown">
+					<a onclick="$.serviceView.onStopInstance(this)" class="shutDownLink subtleAnchor noselect " tooltip="{_Shut down this server_}">
+							Stop Server
+					</a>
+				</td>
+				<td showif="wd=Pool" class="detach">
+					<a onclick="$.serviceView.onDetachInstance(this)" class="detachLink subtleAnchor noselect " tooltip="{_Detach this server from the memcached pool _}">
+						Detach
+					</a>
+				</td>
+			</tr><tr status="shutting-down" reporter="modify" rehashing="disabled" instance="10.3.6.238" memcachestate="active" class="MemcacheInstance ">
+				<td class="ip">
+					<span onclick="$.serviceView.onSelectInstance(this)" class="value instanceNote">10.3.6.238</span>
+				</td>
+				<td class="status"><label class="value">Shutting Down</label></td>
+				<td class="shutDown">
+					<a onclick="$.serviceView.onStopInstance(this)" class="shutDownLink subtleAnchor noselect " tooltip="{_Shut down this server_}">
+							Stop Server
+					</a>
+				</td>
+				<td class="detach">
+					<a onclick="$.serviceView.onDetachInstance(this)" class="detachLink subtleAnchor noselect " tooltip="{_Detach this server from the memcached pool _}">
+						Detach
+					</a>
+				</td>
+			</tr>
+		</table>
+	</div>
+</td>
+</tr></table>
+
+
+

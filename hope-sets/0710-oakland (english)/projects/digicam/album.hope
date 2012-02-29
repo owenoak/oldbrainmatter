@@ -1,0 +1,15 @@
+<html>
+<head>
+	<title>Loading tester</title>
+	<script src='scripts/hope.js'></script>
+
+	<theme id='minty' src='${themes}/minty/minty.theme'></theme>
+</head>
+<body>
+
+
+<Button id='Foo' name='bar'>Foo</Button>
+
+
+</body>
+</html>

@@ -1,0 +1,61 @@
+	<div class='ServiceView Window' wd='BrutusPool' collapsed='false' drawer='closed'>
+		<div class='WindowHeader noselect'>
+			<button class='light iconButton thin AddIcon' style='float:right'>New Test Run</button>
+			<div class='Expander'>
+				<span class='title' part='name'>Brutus Pool 1</span>
+				<span class='hint'>(4 servers)</span>
+				<div class='Icon InfoIcon'></div>
+			</div>
+		</div>
+		<div class='WindowBody'>
+			<table width='100%' cellspacing='0' cellpadding='2'>
+			<tr class='InsetHeader'>
+				<td class='label'>Last Test:</td>
+				<td class='value col1'>Increasing Forks 2
+					<div class='Icon NoteIcon'></div>
+				</td>
+
+				<td colspan='4'>&nbsp;</td>
+			</tr>
+			<tr>
+				<td class='label padTop'>Test Configuration:</td>
+				<td class='value col1 padTop'>Increasing Forks</td>
+<!--
+				<td class='label disabled padTop'>Started:</td>
+				<td class='value nowrap disabled col2 padTop'>13:40:35 GMT</td>
+-->
+				<td class='col3 padTop'>Completed part 3 of 3</td>
+				<td class='col4 smaller nowrap padTop' style='color:#666;'>Duration: 125 seconds</td>
+			</tr>
+			<tr>
+				<td class='label'>Tested Against:</td>
+				<td class='value col1 padBottom' rowspan='2'>10.3.6.236:11211, 10.3.6.237:11211, 10.3.6.238:11211</td>
+<!--
+				<td class='label disabled'>Finished:</td>
+				<td class='value nowrap disabled'>13:44:40 GMT</td>
+-->
+				<td class='col3' colspan='2' style='text-align:center'>
+					<div class="UsageGraph" style='width:97%'><div class="used" style="width: 100%;"></div
+						><div part="graph.label" class="title">100% Complete</div
+					></div>
+					<br>
+						<button class='light iconButton thin RedoIcon'>Run This Test Again</button>
+						<button class='light iconButton thin InfoIcon'>Show Results</button>
+				</td>
+			</tr>
+			</table>
+		</div>
+		<div class='WindowBottom'>
+			<div id='brutusDrawer' class='WindowDrawer' style='display:none'>
+				<div class='WindowInset'>
+
+<loader src='Drawer.html'></loader>
+
+				</div>
+			</div>
+			<div class='WindowBottomTabBar ifCloud'>
+				<a class='WindowBottomTab PencilIcon addServersTab ifCanModify'
+				   onclick='$("#brutusDrawer").toggle()' >Manage Brutus Pool</a>
+			</div>
+		</div>
+	</div>

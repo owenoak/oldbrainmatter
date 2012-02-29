@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html class='honeycomb'>
+<head>
+	<title>Gear6 Memcached Support</title>
+	<link href="statsproxy.css" rel="stylesheet" type="text/css">
+<style>
+
+BODY {
+	overflow:hidden;
+}
+
+/* content frame */
+iframe#content {
+	position:absolute;
+	left:0px; top:0px; margin-top:40px;
+	width:100%; height:100%;
+	border:0px;
+}
+
+
+</style>
+
+<script language='javascript'>
+	var staticTOC = 
+		{
+			"Launch Params"			: "api/docs/LaunchParams.html",
+			"MemcacheServer API"	: "api/docs/MemcacheServer.html",
+			"ServiceController API"	: "api/docs/ServiceController.html"
+		},
+		dynamicTOC = {},
+		firstPage = "",
+		SP = {
+			config : {
+				version : "unknown",
+				serviceProvider : "unknown",
+				supportUrls : "{Support : 'http://www.gear6.com/cloud-support-reg'}"
+			},
+			appnameString : "Gear6 Memcached",
+			vendorType : "unknown"
+		}
+	;
+	
+	// link to the window opener's "SP" variable if we can find it
+	if (top.opener && top.opener.SP) window.SP = top.opener.SP;
+	
+	// get the list of support URLs from SP.config.supportUrls
+	try {
+		dynamicTOC = eval("("+ (SP.config.supportUrls || "{}") +")");
+	} catch (e) {};
+
+	// append a version/provider/vendorType suffix to the dynamicTOC urls
+	var suffix = "version="+SP.config.version+"&"
+			   + "serviceProvider="+SP.config.serviceProvider+"&"
+			   + "vendorType="+(SP.vendorType||"unknown")
+	;
+	for (var title in dynamicTOC) {
+		var url = dynamicTOC[title];
+		dynamicTOC[title] = url + (url.indexOf("?") == -1 ? "?" : "&") + suffix;
+		if (!firstPage) firstPage = dynamicTOC[title];
+	}
+	
+	
+	function writeTab(title, url, last) {
+			return "<li class='Tab noselect' "
+						+(title != last ? " style='-webkit-border-top-right-radius:0;"
+												 +"-webkit-border-bottom-right-radius:0;"
+												 +"border-right-width:1px'" 
+										: ""
+						 )
+						+" href='"+url+"' onclick='tabClick(this)'>"+title+"<\/li>";
+	
+	}
+	
+	function showTabs() {
+		var output = "";
+		var last = "";
+		for (var key in staticTOC) {
+			last = key;
+		}
+
+		for (var title in dynamicTOC) {
+			output += writeTab(title, dynamicTOC[title], last);
+		}
+
+		for (var title in staticTOC) {
+			output += writeTab(title, staticTOC[title], last);
+		}
+		document.getElementById("serviceTabs").innerHTML = output;
+
+		// put the appname + provider in the 'appname' div
+		if (SP.appnameString) document.getElementById("appname").innerHTML = unescape(SP.appnameString);
+
+		// show the first dynamic page
+		if ((top.location.href.indexOf("support") > -1) && (firstPage)) showPage(firstPage);
+	}
+
+	function tabClick(element) {
+		var href = element.getAttribute("href");
+		showPage(href);
+	}
+
+	function showPage(href) {
+		window.open(href, "gear6_support_content");
+	}
+
+</script>
+</head>
+
+<body onload='showTabs()'>
+	<div id="top">
+		<table><tr>
+			<td><a href='javascript:top.location = "/"'><div id="logo"></div></a></td>
+			<td><div id="appname">Gear6 Memcached</div></td>
+			<td style="width: 100%;padding-left:30px">
+				<div class="noselect" id="tabContainer">
+					<ul class="TabBar" id="tabBar" style="">
+						<ul id="serviceTabs" class="TabGroup" style="left: 0px;"><!-- tabs go here --></ul>
+					</ul>
+				</div>
+			</td>
+		</tr></table>
+	</div>
+</body>
+</html>
+
+

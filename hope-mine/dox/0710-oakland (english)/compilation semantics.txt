@@ -1,0 +1,21 @@
+Compilation/loading semantics
+	- have a RESTey syntax for access
+		http://site/hope/app/page/panel/etc
+	- pages are actually served by a simple (PHP?) compilation engine
+		- locate page asked for
+		- check freshness date of source & compiled versions
+		- if necessary compile (via browser? gears? php?)
+		- compiled & zipped JS is served
+		? compile templates in directly into page?
+		? script scoping
+		- part of compile is figuring out script dependencies
+			- if 2 peers need same dependency, load at higher level (?)
+
+	
+	- loading order:
+		- load hope (incl. template, etc)
+		- load site logic and page stubs
+		- figure out which page to load
+		- load page
+			? embed panels/etc?
+		- load panels as necessary

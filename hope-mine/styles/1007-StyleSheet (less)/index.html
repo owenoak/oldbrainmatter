@@ -1,0 +1,96 @@
+<!-- TO FIGURE
+		- how to do w:80%;h:80%; in FF
+		- any way to do clipping of flex content in FF?
+		- how much of this could we do with behaviors in IE?
+
+
+-->
+<html>
+<head>
+	<link rel='stylesheet/less' href='hope.less' type='text/css'>
+	<script src='less.js' development='true' Xwatch='true'></script>
+	<script src='StyleSheet.js'></script>
+	<script>
+		function $(selector) {
+			return document.querySelectorAll(selector);
+		}
+	</script>
+</head>
+<body Xlayout='center'>
+
+	<div style='background:red;top:10%;max-height:80%;'>
+		test
+	</div>
+<!--
+	<panel class='frame' style='width:50%; height:50%;' shadow=''>
+		<header>
+			<arrow direction='left'>&lt;</arrow>
+			<hclipper>
+				<content>
+					<button>btn1</button>
+					<button>btn2</button>
+					<button>btn3</button>
+					<button>btn4</button>
+					<button>btn5</button>
+					<button>btn6</button>
+					<button>btn7</button>
+					<button>btn8</button>
+					<button>btn9</button>
+					<button>btn10</button>
+					<button>btn11</button>
+					<button>btn12</button>
+					<button>btn13</button>
+				</content>
+			</hclipper>
+			<arrow direction='right'>&gt;</arrow>
+		</header>
+
+
+
+		<hclipper>
+			<style>
+				/* simple grid */
+				#grid1 {
+					table-layout:fixed;
+					width:100%;
+				}
+				#grid1 td {
+					background:pink;
+					white-space:nowrap;
+					overflow:hidden;
+					text-overflow:ellipsis;
+				}
+				.col1 {	width: 75%;		}
+				.col2 {	width: 25%;		}
+				.col3 {	width: 20px;	}
+			</style>
+			<content>
+				<table id='grid1'>
+					<tr>
+						<td class='col1'>col 1 foo bar baz foo bar baz foo bar baz foo bar baz</td>
+						<td class='col2'>col 1</td>
+						<td class='col3'>col 1</td>
+					</tr>
+					<tr>
+						<td class='col1'>col 1 foo bar baz foo bar baz</td>
+						<td class='col2'>col 1</td>
+						<td class='col3'>col 1</td>
+					</tr>
+					<tr>
+						<td class='col1'>col 2.1</td>
+						<td class='col2'>col 2.2</td>
+						<td class='col3'>col 2.3</td>
+					</tr>
+					<tr>
+						<td class='col1'>col 3.1</td>
+						<td class='col2'>col 3.2</td>
+						<td class='col3'>col 3.3</td>
+					</tr>
+				</table>
+			</content>
+		</hclipper>
+		<footer layout='hcenter'><button>ok</button><button>cancel</button></footer>
+	</panel>
+-->
+</body>
+</html>

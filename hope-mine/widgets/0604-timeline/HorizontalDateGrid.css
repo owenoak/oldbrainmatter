@@ -1,0 +1,172 @@
+	* {
+		font-family:Verdana; font-size:10px;
+		margin:0px;
+		padding:0px;
+		border-collapse:collapse;
+	}
+	.HDateGrid {
+		margin:10px;
+	}
+
+	.HDateGrid ._midnightSpacer,
+	.HDateGrid ._noonSpacer,
+	.HDateGrid ._daySpacer,
+	.HDateGrid ._nightSpacer {
+		width:6px;
+		height:4px;
+		background-color:#ffff66;
+		border-left:1px solid lightblue;
+	}
+
+	.HDateGrid ._midnightSpacer {
+		background-color:lightblue;
+		border-left:1px solid darkblue;
+	}
+
+	.HDateGrid ._noonSpacer {
+		border-left:1px solid darkblue;
+	}
+
+	.HDateGrid ._daySpacer {
+		border-left:1px solid #dddddd;
+	}
+
+	.HDateGrid ._nightSpacer {
+		background-color:lightblue;
+		border-left:1px solid #cccccc;
+	}
+
+
+	._visit,
+	._workshop {
+		padding:2px;
+		overflow:hidden;
+		text-align:center;
+		background-color:#eeeeee;
+		border-top:1px solid green;
+		border-bottom:1px solid green;
+		margin-top:10px;
+		margin-bottom:10px;
+	}
+
+
+	._visitCell,
+	._workshopCell
+	{
+		vertical-align:top;
+	}
+
+	._home {
+		margin-top:10px;
+		margin-bottom:10px;
+		text-align:center;
+		padding:2px;
+		color:#cccccc;
+	}
+	
+	._homeCell {
+		vertical-align:top;		
+	}
+	
+	._plane,
+	._train,
+	._car,
+	._metro {
+		position:absolute;
+		margin-top:20px;
+		margin-left:-32px;
+	}
+
+
+
+
+	._planeCell,
+	._trainCell,
+	._carCell,
+	._metroCell
+	{
+		vertical-align:top;
+		position:relative;
+	}
+
+
+	._fromHome {
+		background-color:lightgreen;
+		border-right:1px solid green;
+	}
+
+	._toHome {
+		background-color:pink;
+		border-left:1px solid red;
+	}
+	
+	
+	.HDateGrid._table {
+		table-layout:fixed;
+	}
+	
+	.HDateGrid ._month {
+		padding:4 4 4 4;
+		font-size:1.5em;
+		border-top:1px solid lightblue;
+		border-right:1px solid green;
+		background-color:#eeeeee;
+	}
+	.HDateGrid ._day,
+	.HDateGrid ._dayWeekend {
+		text-align:center;
+		border-left:1px solid lightblue;
+		border-bottom:1px solid lightblue;
+
+	}
+	
+	.HDateGrid ._dayWeekend {
+		background-color:#eeeeee;
+	}
+	
+	.HDateGrid ._dow,
+	.HDateGrid ._dowWeekend {
+		text-align:center;
+		color:#666666;
+		border-left:1px solid lightblue;
+	}
+
+	.HDateGrid ._dowWeekend {
+		background-color:#eeeeee;
+	}
+	
+	.HDateGrid ._monthStart {
+		border-left:1px solid green;
+	}
+	
+	.HDateGrid ._weekStart {
+		border-left:1px solid blue;
+	}
+	
+	.HDateGrid ._gridStart {
+		border-left:1px solid blue;
+	
+	}
+	
+	.HDateGrid ._gridEnd {
+		border-right:1px solid blue;	
+	}
+	
+	
+
+	._citySpacer {
+		position:relative:
+		top:50%;
+		bottom:50%;
+		border:1px solid black;
+	}
+	
+	.HItinieraryGrid {
+		margin-top:-10px;
+		margin-left:11px;
+	}
+	
+	._Icon {
+		width:64;
+		height:64;
+	}

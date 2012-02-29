@@ -1,0 +1,5 @@
+<menu name='serviceMenu' appearance='button bar'>
+	<items>
+		<pageselector page='overview' />
+	</items>
+</menu>

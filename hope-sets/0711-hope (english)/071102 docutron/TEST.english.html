@@ -1,0 +1,34 @@
+<html>
+<head>
+	<title>English Tester</title>
+
+<!--	<script type="english/rules" src="scripts/english.rules"></script>	-->
+	<script src='scripts/browser.js'></script>
+	<script src='scripts/english.js'></script>
+	<script src='scripts/english.rules.js'></script>
+
+</head>
+<body>
+
+<div id='englishTest'>
+	on foo
+		STATEMENT
+	end
+	
+	to bar
+		STATEMENT
+	end
+	
+	method baz
+		STATEMENT
+	end
+	
+
+</div>
+	
+<script language='javascript'>
+	var stream = new Stream(BROWSER.byId('englishTest').innerHTML);
+	console.dir(english.parseFile(stream.text));
+</script>
+</body>
+</html>

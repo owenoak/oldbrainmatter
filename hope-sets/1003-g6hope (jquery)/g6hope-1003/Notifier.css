@@ -1,0 +1,132 @@
+/******************************************
+ *   Notifier - shows blocking messages   *
+ ******************************************/
+
+	#Notifier {
+		position:absolute;
+		width:100%; height:100%;
+		top:0px; left:0px;
+		z-index:10000;
+	}
+	
+	#NotifierMask {
+		position:absolute;
+		opacity:.5;
+		filter: alpha(opacity=50);
+		background-color:white;
+		-moz-border-radius:13px;
+		-webkit-border-radius:13px;
+		width:100%; height:100%;
+		top:0px; left:0px;
+	}
+	
+	#NotifierBody {
+		position:relative;
+		top:5em;
+		display:inline-block;
+		#display:inline; #zoom: 1; 
+		background:black;
+		color:white;
+		border:3px solid black;
+		-moz-border-radius:20px;
+		-webkit-border-radius:20px;
+		-moz-box-shadow:5px 5px 10px rgba(0,0,0,.8);
+		-webkit-box-shadow:5px 5px 10px rgba(0,0,0,.8);
+	}
+
+	#NotifierMessage {
+		font-size:1.8em;
+		font-weight:bold;
+		padding:1em;
+	}
+
+	#reloadPageButton {
+		display:none;
+		margin:10px 0px 20px 0px;
+		font-size:1.3em;
+	}
+
+	#Notifier.error #NotifierMask {}
+
+	#Notifier.error #NotifierBody {
+		color:red;
+	}
+
+	#Notifier.error #reloadPageButton {
+		display:inline-block;
+		#display:inline; #zoom:1;
+	}
+
+
+	
+/*********************************************
+ *   Flasher - shows NON-blocking messages   *
+ *********************************************/
+
+	#Flasher {
+		position:fixed;
+		right:10px;
+		top:10px;
+		display:inline-block;
+		#display:inline; #zoom: 1; 
+		z-index:10;
+	}
+	
+	#FlasherShadow {
+		position:absolute;
+		opacity:.7;
+		width:100%; height:100%;
+		-moz-border-radius:10px;
+		-webkit-border-radius:12px;
+		-moz-box-shadow:5px 5px 12px rgba(0,0,0,.8);
+		-webkit-box-shadow:5px 5px 10px rgba(0,0,0,.8);
+		z-index:0;
+		/* skin-specific */
+		background-color:#9bcb00;
+	}
+	
+	#FlasherBody {
+		position:relative;
+		margin:3px;
+		padding:10px;
+		max-width:20em;
+		font-weight:bold;
+		text-align:center;
+		-moz-border-radius:10px;
+		-webkit-border-radius:10px;
+		z-index:1;
+		/* skin-specific */
+		background-color:black;
+		color:#9bcb00;
+	}
+	
+	.MSIE7 #FlasherShadow {
+		padding-bottom:3px;
+	}
+
+	.MSIE7 #FlasherBody {
+		top:3px; left:3px;
+	}
+	
+	#FlasherClose {
+		position:absolute;
+		z-index:2;
+		left:-10px; top:-10px;
+		width:22px; height:23px;
+		cursor:pointer;
+		/* skin-specific */
+		background:url(images/round_close_green.png) no-repeat;
+	}
+	
+	#Flasher.error #FlasherShadow {
+		background-color:red;
+	}
+
+	#Flasher.error #FlasherBody {
+		color:red;
+	}
+
+	#Flasher.error #FlasherClose {
+		background:url(images/round_close_red.png) no-repeat;
+	}
+	

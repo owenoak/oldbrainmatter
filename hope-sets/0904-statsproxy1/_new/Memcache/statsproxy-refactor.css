@@ -1,0 +1,296 @@
+
+	
+	/* window-like container for stats tables/history views */
+	.InstanceDetailWindow {
+		margin:0px !important;
+		height:99.5%;
+		padding:0px 7px !important;
+	}
+
+	.InstanceDetailWindow .ServiceHeader .name {
+		padding:0px 5px;
+	}
+
+	.InstanceDetailWindow .ServiceBody {
+		position:absolute;
+		top:81px; bottom:7px;
+		left:7px; right:7px;
+	}
+
+
+
+
+
+	
+	
+/**************
+  
+  traffic section
+  
+ **************/
+
+	/* name of the graph */
+	#trafficTitle {}
+
+
+	#trafficLegend {
+		position:relative;  
+		margin:0px 0px;
+	}
+	
+	#trafficChartContainer {			/* actual container of the chart */
+		position:absolute;
+		left:0px; right:10px;
+		top:55px; bottom:75px;
+	}
+	
+	
+	#trafficSliderContainer {   /* container for the slider */
+		z-index:1; #zoom:1;
+		position:absolute;
+		left:95px; right:50px;
+		height:60px; bottom:10px;
+	}
+	
+	#trafficTooSmallMessage {
+		position: absolute;
+		top:40px;
+		width:100%;
+		text-align:center;
+		font-size:1.3em;
+		font-weight:bold;
+		color:#666;
+	}
+
+
+	
+/**************
+
+	stats data table containers
+
+ **************/
+	
+
+/**************
+  
+  actual list of statistics 
+  
+ **************/
+
+
+/* styling for particular data sets */
+
+	/* all 'stats' data sets */
+	.StatsTable .stat .key,
+	.StatsTable .stat .key2 {
+	}
+
+	.StatsTable .stat TD.key2 {
+		border-left-color:#bbb;
+		padding-left:1em;
+	}
+	
+	.StatsTable .stat TD.value,
+	.StatsTable .stat TD.value2 {
+		font-weight:bold;
+		text-align:right;
+	}
+
+	.StatsTable .stat .empty {
+		font-size:3px;
+		padding:0px;
+		border-left-color:#bbb;
+	}
+
+	
+	/* 'Slabs' data set */
+	#slabsStats .stat TD.id,
+	#slabsStats .stat TD.chunk_size,
+	#slabsStats .stat TD.chunks_per_slab,
+	#slabsStats .stat TD.total_slabs,
+	#slabsStats .stat TD.total_chunks,
+	#slabsStats .stat TD.used_chunks,
+	#slabsStats .stat TD.free_chunks {
+		text-align:right;
+	}
+
+	/* 'memory' data set */
+	#memoryStats .stat TD.id,
+	#memory2Stats .stat TD.bytes,
+	#memory2Stats .stat TD.evictions {
+		text-align:right;
+	}
+
+	/* 'Clients' data set */
+	#clientsStats .client TD.rank,
+	#clientsStats .client TD.port, 
+	#clientsStats .client TD.accesses,
+	#clientsForKeyStats .client TD.rank,
+	#clientsForKeyStats .client TD.port, 
+	#clientsForKeyStats .client TD.accesses {
+		text-align:right;
+	}
+	
+	#clientsStats TD.actions {
+		color:darkblue;
+		text-decoration:underline;  
+	}
+
+	
+	/* 'Keys' data set */
+	#keysStats .key TD.rank,
+	#keysStats .key TD.length,
+	#keysStats .key TD.sets,
+	#keysStats .key TD.gets,
+	#keysStats .key TD.all,
+	#keysStats .key TD.total,
+	#keysStats .key TD.reads,
+	#keysStats .key TD.writes,
+
+	#keysForClientStats .key TD.rank,
+	#keysForClientStats .key TD.length,
+	#keysForClientStats .key TD.sets,
+	#keysForClientStats .key TD.gets,
+	#keysForClientStats .key TD.all,
+	#keysForClientStats .key TD.total,
+	#keysForClientStats .key TD.reads,
+	#keysForClientStats .key TD.writes {
+		text-align:right;
+	}
+	
+	#keysStats .key TD.value {
+		color:darkblue;
+		text-decoration:underline;
+	}
+	
+	
+	#keysStats .key td.total:after,
+	#keysStats .key td.reads:after,
+	#keysStats .key td.writes:after,
+	
+	#keysForClientStats .key td.total:after,
+	#keysForClientStats .key td.reads:after,
+	#keysForClientStats .key td.writes:after {
+		content:" MB";
+		font-size:.8em;
+		color:#999;
+	}
+
+
+	/* 'Config' data set */
+	#configStats .instance td.disabled {
+		font-style:italic;
+		color:#999;
+	}
+
+	#configStats .instance td.active {
+		text-decoration:underline;
+		font-style:normal !important;
+		color:black !important;
+		cursor:pointer;
+	}
+
+
+	/* 'Items' data set */
+	#itemsStats .stat TD.id,
+	#itemsStats .stat TD.number,
+	#itemsStats .stat TD.age,
+	#itemsStats .stat TD.evicted,
+	#itemsStats .stat TD.evicted_time,
+	#itemsStats .stat TD.outofmemory,
+	#itemsStats .stat TD.tailrepairs {
+		text-align:right;
+	}
+
+	
+	/* storage stats */
+
+	/** GRR: MSIE7 is making the thing scroll vertically. */
+	.MSIE7 #storageStats {
+		padding-bottom:20px;
+	}
+
+	#storageStats TD,
+	#storageStats TH{
+		white-space:nowrap;
+	}
+	#storageStats TD.id {}
+	#storageStats TD.name {}
+	#storageStats TD.total_bytes {  
+		text-align:right;
+	}
+	#storageStats TD.total_in_use { 
+		text-align:right;
+	}
+	#storageStats TD.dirty_data {   
+		text-align:right;
+	}
+	#storageStats TD.bytes_read {   
+		text-align:right;
+	}
+	#storageStats TD.bytes_written {	
+		text-align:right;
+	}
+	#storageStats TD.write_MBPS {   
+		text-align:right;
+	}
+	#storageStats TD.eff_write_MBPS {   
+		text-align:right;
+	}
+	#storageStats TD.average_write_size {   
+		text-align:right;
+	}
+	#storageStats TD.write_idle_percentage {	
+		text-align:right;
+	}
+	#storageStats TD.read_MBPS {	
+		text-align:right;
+	}
+	#storageStats TD.evictions {	
+		text-align:right;
+	}
+	#storageStats TD.total_lock {   
+		text-align:right;
+	}
+
+	#storageStats TD.total_bytes:after, 
+	#storageStats TD.bytes_read:after,  
+	#storageStats TD.bytes_written:after {  
+		content:' B';
+		font-size:.8em;
+		color:#999;
+	}
+
+	#storageStats TD.read_MBPS:after,
+	#storageStats TD.write_MBPS:after { 
+		content:' MB/S';
+		font-size:.8em;
+		color:#999;
+	}
+
+	#storageStats TD.eff_write_MBPS .percent {
+		width:6em;
+	}
+	
+	#storageStats TD.write_idle_percentage:after {  
+		content:"%";
+	}
+
+
+	
+	
+	
+/* 
+	Icons
+ */
+
+
+	.AddIcon {
+		background-image:url(images/famfamfam/add.png);
+	}
+	
+	.PencilIcon {
+		background-image:url(images/famfamfam/pencil.png);
+	}
+
+

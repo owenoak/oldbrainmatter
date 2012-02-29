@@ -1,0 +1,8 @@
+#!/bin/sh
+for i in $TARGET_HOSTS
+do
+    echo installing unit test on $i
+    scp unittest.html root@${i}:/opt/tms/lib/web/content/js/Gear6  
+done
+echo unit tests installed, access at http://MASTER/js/Gear6/unittest.html
+

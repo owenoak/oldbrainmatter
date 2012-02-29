@@ -1,0 +1,169 @@
+<script language="english">
+	...
+</script>
+
+or just
+
+<english>
+	...
+</english>
+
+-- break the script into tokens
+	- quotes are optional ONLY for single word token
+	- EOL is explicit statement ender unless last char is ¬ or \ (better one?)
+	- "camelCase" <=> "camel case" in english?
+	
+-- have a mapper for expressions from english to JS (or other language)
+	-- expression mapper is done in XML style
+			<command name="put">
+				<english>
+					put <expression name='value'> into <container name='container'>
+				</english>
+				<javascript>
+					<container> = <value>;
+				</javascript>
+			</command>
+
+		- in <english> you put literals (without <>) which are the bones on which the match operates
+		- anything in <> is a "placeholder" (AppleScript name, better?) which has its own parsing rules
+
+		- you can omit the name='' in english, in which case the type of the container will be its name
+			(only works if there's exactly one item of that type)
+
+			<command name="set">
+				<english>
+					set <container> to <expression>
+				</english>
+				<javascript>
+					<container> = <expression>;
+				</javascript>
+			</command>
+
+			<command name="set">
+				<english>
+					<expression> returning <container>
+				</english>
+				<javascript>
+					<container> = <expression>;
+				</javascript>
+			</command>
+		
+		- returns in english definitions are significant!
+		- if there is white space around a literal, any amount of white space is OK
+		- you can have multiple "english" blocks in the same mapper as long as they output the same vars
+			<operator name="equals">
+				<english>
+					<expression name='lhs'>=<expression name='rhs'>
+				</english>
+				<english>
+					<expression name='lhs'> equal <expression name='rhs'>
+				</english>
+				<english>
+					<expression name='lhs'> equals <expression name='rhs'>
+				</english>
+				<english>
+					<expression name='lhs'> equal to <expression name='rhs'>
+				</english>
+				<english>
+					<expression name='lhs'> is <expression name='rhs'>
+				</english>
+				<english>
+					<expression name='lhs'> is equal to <expression name='rhs'>
+				</english>
+				<javascript>
+					<lhs> = <rhs>;
+				</javascript>
+			</operator>
+		- need a way of saying "this next bit is optional" or can repeat...
+
+-- implicit referencing, local to where script is running
+	- put the second div [of this page] into ...
+	- put div id "foo" into ...
+	- an english block inside an object def is implicitly assigned to that object
+			<div id='foo'>
+				...html...
+				<english event='click'>...</english>
+				...html...
+				<english>
+					on mousdown
+						...
+					end mousedown
+					
+					on foo
+						...
+					end foo
+				</english>
+				...html...
+			</div>
+		- this would assign onclick, onmousedown and foo methods to the div
+		
+-- implicit page ordering
+	- next page
+	- prev page
+	- page id blah
+	
+-- event handling is all done at the page level according to ascending targets
+	- "send" as implicit event handler
+
+-- can put a block of HTML in there 
+	- by starting it on a new line (until "end" on a line by itself)
+	- some other delimiters?
+		put =>
+			<h2>blah</h2>
+		<= into blorg
+
+** SYNTAX NOTES:
+	- IMPLICIT PROPERTIES
+		- anything.class (like constructor, returns "integer" or "date" etc)
+		- list.length
+	- chunkers
+		- item <x> to <y> of <what>
+		- 
+	- coercion
+	- cool:  recognize "10%", as in a = b + 10%
+	
+
+** PLAN
+	- tokenizer
+	- describe a bunch of rules
+	- build a trie from the rules
+		- each [] block in a rule becomes a second instance of the rule
+	- get basic placeholders <expression> <command> etc working
+		-- bootstrap?
+	- 
+
+** OPEN
+	- do we map "first" to el[0]?
+	- case sensitivity ?
+	- references -- do they always implicitly refer to DOM things?  sometimes to text?
+		item 3 == parent.childNodes[3] ?
+	- "class" vs CSS class?  
+		- use "type" or "tagname" ?
+		- special class className as attribute?
+	- special handling for date properties ?
+	- some processing branches require type info
+		-- delegate to a function which can use JS types to figure that out?
+	- "empty"?
+	- are parens really necessary for function calls?
+	- scoping:
+		- method() of me
+		- my method()
+	- load script
+	- call with named params:
+		foo with a:"b" [and|,] c:"d"
+		- (does originating function have to be set up to take named?)
+		- lots of squirrely stuff on pg 255 of ASLG
+			to check for number from bottom to top
+				"number", "bottom" and "top" are all defined as variables
+			end check
+			-- call as:
+				check for 8 from 7 to 10
+		-- can we extend this to arbitrary syntax in the function definition
+			which must be matched by the calller?
+		-- page 261 of ASLG -- all kinds of funky nested variable foo, nice for dealing w/objects
+	- call superclass?
+	- p:318 -- 	<reference> in <containerReference>
+				<reference> of <containerReference>
+				<containerReference>'s <reference>
+				<containerReference>' <reference>
+	- "a reference to" for passing by ref???

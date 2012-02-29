@@ -1,0 +1,590 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!--
+ Copyright (c) 2009-2010, Gear Six, Inc.  Subject to a BSD-style
+ license whose text is available at /license.txt on this machine
+-->
+<html class='honeycomb'>
+<head>
+	<title>Gear6 Memcached</title>
+	<link type="text/css" rel="stylesheet" href="statsproxy.css">
+	<!-- NOTE: all scripts have moved to bottom of file since ba-bbq depends on body tag existing before load -->
+	<noscript>
+		<font size='huge'>Note:  You must have javascript enabled to see this page.
+			<br>
+			For best results, use <a href='http://getfirefox.com'>Mozilla Firefox<a> 3.0 or later.
+		</font>
+	</noscript>
+
+	<!-- jquery libraries -->
+		<script type="text/javascript" src="js/jquery.js"></script>
+		<!-- flot graphing library -->
+		<script type="text/javascript" src="js/flot/jquery.flot.js"></script>
+		<script type="text/javascript" src="js/flot/jquery.flot.stack-mod.js"></script>
+		<script type="text/javascript" src="js/flot/jquery.flot.crosshair.js"></script>
+		<!--[if IE]><script language="javascript" type="text/javascript" src="js/flot/excanvas.min.js"></script><![endif]-->
+		<!-- 'base64' library for encoding/decoding base64 values -->
+		<script type="text/javascript" src="js/jquery.base64-mod.js"></script>
+	<!-- end jquery libraries -->
+	
+	<!-- statsproxy libraries -->
+	<script type="text/javascript" src="js/lib.js"></script>
+	<script type="text/javascript" src="js/api.js"></script>
+	<script type="text/javascript" src="js/widgets.js"></script>
+	<script type="text/javascript" src="js/serviceView.js"></script>
+	<script type="text/javascript" src="js/statsproxy.js"></script>
+	<script type="text/javascript" src="js/statsproxy-api.js"></script>
+	<script type="text/javascript" src="js/statsproxy-views.js"></script>
+	<script type="text/javascript" src="js/types.js"></script>
+	<script type="text/javascript" src="js/md5.js"></script>
+</head>
+<body class='loggedOut cantCreate cantModify inCloudMode replicationOff hasNoStorage cantChangeRole'>
+
+<div id='top'><table><tr>
+  <td><div id='logo'></div></td>
+  <td><div id='appname'></div></td>
+  <td style='width:100%'><div id='tabContainer' class='noselect'>
+	<ul id='tabBar' class='TabBar ifLoggedIn'
+	  ><div class='TabScroller'><ul class='TabGroup'	id='serviceTabs'
+		><li class='Tab noselect' onclick='SP.onViewClick(this)' view='overview' message='view.menu.overview'><!-- overview --></li
+		></ul
+		></div><li class='TabScrollButton TabScrollLeft' onmousedown='return SP.onTabScrollDown("left")'>&nbsp;<div class='TabLeftArrow'>&nbsp;</div></li
+   	><li class='TabScrollButton TabScrollRight' onmousedown='return SP.onTabScrollDown("right")'>&nbsp;<div class='TabRightArrow'>&nbsp;</div></li
+   ></ul></div></td>
+	<td>
+		<button id='supportButton' class='dark thin ifCloud' message='UI.support.button'
+			onclick='SP.showSupportPage()'></button>
+	</td>
+	<td class='login'>
+	  <button id='roleMenuButton' class='dark thin MenuButton ifLoggedIn ifCanChangeRole ifCloud'
+		  onmousedown='$.menu.show(this, "#logInMenu", SP.authState)'  message='auth.state.role'></button>
+	</td>
+	<td class='login'>
+	  <button id='logOutButton' class='dark thin ifLoggedIn ifCanChangeRole ifCloud'
+		  onmousedown='SP.logOut()'  message='auth.logout.title'></button>
+	  <button id='logInButton' class='dark thin MenuButton ifLoggedOut ifCanChangeRole ifCloud'
+		  onmousedown='$.menu.show(this, "#logInMenu", SP.authState)' message='auth.login.title'></button>
+	</td>
+	</tr></table>
+</div><!-- end top -->
+
+<div id='main'><!-- 'main' contains the main UI elements -->
+	<!-- accessLevel reminder: show if access level is none -->
+	<div id='accessLevelNotice' style='display:none' class='ifLoggedOut' message='auth.reminder'></div>
+	<!-- accessLevel -->
+	
+	<!-- serviceDisplay:  holds all of the serviceViews -->
+	<div id='serviceDisplay' class='ifLoggedIn'></div>
+	<!-- serviceDisplay -->
+
+	<!-- stats-and-graphs views -->
+	<div id='statsDisplay' wd='Pool' class='ifLoggedIn'>
+	<table cellspacing=0 cellpadding=0 id='statsDisplayTable'><tr>
+	
+	  <!-- left column: holds the menu -->
+		<td id='leftColumnContainer'>
+		<div id='leftColumn'>
+			<div class='Section ViewSelector noselect'>
+			  <h1 id='viewListHeader' class='SectionHeader ViewSelectorHeader' message='view.menu.title'><!-- server statistics --></h1>
+			  <ul class='SectionBody ViewSelectorBody'>
+					<!-- stats items go here -->
+                            <li view='clients'     class='Item ifAppliance'		onclick='SP.onViewClick(this)'><span class='StatsTableItem' message='view.menu.clients'><!-- top clients --></span></li>
+                            <li view='keys'        class='Item ifAppliance'		onclick='SP.onViewClick(this)'><span class='StatsTableItem' message='view.menu.keys'><!-- top keys --></span></li>
+                            <li view='basic'       class='Item'				onclick='SP.onViewClick(this)'><span class='StatsTableItem' message='view.menu.basic'><!-- basic --></span></li>
+                            <li view='items'       class='Item'				onclick='SP.onViewClick(this)'><span class='StatsTableItem' message='view.menu.items'><!-- items --></span></li>
+                            <li view='slabs'       class='Item'     			onclick='SP.onViewClick(this)'><span class='StatsTableItem' message='view.menu.slabs'><!-- slabs --></span></li>
+                            <li view='memory'      class='Item ifGear6'			onclick='SP.onViewClick(this)'><span class='StatsTableItem' message='view.menu.memory'><!-- memory --></span></li>
+                            <li view='replication' class='Item ifGear6'          	onclick='SP.onViewClick(this)'><span class='StatsTableItem' message='view.menu.replication'><!-- replication --></span></li>
+                            <li view='storage'     class='Item ifGear6 ifHasStorage'	onclick='SP.onViewClick(this)'><span class='StatsTableItem' message='view.menu.storage'><!-- storage --></span></li>
+                            <li view='health'      class='Item ifGear6'			onclick='SP.onViewClick(this)'><span class='StatsTableItem' message='view.menu.health'><!-- health --></span></li>
+
+				</ul>
+  
+				<h1 id='trafficListHeader' class='SectionHeader ViewSelectorHeader' message='traffic.menu.title'><!-- server traffic --></h1>
+				<ul id='trafficList' class='SectionBody ViewSelectorBody'>
+					<!-- traffic graph items go here -->
+				</ul>
+            </div><!-- ViewSelector -->
+        </div><!-- leftColumn -->
+        </td>
+        
+        <!-- right column: holds the stats table or graph -->
+		<td id='rightColumnContainer'>
+        <div id='rightColumn'>
+            <!-- outer container for the stats tables -->
+            <div id='statsTablesOuter'>
+                <div id='statsMainWindow' class='Window' wd='Stats'>
+                    <div class='WindowHeader'>
+                        <table cellspacing=0 cellpadding=0><tr>
+                            <td id='statsMainTitle' class='title'>Title</td>
+                            <td class='label' style='padding:0px 5px;' message='UI.forServer'></td>
+                            <td>
+                                <div id='statsIp' class='label ipLabel'>1.1.1.1</div>
+                                <button id='statsIpMenu' class='light MenuButton ipMenuButton' 
+                                    onmousedown='SP.onShowInstanceMenu(this)' part='instance.name'></button>
+                            </td>
+                        </table>
+                    </div>
+                    <div id='statsMain' class='WindowBody'></div>
+                </div>
+                <div id='statsRightWindow' class='Window' wd='Stats'>
+                    <div class='WindowHeader'>
+                        <span id='statsRightTitle' class='title'>Title</span>
+                    </div>
+                    <div id='statsRight' class='WindowBody'></div>
+                </div>
+                <br/>
+                <div id='statsBottomWindow' class='Window' wd='Stats'>
+                    <div class='WindowHeader'>
+                        <span id='statsBottomTitle' class='title'>Title</span>
+                    </div>
+                    <div id='statsBottom' class='WindowBody'></div>
+                </div>
+            </div><!-- statsOuter -->
+            
+
+            <!-- outer container for the traffic (graph) view -->
+            <div id='trafficWindow' class='Window' wd='Traffic'>
+                <div class='WindowHeader'>
+                    <table cellspacing=0 cellpadding=0><tr>
+                        <td id='trafficTitle' class='title'>Title</td>
+                        <td class='label' style='padding:0px 5px;' message='UI.forServer'></td>
+                        <td>
+                            <div id='trafficIp' class='label ipLabel'>1.1.1.1</div>
+                            <button id='trafficIpMenu' class='light MenuButton ipMenuButton' 
+                                onmousedown='SP.onShowInstanceMenu(this)' part='instance.name'></button>
+                        </td>
+                    </table>
+                </div>
+                <div class='WindowBody'>
+                    <center><span id='trafficLegend'></span></center>
+                    <div id='trafficChartContainer'></div>
+                    <div id='trafficSliderContainer'><!-- comes from RangeSliderTemplate below --></div>
+                </div><!-- WindowBody -->
+            </div><!-- end trafficWindow -->
+        </div><!-- end rightColumn -->
+        </td>
+    </tr></table>
+    </div><!-- end stats -->
+
+
+	<!-- notifier inside main -->
+	<div id='notifier'>
+		<div id='notifierMask'></div>
+		<center>
+			<div id='notifierBody'>
+				<div id='notifierMessage'>Loading...</div>
+				<button id='reloadPageButton' class='dark' onclick='javascript:SP.reloadPage()' message='UI.reloadPage'></button>
+			</div>
+		</center>
+	</div>
+
+</div><!-- end main -->
+
+<!-- bottom row -->
+<div id='bottom' class='ifLoggedIn'>
+	<table width='100%' cellspacing=0 cellpadding=0><tr>
+		<td class='pollingInterval'>
+			<button id='pollingInterval' class='dark thin MenuButton' onmousedown='$.menu.show(this, "#pollingMenu", SP.pollInterval)'><!-- time --></button>
+		</td>
+		<td class='refresh'>
+			<button id='refreshNow' class='dark thin' onclick='javascript:SP.refresh()' message='UI.refreshNow'><!-- Refresh Now --></button>
+		</td>
+		<td class='lastRefresh'><span class='label' message='UI.lastRefresh'><!-- Last refresh --></span>
+			<span id='time' class='value'><!-- timestamp --></span>
+		</td>
+		<td class='acknowledgements'>
+			<a id='acknowledgements' href='acknowledgements.html' message='UI.acknowledgements'>
+				<!-- Acknowledgements -->
+			</a>
+		</td>
+		<td class='ifCanModify ifCloud'>
+			<button id='addToOverviewButton' class='dark thin' message='UI.addToOverview.button'
+				onclick='SP.onAddToOverviewClick()'></button>
+		</td>
+  </tr></table>
+</div><!-- end bottom -->
+
+
+<!-- floating things -->
+<div id='clickMask' onclick='if (window.$ && $.clickMask) $.clickMask.click()'></div>
+<div id='flasher' style='display:none'>
+	<div id='flasherShadow'></div>
+	<div id='flasherBody'>Test message test message test message test message test message</div>
+	<!--	<div id='flasherClose' onclick='$.notifier.hideFlasher()'></div>	-->
+</div>
+<div id='pollingMenu' class='Menu'></div>
+<div id='logInMenu' class='Menu'></div>
+<div id='logOutMenu' class='Menu'></div>
+<div id='instancesMenu' class='Menu'></div>
+<div id='dialog' style='display:none;'>
+	<div id='dialogWindow' class='Window' wd='Stats'>
+		<div id='dialogBody' class='WindowBody'></div>
+		<div id='dialogBottom' class='WindowBottom'>
+			<button onclick='$.dialog.hide()' message='UI.done'>Done</button>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<!-- Below Here Be Templates -->
+<script type='template' id='TrafficViewItemTemplate' style='display:none'>
+	<li class='#{id} Item ColorItem' view='#{viewName}' 
+		onclick='SP.onViewClick(this)'>
+			<span class='ColorDisplay' style='background-color:#{color}'></span>
+				#{menu}
+	</li>
+</script>
+
+<script type='template' id='ServiceTabTemplate' style='display:none'>
+	<li class='Tab noselect' onclick='SP.onServiceClick(this)' service='#{name}'>
+			#{name}
+	</li>
+</script>
+
+<script type='template' id='InstanceMenuTemplate' style='display:none'>
+	<li onclick='SP.onInstanceClick(this)' itemValue='#{name}'>#{name}</li>
+</script>
+
+
+<script type='template' id='ServiceTemplate' style='display:none'>
+	<div class='ServiceView Window' style='display:none' wd='#{_type}' service='#{name}' showPublicIps='#{_showPublicIps}'
+		collapsed='#{_collapsed}' drawer='closed' rehashing='false' instances='#{_instanceCount}'>
+		<div class='WindowHeader noselect'>
+			<div >
+				<span onclick='$.serviceView.toggleCollapse(this)' class='Expander'>
+					<span showif='wd=Pool' class='label'>#{message:service.memcachePool.title}</span>
+					<span showif='wd=Server' class='label'>#{message:service.memcacheServer.title}</span>
+					<span class='title' part='name'></span>
+					<span showif='wd=Pool' class='hint' part='_instanceCountMessage'></span>
+				</span>
+				<span class='clippyContainer' tooltip='#{message:UI.copyIpsToClipboard}'></span>
+			</div>
+			<div showif='wd=Pool' class='UsageGraph' part='tooltip|graph.hint'
+					><div class='used' part='css:width|graph.usedPercent'></div
+					><div class='title' part='graph.label'></div
+			></div>
+		</div>
+		<div class='WindowBody'></div>
+		<div class='WindowBottom'>
+			<div class='WindowDrawer' style='display:none'>
+				<div class='WindowInset'>
+					<form class='Form addServers' mode='attach' error='false' style='display:none'
+						  onsubmit='return $.serviceView.forms.addServers.save(this)'
+					>
+						<div class='errorMessage'><!-- error message here --></div>
+						<table class='FormTable'>
+						<tr showif='wd=Server' class='nameRow'>
+							<td class='label'>#{message:service.addServers.name.label}</td>
+							<td class='field' colspan='3'>
+								<input class='name' onblur='$.serviceView.forms.addServers.onBlurName(this)'>
+								<span class='label'	class='ifCantCreate ifCloud'>#{message:service.addServers.name.label.suffix}</span>
+							</td>
+						</tr>
+						<tr class='ifCanCreate'>
+							<td class='label'>
+								<span showif='wd=Pool'>#{message:service.addServers.action.pool}</span>
+								<span showif='wd=Server'>#{message:service.addServers.action.server}</span>
+							</td>
+							<td class='radio'>
+								<input type='radio' name='action' value='attach' class='ifCanCreate'
+									   onclick='return $.serviceView.forms.addServers.onRadioClick(this)'>
+							</td>
+							<td colspan='2' class='radioLabel' value='attach' 
+								onclick='return $.serviceView.forms.addServers.onRadioClick(this)'>
+									<span showif='wd=Pool'>#{message:service.addServers.attach.label.pool}</span>
+									<span showif='wd=Server'>#{message:service.addServers.attach.label.server}</span>
+							</td>
+						</tr>
+						<tr enableif='mode=attach'>
+							<td colspan='3' class='label'>
+								<span class='ifCantCreate'>
+									<span showif='wd=Pool'>#{message:service.addServers.ips.label.modify.pool}</span>
+									<span showif='wd=Server'>#{message:service.addServers.ips.label.modify.server}</span>
+								</span>
+							</td>
+							<td class='field'>
+								<input class='ips'>
+							</td>
+						</tr>
+						<tr enableif='mode=attach'>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td class='hint' style='padding-bottom:5px;'>#{message:service.addServers.ips.hint}</td>
+						</tr>
+						<tr class='ifCanCreate'>
+							<td class='label'></td>
+							<td class='radio'>
+								<input type='radio' name='action' CHECKED value='create' 
+									   onclick='return $.serviceView.forms.addServers.onRadioClick(this)'>
+							</td>
+							<td colspan='2'>
+								<table class='NestedFormTable' cellspacing='0' cellpadding='0'><tr>
+									<td class='radioLabel' value='create' 
+										onclick='return $.serviceView.forms.addServers.onRadioClick(this)'>
+											<span showif='wd=Pool'>#{message:service.addServers.create.label}</span>
+									</td>
+									<td class='field'>
+										<input class='number serverCount' value='1'>
+									</td>
+									<td class='radioLabel' value='create' 
+										onclick='return $.serviceView.forms.addServers.onRadioClick(this)'>
+											<span showif='wd=Pool'>#{message:service.addServers.create.label.suffix.pool}</span>
+											<span showif='wd=Server'>#{message:service.addServers.create.label.suffix.server}</span>
+									</td>
+								</tr></table>
+							</td>
+						</tr>
+						<tr class='ifCanCreate' enableif='mode=create'>
+							<td></td>
+							<td></td>
+							<td colspan='2' style='padding-bottom:5px;'>
+								<table class='NestedFormTable' cellspacing='0' cellpadding='0'>
+								<tr>
+									<td class='label'>#{message:service.addServers.machineType.label}</td>
+									<td class='select'  style='width:100%;'>
+										<select class='machineType'>
+											<option>blah</option>
+										</select>
+									</td>
+								</tr>
+								</table>
+							
+							</td>
+						</tr>
+						</table>
+						<center>
+								<span enableif='mode=create' class='hint' colspan='2'>
+									<br>#{message:service.addServers.cost.hint}<br>
+								</span>
+								<button onclick='return $.serviceView.forms.addServers.save(this)'>
+									#{message:UI.OK}
+								</button>
+								<button onclick='return $.serviceView.forms.addServers.hide(this)'>
+									#{message:UI.Cancel}
+								</button>
+						</center>
+					</form><!-- addServerForm -->
+
+					<form class='Form renameService' style='display:none' error='false' 
+						  onsubmit='return $.serviceView.forms.renameService.save(this)'>
+						<div class='errorMessage'><!-- error message --></div>
+						<table class='FormTable'>
+						<tr>
+							<td></td>
+							<td class='label'>
+								<span showif='wd=Pool'>#{message:service.renameService.name.label.pool}</span>
+								<span showif='wd=Server'>#{message:service.renameService.name.label.server}</span>
+							</td>
+							<td class='field'>
+								<input class='serviceName' onblur='$.serviceView.forms.renameService.onBlurName(this)'>
+							</td>
+						</tr>
+						</table>
+						<center>
+							<button onclick='return $.serviceView.forms.renameService.save(this)'>#{message:UI.OK}</button>
+							<button onclick='return $.serviceView.forms.renameService.hide(this)'>#{message:UI.Cancel}</button>
+						</center>
+					</form><!-- renameServiceForm -->
+				</div>
+			</div>
+			<div class='WindowBottomTabBar ifCloud'>
+				<a class='WindowBottomTab AddIcon addServersTab ifCanModify'
+				   onclick='$.serviceView.forms.addServers.toggle(this)' >
+				   		#{message:service.addServers.title}
+				</a>
+			    <!-- suppress rename tab for 2.3.7, until we can implement it correctly-->
+				<a class='WindowBottomTab PencilIcon renameServiceTab ifCanModify'
+				   onclick='$.serviceView.forms.renameService.toggle(this)' >
+				   		#{message:service.renameService.title}
+				</a>
+			</div>
+		</div>
+	</div>
+</script>
+
+
+<script type='template' id='InstancesTemplate' style='display:none'>
+	<table class='InstancesTable'>
+		#{_instancesHTML}
+	</table>
+</script>
+
+<script type='template' id='InstanceTemplate' style='display:none'>
+	<tr class='MemcacheInstance #{_selected}' memcacheState='#{memcacheState}' instance='#{name}' 
+		rehashing='#{rehashState}' reporter='#{reporter}' status='#{status}' showPublicIp='#{_showPublicIp}'>
+		<td class='infoCell'><div class='info' tooltip='#{_info}'></div></td>
+		<td class='ip' onclick='$.serviceView.onSelectInstance(this)'>
+			<span class='ipValue value' tooltip='#{message:instance.ip.hint}'>#{ip}</span>
+		</td>
+		<td class='publicIp' onclick='$.serviceView.onSelectInstance(this)'>
+			<label class='ifHasPublicIp'>/&nbsp;</label>
+			<span class='value ifHasPublicIp' tooltip='#{message:instance.publicIp.hint}'>#{publicIp}</span>
+		</td>
+		<td class='status'><label class='value'>#{_statusTitle}</label></td>
+		<td class='memcacheState'>
+			<label class='value'>#{_memcacheStateTitle}</label>
+		</td>
+		<td class='rehash'>
+			<div showif='rehashing=enabled' class='UsageGraph rehashGraph'
+				><div class='used' style='width:#{rehashPercent}%'></div
+				><div class='title'>#{_rehashMessage}</div
+			></div>								
+			</div>
+		</td>
+		<td class='memory'>
+				<div class='UsageGraph' tooltip='#{graph.hint}'
+					><div class='used' style='width:#{graph.usedPercent}'></div
+					><div class='title'>#{graph.label}</div
+				></div>
+		</td>
+		<td class='reporter ifAppliance' showif='reporter=modify'>
+			<a showif='reporter=modify' tooltip='#{message:instance.actions.reporter.hint}' 
+				class='reporterLink subtleAnchor noselect ifCanModify' 
+				onclick='$.serviceView.onToggleReporter(this)'
+			>
+					#{_reporterTitle}
+			</a>
+			<span showif='reporter=view' class='reporterMessage ifAppliance'>#{_reporterTitle}</span>
+		</td>
+		<td class='shutDown ifCanCreate ifCloud'>
+			<a tooltip='#{message:instance.actions.stop.hint}' 
+				class='shutDownLink subtleAnchor noselect ifCanCreate' 
+				onclick='$.serviceView.onStopInstance(this)'
+			>
+					#{message:instance.actions.stop.title}
+			</a>
+		</td>
+		<td class='detach ifCanModify ifCloud' showif='wd=Pool'>
+			<a tooltip='#{message:instance.actions.detach.hint}' 
+				class='detachLink subtleAnchor noselect ifCanModify' 
+				onclick='$.serviceView.onDetachInstance(this)'
+			>
+				#{message:instance.actions.detach.title}
+			</a>
+		</td>
+	</tr>
+</script>
+
+<script type='template' id='RangeSliderTemplate' style='display:none'>
+		<div class="RangeSlider noselect" id="trafficSlider" onselectstart="return false">
+			<div class="RangeTrack" onmousedown="return $.slider.onTrackDown(event, 'track')">
+				<!-- white/grey bar -->
+				<div class='RangeTrackBar'>
+					<div class='RangeTrackBarInner'></div>
+				</div>
+				<div class='RangeTrackInner'>
+					<!-- tick marks and labels -->
+					<!-- note: the StaticRangeTickContainer is moved to the left to show the ticks at the correct point -->
+					<div class='StaticRangeTickMask'>
+						<div class="StaticRangeTickContainer">
+							<div class="RangeTicks">
+								<!-- range tick marks -->
+								<!-- yesterday -->
+								<span class="y0  Strong">&nbsp;</span>
+								<span class="y1  Light">&nbsp;</span>
+								<span class="y2  Light">&nbsp;</span>
+								<span class="y3  Light">&nbsp;</span>
+								<span class="y4  Light">&nbsp;</span>
+								<span class="y5  Light">&nbsp;</span>
+								<span class="y6  Strong">&nbsp;</span>
+								<span class="y7  Light">&nbsp;</span>
+								<span class="y8  Light">&nbsp;</span>
+								<span class="y9  Light">&nbsp;</span>
+								<span class="y10 Light">&nbsp;</span>
+								<span class="y11 Light">&nbsp;</span>
+								<span class="y12 Strong">&nbsp;</span>
+								<span class="y13 Light">&nbsp;</span>
+								<span class="y14 Light">&nbsp;</span>
+								<span class="y15 Light">&nbsp;</span>
+								<span class="y16 Light">&nbsp;</span>
+								<span class="y17 Light">&nbsp;</span>
+								<span class="y18 Strong">&nbsp;</span>
+								<span class="y19 Light">&nbsp;</span>
+								<span class="y20 Light">&nbsp;</span>
+								<span class="y21 Light">&nbsp;</span>
+								<span class="y22 Light">&nbsp;</span>
+								<span class="y23 Light">&nbsp;</span>
+	
+								<!-- today -->
+								<span class="t0  Today">&nbsp;</span>
+								<span class="t1  Light">&nbsp;</span>
+								<span class="t2  Light">&nbsp;</span>
+								<span class="t3  Light">&nbsp;</span>
+								<span class="t4  Light">&nbsp;</span>
+								<span class="t5  Light">&nbsp;</span>
+								<span class="t6  Strong">&nbsp;</span>
+								<span class="t7  Light">&nbsp;</span>
+								<span class="t8  Light">&nbsp;</span>
+								<span class="t9  Light">&nbsp;</span>
+								<span class="t10 Light">&nbsp;</span>
+								<span class="t11 Light">&nbsp;</span>
+								<span class="t12 Strong">&nbsp;</span>
+								<span class="t13 Light">&nbsp;</span>
+								<span class="t14 Light">&nbsp;</span>
+								<span class="t15 Light">&nbsp;</span>
+								<span class="t16 Light">&nbsp;</span>
+								<span class="t17 Light">&nbsp;</span>
+								<span class="t18 Strong">&nbsp;</span>
+								<span class="t19 Light">&nbsp;</span>
+								<span class="t20 Light">&nbsp;</span>
+								<span class="t21 Light">&nbsp;</span>
+								<span class="t22 Light">&nbsp;</span>
+								<span class="t23 Light">&nbsp;</span>
+								<span class="t24 Strong">&nbsp;</span>
+	
+								<!-- range tick labels -->
+								<div onmousedown="return $.slider.onTickDown(event, 'y0' )" class="y0 Label">0:00<br>yesterday</div>
+								<div onmousedown="return $.slider.onTickDown(event, 'y6' )" class="y6 Label">6:00<br>yesterday</div>
+								<div onmousedown="return $.slider.onTickDown(event, 'y12')" class="y12 Label">12:00<br>yesterday</div>
+								<div onmousedown="return $.slider.onTickDown(event, 'y18')" class="y18 Label">18:00<br>yesterday</div>
+								
+								<div onmousedown="return $.slider.onTickDown(event, 't0' )" class="t0 Label">midnight<br>today</div>
+								<div onmousedown="return $.slider.onTickDown(event, 't6' )" class="t6 Label">06:00<br>today</div>
+								<div onmousedown="return $.slider.onTickDown(event, 't12')" class="t12 Label">12:00<br>today</div>
+								<div onmousedown="return $.slider.onTickDown(event, 't18')" class="t18 Label">18:00<br>today</div>
+							</div><!-- end RangeTicks -->
+						</div><!-- end StaticRangeTickContainer -->
+					</div><!-- end StaticRangeTickMask -->
+					<!-- special ticks for: start of range, start of yesterday, now -->
+					<div class="DynamicRangeTickContainer">
+						<div class="RangeTicks">
+							<span class="Start">&nbsp;</span>
+							<span class="End">&nbsp;</span>
+	
+							<span class="EndMask">&nbsp;</span>
+							<span class="StartMask">&nbsp;</span>
+	
+							<div onmousedown="return $.slider.moveToStart(event||window.event)" class="StartLabel">-24hrs</div>
+							<div onmousedown="return $.slider.moveToEnd(event||window.event)" class="EndLabel" message='UI.now'>Now<br><br></div>
+						</div><!-- end RangeTicks -->
+					</div><!-- end DynamicRangeTickContainer -->
+	
+					<div class="RangeThumb" style='width: 4.16667%; left: 95.8333%;'>
+						<span class="RangeInnerThumb">&nbsp;</span>
+						<span onmousedown="return $.slider.onTrackDown(event, 'start')" class="RangeStartThumb">&nbsp;</span>
+						<span onmousedown="return $.slider.onTrackDown(event, 'end')"   class="RangeEndThumb">&nbsp;</span>
+						<span class="RangeStartLabel">11/11 <b>17:55</b></span>
+						<span class="RangeEndLabel"><b>Now</b></span>
+					</div><!-- end RangeThumb -->
+				</div><!-- end RangeTrackInner -->
+			</div><!-- end RangeTrack -->
+		</div><!-- end RangeSlider -->
+</script>
+
+
+<!-- 'bbq' library for managing history state: must appear after body has been loaded -->
+<script type="text/javascript" src="js/jquery.ba-bbq.js"></script>
+<script>
+
+// init after the libraries have loaded
+// ** moved here because the body.onload handler was firing before all scripts had loaded in IE
+StatsProxy.init();
+
+</script>
+</body>
+</html>

@@ -1,0 +1,7 @@
+<button name='addToOverview'>
+	<on event='activate'>
+		ask "Enter one or more IP addresses from another pool, separated by commas:"
+		if it is empty then return
+		tell api 'serviceController' of the app to 'addToOverview' with it
+	</on>
+</button>

@@ -1,0 +1,49 @@
+Implementation plan
+	* get multiple inheritance working
+	* get list properties working
+	* get conditional properties working
+	* get Control working again with enable/disable/parent
+
+	* case sensitivity on onFoo ?  convert in SmartJS ?
+	* 
+
+	* work out basic site / app / page / panel semantics, 
+		- splash screen built in for loading
+		- smart scoping (via smartJS?)
+		- includes loading and transitions
+		
+	* get widgets working cleanly
+		- change Control.js to control.class
+			- move from "beforedraw" etc to super semantics
+		- button et. all
+		- menu
+		- field w/rational 'change' semantics
+		- panel/tab panel
+		- enableIf/showIf
+		- form
+			- basic data binding to JS and DOM via path semantics
+			- requireIf semantics
+		- listviewer
+		- property sheet
+
+	* test harness?
+
+
+	* get basic IDE going
+		- load application
+		- change state of widgets inline via simple property sheets and JS editor
+		- auto-save and reload
+		- basic app versioning?  (eg: 'save snapshot'?)
+	* more advanced widget stuff
+		- grid/anchor layout semantics
+		- basic d&d support
+		- basic canvas widget (for pie menu)
+	* phase2 IDE
+		- widget css editor
+		- drag and drop layout editor
+		- form-based property editors for classes (w/generic fallback?)
+
+
+
+Cleanup stuff
+	- combine SmartJS and ClassParser?

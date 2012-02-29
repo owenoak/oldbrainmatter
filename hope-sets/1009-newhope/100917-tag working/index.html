@@ -1,0 +1,96 @@
+<html>
+<!doctype html>
+<script src='hope/loader.js'></script>
+<style>
+	@import url(hope/hope.css);
+</style>
+<script>
+	Control = {};
+
+/*
+	// $Menu class
+	ElementAdapter.createSubclass("$Menu", { 
+		properties: {
+			isa:"normal menu" 
+		}
+	});
+	
+	// $PopupMenu class
+	ElementAdapter.createSubclass( "$PopupMenu", {
+		properties : {
+			isa:"popup menu"
+		}, 
+		tag:"menu", 
+		selector:"menu[type=popup]" 
+	});
+
+	ElementAdapter.createSubclass("$Command");
+
+
+*/
+	function doit() {
+		// attach the menu element
+//		window.menu = ElementAdapter.attach("menu");
+	}
+	
+</script>
+<body onload='doit()'>
+
+	<element id='me'>Yo</element>
+	<menu class='blah' type='popup' animation='reveal'>
+		<label part='foo'></label>
+		<command onclick='console.warn(this.innerHTML)'>item1</command>
+		<command onclick='console.warn(this.innerHTML)'>item2</command>
+		<command onclick='console.warn(this.innerHTML)'>item3</command>
+	</menu>
+
+	<input type='text' value='blah'>
+
+	<Control name='TemperatureGraph' datatype='int'>
+		<attribute name='min' 		type='int'></attribute>
+		<attribute name='high'	 	type='int'></attribute>
+		<attribute name='critical' 	type='int'></attribute>
+		<attribute name='max' 		type='int'></attribute>
+		<attribute name='label' 	value="{{value}}&deg;C"></attribute>
+		<attribute name='value' 	type='int'></attribute>
+		<script>
+			Control.TemperatureGraph = {
+				value : new Attribute({
+					set : function(value) {
+						value = Math.round(Math.bound(value, this.max, this.min));
+						var percent = (value - this.min) / (this.max - this.min);
+						this.part.arrow.setStyle("bottom", percent+"%");
+						return value;
+					}
+				}),
+			
+				// after draw, set up the display heights and positioning
+				"on" : {
+					draw : function() {
+						var total = (this.max - this.min);
+						var normal = Math.round((this.high - this.min) / total);
+						this.select(".NormalDisplay").setStyle("height", normal+"%");
+						
+						var high = Math.round((this.critical - this.high) / total);
+						this.select(".HighDisplay").setStyle({height:high+"%", bottom:normal+"%"});
+						
+						var critical = (100 - high - normal);
+						this.select(".CriticalDisplay").setStyle({height:critical});
+					}
+				}
+			}
+		</script>
+		<template name='contents'>
+			<span class='Spectrum'>
+				<span part='arrow'></span>
+				<span class='CriticalDisplay'></span>
+				<span class='HighDisplay'></span>
+				<span class='NormalDisplay'></span>
+			</span>
+			<div part='label'></div>
+		</template>
+	</Control>
+
+
+</body>
+</html>

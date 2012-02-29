@@ -1,0 +1,64 @@
+#!/bin/sh
+
+# stack.  Take several XML files and combine them into an atom3 (?) stacked 
+#         request on stdout.  Suggested use is something like
+#
+#  stack foo.xml bar.xml | curl -d @- http://10.4.2.60/api/ServiceController/latest
+
+ORDER=serial
+ONERROR=stop
+
+while [ $# -gt 0 ]
+do
+  case $1 in
+    -o)
+      ORDER=$2
+      shift 2
+    ;;
+    -e)
+      ONERROR=$2
+      shift 2
+    ;;
+    *)
+      break
+    ;;
+  esac
+done
+
+if [ $# -eq 0 ]
+then
+    # must be at least one request
+    echo "Usage: $0 request [request ... ]"
+    exit 1
+fi
+
+# emit header
+echo '<?xml version="1.0" encoding="utf-8"?>'
+
+# emit <requests> object.  Parameterize order and onerror later
+echo -n '<requests order="' 
+echo -n $ORDER 
+echo -n '" onerror="'
+echo -n $ONERROR
+echo    '">'
+
+# start request counter
+n=0
+
+# process each request
+for r in $*
+do
+    # number the requests
+    echo "<!-- request $n -->"
+    # strip the <?xml ...> header off the request if any
+    sed -e '/<?xml/d' -e "/<request/s/<request/<request index=\"$n\" /" < $r
+    # done, advance the counter
+    n=`expr $n + 1`
+done
+
+# close off <requests> element
+echo '</requests>' 
+
+# all done
+exit 0
+

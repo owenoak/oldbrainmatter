@@ -1,0 +1,46 @@
+/**********************
+ *   AddServers form
+ **********************/
+	.addServersForm {
+		width:100%;
+	}
+	
+	.addServersForm .nameRow td {
+		padding-bottom:5px;
+	}
+	
+	.addServersForm .nameRow td span.label {
+		padding-left:1em;
+		text-align:left;
+	}
+	
+	.addServersForm .serverCount {
+		width:3em;
+	}
+	
+	.addServersForm .ips {
+		width:95%;
+	}
+	
+	.addServersForm .name {
+		position:relative;
+		left:8px;
+	}
+	
+	.addServersForm[mode=create] *[enableif="mode=attach"],
+	.addServersForm[mode=attach] *[enableif="mode=create"] {
+		display:none;
+	}
+	
+/*************************
+ *   RenameServiceForm
+ *************************/
+	
+	.renameServiceForm {
+		margin-top:4px;
+	}
+
+	.renameServiceForm .serviceName {
+		width:30em;
+	}
+	

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="ISO-8859-15"?>
+<chart palette='2'
+  showBorder='0'
+  numberScaleValue='1000,1000,1000,1000'
+  showLegend="0"
+  labelDisplay='Rotate'
+  slantLabels='1'
+  animation='0'
+  numberScaleUnit='k,m,g,t'
+  labelStep="50"
+  yAxisName="Get Hits/sec"
+  showRealTimeValue="1"
+  showPlotBorder='0'
+  plotFillColor="#FFFFFF"
+  plotGradientColor=""
+  canvasBorderThickness="0"
+  canvasbgAlpha="100"
+  bgAlpha="100"
+  bgColor="F6F6F6">
+
+<categories>
+  <category label='14:08:20' />
+  <category label='14:08:30' />
+  <category label='14:08:40' />
+</categories>
+<!-- chose color 99cc00 for op get_hits -->
+<dataset seriesName='get_hits' showValues='0' color='99cc00'>
+  <set value='0' toolText='Get Hits: 0/sec&lt;BR&gt;2009/09/30 14:08:20' />
+  <set value='0' toolText='Get Hits: 0/sec&lt;BR&gt;2009/09/30 14:08:30' />
+  <set value='0' toolText='Get Hits: 0/sec&lt;BR&gt;2009/09/30 14:08:40' />
+</dataset>
+
+<styles>
+  <definition>
+   <style name='TTipFont' type='font' isHTML='1' />
+  </definition>
+  <application>
+   <apply toObject='TOOLTIP' styles='TTipFont' />
+  </application>
+ </styles>
+</chart>

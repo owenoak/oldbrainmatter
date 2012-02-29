@@ -1,0 +1,304 @@
+
+/**************
+
+   RangeSlider control
+   
+ **************/
+	
+	.RangeSliderTemplate {
+		display:none;
+	}
+	
+	.RangeSlider {
+		/* stop text selection for this and items*/
+		-moz-user-select:none;  
+		-webkit-user-select:none;
+		-khtml-user-select:none;
+		user-select:none;
+		/* end selection */
+	}
+	
+	/* outer container for track */
+	.RangeTrack {
+		position:absolute;
+		left:00px; right:00px;
+		height:50px;
+	}
+	
+	/* inner container for track -- insets within the grey 'gutters' of the outer track */
+	.RangeTrackInner {
+		position:absolute;
+		left:10px; right:10px;
+		height:20px;
+	}
+	
+	/* grey bar which shows the length of the track */
+	.RangeTrackBar {
+		z-index:1;
+		position:absolute;
+		left:0px; right:0px;
+		top:24px; 
+		height:5px;
+		border:1px solid #666;
+		background-color:#999;
+		-moz-border-radius:3px; -webkit-border-radius:3px;
+		cursor:pointer;
+		z-index:0;
+	}
+	
+	/* white bar which shows the inside of the track */
+	.RangeTrackBarInner {
+		position:absolute;
+		background-color:white;
+		left:10px; right:10px;
+		height:5px;
+		z-index:0;
+	}
+	
+	/* outer class for thumb */
+	.RangeThumb {
+		z-index:1;
+		position:absolute;
+		margin-right:-1px;
+		cursor:col-resize;
+		cursor:-moz-grab;
+		top:2px;
+	}
+	
+	.RangeStartThumb,
+	.RangeEndThumb {
+		z-index:2;
+		position:absolute;
+		display:block;
+		width:13px; height:15px;
+		top:18px;
+		cursor:col-resize;
+	}
+	
+	.RangeStartThumb {
+		background:url(images/range_start_thumb.gif) no-repeat;
+		left:-11px;
+	}
+	
+	.RangeEndThumb {
+		background:url(images/range_end_thumb.gif) no-repeat;
+		left:100%;
+		margin-left:-3px;
+	}
+	
+	.RangeInnerThumb {
+		z-index:1;
+		position:absolute;
+		height:5px;
+		left:0px; top:22px;
+		border:1px solid black;
+		background:#92bb1a;
+		width:100%;
+	}
+	
+	.RangeStartLabel, 
+	.RangeEndLabel {
+		display:inline-block;
+		position:absolute;
+		bottom:-15px;
+		font-size:.8em;
+		line-height:1em;
+		color:black;
+		white-space:nowrap;
+		border:1px solid #ddd;
+		background-color:white;
+		padding:2px 4px;
+		-moz-border-radius:3px;
+	}
+	
+	.RangeStartLabel {
+		right:100%;
+		text-align:right;
+	}
+	
+	.RangeEndLabel {
+		left:100%;
+		margin-left:-1px;
+	}
+	
+	
+	
+	/* set of tick lines */
+	.StaticRangeTickMask {
+		position:relative;
+		width:100%;
+		height:60px;
+		overflow:hidden;
+	}
+
+	.StaticRangeTickContainer,
+	.DynamicRangeTickContainer {
+		height:30px;
+		width:100%;
+	}
+
+	.StaticRangeTickContainer {
+		position:absolute;
+		top:31px;
+	}
+
+	.DynamicRangeTickContainer {
+		position:absolute;
+		top:30px;
+	}
+
+
+
+	.RangeTicks {
+		position:absolute;
+		z-index:0;
+		left:0px;
+		top:0px;
+		width:100%;
+	}   
+	
+	/* individual tick line */
+	.RangeTicks .Normal,
+	.RangeTicks .Strong,
+	.RangeTicks .Light,
+	.RangeTicks .Start,
+	.RangeTicks .End,
+	.RangeTicks .Today {
+		position:absolute;
+		top:0px;
+		height:8px;
+		width:1px;
+		overflow:hidden;
+		border-left:1px solid #999;
+		z-index:0;
+	}   
+	
+	.RangeTicks .Normal {
+		height:8px;
+	}
+	
+	.RangeTicks .Strong {
+		height:8px;
+		border-color:#999;
+	}   
+	
+	.RangeTicks .Light {
+		border-color:#ccc;
+		height:6px;
+	}   
+	
+	.RangeTicks .Start,
+	.RangeTicks .End,
+	.RangeTicks .Today {
+		border-color:black;
+		z-index:2;
+	}
+
+	.RangeTicks .End {
+		right:0px;
+	}
+
+	.RangeTicks .StartMask,
+	.RangeTicks .EndMask {
+		position:absolute;
+		top:0px;
+		height:8px;
+		width:20px;
+		z-index:1;
+	}
+	.RangeTicks .EndMask {
+		right:0px;
+	}
+
+	
+	/* set of labels */
+	
+	/* individual labels */
+	.RangeTicks .Label,
+	.RangeTicks .StartLabel,
+	.RangeTicks .EndLabel {
+		position:absolute;
+		display:block;
+		top:8px;
+		width:6em;
+		margin-left:-3em;
+		text-align:center;
+		font-size:.8em;
+		line-height:1em;
+		color:#777;
+		white-space:nowrap;
+		text-align:center;
+		cursor:pointer;
+		padding:0px 2px;
+		background:white;
+	}
+	
+	.RangeTicks .StartLabel,
+	.RangeTicks .EndLabel {
+		font-weight:bold;
+		margin-left:0;
+		height:2em;
+	}
+
+	.RangeTicks .StartLabel {
+		text-align:left;
+		left:-10px;
+		width:auto;
+	}
+	.RangeTicks .EndLabel {
+		text-align:right;
+		right:-2em;
+		width:2em;
+	}
+
+	.RangeTicks .y0	 {   left: 0%;   }
+	.RangeTicks .y1	 {   left: 4.16%;	}
+	.RangeTicks .y2	 {   left: 8.33%;	}
+	.RangeTicks .y3	 {   left: 12.50%;   }
+	.RangeTicks .y4	 {   left: 16.66%;   }
+	.RangeTicks .y5	 {   left: 20.83%;   }
+	.RangeTicks .y6	 {   left: 25.00%;   }
+	.RangeTicks .y7	 {   left: 29.16%;   }
+	.RangeTicks .y8	 {   left: 33.33%;   }
+	.RangeTicks .y9	 {   left: 37.50%;   }
+	.RangeTicks .y10	{   left: 41.66%;   }
+	.RangeTicks .y11	{   left: 45.83%;   }
+	.RangeTicks .y12	{   left: 50.00%;   }
+	.RangeTicks .y13	{   left: 54.16%;   }
+	.RangeTicks .y14	{   left: 58.33%;   }
+	.RangeTicks .y15	{   left: 62.50%;   }
+	.RangeTicks .y16	{   left: 66.66%;   }
+	.RangeTicks .y17	{   left: 70.83%;   }
+	.RangeTicks .y18	{   left: 75.00%;   }
+	.RangeTicks .y19	{   left: 79.16%;   }
+	.RangeTicks .y20	{   left: 83.33%;   }
+	.RangeTicks .y21	{   left: 87.50%;   }
+	.RangeTicks .y22	{   left: 91.66%;   }
+	.RangeTicks .y23	{   left: 95.83%;   }
+
+	.RangeTicks .t0	 {   left: 100.00%;  }
+	.RangeTicks .t1	 {   left: 104.16%;  }
+	.RangeTicks .t2	 {   left: 108.33%;  }
+	.RangeTicks .t3	 {   left: 112.50%;  }
+	.RangeTicks .t4	 {   left: 116.66%;  }
+	.RangeTicks .t5	 {   left: 120.83%;  }
+	.RangeTicks .t6	 {   left: 125.00%;  }
+	.RangeTicks .t7	 {   left: 129.16%;  }
+	.RangeTicks .t8	 {   left: 133.33%;  }
+	.RangeTicks .t9	 {   left: 137.50%;  }
+	.RangeTicks .t10	{   left: 141.66%;  }
+	.RangeTicks .t11	{   left: 145.83%;  }
+	.RangeTicks .t12	{   left: 150.00%;  }
+	.RangeTicks .t13	{   left: 154.16%;  }
+	.RangeTicks .t14	{   left: 158.33%;  }
+	.RangeTicks .t15	{   left: 162.50%;  }
+	.RangeTicks .t16	{   left: 166.66%;  }
+	.RangeTicks .t17	{   left: 170.83%;  }
+	.RangeTicks .t18	{   left: 175.00%;  }
+	.RangeTicks .t19	{   left: 179.16%;  }
+	.RangeTicks .t20	{   left: 183.33%;  }
+	.RangeTicks .t21	{   left: 187.50%;  }
+	.RangeTicks .t22	{   left: 191.66%;  }
+	.RangeTicks .t23	{   left: 195.83%;  }
+	.RangeTicks .t24	{   left: 200.00%;  }
+

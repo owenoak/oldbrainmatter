@@ -1,0 +1,53 @@
+<html>
+<head>
+	<title>Cards Tester</title>
+
+	<script src='../../scripts/hope.js'></script>
+	<script src='../../scripts/hope.js'></script>
+	<script src='../../scripts/Template.js'></script>
+	<script src='../../scripts/ClassParser.js'></script>
+	<script src='../../scripts/SmartJS.js'></script>
+	<script src='../../scripts/Control.js'></script>
+	<class src='${hope}/controls.classes'></class>
+
+	<Theme id='minty' src='${themes}/minty/minty.theme'></Theme>
+
+	<class src='cards.classes'></class>
+</head>
+<body>
+	<Theme src='deck.theme'></Theme>
+
+
+	<table id='board' cellspacing=10>
+		<tr><td><CardStockPile 		id='stock'			poster='CardBack'></CardStockPile></td>
+			<td><CardDiscardPile 	id='discards' 		poster='CardBack'></CardDiscardPile></td>
+			<td></td>
+			<td><CardGoalPile 		id='SpadesGoal' 	poster='AceOfSpades' 	suit='Spades'></CardGoalPile></td>
+			<td><CardGoalPile 		id='HeartsGoal' 	poster='AceOfHearts'	suit='Hearts'></CardGoalPile></td>
+			<td><CardGoalPile 		id='DiamondsGoal'	poster='AceOfDiamonds'	suit='Diamonds'></CardGoalPile></td>
+			<td><CardGoalPile		id='ClubsGoal' 		poster='AceOfClubs'		suit='Clubs'></CardGoalPile></td>
+		</tr>	
+
+
+		<tr>
+			<td><CardStackPile 		id='stack1' 		poster='CardBack'></CardStackPile></td>
+			<td><CardStackPile 		id='stack2' 		poster='CardBack'></CardStackPile></td>
+			<td><CardStackPile 		id='stack3' 		poster='CardBack'></CardStackPile></td>
+			<td><CardStackPile 		id='stack4' 		poster='CardBack'></CardStackPile></td>
+			<td><CardStackPile 		id='stack5' 		poster='CardBack'></CardStackPile></td>
+			<td><CardStackPile 		id='stack6' 		poster='CardBack'></CardStackPile></td>
+			<td><CardStackPile 		id='stack7' 		poster='CardBack'></CardStackPile></td>
+		</tr>	
+	</table>
+	<CardGame id='klondike'></CardGame>
+
+
+
+	<script language='javascript'>
+		console.time("parse classes and templates");
+		ClassParser.parseClassTags();
+		Template.expandPageNodes();
+		console.timeEnd("parse classes and templates");
+	</script>	
+</body>
+</html>

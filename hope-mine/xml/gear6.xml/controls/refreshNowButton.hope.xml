@@ -1,0 +1,5 @@
+<button name='refresh now button' title='Refresh Now'>
+	<on event='activate'>
+		activate the refresh timer of the app
+	</on>
+</button>

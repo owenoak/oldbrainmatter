@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+	<result>OK</result>
+	<data>
+		<memcachedStats 
+			category="items" 
+			service="php"
+			server="10.3.6.236:11211" 
+			proxy="10.3.6.236:8080" 
+			time="2009-11-11T13:27:18PST"
+			v="2" 
+		>
+			<stat><key>items:3:number</key> <value type='string'>48</value></stat> 
+			<stat><key>items:3:age</key> <value type='string'>0</value></stat> 
+			<stat><key>items:3:evicted</key> <value type='string'>0</value></stat> 
+			<stat><key>items:3:evicted_time</key> <value type='string'>0</value></stat> 
+			<stat><key>items:3:outofmemory</key> <value type='string'>0</value></stat> 
+			<stat><key>items:3:tailrepairs</key> <value type='string'>0</value></stat> 
+			<stat><key>items:28:number</key> <value type='string'>288</value></stat> 
+			<stat><key>items:28:age</key> <value type='string'>119</value></stat> 
+			<stat><key>items:28:evicted</key> <value type='string'>0</value></stat> 
+			<stat><key>items:28:evicted_time</key> <value type='string'>0</value></stat> 
+			<stat><key>items:28:outofmemory</key> <value type='string'>0</value></stat> 
+			<stat><key>items:28:tailrepairs</key> <value type='string'>0</value></stat> 
+		</memcachedStats> 
+	</data>
+</response>

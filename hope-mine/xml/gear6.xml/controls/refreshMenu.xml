@@ -1,0 +1,22 @@
+<menu name='refreshMenu' checkvalue='true'>
+	<docs>Menu which allows them to change the refresh delay preference</docs>
+	<items>
+		<item title='5 seconds' value='5'/>
+		<item title='10 seconds' value='10'/>
+		<item title='15 seconds' value='15'/>
+		<item title='30 seconds' value='30'/>
+		<item title='60 seconds' value='60'/>
+		<separator>
+		<item title='2 minutes' value='120'/>
+		<item title='5 minutes' value='300'/>
+		<item title='10 minutes' value='600'/>
+		<separator>
+		<item title='off' value='0' />
+	</items>
+
+	<bind property='value' to='preference "refresh delay"' />
+
+	<on event='activate' with='item'>
+		set preference 'refresh delay' to the value of item
+	</on>
+</menu>

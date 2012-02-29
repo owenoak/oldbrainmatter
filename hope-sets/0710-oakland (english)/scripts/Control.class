@@ -1,0 +1,1007 @@
+contentsNode<!-- TODO TO MAKE THIS WORK
+	SmartJS: 
+		* macros ?
+		* mixins
+			- move flag stuff to mixins?
+			- move ancestor stuff to mixins?
+		* <property type='method'> : add to constructor a call to turn non-null value into a function (as a getter ?)
+		* <property type='condition'> : add to constructor a call to turn non-null value into a function (as a getter ?)
+		* <property type='object|hash|map'> : auto-create in constructor?
+		* <property type='list|array' separator=','> : auto-split?
+		* <property scope='private|public|protected'...>
+		* <property type='element'> : add setter to do getElementById() ?
+		* <property type='part'> : get pointer to parts automatically after draw via a getter?  or do 'parts' list?
+		* <property type='location'> : turn into a Location automatically?
+
+		* get property(value){}... ==> proto.__defineGetter__("property", function...);
+		* set property(){}... ==> proto.__defineSetter__("property", function...);
+			- super with getters/setters?
+		
+		? <property name='disabled' type='boolean'>
+				<default>false</default>
+				<getter>function(){...}</getter>
+				<setter>function(){...}</setter>
+		  </property>
+
+		? 	forEach (var kid in this.children) {
+				kid.doit();
+		  	}
+
+			==>		for (var _kid_list = this.children, _kid_last = _kid_list.length, _kid_index 0, kid; _kid_index < _kid_last; kid = _kid_list[_kid_index++]) {
+						kid.doit();
+					}
+
+			or ==>	for (var _kid_list = this.children, _kid_index 0; kid = _kid_list[_kid_index++]; ) {
+						kid.doit()
+					}
+
+			--- is there some intelligent way we can know when we're in and out of scope to do smaller vars?
+					for (var list = this.children, i = 0, kid; kid = list[i++];) {
+						kid.doit();
+					}
+
+			--- if you want to just use "items", you could do:
+			
+				forEach (this.children) {
+					item.doit();
+				}
+				
+		
+		? make templates able to re-use vs. replace outer node
+
+
+	Control
+		* have single page-level event handler for almost things (just field.blur() etc, right?)
+			* smarter way to specify than eventsToHandle ?
+		* hover tooltip behaviour
+		* right-click menu behavior
+		* if parent is set to a string on init, get by id (? necessary?)
+		* have list of parts, which are automatically accessed after draw
+		* have setter for class/style/etc
+
+
+-->
+
+<class id='Control'>
+
+<!-- DOM NODE SEMANTICS -->
+
+	<!-- Element in the DOM that is the outer node for this control.  -->
+	<property scope='protected' name='domNode' type='element'></property>
+
+	<!-- Element in the DOM that is the parent node for any children of this node.  -->
+	<property scope='protected' name='contentsNode' type='element'></property>
+
+	<!-- parent of this element in the DOM	-->
+	<property name='parent' type='element'></property>
+
+	<!-- child elements in the DOM -->
+	<property name='children' type='list' itemType='element'></property>
+
+
+<!-- DRAWING SEMANTICS -->
+
+	<!-- If true, we automatically draw when our parents draw.
+		 Set to false for things whose drawing is managed in a non-standard way. -->
+	<property scope='protected' name='autodraw' type='boolean'>true</property>
+
+	<!-- id of this control, will be auto-generate if not specified on construction.
+		 Things are not well defined if this is not unique.
+		 Note: this is currently both the id of the control and the element it will draw in -->
+	<property name='id'></property>
+
+	<!-- CSS class(es) applied to the element (along with anything on the template) -->
+	<property name='class'></property>
+	<!-- alias for the "class" property, just like in HTML -->
+	<property name='className'></property>
+
+	<!-- CSS style(s) applied to the element (along with anything on the template) -->
+	<property name='style'></property>
+
+	<!-- id of Border to apply to this element (see controls.classes#Border) -->
+	<property name='border'></property>
+
+	<!-- id of the html template used to generate our HTML -->
+	<property name='template'></property>
+
+	<!-- true once we've been rendered -->
+	<property scope='private' name='drawn' type='boolean'>false</property>
+
+
+	<!-- if 'src' is specified and 'autoLoad' is true, 
+			content for the node will be loaded from this src url automatically on draw().
+			
+			Then what is loaded will be automatically parsed for any child nodes.
+	-->
+	<property name='src' type='location'></property>
+	<property name='autoLoad' type='boolean'>false</property>
+
+
+<!-- EVENT HANDLING SEMANTICS -->
+
+	<!-- if true, we automatically hook up and pass events in the "eventsToHandle" property to the element after draw -->
+	<property scope='protected' name='handleEvents' type='boolean'>false</property>
+	<!-- list of events to handle for this control -->
+	<property scope='protected' name='eventsToHandle' type='list' separator=','>onmouseover,onmousemove,onmouseout,onmousedown,onmouseup,onclick,ondblclick</property>
+	<!-- if false, text selection is turned OFF for this element -->
+	<property name='canSelectText' type='boolean'>false</property>
+	
+
+
+<!-- ENABLE/DISABLE SEMANTICS -->
+
+	<!-- if false, all event support in us is off	-->
+	<property name='disabled' type='boolean'>false</property>
+	<!-- if set, method will (periodically?) be called to automatically enable/disable the item -->
+	<property name='enableIf' type='method'></property>
+
+
+<!-- SHOW/HIDE SEMANTICS -->
+
+	<!-- if false, element is hidden (via CSS display property)	-->
+	<property name='visible' type='boolean'>true</property>
+	<!-- if set, method will (periodically?) be called to automatically show/hide the item -->
+	<property name='showIf' type='method'></property>
+
+	
+<!-- FLAG SEMANTICS: see "flag semantics" below -->
+	<property scope='protected' name='flags' type='object'></property>
+
+
+
+	<script language='javascript' dialect='SmartJS'>
+		// CONSTRUCTOR
+		//	Default implementation for all controls is to accept one or more maps of properties 
+		//	as initialization parameters.  Also, after construction, all controls will have an "id"
+		//	property (either passed in or it will auto-generate one).
+		//
+		//	It's STRONGLY recommended that you call super() first in your subclass constructors.
+		function Control(props1, props2, etc) {
+			this.mixin.apply(this, arguments);
+		
+			// make sure all controls have a reasonably unique id (pass one in as prop to override)
+			this.generateId();
+			Control.register(this);
+		}
+		
+
+			
+		//
+		//	parenting semantics
+		//
+	
+		function addChild(child, addToChildrenArray) {
+			// TODO:	- move our domElement into the new parent (done?)
+			//			- fix up the message hierarchy
+			if (addToChildrenArray != false) {
+				if (!this.children) this.children = [];
+				if (this.children.indexOf(child) != -1) return;
+				this.children.push(child);
+			}
+			
+			child.parent = this;
+			
+			if (this.drawn) {
+				if (!child.drawn) {
+					child.draw();
+				} else {
+					this.domNode.appendChild(child.domNode);
+				}
+			}
+			return child;
+		}
+		
+		
+		// TODO: remove domElement?
+		function removeChild(child) {
+			if (this.domNode && child.domNode) {
+				this.domNode.removeChild(child.domNode);
+			}
+			hope.removeItem(this.children, child);
+			delete child.parent;
+		}
+		
+		
+		//
+		//	drawing
+		//
+	
+		// NOTE: assumes domNode is a template node from the page, which will be replaced with our template contents
+		function draw() {
+			if (this.drawn) return;
+
+			// make sure our dynamic states (visible and enabled) are set up to take our parent's state into account
+			// TODO: don't pass true if we have a parent?
+			this.fixDynamicStates(true);
+	
+			var domNode = this.domNode;
+			// if the item specifies a "src" and "autoLoad", replace the contents of the node with whatever's at that URL
+			if (domNode && ((this.src && this.autoLoad) || domNode._templateChildren)) {
+				if (this.src) {
+					this._srcLocation = new hope.Location(this.src);		// TODO: hold on to it?
+					domNode.innerHTML = this._srcLocation.load();
+					domNode._templateChildren = hope.Template.getTemplateNodes(domNode);
+				}
+				this.createChildren(domNode._templateChildren);
+			}
+	
+			var template = this.getTemplate();
+			if (template) {
+				// initialize our border
+				this.initBorder();
+		
+				if (this.beforeDraw) this.beforeDraw(domNode, template);
+		
+				var newNodeProps = {	
+						id		  	: this.id,
+						"class"		: this.getOuterClassName(template),
+						"style"		: this.cssStyle
+				};
+	
+				var parent = hope.byId(this.parentNode) || domNode;
+				if (parent == null && this.parent) {
+					parent = this.parent.contentsNode || this.parent.domNode;
+				}
+				if (parent == null) parent = hope.byTag("BODY")[0];
+				if (domNode) {
+					var outerNode = template.expandFromSourceNode(this, parent, newNodeProps);
+				} else {
+					var outerNode = template.expand(this, parent, newNodeProps);
+				}
+				this.domNode = outerNode;
+			} else {
+	//TODO: reparent?  to what?		
+			}
+	
+			if (this.children) {
+				this.drawChildren(this.children);
+			}
+	
+			// todo: hook up events if any set on original element?
+			if (this.handleEvents) this.initEvents();
+			
+			this.drawn = true;
+		}
+	
+	
+		function initBorder() {
+			if (this._border || !this.border) return;
+			if (typeof this.border == "string") {
+				var border = Border.getBorder(this.border);
+				if (!border) {
+					this._warn(arguments, "Border '"+this.border+"' is not defined.  Maybe you forgot to load the <skin>/<skin>.js file?");
+					this.border = null;
+				} else {
+					this._border = border;
+				}
+			} else if (this.border._isABorder) {
+				this._border = this.border;
+			} else {
+				this._warn(arguments, "Border '"+this.border+"' not understood.");
+			}
+		}
+
+		function setContents(html) {
+			if (this.contentsNode) this.contentsNode.innerHTML = html;
+			else if (this.domNode) this.domNode.innerHTML = html;
+		}
+	
+	
+		//
+		//	TEMPLATES
+		//
+		
+		function getTemplate() {
+			return hope.Template.byId(this.template);	
+		}
+		
+		
+		function getTemplateHtml(arg1, arg2, etc) {
+			var template = this.getTemplate();
+			if (!template) return this._warn(arguments, "No template found for "+this);
+			var args = hope.sliceArgs(arguments);
+			args.unshift(this);
+			return template.expandToHtml.apply(template, args);	
+		}
+	
+	
+		//
+		//	child semantics
+		//
+	
+		function createChildren(kidElements, addToChildrenArray) {
+			for (var i = 0, kidElement; kidElement = kidElements[i++]; ) {
+	// TODO: check if kid is already set up and skip if so
+				var kid = this.createChild(kidElement.tagName, hope.getNormalizedAttributes(kidElement), addToChildrenArray);
+				if (!kid) debugger;
+				kid.domNode = kidElement;
+			}
+		}
+	
+		// create a child of a given type (class) and set its parent to us
+		// NOTE: this looks in the parent._childAttributes hash, if present, and sets child attributes as directed there
+		// TODO: make the _childAttributes thing case insensitive
+		function createChild(type, attributes, addToChildrenArray) {
+			var constructor = hope.getConstructor(type);	// ???
+			if (!constructor) {
+				console.error(this._error(arguments, "Couldn't find constructor for tag ", type," -- skipping"));
+				return;
+			}
+			// get any childAttributes we want to pass on to the child
+			var childAttributes = null;
+			if (this._childAttributes) {
+				childAttributes = this._childAttributes[type] || this._childAttributes["*"];
+			}
+			var kid = new constructor({_srcLocation:this._srcLocation} childAttributes, attributes);
+			this.addChild(kid, addToChildrenArray);	
+			return kid;
+		}
+	
+		function drawChildren() {
+			var children = this.children;
+			for (var i = 0, kid; kid = children[i]; i++) {
+				if (kid.autodraw && !kid.drawn) kid.draw();
+			}
+		}
+	
+
+
+		//
+		//	PARTS are discrete pieces of our rendering that we want to manage, 
+		//		  but we don't want to create full controls for them for efficiency's sake.
+		//
+		//		By convention, the id of a part will the id of the control + "_<partName>".
+		//	
+		
+		// return a sub-part of the HTML elements for this item
+		// convention is that the part will have 	id='${id}_<partName>'
+		function getPart(partName) {
+			if (!partName || partName == "domNode") return this.domNode;
+			return hope.byId(this.id + "_" + partName);
+		}
+		
+		function setPart(partName, newHTML) {
+			var part = this.getPart(partName);
+			if (part) part.innerHTML = newHTML;
+		}
+		
+		function setPartClass(partName, className) {
+			var part = this.getPart(partName);
+			if (part) part.className = className;
+		}
+		
+		function mixinToPart(partName, props) {
+			var part = this.getPart(partName);
+			if (part) hope.mixinToNode(part, props);
+		}
+		
+		function showPart(partName, state) {
+			hope.show(this.getPart(partName), state);
+		}
+		
+		function hidePart(partName) {
+			hope.show(this.getPart(partName), false);
+		}
+
+
+		//
+		//	CSS CLASS SEMATNICS
+		//	
+
+		// Just like with HTML, when you want to get or set a css class name, do it via "className".
+		//	However, you can set the "class" property in your HTML and it will just work.
+		//
+		//	When you set control.class[Name], that class will be applied to the control.domNode
+		//
+		private _className;
+		
+		set class(className) {
+			this.className = className;
+		}
+		
+		get class() {
+			return this._className;
+		}
+
+		set className(className) {
+			this.className = className;
+			if (this.domNode) this.domNode.className = this.getOuterClassName();
+		}
+
+		get className() {
+			return this._className;
+		}
+
+		// return the css class for the domNode
+		function getOuterClassName() {
+			var template = this.getTemplate();
+			var classes = [];
+			if (this.canSelectText != true)	 	classes.push("disableSelection");
+			if (this._border)					classes.push("BorderContainer");
+			if (template && template.className)	classes.push(template.className);
+												classes.push(this.Class);
+			if (this.className)					classes.push(this.className);
+
+			// TODO: only "normal" if no flags set ???
+			// TODO: have fancy ordering of flags here (disabled beats hover, etc)?
+			classes.push("normal");
+			if (this.flags) {
+				for (var flagName in this.flags) {
+					classes.push(flagName);
+				}
+			}
+			return classes.join(" ");
+		}
+	
+
+
+
+		//
+		//	css class manipulation
+		//
+		//	In the routines below, if you don't pass a 'part', we assume you mean the control.domNode
+		//	You can also pass a part of "domNode" to mean the outer dom node.
+		//
+
+
+		function hasClass(className, part) {
+			return hope.hasClass(className, this.getPart(part));
+		}
+
+		function addClass(className, part) {
+			hope.addClass(className, this.getPart(part));
+			return this;
+		}
+
+		function removeClass(className, part) {
+			hope.removeClass(className, this.getPart(part));
+			return this;
+		}
+	
+		function toggleClass(className, part, turnOn) {
+			hope.toggleClass(className, this.getPart(part), turnOn);
+			return this;
+		}
+
+
+		
+
+
+		//
+		//	css style semantics
+		//
+		//	In the routines below, if you don't pass a 'part', we assume you mean the control.domNode
+		//	You can also pass a part of "domNode" to mean the outer dom node.
+		//
+
+		private _styles;
+		
+		// persistently update the style property of this control
+		//	(to update transiently, use control.setStyle())
+		// NOTE:  removes any old styles when new styles are set (???)
+		set style(styles) {
+			if (this._styles) {
+			
+			}
+			this._styles = styles;
+			this.setStyles(styles);
+		}
+		
+		get style() {
+			return this._styles;
+		}
+		
+		function setStyle(styles, part) {
+			hope.setStyles(styles, this.getPart(part));
+		}
+
+
+
+		//
+		//	html element attribute manipulation
+		//
+		//	In the routines below, if you don't pass a 'part', we assume you mean the control.domNode
+		//	You can also pass a part of "domNode" to mean the outer dom node.
+		//	
+
+		function setAttribute(attribute, value, part) {
+			hope.setAttribute(this.getPart(part), attribute, value);
+			return this;
+		}
+
+		function removeAttribute(attribute, part) {
+			hope.setAttribute(this.getPart(part), attribute, undefined);
+			return this;
+		}
+
+		
+	
+		//
+		//	flag semantics -- 
+		//
+		//	Each control can have one or more 'flags' set on it.
+		//
+		//	"Flags" are discreet boolean states which represent transient state such as mouse state, etc.
+		//	(e.g. flags.hover means that the mouse is over us, flags.down means mouse is down, etc.)
+		//	
+		//	Flags are explicitly never saved when the object is saved.
+		//			
+		//	Also used for current state of 'visible' and 'enabled', since this is partly dependent on parent state.
+		//	(e.g. If parent is 'disabled', we should definitely be disabled as well.  
+		//	 	  But if parent is re-enabled, we should go back to whatever state we had before they were disabled).
+		//	
+		//	Note:  Set a flag to one of: 
+		//				undefined, "", 0, false or null
+		//		to turn off, any other value will be turn the flag on.
+		//	
+		//	Note:  If the control has a domNode, setting/unsetting a flag also adds/removes a CSS class 
+		//		with the same name as the flag to the domNode.  This allows you to easily style
+		//		the node when it is in different states.
+		//	
+		
+
+		// set a particular flag on this control
+		//	'flag' is the name of the flag
+		//	'newState' is the new boolean value (null, "", 0 or false is "off", anything else is "on")
+		//
+		//	SIDE EFFECT: this.flags[<flag>] will be set to newState || true if turned "on", or deleted if "off".
+		//	SIDE EFFECT: Adds/removes CSS class of same name as flag to our domNode when turned "on" or "off".
+		//
+		function setFlag(flagName, turnOn) {
+			if (turnOn === undefined) turnOn = true;
+			if (!turnOn) return this.removeFlag(flagName);
+
+			if (!this.flags) this.flags = {};
+			this.flags[flagName] = turnOn;
+			if (this.domNode) this.addClass(flagName);
+
+			return this;
+		}
+		
+		// clear a flag previously set
+		//	SIDE EFFECT: Removes CSS class of same name as flag from our domNode
+		// TODO: make "removeFlag" an alias of this?
+		function removeFlag(flagName) {
+			if (this.flags) {
+				delete this.flags[flagName];
+				if (this.domNode) this.removeClass(flagName);
+			}
+			return this;
+		}
+		
+
+		// return true if a flag is set
+		function flagIsSet(flagName) {
+			return this.flags && this.flags[flagName] !== undefined;
+		}
+		
+
+
+
+		//	Controls can have "enableIf" and "showIf" conditions that govern whether they are disabled and shown. 
+		//	If you suspect that one of the conditions has changed, call control.fixDynamicStates() to update.
+		//
+		//	The "enabled" and "visible" properties of the control are not valid until this is called --
+		//	it is called automatically on control.draw().
+		//
+		//	Pass true to <forceUpdate> to force DOM changes, even if the new value is the same as the old value.
+		//	Should only be necessary when the control is initialized, but YMMV.
+		//
+		function fixDynamicStates(forceUpdate) {
+			this.fixVisibleState(forceUpdate);
+			this.fixEnabledState(forceUpdate);
+		}
+
+
+		//
+		//	visibilty semantics
+		//
+
+		
+		private _visible = true;
+		
+		function show(value) {
+			this.visible = value;
+		}
+
+		function hide() {
+			this.hidden = true;
+		}
+		
+		get visible() {
+			return !this.flagIsSet("hidden");
+		}
+		
+		set visible(show) {
+			this._visible = (show != false);
+			return this.fixVisibleState();
+		}		
+		
+		get hidden() {
+			return this.flagIsSet("hidden");
+		}
+		
+		set hidden(hide) {
+			this._visible = (hide == false);
+			return this.fixVisibleState();
+		}
+		
+		set showIf(method) {
+			var method = hope.makeConditionalFunction(method);
+			if (method) this._showIf = method;
+			else delete this._showIf;
+		}
+		
+		// check our enabled state to make sure it's current with that of our parents and our enableIf
+		//	NOTE: called before draw commences
+		//
+		function fixVisibleState(forceUpdate) {
+			var nowVisible =  this._visible 
+						  && (this._showIf ? this._showIf() : true)
+						  && (this.parent ? this.parent.visible : true);
+
+			if (this.visible != nowVisible || forceUpdate) {
+				// set/unset the 'hidden' flag on the element
+				this.setFlag("hidden", !nowVisible);
+
+				// if not visible, make sure the 'hover' flag is cleared (hacky but necessary)
+				if (!nowVisible && this.flagIsSet("hover")) this.removeFlag("hover");
+
+				// tell all children to update themselves
+				if (this.children && this.children.length > 0) {
+					for (var i = 0; i < this.children.length; i++) {
+						this.children[i].fixVisibleState(forceUpdate);
+					}
+				}
+			}
+		}		
+
+
+		//
+		//	ENABLE/DISABLE SEMANTICS
+		//	
+		//	You can interact either with "enabled" or "disabled", and as a propert or a method.
+		//	The "enabled" and "disabled" states are always opposite each other (eg: one is true, the other false).
+		//
+		//	A control is always considered (and shown) 'disabled' if any of its parents are disabled.
+		//
+		//	Controls can also have an "enableIf" condition, used to dyanamically change the enabled/disabled
+		//	state based on some random condition.  If the condition changes, call control.fixDynamicStates() to update.
+		//
+		//	If control._enablePart is set, that 'part' will have the ATTRIBUTE "disabled" applied to it when disabled.
+		//	(set control.enablePart to "domNode" to apply to the outer domNode).
+		//
+		//  Note: the "enabled", etc properties are not accurate until the control.fixEnabledState() has been called
+		//			-- this is done automatically in control.draw().
+		//
+		//	Note: While a control's parent is disabled, the control is also considered disabled.
+		// 	Note: When a control is disabled, the outer control.domNode will have the CSS CLASS "disabled" applied to it.
+		//	Note: 
+		//
+		//	API:
+		//		this.enabled						-- returns current enabled state
+		//		this.enabled = [true|false];		-- sets current enabled state
+		//		this.enable([true|false])			-- sets current enabled state
+		//
+		//		this.disabled						-- returns current disabled state
+		//		this.disabled = [true|false]		-- sets current disabled state
+		//		this.disable([true|false])			-- sets current disabled state
+		//		
+		//		this.fixEnabledState(forceUpdate)	-- update the enabled state of this control and all children.
+		//
+		//												Controls with "enableIf" set will not actually reflect 
+		//												a change in their enable condition until this has been called.
+		//
+		//												Pass 'forceUpdate == true' to actually change the DOM, even if
+		//												the enabled state appears to be the same as it was.
+		//												(This should only be necessary on the initial call, YMMV).
+		//
+		
+		//  our permanent enabled state, which has nothing to do with parents or enableIf
+		private _enabled = true;			
+
+		// if set, this element will automatically get a "disabled" attribute set when we disable
+		protected _enablePart;			
+		
+		function enable(value) {
+			this.enabled = value;
+		}
+		
+		get enabled() {
+			return !this.flagIsSet("disabled");
+		}
+		
+		set enabled(enable) {
+			this._enabled = (enable != false);
+			return this.fixEnabledState();
+		}
+		
+		
+		function disable() {
+			this.disabled = true;
+		}
+		
+		get disabled() {
+			return this.flagIsSet("disabled");
+		}
+		
+		set disabled(disable) {
+			this._enabled = (disable == false);
+			return this.fixEnabledState();
+		}
+		
+		set enableIf(method) {
+			var method = hope.makeConditionalFunction(method);
+			if (method) this._enableIf = method;
+			else delete this._enableIf;
+		}
+	
+	
+		// check our enabled state to make sure it's current with that of our parents and our enableIf
+		//
+		function fixEnabledState(forceUpdate) {
+			var nowEnabled =   this._enabled 
+						  && (this._enableIf ? this._enableIf() : true)
+						  && (this.parent ? this.parent.enabled : true);
+
+			if (this.enabled != nowEnabled || forceUpdate) {
+				// set/unset the "disabled" flag
+				this.setFlag("disabled", !nowEnabled);
+				
+				// if disabled, make sure the 'hover' flag is cleared (hacky but necessary)
+				if (!nowEnabled && this.flagIsSet("hover")) this.removeFlag("hover");
+
+				// if we have an enablePart, apply the 'disabled' attribute to it if necessary
+				if (this._enablePart) this.setAttribute("disabled", !nowEnabled, this._enablePart);
+				
+				// now tell our children to update as well
+				if (this.children && this.children.length > 0) {
+					for (var i = 0; i < this.children.length; i++) {
+						this.children[i].fixEnabledState(forceUpdate);
+					}
+				}
+			}
+		}
+
+
+
+		//
+		// made up event handling
+		//
+		//	handle events that we make up
+		//	NOTE: many methods can be called on this event using this pattern
+		function addEventListener = hope.addEventListener;
+		function removeEventListener = hope.removeEventListener;
+		function fireEvent = hope.fireEvent;
+
+		
+		//
+		//	DOM event handling
+		//
+	
+		// these are only called if we're enabled
+		function onmouseover(target, domEvent) {
+			return this.setFlag("hover");
+		}
+	
+		function onmouseout(target, domEvent) {
+			return this.removeFlag("hover");
+		}
+		
+		function onmousedown(target, domEvent) {
+			return this.setFlag("down");
+		}
+	
+		function onmouseup(target, domEvent) {
+			return this.removeFlag("down");
+		}
+	
+		
+		function handleBrowserEvent(domEvent) {
+			// only process events if we're enabled (includes enable state of our ancestors)
+			if (this.disabled) return true;
+			var eventName = "on" + domEvent.type; 
+			return this.handleEvent(eventName, this, domEvent);
+		}
+	
+		// TODO: pass parameters!!
+		// handle an event, either by processing it ourselves or passing it on to our parent (if we have one)
+		// NOTE: domEvent and domTarget may not be defined...
+		function handleEvent(eventName, target, domEvent) {
+			// TODO: convert functions
+			if (this[eventName] && typeof this[eventName] == "string") {
+				try {
+					this[eventName] = hope.makeFunction(this[eventName]);
+				} catch (e) {
+					this._warn("error creating function for property '", eventName,"': "+e.getMessage());
+					delete this[eventName];
+				}
+			}
+			if (this[eventName]) {
+				if (this[eventName](target, domEvent) != true) return hope.stopEvent(domEvent);
+			} else {
+				if (this.passEvent(eventName, target, domEvent) != true) return hope.stopEvent(domEvent);
+			}
+		}
+		
+		function passEvent(eventName, target, domEvent) {
+			if (this.parent && this.parent._isAControl) 
+				return this.parent.handleEvent(eventName, target, domEvent);
+			return true;
+		}
+	
+	
+		// if a sub-part has a handler for the event, call it
+		// converts string handlers to functions
+		// the method is called on the part as
+		//		part.method(this, arg1, arg2, etc)
+		function handlePartEvent(eventName, part, arg1, arg2, etc) {
+			var name = "on"+eventName;
+			if (part[name]) {
+				if (typeof part[name] == "string") {
+					part[name] = hope.makeFunction(part[name]);
+				}
+				var args = hope.sliceArgs(arguments, 1);
+				args[0] = this;
+				part[name].apply(part, args);
+			}
+		}
+	
+		
+		// method that is placed on dom elements to point them back to our "handleBrowserEvent" method
+		// NOTE:  when this is called, "this" is the DOM element that got the event, 
+		///			and this._controller is a pointer to this object
+		private function domEventDispatcher(event) {
+			return (this._controller ? this._controller.handleBrowserEvent(event||window.event, this) : false);
+		}
+	
+		// TODO: use addEvent() so we don't clobber existing events on the element?
+		// TODO: when to un-hook this?  memory leaks?
+		function initEvents() {
+			var element = this.domNode;
+			var controller = controller || this;
+			// if no element or the element has been hooked up already to us, forget it
+			if (!element || element._controller == controller) return;
+	
+			// tell the element that we are its event controller
+			element._controller = controller;
+	
+			// now hook our (static) dispatcher event up for each event in the list
+			var events = this.eventsToHandle.split(",");
+			for (var i = 0, event; event = events[i++]; ) {
+				element[event] = this.domEventDispatcher;
+			}
+		}
+		
+		function destroyEvents(element) {
+			element = element || this.domNode;
+			// only unhook for a valid element for whom we are the controller
+			if (!element || element._controller != this) return;
+			var events = this.eventsToHandle.split(",");
+			for (var i = 0, event; event = this.events[i++]; ) {
+				delete element[event];
+			}		
+		}
+		
+		//
+		//	ancestors and children
+		// 	NOTE: "ancestor chain" or "first ancestor" in the below includes this object (???)
+		//
+		
+		// TODO:  forEachAncestor()  forEachChild()
+	
+/*	NOT USING THIS -- REMOVE ?  MOVE TO A MIXIN?
+		// return all ancestors of this control, including itself, with the control FIRST
+		getter function ancestors() {
+			var list = [this];
+			var parent = this;
+			while (parent) {
+				list[list.length] = parent;
+				parent = parent.parent;
+			}
+			return list;
+		}
+	
+		// method can be a function, or the name of a method to call on each child
+		function forEachChild(method, arg1, arg2, etc) {
+			if (!this.children || this.children.length == 0) return;
+			var args = hope.sliceArgs(arguments, 1),
+				isString = typeof method == "string",
+				output = []
+			;
+			for (var i = 0, child; child = this.children[i++]; ) {
+				if (isString) {
+					output.push((typeof child[method] == "function") ? child[method].apply(child, args) : null);
+				} else {
+					output.push(method.apply(child, args));
+				}
+			}
+			return output;
+		}
+	
+		// method can be a function, or the name of a method to call on each ancestor
+		// NOTE: ancestor here is strictly parents, not us!
+		function forEachAncestor(method, arg1, arg2, etc) {
+			var parent = this.parent;
+			var args = hope.sliceArgs(arguments, 1),
+				isString = typeof method == "string",
+				output = []
+			;
+			while (parent) {
+				if (isString) {
+					output.push((typeof parent[method] == "function") ? parent[method].apply(parent, args) : null);
+				} else {
+					output.push(method.apply(parent, args));
+				}
+				parent = parent.parent;
+			}
+			return output;
+		}
+	
+	
+		// return the first ancestor where ancestor[prop] == value
+		// TODO: this is pretty verbose...  tighten up?
+		function firstAncestorWhere(what, value) {
+			var parent = this,
+				isString = typeof what == "string",
+				isUndefined = typeof value == "undefined",
+				parentValue
+			;
+	
+			while (parent) {
+				if (isString) {
+					parentValue = parent[what];
+				} else {
+					parentValue = what.apply(parent);			
+				}
+				if (isUndefined && typeof parentValue == "undefined") return parent;
+				if (value == parentValue) return parent;
+				parent = parent.parent;
+			}
+		}
+*/		
+
+		
+	//
+	//	CLASS STUFF
+	//
+		class _constructorDefaults = {
+			initClass : function() {
+				hope.Template.registerTemplateTag(this.Class);
+			}
+		};
+
+		
+		// registry of all controls that have been created
+		// call Control.byId(<id>) to get a particular control
+		private class idMap = {};			
+									
+		// registry of all controls of a given type (a.k.a 'tag')
+		// do Control.byType(<className>) to get all controls of that type		
+		private class typeMap = {};
+									
+	
+		// register a control
+		class function register(control) {
+			Control.idMap[control.id] = control;
+			var type = control.Class.toLowerCase();
+			if (!Control.typeMap[type]) Control.typeMap[type] = [];
+			Control.typeMap[type].push(control);
+		}
+	
+		// return a control by id
+		class function byId(id) {
+			return Control.idMap[id];
+		}
+		
+		// return all controls of a particular type (tag)
+		class function byType(it) {
+			return Control.typeMap[it.toLowerCase()];
+		}
+
+		// return all controls of a particular tag (type)
+		class function byTag(it) {
+			return Control.typeMap[it.toLowerCase()];
+		}
+
+</class>

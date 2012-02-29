@@ -1,0 +1,18 @@
+<Stylesheet src='minty.css'></Stylesheet>
+<Stylesheet src='minty.images.css'></Stylesheet>
+
+<Border id='Button' 	 		template='controls#StretchBorder3' autoDraw='false'></Border>
+<Border id='ButtonWhite' 		template='controls#StretchBorder3' autoDraw='false'></Border>
+<Border id='Field' 				template='controls#StretchBorder3' autoDraw='false'></Border>
+<Border id='SquareButton' 		template='controls#StretchBorder3' autoDraw='false'></Border>
+<Border id='SquareButtonWhite' 	template='controls#StretchBorder3' autoDraw='false'></Border>
+<Border id='Tab' 				template='controls#StretchBorder3' autoDraw='false'></Border>
+<Border id='TabBottom' 			template='controls#StretchBorder3' autoDraw='false'></Border>
+
+<Border id='SelectBorder' 		template='controls#SelectBorder' autoDraw='false'></Border>
+<Border id='SelectMenu' 		template='controls#StretchBorder9' autoDraw='false'></Border>
+
+<Border id='Dialog' 			template='controls#StretchBorder9' autoDraw='false'></Border>
+<Border id='Menu' 				template='controls#StretchBorder9' autoDraw='false'></Border>
+<Border id='Panel' 				template='controls#StretchBorder9' autoDraw='false'></Border>
+<Border id='ShadowPanel' 		template='controls#StretchBorder9' autoDraw='false'></Border>

@@ -1,0 +1,246 @@
+Site/App/Page/Panel semantics
+
+- A "Site" is a domain/a distinct set of URLs, like a productivity suite
+- An "App" is a set of screens that have related functionality, generally tied to operating on a certain set of data or performing a certain action
+- A "Page" is a top-level addressable piece of functionality.  Generaly only one page is visible at a time.
+- A "Panel" is a related set of controls that are placed in a page
+- A "DataSource" is a distinct data source, eg: a web service or (set of) JSON calls  (??? name? "Source" ???)
+
+
+Running example:
+	Site = Photo Gallery
+	Apps = Viewer, Uploader, Printer, Account, Admin
+	Page (for Viewer) = 
+			Splash, Home, Users, GalleryMenu, Photo, Slideshow
+	Panel (for Viewer/Home) =
+			Header, Footer, News, Popular, Teaser, Ad
+
+
+We use a RESTey interface for URLs:
+	http://<site>/<app>/<page>
+or
+	http://somewhere.com/<site>/<app>/<page>
+	
+	? how is this accomplished in terms of loading
+	? how to bind to data instances?
+
+Site: (?naming? Project?)
+	- authentication lives here
+		- think about unauthenticated sessions (as separate app: 'welcome'?)
+	- bootstrapper/loader for pieces
+	- logic common to many places 
+		? have a "common" pseudo-app or some other level for this ?
+	- current site is globally available:  hope.site?
+	
+
+App: (?naming? Application?  synonyms?)
+	- logic common to all app pages lives here
+	- can include panels (pages?) from other apps (mashups)
+	- controls flow to/from different pages 
+	- current app is globally available:  hope.app?
+
+
+Page:
+	- cross-panel logic
+	- manage datasources (?)
+	- have <layout>s to specify how things go together?  templates?
+	- Generally only one page of an app is shown at a time (not nec.)
+	- current page is globally available:  hope.page ?
+	- Page properties:
+		initial		- if true, we are the first page of our app (naming?)
+		name		- short name, no spaces, used to put ID together
+		title		- automatically shown in the titlebar
+		actions		- page-level actions
+		relevantIf	- combination of prefs/rights that the account must have to see the page
+		datasources	- data sources the page accesses
+					- note: actual bind for account access hapens in page.open()
+		template	- enumeration of widgets that make up the page
+					- any ref'd sub-items are automatically loaded (asynchronously w/animation)
+		
+	- Page methods:
+		open()		- initial navigation to the page.  
+					- Loads necessary panels, draws template, sets up data sources, etc as necessary.
+					- handler: openpage
+		pause()		- temporarily leaving this page (eg: going to another but will be back)
+					- stop any recurring timers, get ready to hide, etc
+					- handler: pausepage
+		resume()	- popped back to the page, restart timers/etc
+					- handler: resumepage
+		close()		- done with this page.  Clean up as necessary (incl. deallocation, etc)
+					- handler: closepage
+		connect()	- connect to datasources
+		disconnect()- disconnect from data sources (called automatically on close)
+		
+
+
+Panel: 
+	- Panels can live at different levels, depending on where it makes sense
+			eg: Site-level panels: 
+					- Login, SplashScreen, Header, Footer
+				App-level panels: 
+					- ThumbnailViewer, ImageDetail, EditImage
+
+	- A panel can be used across different apps if it makes sense
+		- if this is the case, the app's generic code will be loaded, but not any other pages/panels that the app uses
+	
+	- Panels bind to data sources. mediate data to controls
+	- Panels have layouts/templates to lay things out (implicit layout?)
+	
+	- Panel properties:
+	
+	- Panel methods:
+		- 
+
+
+Source: (?naming? DataSource? synonym?)
+	- contains search/load/validate/save logic for a particular class of data
+	- logic for list of data as well as individual items
+	- source items can be related to other sources by ID (multi-key?)
+	- have concept of partial/full list loading
+	- have concept of partial/full item loading (only 2 levels?)
+	- Site/App/Page/Panel can have special stuff for a particular source,
+		which only applies when in that scope
+	- sources can bind to a page and/or panel (site?)
+	- more than one source can bind to the same panel
+	- all sources can work with canned data for testing w/o network
+
+
+Account:  (?naming?  user?)
+	- each app binds to a single "account" object (?)
+	- account has properties:
+		- preferences (incl. personal info like name/etc)
+			- hash of name : {type, default, value}
+			- user can edit all prefs
+		- access rights
+			- hash of name : {type, default, value}
+			- similar to prefs, but user cannot edit (enforced by server)
+			
+	- account object is globally available (hope.account ?)
+	- controls/pages/etc can use prefs and access rights in enableIf/showIf
+	- data sources automatically bind to the account record (how?)
+	- semantics for more than one user record open at a given time?  
+		? can we defer this?
+
+
+Action:
+	- Site/App/Page/Panel/Control can each have 'actions' which are things that the user can do in the current context
+	- actions have: title, callback, [help], [icon], [enableIf], [showIf]
+	- examples:
+		- Site:  Login, Logout
+		- App: Open, Close, Show Page
+		- Page: Open, Close
+		- Panel: Save, Revert, Close
+		- Control: (eg: form) Save, Revert
+	- Actions can be automatically collected into toolbars and context menus
+	- Action sets are extensible/customizable by mashups, skins, etc
+	- Actions are glue that binds the application together in that they transition us between different states.  Executing an action can start with data from the form, can bind data to a page/panel/etc.
+	- Actions can have sub-actions (accept, tentative, reply) which may just be different parameters to the same call (subclassing?)
+	- Actions can have "undo" semantics as well as "execute" semantics -- super cool!
+	? Actions come in different flavors, to show in different toolbars?
+		- nav, data
+	? "name" and "short name" for actions?  synonyms?
+
+Layout:
+	- different layout types:
+		- horizontal: 
+			- each item laid out like cells in a single row
+			- <row/> to advance to new row?
+		- vertical:
+			- each item laid out in separate row
+		- table: 
+			- properties: rows, columns
+			- <row/> to advance to new row?  auto via # of columns?
+			- how to have rowspan/colspan?  set as attribute of each item?
+		- css:
+			- styling will be done in absolute positioning via CSS
+	- flow vs. expand-to-fill-space-exactly layouts?
+	- templates can have an explicit layout, as well as forms, etc
+		- have a "layout" property on the template/form/etc
+		- default is no layout, for efficiency
+
+
+Scoping:
+	- for the most part, each level only loads itself and the stubs of its children -- details of the children are stored in seperate files.
+	However, for convenience, you can put kids in the same file as their parent if they are ONLY ever referenced from the parent (eg: noone else needs to find them).  Or we have a heuristic of looking in parent if we can't find the file for the kid?
+	- We want to be smart about partitioning logic and only loading what we need at any given time.  To do this, we put generic logic up high and screen-specific logic as low as possible.  
+		- For example, all the logic for loading/validating/saving data is encapsulated in the data source, but it is up to a particular panel to specify the presentation of the data:
+			- We only load the load/save/etc logic once (with the datasource) 
+			- Any special logic common to many panels goes at the app or page level, so it is loaded automatically as the app/page is loaded
+			- We can load panels/pages/etc in as necessary and know that we won't be loading in presentation logic that we don't need now
+
+	- Each site/app/etc is saved in its own file, but the parent has a reference to all the children that it deals with directly
+		(eg: site has pointer to all apps, app has pointer to pages and maybe data sources)
+	- 
+
+
+Naming
+	- since we always need unique IDs, what if the id of everything is the concatenation of its place in the hierarchy?
+	- eg:  digicam-search-for = 
+				field "for" of panel "search" of site "digicam"
+		+ easy to remember
+		+ clear where to look up a thing
+		+ feels pretty hypercard-ey
+		+ scope is really clear
+		+ easy to do css styling if done right
+		? too pedantic/tedious?
+		? hard to change name?
+		? single namespace: a problem for scoping?
+			? can we have, eg, 
+				- an action "digicam-search" and
+				- a form "digicam-search"?
+		? generic pieces of the framework won't have the same name, but could be aliased (eg: "digicam" and "site" are aliases)
+		- can have partial names, eg:  -for and we can dereference by scope... ? seems too symbol-ey
+		
+	- maybe things can have a small local id, but you refer to them from outside (and w/css) as the full id?  use "name" for local "id" property?
+		- so in:
+			<project name='digicam'>
+				<app name='gallery'>
+					<page name='album'>
+						<form name='search'>
+							<field name='for'/>
+							<button action='digicam-gallery-search'/>
+						</form>
+					</page>
+				</app>
+			</project>
+
+			- project id='gallery'
+			- page    id='gallery-album'
+			- form    id='gallery-album-search'
+			- field   id='gallery-album-search-for'
+			- button  id='gallery-album-search-button_1'
+
+		? within the scope of the page, field can be found either as
+			field "for" or field "search-for' or field 'album-search-for' etc. ?
+		? "-" not allowed in 'name's so not ambiguous?  convert to "_"?
+
+		- if ambiguity and multiple w/same id is a problem, id could be:
+				"TYPE-id", eg:
+				- project id='PROJECT-gallery'
+				- page    id='PAGE-gallery-album'
+			- but that seems a pain...
+				
+
+	- seems to make sense to have separate id spaces per item type
+		(eg: page, control, etc)
+		+ css could be:
+			PANEL#digicam-search
+			SEARCHFIELD#digicam-search-for
+		- getElementById() wouldn't work, but we can set things up ahead of time? (do something similar to dojo's auto-attach node thinger?)
+		+ dojo.query selector type thing would work
+		- potentially ambiguous if they don't provide type
+		- annoying if the item changes type, although you can use superclass to specify which one
+			eg: "control foo-bar-blah" instead of "searchField foo-bar-blah"
+			- can't css this (???)
+	
+			
+
+	- will have a problem with the same item (eg: header) used in different pages (or is there a single header which gets moved/reparented?  that's efficient, but could be tricky to stay consistent)
+
+	- how to do composition of generic pieces which will be used over and over, like composite widgets? 
+		- ideas:
+			- *-blah-blah?  not CSS able...  
+			- $-blah-blah?  too symbol-ey
+			- --blah-blah?  maybe...
+	
+	- is there any way to 

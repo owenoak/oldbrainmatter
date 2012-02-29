@@ -1,0 +1,88 @@
+In this site Everyone can set security for area 
+ 
+These new phrases can be added to the site by hitting the "Add" button, and the new 
+phrase will be added after whatever phrase was highlighted in the lower section. 
+ 
+The pull downs for the top-down section are as follows: 
+ 
+ 
+ 
+In the upper right portion of the user interface is a scrolling list that has all possible ECL 
+commands enumerated (i.e. "set security for area", "set security for site", etc.).  The ECL 
+commands which can have security set on them are as follows, with descriptions where 
+appropriate. 
+ 
+• set security for area 
+• set security for site 
+ These two commands give someone permission to set the security properties for 
+an area or a site.  If someone is allowed to set the security, a form similar to the ones 
+above is returned. 
+• create weblets that override parent's settings 
+This gives a user permission to create a weblet that can override the weblet's 
+parent security, possibly allowing more permissive or restrictive use of the weblet 
+then the parent would provide.  For example, using this setting would allow 
+someone to create an editable Article weblet in an area where nothing can be 
+edited. 
+• assign all roles 
+• assign Owner role 
+• assign Editor role 
+• assign Member role 
+• assign Guest role 
+These five commands gives a user the power to assign roles to other users in an 
+area or a site.  For example, a user could be given the power to assign the Member 
+role to a new user. 
+• other (fill in command in box below) 
+This selection is used for typing in ECL commands that have not been 
+enumerated.  This is commonly used for setting ECL commands on individual 
+weblets (i.e. edit "My Business Card"). 
+• do everything with all weblets 
+This gives a user free reign over all weblets in an area, though this does not give 
+them permission to change a site or area's security settings or to assign roles. 
+• edit all weblets 
+• view all weblets 
+• delete all weblets 
+• clone all weblets 
+These ECL commands give a user permission to run edit, view, delete, or clone commands on any 
+weblet. 
+• set security for all weblets 
+This allows a user to change the security properties of a weblet; note that this does 
+not include the ability to change the security permissions of the area or site. 
+• create all weblets 
+• create Business Card Weblet 
+• create Normal Page Weblet 
+• create Article Weblet 
+• create Toolbar Weblet 
+Every available weblet is enumerated and a 'create' option is put into the list.  This 
+allows one to restrict the creation of certain types of weblets to certain users. 
+• do everything with all Business Card Weblets 
+• edit all Business Card Weblets 
+• view all Business Card Weblets 
+• delete all Business Card Weblets 
+• clone all Business Card Weblets 
+• move all Business Card Weblets 
+• set security for all Business Card Weblets 
+• do everything with all Normal Page Weblets 
+• edit all Normal Page Weblets 
+• view all Normal Page Weblets 
+• delete all Normal Page Weblets 
+• clone all Normal Page Weblets 
+• move all Normal Page Weblets 
+• set security for all Normal Page Weblets 
+For each type of weblet all possible commands that can be run on this weblet is 
+enumerated.  Above are two example enumerations for Business Card Weblets 
+and Normal Page Weblets. 
+ 
+The bottom portion of the security form shows all the security settings for the site.  Three 
+buttons can be used to manipulate these: 'Remove', 'Save', 'Add', and 'Change'.  Hitting 
+Remove removes a highlighted security setting from both the client and server.  Hitting 
+Save saves a modified ECL command and all modifications.  Hitting Add causes the ECL 
+command that has been specified in the top-portion of the user interface to be inserted 
+into the bottom portion.  Hitting Change loads the selected ECL command into the top- 
+portion. 
+ 
+There is also a bottom section for assgning users different Roles for Sites.  The form to 
+do this is located at the bottom of the Site form above.  The default role for all users can 
+be set with this form.  Roles are listed in a list-box, and can be Removed, Saved, Added, 
+and Changed by clicking on the appropriate buttons and selecting from the lower pull- 
+downs (i.e. "Brad Neuberg" is an "Owner"). 
+ 

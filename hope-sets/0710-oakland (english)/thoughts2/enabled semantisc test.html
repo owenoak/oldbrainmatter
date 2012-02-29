@@ -1,0 +1,286 @@
+<html>
+<style>
+	.false {	background-color:red}
+</style>
+
+<body onload='show()' onunload='clearResults();' style='background:antiquewhite'>
+
+<textarea style='width:90%;height:40px' id='msg'>parent.enabled = true</textarea>
+<br>
+<button onclick='try {eval(document.getElementById("msg").value)} catch (e) { alert(e) }'>Do it</button>
+<button onclick='clearResults()'>Clear</button>
+<button onclick='show()'>Show</button>
+
+<br>
+<button onclick='parent.enabled = true;show();'>parent.enabled</button>
+<button onclick='parent.disabled = true;show();'>parent.disable</button>
+<br>
+<button onclick='kid1.enabled = true;show();'>kid1.enabled</button>
+<button onclick='kid1.disabled = true;show();'>kid1.disabled</button>
+<br>
+<button onclick='kid2.enabled = true;show();'>kid2.enabled</button>
+<button onclick='kid2.disabled = true;show();'>kid2.disabled</button>
+<br>
+<button onclick='kid3.enabled = true;show();'>kid3.enabled</button>
+<button onclick='kid3.disabled = true;show();'>kid3.disabled</button>
+<br>
+<button onclick='grandkid11.enabled = true;show();'>grandkid11.enabled</button>
+<button onclick='grandkid11.disabled = true;show();'>grandkid11.disabled</button>
+<br>
+<button onclick='window.foo = true;parent.checkEnabledFlag(true);show();'>kid3.enableIf to true</button>
+<button onclick='window.foo = false;parent.checkEnabledFlag(true);show();'>kid3.enableIf to false</button>
+
+<br>
+
+<div style='width:40%;height:500px;position:absolute;left:45%' id='current'></div>
+<textarea style='width:40%;height:500px' id='results'></textarea>
+
+
+
+<script language='javascript'>
+
+var hope = {
+		// make a new function in a minimal scope to minimize scope overhead
+		makeFunction : function(script, args) {
+			if (typeof script == "function") return script;
+			return new Function(args||"", script);
+		},
+		
+		// make a function for a conditional (such as enableIf or showIf)
+		//	similar to makeFunction, except it add a "return (conditional)" to any simple conditional
+		//	a simple conditional is defined as conditional without "var ", ";" or "return" in it
+		makeConditionalFunction : function(conditional, args) {
+			if (typeof conditional == "function") return conditional;
+
+			if (   conditional.indexOf(";") == -1
+				&& conditional.indexOf("var ") == -1 
+				&& conditional.indexOf("return ") == -1
+			   ) {
+				conditional = "return ("+conditional+")";	
+			}
+			return hope.makeFunction(conditional, args);
+		}
+}
+
+function log(msg) {
+	document.getElementById("results").value += "\n" + msg;
+}
+
+function clearResults() {
+	document.getElementById("results").value = "";
+}
+
+function show() {
+	log("========");
+	var output = ["<tr><th>id<\/th><th>_enabled<\/th><th>enableIf<\/th><th>item flag enabled<\/th><\/tr>"];
+	showItem(output, parent, "");
+	showKids(output, parent, "&nbsp;&nbsp;&nbsp;");
+	document.getElementById("current").innerHTML = "<table border=1 cellpadding=4 cellspacing=0>"+output.join("\n")+"<\/table>";
+}
+function showKids(output, parent, indent) {
+	for (var i = 0; i < parent.children.length; i++) {
+		var kid = parent.children[i];
+		showItem(output, kid, indent);
+		if (kid.children) showKids(output, kid, indent + "&nbsp;&nbsp;&nbsp;");
+	}
+}
+function showItem(output, item, indent) {
+	var _enabled = item._enabled,
+		enableIf = item._enableIf ? item._enableIf() : true,
+		itemFlag = !item.flagIsSet("disabled"),
+		check = _enabled && enableIf && item.flagIsClearForAll("disabled")
+	;
+	output.push("<tr> <td class='"+check+"'>"+indent + item.id + "<\/td>"
+					+"<td class='"+_enabled+"'>" + _enabled + "<\/td>"
+					+"<td class='"+enableIf+"'>" + enableIf + "<\/td>"
+					+"<td class='"+itemFlag+"'>" + itemFlag + "<\/td>"
+				+"<\/tr>");
+}
+
+
+
+
+function Thing(props) {
+	this.flags = {};
+	this.children = [];
+	for (var prop in props) {this[prop] = props[prop];}
+	if (this.children.length > 1) {
+		log("adding kids to "+this);
+		for (var i = 0; i < this.children.length; i++) {
+			var kid = this.children[i];
+			kid.parent = this;
+			kid.checkEnabledFlag(true);
+		}
+	}
+	window[this.id] = this;
+}
+Thing.prototype = {
+
+	//
+	//	generic flag stuff
+	//
+
+	setFlag : function(flag) {
+		if (this.flags[flag] == true) return;
+		log("setting " + this + ".flags." + flag);
+		this.flags[flag] = true;
+	},
+	
+	removeFlag : function(flag) {
+		if (this.flags[flag] === undefined) return;
+		log("clearing " + this + ".flags." + flag);
+		delete this.flags[flag];
+	},
+
+	flagIsSet : function(flag) {
+		return typeof this.flags[flag] != "undefined";
+	},
+
+	flagIsClearForAll : function(flag) {
+		var parent = this;
+		while (parent) {
+			if (parent.flags[flag] !== undefined) return false;
+			parent = parent.parent;
+		}
+		return true;
+	},
+	
+	flagIsSetForAny : function(flag) {
+		var parent = this;
+		while (parent) {
+			if (parent.flags[flag] !== undefined) return true;
+			parent = parent.parent;
+		}
+		return true;	
+	},
+	
+
+	//
+	//	enable-disable specific stuff
+	//
+
+	_enabled : true,
+	
+	enable : function() {
+		this.enabled = true;
+	},
+	
+	get enabled() {
+		return !this.flagIsSet("disabled");
+	},
+	
+	set enabled(enable) {
+		this._enabled = (enable != false);
+		this.checkEnabledFlag();
+		return this;
+	},
+	
+	
+	disable : function() {
+		this.disabled = true;
+	},
+	
+	get disabled() {
+		return this.flagIsSet("disabled");
+	},
+	
+	set disabled(disable) {
+		this._enabled = disable == false;
+		this.checkEnabledFlag();
+	},
+	
+	set enableIf(method) {
+		var method = hope.makeConditionalFunction(method);
+		if (method) this._enableIf = method;
+		else delete this._enableIf;
+	},
+
+
+	// check our enabled state to make sure it's current with that of our parents and our enableIf
+	//
+	checkEnabledFlag : function(force) {
+		var wasEnabled = this.flags.disabled === undefined,
+			parentEnabled = (this.parent ? this.parent.enabled : true),
+			isEnabled = this._enabled && (this._enableIf ? this._enableIf() : true) && parentEnabled
+		;
+		
+		if (wasEnabled != isEnabled || force) {
+			this.fixEnabledState(isEnabled);
+		}
+		
+		return isEnabled;
+	},
+	
+
+	fixEnabledState : function (itemState) {
+		if (itemState) {
+			this.removeFlag("disabled");
+		} else {
+			this.setFlag("disabled");
+		}
+		if (this.children && this.children.length > 0) {
+			for (var i = 0; i < this.children.length; i++) {
+				var kid = this.children[i],
+					kidEnabled = itemState && kid._enabled && (kid._enableIf ? kid._enableIf() : true)
+				;
+				kid.fixEnabledState(kidEnabled);
+			}
+		}
+	}
+}
+Thing.prototype.toString = function() { return this.id };
+
+
+new Thing({
+	id : "parent",
+	children : [
+		new Thing({
+			id : "kid1",
+			children : [
+				new Thing({
+					id : "grandkid11"
+				}),
+				new Thing({
+					id : "grandkid12"
+				})
+			
+			]
+		}),
+		
+		new Thing({
+			id : "kid2",
+			enabled : false,
+			children : [
+				new Thing({
+					id : "grandkid21"
+				}),
+				new Thing({
+					id : "grandkid22"
+				})
+			
+			]
+		}),
+		
+		new Thing({
+			id : "kid3",
+			enableIf : "return window.foo == true",
+			children : [
+				new Thing({
+					id : "grandkid31"
+				}),
+				new Thing({
+					id : "grandkid32"
+				})
+			
+			]
+		})
+	
+	]
+});
+
+</script>
+
+
+</body>
+
+</html>

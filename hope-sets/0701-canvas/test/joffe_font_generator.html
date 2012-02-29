@@ -1,0 +1,144 @@
+<HTML>
+
+<HEAD>
+<STYLE type="text/css"><!--
+BODY {
+	font-family: Tahoma;
+	font-size: 8pt;
+}
+FORM {
+	margin: 0;
+	padding: 0;
+}
+FIELDSET {
+	padding: 20px;
+}
+LABEL {
+	width: 30px;
+	text-align: right;
+}
+FIELDSET DIV {
+	margin: 10px 0;
+}
+#code {
+	background-color: #CCC;
+	border: 2px dashed #999;
+	padding: 10px;
+	overflow: auto;
+	width: 100%;
+	height: 300px;
+}
+
+--></STYLE>
+<SCRIPT language="javascript"><!--
+function txt(e){
+	var p="ABCDEFGHIJKLMNOPQRSTUVWXYZ abcdefghijklmnopqrstuvwxyz";
+	var s=e.value.split('');
+	var t='';
+	for (var i=0; i<s.length; i++) if (p.indexOf(s[i])>=0) t+=s[i];
+	if (s.join('')!=t) e.value=t;
+}
+
+function num(e){
+	var p="0123456789";
+	var s=e.value.split('');
+	var t='';
+	for (var i=0; i<s.length; i++) if (p.indexOf(s[i])>=0) t+=s[i];
+	if (s.join('')!=t) e.value=t;
+}
+
+
+function makeFont(frm){
+	var fontName=frm.fontName.value;
+	var fontSize=frm.fontSize.value;
+	var fontUnits = "px";
+	
+	t1=fontName.split(''), t2='';
+	for (var i=0; i<t1.length; i++) if (t1[i]!=' ') t2+=t1[i];
+	
+	if (!fontName) {
+		alert('Invalid font name.');
+		return false;
+	}	
+	if (!Number(fontSize)) {
+		alert('Invalid font size.');
+		return false;
+	}
+	
+	var font=t2+fontSize;
+	var pic=document.getElementById('pic');
+	
+	var characterSet='abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789!@#$%^&*()-=[]\\;\',./_+{}|:"<>?`~'.split('');
+	var identifierLegalChars = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	var str="";
+	var letter;
+	var padding = 2;
+	
+	for (var i=0; i<characterSet.length; i++) {
+		letter=characterSet[i];
+		if (letter=='&') letter='&amp;';
+		if (letter=='\<') letter='&lt;';
+		if (letter=='\>') letter='&gt;';
+		if (letter=='"') letter='&quot;';
+		str+='<SPAN style="padding-right:'+padding+'px">'+letter+'<\/SPAN>';
+	}
+
+	pic.innerHTML='<PRE style="font-family:'+fontName+';font-size:'+fontSize+fontUnits+'; border:1px solid #000; padding:1px; display:inline; cursor: default;">'+str+'<\/PRE>';
+	
+	var height=pic.offsetHeight;
+
+	var span=pic.getElementsByTagName('SPAN');
+
+	var totalWidth=0, //avoid text wrap
+		widths = []
+	;
+	for (var i=0; i < characterSet.length; i++) {
+		totalWidth += (widths[i] = (parseInt(span[i].offsetWidth) - padding));
+	}
+
+	var output = ["var imageMap = {\r",
+				  "\tinfo\t: {t:1, h:", height, ", font:'", fontName, "', size:'", fontSize,"px'},\n\t"],
+		left = 0
+	;
+	for (var i = 0; i < characterSet.length; i++) {
+		var it = characterSet[i];
+		if (it == '"') {
+			it = "'\"'";
+		} else if (it == "\\") {
+			it = '"\\\\"';		
+		} else if (identifierLegalChars.indexOf(it) == -1) {
+			it = '"' + it + '"';
+		}
+		output.push(it,"\t: {l:", left, ",w:",widths[i],"}");
+		if (i != characterSet.length -1) {
+			if ((i+1) % 5 == 0) output.push(",\n\t");
+			else output.push(",\t");
+		} 
+		left +=  widths[i] + padding;
+	}
+	output.push("\n}");
+	
+	pic.innerHTML = "<textarea id=code>" + output.join("") + "<\/textarea>" + pic.innerHTML;
+	
+	return false;
+}
+//--></SCRIPT>
+</HEAD>
+
+<BODY>
+<H4>&copy Benjamin Joffe 2006</H4>
+<P>This page is designed to help you create fonts capable of use with the HTML Canvas tag by utilising the code I wrote at <A href="fonts.htm">this page</A>.<BR>
+It will not work for fonts that have overlaping characters.</P>
+<FORM onsubmit="return makeFont(this)">
+	<FIELDSET>
+		<LEGEND>Canvas Font Generator</LEGEND>
+		<DIV><LABEL for="f1">Font:</LABEL> <INPUT type="text" id="f1" name="fontName" value="skia" size="20" onkeyup="txt(this)" onblur="txt(this)"></DIV>
+		<DIV><LABEL for="f2">Size:</LABEL> <INPUT type="test" id="f2" name="fontSize" value="12" size="5" onkeyup="num(this)" onblur="num(this)" maxlength="3"> px</DIV>
+		<INPUT type="submit" value="Generate Font">
+		<DIV id="pic"></DIV>
+	</FIELDSET>
+</FORM>
+
+</BODY>
+
+</HTML>

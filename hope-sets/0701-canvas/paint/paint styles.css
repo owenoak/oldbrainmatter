@@ -1,0 +1,49 @@
+BODY {
+	margin:0px;
+}
+
+TD {
+	padding:0px;
+}
+
+CANVAS {}
+
+.testCanvas {
+	cursor:url(../images/arrow.png);
+}
+
+
+
+#headerTable {
+	position:absolute;
+	left:0px;
+	top:0px;
+	right:0px;
+	height:30px;
+	background-color:rgb(255,234,196);
+	border-bottom:1px solid rgb(201,146,0);
+}
+
+.header {
+	white-space:nowrap;
+	font-size:20px;
+	font-weight:bold;
+	padding-left:10px;
+}
+
+.label {
+	white-space:nowrap;
+	color:#999999;
+	font-size:10px;
+	padding-right:5px;
+}
+
+.button {
+	font-size:10px;
+}
+
+#shapePopup,
+#testPopup,
+#drawMode {
+	font-size:10px;
+}

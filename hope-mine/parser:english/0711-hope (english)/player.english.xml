@@ -1,0 +1,75 @@
+<define what='playable' implements='playable'/>
+
+<command>
+	en:	play <playable> [<direction>] [<playSpeed>]
+	js:	<playable>.play(<direction><playSpeed>)
+</command>
+
+<command>
+	en: [fast] forward <playable> [<playSpeed:empty=2>]
+	js: <playable>.play(<playSpeed>)
+</command>
+
+<command>
+	en: [fast] rewind <playable> [<playSpeed:empty=2>]
+	en: reverse <playable> [<playSpeed:empty=2>]
+	js: <playable>.play(-<playSpeed>)
+</command>
+
+<command>
+	en: pause <playable>
+	en: stop <playable>
+	js:	<playable>.pause()
+</command>
+
+<expression title='playable>
+	en:	[the] <playableProperty> <playable>
+	js:	<playable>.property(<playableProperty>)
+</expression>
+
+<enum title='playableProperty'>
+	en: info [for|of]
+	js:	"info"
+	-
+	en: author[s] [for|of]
+	js:	"authors"
+	-
+	en: review[s] [for|of]
+	js:	"reviews"
+	-
+	en: scenes [for|of]
+	js:	"scenes"
+</enum>
+
+
+<enum title='direction'>
+	en: 
+	js: 
+	-
+	en:	forward[s]
+	js:	
+	-
+	en:	backward[s]
+	js:	-
+</enum>
+
+<enum title='playSpeed'>
+	en: 
+	js: 1
+	-
+	en:	normal[ly]
+	js:	1
+	-
+	en:	quick[ly]
+	js:	2
+	-
+	en:	very quick[ly]
+	js:	4
+	-
+	en:	slow[ly]
+	js:	.5
+	-
+	en:	very slow[ly]
+	js:	.25
+</enum>
+

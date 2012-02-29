@@ -1,0 +1,473 @@
+<!--
+	Move constructor stuff below to "init" routine?
+
+-->
+
+<class id='Theme' super='Control'>
+	<property name='src'></property>
+	<property name='autoLoad'>true</property>
+</class>
+
+<!-- TODO: some sort of directory setting -->
+<class id='Stylesheet' super='Control'>
+	<property name='src'></property>
+	<property name='autoLoad'>false</property>
+	<property name='autoDraw'>false</property>
+	<script language='javascript'>
+		function Stylesheet() {
+			super();
+			this.setSrc();
+		}
+		
+		function setSrc(src) {
+			if (src !== undefined) this.src = src;
+			this.location = new hope.Location(this.src, this._srcLocation);
+			// TODO: remove old sheet if present
+			if (this.src) this._sheet = hope.insertStylesheet("@import url("+this.location.href+");", {src:this.src});
+		}
+	</script>
+</class>
+
+<class id='Border' super='Control'>
+	<script language='javascript'>
+		function Border() {
+			super();
+			Border.registerBorder(this, this.id);
+		}
+
+		class _borders = {};
+		class function getBorder(id) {
+			return Border._borders[id];
+		}
+			
+		class function	registerBorder(border, id) {
+			Border._borders[id] = border;
+		}
+	</script>
+	
+	<template id='controls#StretchBorder9'>
+		<div class='StretchBorder'>
+			<div class='top_left'></div>
+			<div class='top_repeatx'></div>
+			<div class='top_right'></div>
+		
+			<div class='left_repeaty'></div>
+			<div class='right_repeaty'></div>
+		
+			<div class='bottom_left'></div>
+			<div class='bottom_repeatx'></div>
+			<div class='bottom_right'></div>
+		</div>
+	</template>
+
+	<template id='controls#StretchBorder3'>
+		<div class='Border StretchBorder'>
+			<div class='BorderPiece ${id}_left'></div>
+			<div class='BorderPiece ${id}_repeatx'></div>
+			<div class='BorderPiece ${id}_right'></div>
+		</div>
+	</template>
+</class>
+
+
+
+
+<class id='Button' super='Control'>
+	<property name='title'></property>
+	<property name='icon'></property>
+	<script language='javascript' dialect='SmartJS'>
+		protected canSelectText	= false;
+		protected handleEvents		= true;
+		
+		function draw() {
+			if (this.domNode) this.title = this.title + this.domNode.innerHTML;
+			this.setIcon();
+			this.setTitle();
+			super();
+		}
+	
+		function setIcon(icon) {
+			if (icon !== undefined) {
+				this.icon = icon;
+			}
+			this.setFlag("hasIcon", Boolean(this.icon));
+			this.setPartClass("icon", this.icon);
+		}
+		
+		function setTitle(title) {
+			if (title !== undefined) {
+				this.title = title;
+			}
+			this.setFlag("hasTitle", Boolean(this.title));
+			this.setPart("title", this.title);
+		}
+	</script>
+	<template id='controls#Button' outerTag="div" class='inlineDiv nullBorderEtc'>
+		<table class='hopeTable ButtonTable'><tr>
+			<td><div class='Button_left'></div></td>
+			<td class='Button_repeatx icon'><div id='${id}_icon' class='${icon}'></div></td>
+			<td class='Button_repeatx title'>${title}</td>
+			<td><div class='Button_right'></div></td>
+		</tr></table>
+	</template>
+</class>
+
+
+<class id='Icon' super='Button'>
+	<property name='icon'>smallButton</property>
+	<template id='controls#Icon' outerTag="button" class='nullBorderEtc'>
+		<div id='${id}_icon' class='${icon}'></div>
+	</template>
+</class>
+
+
+
+<class id='Checkbox' super='Button'>
+	<property name='icon'>Check</property>
+	<property name='checked' type='boolean'>false</property>
+	<script language='javascript' dialect='SmartJS'>
+		function Checkbox() {
+			this.checked = (this.checked == "true" || this.checked == "" || this.checked == true);
+			this.setFlag("checked", this.checked);
+			super();
+		}
+
+		function onclick(event, target) {
+			this.setFlag("checked", this.checked = !this.checked);
+		}
+	</script>
+	<template id='controls#Checkbox' outerTag="button" class='nullBorderEtc'>
+		<div id='${id}_icon' class='CheckboxIcon ${icon}'></div><label id='${id}_title' class='CheckboxLabel'>${title}</label>
+	</template>
+</class>
+
+
+<class id='RadioButton' super='Checkbox'>
+	<property name='icon'>Radio</property>
+	<javascript>
+		function onclick(event, target) {
+			this.setFlag("checked", true);
+			// TODO: make this a tell!
+			if (this.parent) this.parent.onRadioClick(this);
+		}
+	</javascript>
+	<template id='controls#RadioButton' outerTag="button" class='nullBorderEtc'>
+		<div id='${id}_icon' class='RadioIcon ${icon}'></div><label id='${id}_title' class='RadioLabel'>${title}</label>
+	</template>
+</class>
+
+<!-- TODO -->
+<class id='RadioGroup' super='Control'></class>
+
+
+
+
+<!-- TODO -->
+<class id='Layout' super='Control'>
+
+
+	<template id='controls#HorizontalLayout' outerTag="span">
+	</template>
+	<template id='controls#VerticalLayout' outerTag="span">
+	</template>
+</class>
+
+
+
+
+<!-- todo: how to set loading message url dynamically?-->
+<class id='Panel' super='Control'>
+	<property name='border'>Panel</property>
+	<!-- TODO: show title?  -->
+	<property name='title'></property>
+	
+	<property name='src'></property> 
+	<property name='content'></property> 
+	
+	<property name='loadingMessage' translation='english'>Loading ${url}...</property>
+	<property name='loadingIcon'>loadingDots</property>
+				
+	<property name='errorMessage' translation='english'>Error loading ${url}</property>
+	<property name='errorIcon'></property>
+				
+	<property name='cancelledMessage' translation='english'>Loading stopped.</property>
+	<property name='cancelledIcon'></property>
+				
+	<property name='cancelButtonTitle' translation='english'>Cancel</property>
+	<property name='tryAgainButtonTitle' translation='english'>Try Again</property>
+	
+	<script language='javascript' dialect='SmartJS'>
+		function draw() {
+			super();
+			this.load();
+		},
+
+		function setSrc(src) {
+			if (src !== undefined) this.src = src;
+			this.load();
+		},
+		
+		function load() {
+			if (this.flagIsSet("loading") || !this.domNode) return;
+			if (this.src) {
+				this.setFlag("loading", true);
+				this.setFlag("loadCancelled", false);
+				this.setFlag("loadError", false);
+				this.showLoadIcon(this.loadingIcon);
+
+				var self = this;
+				this._xhr = hope.loadUrl(this.src, null, function(text){self.onLoaded(text)}, function(message){self.onLoadError(message)});
+			} else {
+//				this.setContents("");
+			}
+		}
+
+		function onLoaded(text) {
+			this.setFlag("loading", false);
+			this.hidePart("loadIcon");
+//			this.setContents(text);
+		}
+	
+		function onLoadError(message) {
+			if (this._xhr) this._xhr.abort();
+			this.setFlag("loadError", true);
+			this.setFlag("loading", false);
+			this.showLoadIcon(this.errorIcon);
+//			this.setContents(message);
+		}
+		
+		function onCancel() {
+			this.setFlag("loadCancelled", true);
+			this.onLoadError();
+			this.showLoadIcon(this.cancelledIcon);
+		}
+	
+		function showLoadIcon(iconName) {
+			if (iconName !== undefined) {
+				this.setPartClass("loadIcon", "loadIcon " + iconName);
+			}
+			this.showPart("loadIcon");
+		}
+		
+		function hideLoadIcon() {
+			this.hidePart("loadIcon");
+		}		
+	
+	</script>
+	
+	<template id='controls#Panel' outerTag='div' class='inlineDiv'>
+		<div class='PanelBody BorderSpacing'>		
+			<!-- this will show an icon in the different states above -->
+			<div id='${id}_loadIcon' class='loadIcon ${loadingIcon}'></div>
+
+			<!-- exactly one of these messages will be displayed when loading, errored or cancelled -->
+			<!-- todo: notice class for these? nest the buttons? -->
+			<div id='${id}_loadingMessage' class='loadingMessage'>${loadingMessage}</div>
+			<div id='${id}_cancelledMessage' class='cancelledMessage'>${cancelledMessage}</div>
+			<div id='${id}_errorMessage' class='errorMessage'>${errorMessage}</div>
+
+			<!-- exactly one of these buttons will be displayed when loading, errored or cancelled -->
+			<button id='${id}_cancelButton' class='cancelButton' onclick='${handleEvent("onCancel")}'>${cancelButtonTitle}</button>
+			<button id='${id}_tryAgainButton' class='tryAgainButton' onclick='${handleEvent("load")}'>${tryAgainButtonTitle}</button>
+
+			<$contents/>
+		</div>
+	</template>
+</class>
+
+
+
+<class id='Menu' super='Control'>
+	<property name='border'>Menu</property>
+	
+	<script language='javascript'>
+		protected canSelectText	= false;
+		protected handleEvents		= false;
+
+		// TODO: change instantiation semantics and change this to just "draw()"
+		function beforeDraw() {
+			// figure out if any of our menuItems have icons, checks or submenus
+			var showIcon = false,
+				showCheck = false,
+				showSubmenu = false
+			;
+			for (var i = 0, kid; kid = this.children[i]; i++) {
+				kid.id = this.id + "_MenuItem_" + i;
+				kid.index = i;
+				showIcon = showIcon || kid.icon;
+				showCheck = showCheck || kid.checkable || kid.radio;	// TODO: radio?
+				showSubmenu = showSubmenu || kid.submenu;
+			}
+			this.setFlag("showIcon", showIcon);
+			this.setFlag("showChecks", showCheck);
+			this.setFlag("showSubmenu", showSubmenu);
+		}
+		
+		function onclick(target, domEvent) {
+			if (target == this) this.hide();
+			console.warn(target);
+		}
+	</script>
+	<template id='controls#Menu' outerTag='div' class='inlineDiv'>
+		<table id='${id}_CONTENTS' class='BorderSpacing MenuItems'></table>
+	</template>
+</class>
+
+<!-- TODO: convert this to a TR -->
+<!-- TODO: how to make sure the menu gets hidden when items can have their own onclick? "_alwaysPass?" -->
+<!-- TODO: how to set up submenus?  -->
+<class id='MenuItem' super='Button'>
+	<script language='javascript'>
+		protected handleEvents = true;
+	</script>
+	<template id='controls#MenuItem' innerTag='tr'>
+		<table>
+			<tr id='${id}' index='${index}'>
+				<td class='menuCheck'><div id='${id}_check' class='${check}'></div></td>
+				<td class='menuIcon'><div id='${id}_icon' class='${icon}'></div></td>
+				<td class='menuTitle' id='${id}_title'>${title}</td>
+				<td class='menuSubmenu'><div class='${this.submenu ? "arrow_right" : ""}'></div></td>
+			</tr>
+		</table>
+	</template>
+</class>
+
+
+
+<!-- generic viewer for a list of items: you should create your own itemtemplate to display your stuff! -->
+<class id='ItemViewer' super='Control'>
+	<property name='border'>Menu</property>
+	<property name='itemtemplate'>controls#ItemViewerItem</property>
+	<property name='items'>[]</property>
+	<property name='multiselect'>false</property>
+	<script language='javascript' src='ItemViewer.js'></script>
+	<template id='controls#ItemViewer' outerTag='div' class='inlineDiv Menu'>
+		<table id='${id}_CONTENTS' class='BorderSpacing Items'></table>
+	</template>
+</class>
+
+<class id='ItemViewerItem' super='Control'>
+	<property name='title'></property>
+	<script language='javascript'>
+		protected handleEvents = false;
+		function draw() {
+			if (this.domNode) this.title = this.title + this.domNode.innerHTML;
+			super();
+		}
+	</script>
+	
+	<template id='controls#ItemViewerItem' innerTag='tr'>
+		<table>
+			<tr id='${id}'><td><div class='${icon}'>${icon}</div></td><td class='title'>${title}</td></tr>
+		</table>
+	</template>
+</class>
+
+
+
+
+<class id='Field' super='Control'>
+	<property name='value'></property>
+	<script language='javascript' dialect='SmartJS'>
+		protected canSelectText	= true;
+		protected handleEvents		= true;
+		protected handleEvents   = ["onkeydown","onkeypress","onkeyup"];
+		function draw() {
+			if (this.domNode) this.value = this.value + this.domNode.innerHTML;
+			super();
+		}
+		
+		function setValue(value) {
+			if (value !== undefined) {
+				this.value = value;
+			}
+			this.mixinToPart("field", this.value);
+			this.setFlag("hasValue", this.value);
+		}
+		
+		function onkeypress(target, domEvent) { return true;}
+		function onfocus(target, domEvent) {}
+		function onblur(target, domEvent) {}
+		function onchange(target, domEvent) {}
+	</script>
+	<template id='controls#Field' outerTag="div" class='inlineDiv'>
+		<table class='hopeTable FieldTable'><tr>
+			<td><div class='Field_left'></div></td>
+			<td class='Field_repeatx title'>
+				<input id='${id}_field' <$event ${focus}/> <$event ${change}/> <$event ${blur}/> type='text' value='${value}'>
+			</td>
+			<td><div class='Field_right'></div></td>
+		</tr></table>
+	</template>
+</class>
+
+
+
+<class id='TabPanel' super='Control'>
+	<property name='border'>Panel</property>
+	<script language='javascript'>
+		protected _panels = [];
+		
+		protected _childAttributes = {
+			"PANEL" : {	border:null, 'class':"hidden", style:'background:pink'}
+		};
+		
+		function createChild(type, attributes, addToChildrenArray) {
+			var kid = super();
+			this._panels.push(kid);
+			
+			var tab = new TabButton({id:kid.id+"_TabButton", title:kid.title, parentNode:this.id+"_TabBar"});
+			this._tabBar.addChild(tab);
+			
+			return kid;
+		}
+		
+		function createChildren() {
+//			this._tabPanelContents = new TabPanelContents({id:this.id+"_tabPanelContents"});
+//			this.addChild(this._tabPanelContents);
+			this._tabBar = new TabBar({id:this.id+"_TabBar"});
+			this.addChild(this._tabBar);
+			super();
+		}
+
+		function draw() {
+			super();
+			this.showPanel(0);
+		}
+		
+		function showPanel(which) {
+// TODO: select button, hide other panel
+			if (typeof which == "number") which = this._panels[which];
+			which.removeClass("hidden");
+		}
+		
+	</script>
+	<template id='controls#TabPanel' outerTag='div' class='inlineDiv BorderSpacing Panel'>
+		<$contents/>
+	</template>
+</class>
+
+<class id='TabPanelContents' super='Control'>
+	<property name='border'>Panel</property>
+	<template id='controls#TabPanelContents' outerTag='div'>
+		<$contents/>
+	</template>
+</class>
+
+<class id='TabBar' super='Control'>
+	<template id='controls#TabBar' outerTag='div'>
+		<$contents/>
+	</template>
+</class>
+
+<class id='TabButton' super='Button'>
+
+	<template id='controls#TabButton' outerTag="div" class='inlineDiv nullBorderEtc'>
+		<table class='hopeTable ButtonTable'><tr>
+			<td><div class='Tab_left'></div></td>
+			<td class='Tab_repeatx icon'><div id='${id}_icon' class='${icon}'></div></td>
+			<td class='Tab_repeatx title'>${title}</td>
+			<td><div class='Tab_right'></div></td>
+		</tr></table>
+	</template>
+</class>

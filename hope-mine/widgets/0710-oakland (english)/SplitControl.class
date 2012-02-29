@@ -1,0 +1,427 @@
+<class id='Control' super='Parentable,Drawable'>
+	<property name='class'></property>
+	<property name='style'></property>
+	<property name='border'></property>
+	<property name='canSelectText' type='boolean'>true</property>
+
+	<script language='javascript' dialect='SmartJS'>
+		function Control(props1, props2, etc) {
+			super();
+		}
+
+		function init() {
+			Control.register(this);
+		}
+
+		//
+		// instance stuff
+		//
+
+
+		// pointer to our outer dom node
+		protected domNode = null;
+		
+		// set to true for us to handle mouse events automatically
+		protected handleEvents = false;
+
+		// list of events to we pay attention to for instances of this class if handleEvents is true
+		protected eventsToHookUp = ["onmouseover","onmousemove","onmouseout","onmousedown","onmouseup","onclick","ondblclick"];
+
+
+		//
+		//	parenting semantics
+		//
+	
+		function addChild(child, addToChildrenArray) {
+			// TODO:	- fix up the message hierarchy? necessary?
+			super();
+			if (this._drawn) {
+				if (!child._drawn) {
+					child.draw();
+				} else {
+					this.domNode.appendChild(child.domNode);
+				}
+			}
+			return child;
+		}
+		
+		
+		function removeChild(child) {
+			super();
+			if (this.domNode && child.domNode) {
+				this.domNode.removeChild(child.domNode);
+			}
+		}
+
+
+		// TODO: clearChildren()
+		
+		
+		//
+		//	drawing
+		//
+	
+		// NOTE: assumes domNode is a template node from the page, which will be replaced with our template contents
+		function draw() {
+			if (this._drawn) return;
+	
+			var domNode = this.domNode;
+			// if the item specifies a "src" and "autoLoad", replace the contents of the node with whatever's at that URL
+			if (domNode && ((this.src && this.autoLoad) || domNode._templateChildren)) {
+				if (this.src) {
+					this._srcLocation = new hope.Location(this.src);		// TODO: hold on to it?
+					domNode.innerHTML = this._srcLocation.load();
+					domNode._templateChildren = hope.Template.getTemplateNodes(domNode);
+				}
+				this.createChildren(domNode._templateChildren);
+			}
+	
+			var template = this.getTemplate();
+			if (template) {
+				// initialize our border
+				this.initBorder();
+		
+				if (this.beforeDraw) this.beforeDraw(domNode, template);
+		
+				var newNodeProps = {	
+						id		  : this.id,
+						className : this.getOuterClassName(template),
+						style	  : this.style
+				};
+	
+				var parent = hope.byId(this.parentNode) || domNode;
+				if (parent == null && this.parent) {
+					parent = this.parent.contentsNode || this.parent.domNode;
+				}
+				if (parent == null) parent = hope.byTag("BODY")[0];
+				if (domNode) {
+					var outerNode = template.expandFromSourceNode(this, parent, newNodeProps);
+				} else {
+					var outerNode = template.expand(this, parent, newNodeProps);
+				}
+				this.domNode = outerNode;
+			} else {
+	//TODO: reparent?  to what?		
+			}
+	
+			if (this.children) {
+				this.drawChildren(this.children);
+			}
+	
+			// todo: hook up events if any set on original element?
+			if (this.handleEvents) this._hookUpEvents();
+			
+			// set up our visual state
+			this.setFlag();
+			this._drawn = true;
+		}
+	
+		function getTemplateHtml(arg1, arg2, etc) {
+			var template = this.getTemplate();
+			if (!template) return this._warn(arguments, "No template found for "+this.Class);
+			return template.expandToHtml.apply(template, [this].concat(arguments[]));	
+		}
+	
+		function setContents(html) {
+			if (this.contentsNode) this.contentsNode.innerHTML = html;
+			else if (this.domNode) this.domNode.innerHTML = html;
+		}
+	
+		function getOuterClassName(template) {
+			if (template == null) template = this.getTemplate();
+			if (template == null) return "";
+			return [
+						(this.canSelectText != true ? "disableSelection " : ""),
+						(this._border ? "BorderContainer " : ""),
+						(template["class"] ? template["class"] + " " : ""),
+						(template["className"] ? template["className"] + " " : ""),
+						this.Class,
+						(this["class"] ? " " + this["class"] : ""),
+						" normal"
+					].join("");
+		}
+	
+		function createChildren(kidElements, addToChildrenArray) {
+			for (var i = 0, kidElement; kidElement = kidElements[i++]; ) {
+	// TODO: check if kid is already set up and skip if so
+				var kid = this.createChild(kidElement.tagName, hope.getNormalizedAttributes(kidElement), addToChildrenArray);
+				if (!kid) debugger;
+				kid.domNode = kidElement;
+			}
+		}
+	
+		// create a child of a given type (class) and set its parent to us
+		// NOTE: this looks in the parent._childAttributes hash, if present, and sets child attributes as directed there
+		// TODO: make the _childAttributes thing case insensitive
+		function createChild(type, attributes, addToChildrenArray) {
+			var constructor = hope.getConstructor(type);	// ???
+			if (!constructor) {
+				console.error(this._error(arguments, "Couldn't find constructor for tag ", type," -- skipping"));
+				return;
+			}
+			// get any childAttributes we want to pass on to the child
+			var childAttributes = null;
+			if (this._childAttributes) {
+				childAttributes = this._childAttributes[type] || this._childAttributes["*"];
+			}
+			var kid = new constructor({_srcLocation:this._srcLocation}, childAttributes, attributes);
+			this.addChild(kid, addToChildrenArray);	
+			return kid;
+		}
+	
+		function drawChildren() {
+			var children = this.children;
+			for (var i = 0, kid; kid = children[i]; i++) {
+				if (kid.autodraw && !kid._drawn) kid.draw();
+			}
+		}
+	
+		function getTemplate() {
+			return hope.Template.byId(this.template);	
+		}
+		
+		// return a sub-part of the HTML elements for this item
+		// convention is that the part will have 	id='${id}_<partName>'
+		function getPart(partName) {
+			if (!partName) return this.domNode;
+			return hope.byId(this.id + "_" + partName);
+		}
+		
+		function setPart(partName, newHTML) {
+			var part = this.getPart(partName);
+			if (part) part.innerHTML = newHTML;
+		}
+		
+		function setPartClass(partName, className) {
+			var part = this.getPart(partName);
+			if (part) part.className = className;
+		}
+		
+		function mixinToPart(partName, props) {
+			var part = this.getPart(partName);
+			if (part) hope.mixinToNode(part, props);
+		}
+		
+		function showPart(partName, state) {
+			hope.show(this.getPart(partName), state);
+		}
+		
+		function hidePart(partName) {
+			hope.show(this.getPart(partName), false);
+		}
+		
+
+		function initBorder() {
+			if (this._border || !this.border) return;
+			if (typeof this.border == "string") {
+				var border = Border.getBorder(this.border);
+				if (!border) {
+					this._warn(arguments, "Border '"+this.border+"' is not defined.  Maybe you forgot to load a <theme>?");
+					this.border = null;
+				} else {
+					this._border = border;
+				}
+			} else if (this.border._isABorder) {
+				this._border = this.border;
+			} else {
+				this._warn(arguments, "Border '"+this.border+"' not understood.");
+			}
+		}
+
+	
+		//
+		//	visual state semantics, including show/hide, enable/disable, etc
+		//
+		
+		// when a flag is set, update our domNode 
+		function setFlag(flag, turnOn) {
+			var value = super();
+			if (flag == undefined && this.domNode) {
+				for (var prop in this.flags) {
+					hope.addClass(this.domNode, prop);
+				}				
+			} else if (this.domNode) {
+				if (value) 	hope.addClass(this.domNode, flag);
+				else		hope.removeClass(this.domNode, flag);
+			}
+		}
+		
+
+
+		//
+		//	show/hide semantics
+		//		// TODO: setting display to '' is not always what we want to do...
+		//
+		function onShow() {
+			if (!this._drawn) this.draw();
+			if (this.domNode) this.domNode.style.display = '';
+		}
+		
+		function onHide() {
+			if (this.domNode) this.domNode.style.display = 'none';
+			this.setFlag("hover", false);		
+		}
+
+		
+		//
+		//	enable/disable semantics
+		//
+		function onEnable() {
+			if (this.domNode) this.domNode.disabled = false;
+		}
+
+		function onDisable() {
+			this.removeFlag("hover");		
+			if (this.domNode) this.domNode.disabled = true;
+		}
+		
+		
+		
+		//
+		//	DOM event handling
+		//
+	
+		// this is only called if we're enabled (I think)
+		function onmouseover(target, domEvent) {
+			return this.setFlag("hover");
+		}
+	
+		function onmouseout(target, domEvent) {
+			return this.setFlag("hover", false);
+		}
+		
+		function onmousedown(target, domEvent) {
+			return this.setFlag("down", true);
+		}
+	
+		function onmouseup(target, domEvent) {
+			return this.setFlag("down", false);
+		}
+	
+		
+		function handleBrowserEvent(domEvent) {
+			// only process events if we're enabled (includes enable state of our ancestors)
+			if (!this.isEnabled()) return true;
+			var eventName = "on" + domEvent.type; 
+			return this.handleEvent(eventName, this, domEvent);
+		}
+	
+		// TODO: pass parameters!!
+		// handle an event, either by processing it ourselves or passing it on to our parent (if we have one)
+		// NOTE: domEvent and domTarget may not be defined...
+		function handleEvent(eventName, target, domEvent) {
+			// TODO: convert functions
+			if (this[eventName] && typeof this[eventName] == "string") {
+				try {
+					this[eventName] = hope.makeFunction(this[eventName]);
+				} catch (e) {
+					this._warn("error creating function for property '", eventName,"': "+e.getMessage());
+					delete this[eventName];
+				}
+			}
+			if (this[eventName]) {
+				if (this[eventName](target, domEvent) != true) return hope.stopEvent(domEvent);
+			} else {
+				if (this.passEvent(eventName, target, domEvent) != true) return hope.stopEvent(domEvent);
+			}
+		}
+		
+		function passEvent(eventName, target, domEvent) {
+			if (this.parent && this.parent._isAControl) 
+				return this.parent.handleEvent(eventName, target, domEvent);
+			return true;
+		}
+	
+	
+		// if a sub-part has a handler for the event, call it
+		// converts string handlers to functions
+		// the method is called on the part as
+		//		part.method(this, arg1, arg2, etc)
+		function handlePartEvent(eventName, part, arg1, arg2, etc) {
+			var name = "on"+eventName;
+			if (part[name]) {
+				if (typeof part[name] == "string") {
+					part[name] = hope.makeFunction(part[name]);
+				}
+				var args = arguments[1->];
+				args[0] = this;
+				part[name].apply(part, args);
+			}
+		}
+	
+		
+	
+		// method that is placed on dom elements to point them back to our "handleBrowserEvent" method
+		// NOTE:  when this is called, "this" is the DOM element that got the event, 
+		///			and this._controller is a pointer to this object
+		function _domEventDispatcher(event) {
+			return this._controller.handleBrowserEvent(event||window.event, this);
+		}
+	
+		// TODO: way to un-hook this?  memory leaks?
+		// TODO: don't clobber existing events on the element?
+		// TODO: why pass an event in here?  or take a controller and make this completely generic
+		function _hookUpEvents(element, controller) {
+			element = element || this.domNode;
+			controller = controller || this;
+			// if no element or the element has been hooked up already to us, forget it
+			if (!element || element._controller == controller) return;
+	
+			// tell the element about us
+			element._controller = controller;
+	
+			// now hook our (static) dispatcher event up for each event in the list
+			for (var i = 0, event; event = this.eventsToHookUp[i++]; ) {
+				element[event] = this._domEventDispatcher;
+			}
+		}
+		
+		function _removeEvents(element) {
+			element = element || this.domNode;
+			// only unhook for a valid element for whom we are the controller
+			if (!element || element._controller != this) return;
+			for (var i = 0, event; event = this.eventsToHookUp[i++]; ) {
+				delete element[event];
+			}		
+		}
+		
+
+
+		//
+		// class stuff
+		//
+		
+		class _byId = {};			// registry of all controls that have been created
+									// do Control.byId(<id>) to get a particular control
+		class _byTag = {};			// registry of all controls of a given type
+									// do Control.byTag(<className>) to get all controls of that type
+	
+		// register a control
+		class function register(control) {
+			this._byId[control.id] = control;
+			var type = control.Class.toLowerCase();
+			if (!this._byTag[type]) this._byTag[type] = [];
+			this._byTag[type].push(control);
+		},
+	
+		class function byId(id) {
+			return this._byId[id];
+		}
+		
+		class function byTag(type) {
+			return this._byTag[type.toLowerCase()];
+		}
+		
+		class function byType(type) {
+			return this._byTag[type.toLowerCase()];
+		}
+		
+		class _constructorDefaults = {
+			initClass : function() {
+				hope.Template.registerTemplateTag(this.Class);
+			}
+		};
+}
+	
+	</script>
+</class>

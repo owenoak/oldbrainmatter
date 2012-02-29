@@ -1,0 +1,57 @@
+<!-- XML for Memcache Service/Instance objects -->
+<?xml version="1.0" encoding="utf-8"?>
+<memcache_services>
+	<memcache_service v='1' time='2009-04-29 00:41:22'>
+		<id>someService</id>
+		<enabled>true</enabled>
+		<tcp_port>11211</tcp_port>
+		<udp_port>11211</udp_port>
+		<num_threads>4</num_threads>
+		<interface>eth0</interface>
+		<replication_mode>none</replication_mode>
+		<image>memcached-gear6</image>
+		<mem_size units='MB'>64</mem_size>
+		<average_item_size units='B'>64</average_item_size>
+		<auto_item_count>true</auto_item_count>
+		<item_count>1024</item_count>
+		<auto_flash_buffer_size>true</auto_flash_buffer_size>
+		<flash_buffer_size units='MB'>6.4</flash_buffer_size>
+		<dram_estimated units='B'>1024</dram_estimated>
+		<service_item_count>100</service_item_count>
+		<service_items_used>100</service_items_used>
+		<service_flash_buffer_size>100</service_flash_buffer_size>
+	
+		<instance_count>2</instance_count>
+		<instances>
+			<memcache_instance service_id='someService'>
+				<ip>10.3.6.238</ip>
+				<hostname>lb-berry-4.gear6.com</hostname>
+				<mask>22</mask>
+				<mirror_state>none</mirror_state>
+				<ram_allocated units='B'>320000</ram_allocated>
+				<ram_used units='B'>3200000</ram_used>
+				<dev_allocated units='B'>320000</dev_allocated>
+				<remote_set>4194287</remote_set>
+				<remote_update>0</remote_update>
+				<remote_delete>7</remote_delete>
+			</memcache_instance>
+	
+			<memcache_instance service_id='someService'>
+				<ip>10.3.6.239</ip>
+				<hostname>lb-berry-5.gear6.com</hostname>
+				<mask>22</mask>
+				<mirror_state>none</mirror_state>
+				<ram_allocated units='B'>320000</ram_allocated>
+				<ram_used units='B'>3200000</ram_used>
+				<dev_allocated units='B'>320000</dev_allocated>
+				<remote_set>4194287</remote_set>
+				<remote_update>0</remote_update>
+				<remote_delete>7</remote_delete>
+			</memcache_instance>
+			
+			<memcache_instance>...</memcache_instance>
+		</instances>
+	</memcache_service>
+	
+	<memcache_service>...</memcache_service>
+</memcache_services>

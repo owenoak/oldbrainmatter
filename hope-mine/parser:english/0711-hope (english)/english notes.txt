@@ -1,0 +1,22 @@
+English Notes:
+
+Types:
+	* define
+		- defines a type
+	* command
+		- commands generally start statements
+	* control
+		- control structure like if/then or for, etc
+	* expression
+		- evaluates to a value
+		- greedy
+		- use parens to disambiguate expressions
+	* condition
+		- expression which evaluates to true or false
+	* statement
+		- single statement
+	* statements
+		- series of statements
+
+
+* Need some way to indicate repeating series (as in if's)

@@ -1,0 +1,466 @@
+<html>
+<head>
+	<title>Gear6 ServiceController API </title>
+	<link type="text/css" rel="stylesheet" href="support.css">
+	<!-- load jquery from jQuery's CDN -->
+	<script src='http://code.jquery.com/jquery-latest.js'></script>
+	<script src='support.js'></script>
+</head>
+<body>
+	<h2>Gear6 ServiceController API Documentation</h2>
+	
+	<div class='action' id='config'>
+		<div class='name'>List overall configuration</div>
+		<div class='role'><label>Role:</label>view</div>
+		<div class='method'><label>Method:</label>GET</div>
+		<div class='url'><label>Url:</label>/api/ServiceController/latest/config</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<?xml version="1.0" encoding="utf-8"?>
+			<response>
+				<result>OK</result>
+				<data>
+					<configuration time='2009-04-29 00:41:22' v='1'>
+						<config>
+							<!-- (enum:  none|view|modify) can this user modify memcache setup? -->
+							<name>role</name>
+							<value>view</value>
+						</config>
+						<config>
+							<!-- (enum: cloud|appliance) are we in cloud or appliance mode -->
+							<name>mode</name>
+							<value>cloud</value>
+						</config>
+						<config>
+							<!-- (enum: enabled|disabled) Can they change the role via the web UI? (cloud mode only) -->
+							<name>authorization</name>
+							<value>disabled</value>
+						</config>
+						<config>
+							<!-- (string, visible to the user) name of the application -->
+							<name>appname</name>
+							<value>Gear6 Memcached</value>
+						</config>
+						<config>
+							<!-- (string, optional, visible to the user) name of the service provider -->
+							<name>serviceProvider</name>
+							<value>Amazon EC2</value>
+						</config>
+						<config>
+							<!-- (string, visible to the user) version number of the application -->
+							<name>version</name>
+							<value>2.3.7</value>
+						</config>
+						<config>
+							<!-- (string) title::url map for dynamic links in the 'Support' screen -->
+							<name>supportUrls</name>
+							<value>{Support : 'http://www.gear6.com/cloud-support-reg'}</value>
+						</config>
+						<config>
+							<!-- (enum: on|off) is reporting on for this service? -->
+							<name>reporter</name>
+							<value>on</value>
+						</config>
+						<config>
+							<!-- (number, hours) server/data offset from GMT timezone -->
+							<name>timezoneOffset</name>
+							<value>0</value>
+						</config>
+						<config>
+							<!-- (string, visible to the user) name of the server's timezeone -->
+							<name>timezoneName</name>
+							<value>GMT</value>
+						</config>
+						<config>
+							<!-- (number) maximum number of samples of 'data' server will return per request -->
+							<name>maxDataSamples</name>
+							<value>500</value>
+						</config>
+						<config>
+							<!-- (boolean) is external storage available for this service? -->
+							<name>storageEnabled</name>
+							<value>true</value>
+						</config>
+						<config>
+							<!-- (enum: on|off) is replication enabled? (appliance only) -->
+							<name>replication</name>
+							<value>off</value>
+						</config>
+						<!-- ... possibly more config items here ... -->
+					</configuration>
+				</data>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div>
+	
+	<div class='action' id='services'>
+		<div class='name'>List available services</div>
+		<div class='role'><label>Role:</label>view</div>
+		<div class='method'><label>Method:</label>GET</div>
+		<div class='url'><label>Url:</label>/api/ServiceController/latest/services</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<?xml version="1.0" encoding="utf-8"?>
+			<response>
+				<result>OK</result>
+				<data>
+					<!-- one or more of the following -->
+					<service>
+						<type>#{type: MemcacheServer|BrutusClient}</type>
+						<machineId>#{machineId}</machineId>
+						<imageId>#{imageId}</imageId>
+						<arch>#{arch}</arch>
+						<state>#{state}</state>
+						<vendorType>#{vendorType}</vendorType>
+						<tag>#{tag}</tag>
+						<publicIP>#{publicIP}</publicIP>
+						<privateIP>#{privateIP}</privateIP>
+						<zone>#{zone}</zone>
+						<signature>#{signature}</signature>
+						<bootTime>#{bootTime}</bootTime>
+					</service>
+				</data>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+
+	<div class='action' id='state'>
+		<div class='name'>State</div>
+		<div class='role'><label>Role:</label>view</div>
+		<div class='method'><label>Method:</label>GET</div>
+		<div class='url'><label>Url:</label>/api/ServiceController/latest/state</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<?xml version="1.0" encoding="utf-8"?>
+			<response>
+				<result>OK</result>
+				<data>
+
+					<!-- ??? -->
+
+				</data>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+
+	<div class='action' id='event'>
+		<div class='name'>Event</div>
+		<div class='role'><label>Role:</label>view</div>
+		<div class='method'><label>Method:</label>GET</div>
+		<div class='url'><label>Url:</label>/api/ServiceController/latest/event</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<?xml version="1.0" encoding="utf-8"?>
+			<response>
+				<result>OK</result>
+				<data>
+
+					<!-- ??? -->
+
+				</data>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+
+	
+	<div class='action' id='create-servers'>
+		<div class='name'>Create Servers (Not Yet Implemented)</div>
+		<div class='description'>
+			Create one or more Memcache Servers and auomatically attach them to a particular service.
+		</div>
+		<div class='role'><label>Role:</label>super</div>
+		<div class='method'><label>Method:</label>POST</div>
+		<div class='url'><label>Url:</label>/api/ServiceController/latest/create-servers</div>
+		<textarea class='requestdata'>
+			<request>
+				<data>
+					<service>#{service}</service>
+					<count>#{count}</count>
+					<imageId>#{imageId}</imageId>
+					<vendorType>#{vendorType}</vendorType>
+				</data>
+			</request>
+		</textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+	
+	
+	<div class='action' id='attach'>
+		<div class='name'>Attach IPs to a Service</div>
+		<div class='description'>
+			Attach one or more existing Memcached servers to a given service.
+		</div>
+		<div class='role'><label>Role:</label>modify</div>
+		<div class='method'><label>Method:</label>POST</div>
+		<div class='url'><label>Url:</label>/api/ServiceController/latest/attach</div>
+		<textarea class='requestdata'>
+			<request>
+				<data>
+					<service>#{service}</service>
+					<ips>#{ips}</ips>
+				</data>
+			</request>
+		</textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+					
+					<!-- for each server which is already attached to a service -->
+					<error>
+						<message>error-invalid-ip</message>
+						<ip>#{ip}</ip>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+	
+	<div class='action' id='detach'>
+		<div class='name'>Detach IPs from a Service</div>
+		<div class='description'>
+			Detach one or more existing Memcached servers from a given service.
+		</div>
+		<div class='role'><label>Role:</label>modify</div>
+		<div class='method'><label>Method:</label>POST</div>
+		<div class='url'><label>Url:</label>/api/ServiceController/latest/detach</div>
+		<textarea class='requestdata'>
+			<request>
+				<data>
+					<service>#{service}</service>
+					<ips>#{ips}</ips>
+				</data>
+			</request>
+		</textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+	
+	<div class='action' id='rename-service'>
+		<div class='name'>Rename a service (Not Yet Implemented)</div>
+		<div class='description'>
+			Rename an existing service.
+		</div>
+		<div class='role'><label>Role:</label>modify</div>
+		<div class='method'><label>Method:</label>POST</div>
+		<div class='url'><label>Url:</label>/api/ServiceController/latest/rename</div>
+		<textarea class='requestdata'>
+			<request>
+				<data>
+					<oldname>#{service}</oldname>
+					<newname>#{name}</newname>
+				</data>
+			</request>
+		</textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+	
+	
+	<div class='action' id='stop-instances'>
+		<div class='name'>Stop one or more instances (Not Yet Implemented)</div>
+		<div class='description'>
+			Issue the command to terminate one or more instances, 
+			specified as a comma-separated list of IPs.
+		</div>
+		<div class='role'><label>Role:</label>modify</div>
+		<div class='method'><label>Method:</label>POST</div>
+		<div class='url'><label>Url:</label>/api/ServiceController/latest/stop/#{ips}</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+
+
+	<div class='action' id='machine-types'>
+		<div class='name'>Load the list of possible machine types that we could create.</div>
+		<div class='role'><label>Role:</label>modify</div>
+		<div class='method'><label>Method:</label>GET</div>
+		<div class='url'><label>Url:</label>/api/ServiceController/latest/machine-types</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+				<data>
+					<!-- one or more of the following -->
+					<machineType>
+						<arch>i386</arch>
+						<memSize>1700</memSize>
+						<diskSize>150000</diskSize>
+						<vendorType>m1.small</vendorType>
+					</machineType>
+				</data>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-not-allowed</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+
+					  
+	<div class='action' id='authorize'>
+		<div class='name'>Change authorization level.</div>
+		<div class='description'>
+            This request may change the authorization level.  The
+		password component is optional.  If either the oldLevel or
+		newLevel are not acceptable authorization levels, the request fails.
+
+        If the requested transition is from a higher privilege level
+		to the same one or lower, the action is taken and succeeds.
+		The cloud sets the authLevel appropriately.
+
+        If the requested transition is to a higher level and the
+        password is absent, the request fails.
+
+        If the password is present, and is different from the password
+        known to the cloud, the request fails.  If it is the same, the
+        request succeeds and the cloud sets the authLevel appropriately.
+
+		</div>
+		<div class='role'><label>Role:</label>any</div>
+		<div class='method'><label>Method:</label>POST</div>
+		<div class='url'><label>Url:</label>/api/ServiceController/latest/authorize/#{oldLevel}/#{newLevel}/#{password}</div>
+		<textarea class='requestdata'></textarea>
+		<textarea class='onsuccess'>
+			<response>
+				<result>OK</result>
+				<data>
+					<div class='role'><label>Role:</label>#{newLevel}</div>
+				</data>
+			</response>
+		</textarea>
+		<textarea class='onerror'>
+			<response>
+				<result>ERROR</result>
+				<data>
+					<!-- if no permissions -->
+					<error>
+						<message>error-bad-credentials</message>
+					</error>
+				</data>
+			</response>
+		</textarea>
+	</div><!-- action -->
+
+</body>
+</html>
+
+

@@ -1,0 +1,164 @@
+<!-- Generic Drawable -->
+<template id='Drawable' args='drawable'>
+	<span {{@attributes}}>{{drawable.innerHTML}}</span>
+</template>
+
+
+<!-- Generic Container -->
+<template id='Container' args='container'>
+	<div {{@attributes}}>{{container.innerHTML}}</div>
+</template>
+
+<!-- Generic Group -->
+<template id='Group' args='group'>
+	<div {{@attributes}}></div>
+</template>
+
+
+
+<!-- Link -->
+<template id='Link' args='link'>
+	<a {{@attributes}}>{{link.title}}</a>
+</template>
+
+
+<!-- Toolbar -->
+<template id='Toolbar' args='toolbar'>
+	<ul {{@attributes}}></ul>
+</template>
+
+<!-- Generic button -->
+<template id='Button' args='button'>
+	<span {{@attributes}} _reset='true' noselect='true' round='M'>{{button.title}}</span>
+</template>
+
+
+<!-- TabBar and Tab -->
+<template id='TabBar' args='tabbar'>
+	<ul {{@attributes}} round='L-TL L-TR'></ul>
+</template>
+
+<template id='TabGroup' args='group'>
+	<ul {{@attributes}}></ul>
+</template>
+
+<template id='TabButton' args='tab'>
+	<span {{@attributes}}  round='M-TL M-TR'>
+	  	{{tab.title}}
+	</span>
+</template>
+
+
+<!-- Menu and associated classes -->
+<template id='Menu' args='menu'>
+	<ul {{@attributes}}></ul>
+</template>
+
+<template id='MenuGroup' args='group'>
+	<ul {{@attributes}}></ul>
+</template>
+
+<template id='MenuItem' args='item'>
+	<li {{@attributes}}>
+	  	{{item.title}}
+	</li>
+</template>
+
+<template id='MenuSeparator' args='separator'>
+	<li {{@attributes}}>&nbsp;</li>
+</template>
+
+<template id='MenuLabel' args='menu'>
+	<li class='_Label'>{{menu.title}}</li>
+</template>
+
+<template id='MenuButton' args='button'>
+	<li {{@attributes}}>
+	  	{{button.title}}
+	</li>
+</template>
+
+
+<!-- ListViewer classes: VERY basic representation -->
+<template id='ListViewer' args='listViewer'>
+	<ul {{@attributes}}></ul>
+</template>
+
+<template id='ListGroup' args='group'>
+	<ul {{@attributes}}></ul>
+</template>
+
+<template id='ListItem' args='item'>
+	<li {{@attributes}}>
+	  	{{item.title}}
+	</li>
+</template>
+
+<template id='ListSeparator' args='separator'>
+	<li {{@attributes}}></li>
+</template>
+
+<template id='ListLabel' args='list'>
+	<li class='_Label'>{{list.title}}</li>
+</template>
+
+
+
+<!-- Section -->
+<template id='Section' args='section'>
+	<div {{@attributes}}>
+		<div part='SectionHeader'></div>
+		<div part='SectionBody'></div>
+		<div part='SectionFooter'></div>
+	</div>
+</template>
+
+<template id='SectionHeader' args='header'>
+	<div {{@attributes}}></div>
+</template>
+
+<template id='SectionBody' args='body'>
+	<div {{@attributes}}></div>
+</template>
+
+<template id='SectionFooter' args='footer'>
+	<div {{@attributes}}></div>
+</template>
+
+
+
+<!-- Usage graph -->
+<template id='UsageGraph' args='graph'>
+	<li {{@attributes}}>
+		<span {{@usedClassName}} part='used'></span>
+	  	<span {{@labelClassName}} part='label'></span>
+	</li>
+</template>
+
+
+<!-- Form controls -->
+<template id='Field' args='field'>
+	<input {{@attributes}} {{@value}}>
+</template>
+
+<template id='TextArea' args='textarea'>
+	<textarea {{@attributes}}>{{textarea.value}}</textarea>
+</template>
+
+<template id='Checkbox' args='checkbox'>
+	<input {{@attributes}}>
+</template>
+
+<template id='RadioButton' args='radio'>
+	<input {{@attributes}}>
+</template>
+
+<template id='Label' args='label'>
+	<label {{@attributes}}>{{label.value}}</label>
+</template>
+
+<template id='FieldSet' args='fieldset'>
+	<fieldset {{@attributes}}>
+		{{fieldset.title ? "<"+"legend align='"+fieldset.titleAlignment+"'>"+fieldset.title+"<"+"/legend>" : ""}}
+	</fieldset>
+</template>

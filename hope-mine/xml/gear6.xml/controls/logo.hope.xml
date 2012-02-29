@@ -1,0 +1,5 @@
+<button name='logo'>
+	<on event='activate'>
+		open url property 'logoUrl' of the app
+	</on>
+</button>

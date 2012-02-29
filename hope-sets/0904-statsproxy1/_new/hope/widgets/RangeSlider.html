@@ -1,0 +1,105 @@
+<script type='template' id='RangeSliderTemplate' style='display:none'>
+		<div class="RangeSlider NOSELECT" id="trafficSlider" onselectstart="return false">
+			<div class="RangeTrack" onmousedown="return $.slider.onTrackDown(event, 'track')">
+				<!-- white/grey bar -->
+				<div class='RangeTrackBar'>
+					<div class='RangeTrackBarInner'></div>
+				</div>
+				<div class='RangeTrackInner'>
+					<!-- tick marks and labels -->
+					<!-- note: the StaticRangeTickContainer is moved to the left to show the ticks at the correct point -->
+					<div class='StaticRangeTickMask'>
+						<div class="StaticRangeTickContainer">
+							<div class="RangeTicks">
+								<!-- range tick marks -->
+								<!-- yesterday -->
+								<span class="y0  Strong">&nbsp;</span>
+								<span class="y1  Light">&nbsp;</span>
+								<span class="y2  Light">&nbsp;</span>
+								<span class="y3  Light">&nbsp;</span>
+								<span class="y4  Light">&nbsp;</span>
+								<span class="y5  Light">&nbsp;</span>
+								<span class="y6  Strong">&nbsp;</span>
+								<span class="y7  Light">&nbsp;</span>
+								<span class="y8  Light">&nbsp;</span>
+								<span class="y9  Light">&nbsp;</span>
+								<span class="y10 Light">&nbsp;</span>
+								<span class="y11 Light">&nbsp;</span>
+								<span class="y12 Strong">&nbsp;</span>
+								<span class="y13 Light">&nbsp;</span>
+								<span class="y14 Light">&nbsp;</span>
+								<span class="y15 Light">&nbsp;</span>
+								<span class="y16 Light">&nbsp;</span>
+								<span class="y17 Light">&nbsp;</span>
+								<span class="y18 Strong">&nbsp;</span>
+								<span class="y19 Light">&nbsp;</span>
+								<span class="y20 Light">&nbsp;</span>
+								<span class="y21 Light">&nbsp;</span>
+								<span class="y22 Light">&nbsp;</span>
+								<span class="y23 Light">&nbsp;</span>
+	
+								<!-- today -->
+								<span class="t0  Today">&nbsp;</span>
+								<span class="t1  Light">&nbsp;</span>
+								<span class="t2  Light">&nbsp;</span>
+								<span class="t3  Light">&nbsp;</span>
+								<span class="t4  Light">&nbsp;</span>
+								<span class="t5  Light">&nbsp;</span>
+								<span class="t6  Strong">&nbsp;</span>
+								<span class="t7  Light">&nbsp;</span>
+								<span class="t8  Light">&nbsp;</span>
+								<span class="t9  Light">&nbsp;</span>
+								<span class="t10 Light">&nbsp;</span>
+								<span class="t11 Light">&nbsp;</span>
+								<span class="t12 Strong">&nbsp;</span>
+								<span class="t13 Light">&nbsp;</span>
+								<span class="t14 Light">&nbsp;</span>
+								<span class="t15 Light">&nbsp;</span>
+								<span class="t16 Light">&nbsp;</span>
+								<span class="t17 Light">&nbsp;</span>
+								<span class="t18 Strong">&nbsp;</span>
+								<span class="t19 Light">&nbsp;</span>
+								<span class="t20 Light">&nbsp;</span>
+								<span class="t21 Light">&nbsp;</span>
+								<span class="t22 Light">&nbsp;</span>
+								<span class="t23 Light">&nbsp;</span>
+								<span class="t24 Strong">&nbsp;</span>
+	
+								<!-- range tick labels -->
+								<div onmousedown="return $.slider.onTickDown(event, 'y0' )" class="y0 Label">0:00<br>yesterday</div>
+								<div onmousedown="return $.slider.onTickDown(event, 'y6' )" class="y6 Label">6:00<br>yesterday</div>
+								<div onmousedown="return $.slider.onTickDown(event, 'y12')" class="y12 Label">12:00<br>yesterday</div>
+								<div onmousedown="return $.slider.onTickDown(event, 'y18')" class="y18 Label">18:00<br>yesterday</div>
+								
+								<div onmousedown="return $.slider.onTickDown(event, 't0' )" class="t0 Label">midnight<br>today</div>
+								<div onmousedown="return $.slider.onTickDown(event, 't6' )" class="t6 Label">06:00<br>today</div>
+								<div onmousedown="return $.slider.onTickDown(event, 't12')" class="t12 Label">12:00<br>today</div>
+								<div onmousedown="return $.slider.onTickDown(event, 't18')" class="t18 Label">18:00<br>today</div>
+							</div><!-- end RangeTicks -->
+						</div><!-- end StaticRangeTickContainer -->
+					</div><!-- end StaticRangeTickMask -->
+					<!-- special ticks for: start of range, start of yesterday, now -->
+					<div class="DynamicRangeTickContainer">
+						<div class="RangeTicks">
+							<span class="Start">&nbsp;</span>
+							<span class="End">&nbsp;</span>
+	
+							<span class="EndMask">&nbsp;</span>
+							<span class="StartMask">&nbsp;</span>
+	
+							<div onmousedown="return $.slider.moveToStart(event||window.event)" class="StartLabel">-24hrs</div>
+							<div onmousedown="return $.slider.moveToEnd(event||window.event)" class="EndLabel" message='UI.now'>Now<br><br></div>
+						</div><!-- end RangeTicks -->
+					</div><!-- end DynamicRangeTickContainer -->
+	
+					<div class="RangeThumb" style='width: 4.16667%; left: 95.8333%;'>
+						<span class="RangeInnerThumb">&nbsp;</span>
+						<span onmousedown="return $.slider.onTrackDown(event, 'start')" class="RangeStartThumb">&nbsp;</span>
+						<span onmousedown="return $.slider.onTrackDown(event, 'end')"   class="RangeEndThumb">&nbsp;</span>
+						<span class="RangeStartLabel">11/11 <b>17:55</b></span>
+						<span class="RangeEndLabel"><b>Now</b></span>
+					</div><!-- end RangeThumb -->
+				</div><!-- end RangeTrackInner -->
+			</div><!-- end RangeTrack -->
+		</div><!-- end RangeSlider -->
+</script>

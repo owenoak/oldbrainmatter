@@ -1,0 +1,82 @@
+<class name='card' super='Control'>
+	<property name='face' type='choice'>up,down</property>
+	<property name='suit' type='index'>${suit}</property>
+	<property name='rank' type='index'>${rank}</property>
+
+	<property name='suits' type='choice'>${deck.suits}</property>
+	<property name='ranks' type='choice'>${deck.ranks}</property>
+
+	<script>
+		on show
+		end show
+
+		on flip
+		end flip
+	
+		on greater than: other-card
+			if suit of other card is greater than suit of this card then return true
+			if rank of other card is greater than rank of this card then return true
+			return false
+		end <
+	</script>
+	<template>
+	
+	
+	</template>
+</class>
+
+
+<class name='deck' super='Control'>
+	<property name='cards' type='card'/>
+	<property name='suits' type='choice'>Clubs, Diamonds, Hearts and Spades</property>
+	<property name='ranks' type='choice'>Ace 2 3 4 5 6 7 8 9 10 Jack Queen King</property>
+	<property name='current' type='index'/>
+	
+	<script>
+		on init:
+			for each suit
+				for each rank
+					create card with suit and rank
+					add card to cards
+				end for
+			end for			
+		end init
+		
+		on shuffle
+			oldList is a clone of cards of this
+			newList is a list of cards
+			
+			while length of oldList is greater than zero
+				set it to a random number less than length of oldList
+				add item it of oldLIst into newList	
+				remove item it of oldList
+			end while
+			set cards of this to newList
+		end shuffle
+
+		on deal
+			
+		end deal
+
+		on next
+			advance current
+			return item current of cards
+		end next
+		
+		on current
+			return item current of cards
+		end current
+	
+	</script>
+	<template>
+	
+	
+	</template>
+</class>
+
+
+<class name='solitaire' super='CardGame'>
+	<property id='deck'></property>
+	<property id='bays'></property>
+
+</class>

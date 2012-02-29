@@ -1,0 +1,104 @@
+<html>
+<head>
+	<title>English Tester</title>
+
+<!--	<script type="english/rules" src="scripts/english.rules"></script>	-->
+	<script src='scripts/hope.js'></script>
+	<script src='scripts/Template.js'></script>
+	<script src='scripts/hope.js'></script>
+	<script src='scripts/english.js'></script>
+	<script src='scripts/english.rules.js'></script>
+	<script src='scripts/pluralize.js'></script>
+
+	<style type='text/css'>
+		@import url(minty/minty.images.css);
+		@import url(minty/minty.css);
+	</style>
+
+	<style type='text/css'>
+		children	{	border:1px solid darkred; display:block; padding:5px; position:relative;}
+		rule		{	color:darkred;	display:block; cursor:pointer; position:relative;}
+		Xrule:before	{	content:attr(name);	background-color:#ffcccc; display:block; padding:2px;}
+		Xrule:hover:before	{	content:attr(name);	background-color:#ffcccc; }
+		
+		rule
+		
+		literal		{	font-weight:bold; color:darkblue;	}
+		identifier	{	font-style:italic; color:darkgreen;	}
+	
+	
+		.panel			{	border:1px solid black;	padding:5px; margin:0px;	}
+		#parseTreeSource{	display:none;	}
+		#parseTreeHtml	{	display:none;	}
+		#parseTreeText	{	display:block;	}
+	
+		
+		HTMLPRE			{	font-weight:bold; white-space:pre;	}
+		HTMLPRE TAG		{	font-weight:normal; color:#3333ff;	}
+		HTMLPRE ATTR	{	font-weight:normal; color:6666ff; font-style:italic;	}
+	</style>
+
+<script language='javascript'>
+	var panels = ["Source","Html","Text"],
+		panelPrefix = "parseTree",
+		tabPrefix = "show"
+	;
+	function showPanel(name) {
+		for (var i = 0; i < panels.length; i++) {
+			var panel = panels[i];
+			if (panel == name) {
+				hope.byId(panelPrefix+panel).style.display = "block";
+				hope.byId(tabPrefix+panel).className = "tab selected";
+			} else {
+				hope.byId(panelPrefix+panel).style.display = "none";
+				hope.byId(tabPrefix+panel).className = "tab";			
+			}
+		}
+	}
+
+</script>
+
+
+</head>
+<body>
+
+
+<br>
+<div class='tabBar'
+	><button id='showSource' onclick='showPanel("Source")'>English</button
+	><button id='showHtml' 	onclick='showPanel("Html")'>Parse Tree as HTML</button
+	><button id='showText'  onclick='showPanel("Text")'>Parse Tree as Text</button
+></div>
+<pre id='parseTreeSource' class='panel'>
+	on foo
+		STATEMENT
+		OTHER_STATEMENT
+	end foo
+	on bar
+		if true or false then
+			STATEMENT
+		end if
+	end bar
+</pre
+><div id='parseTreeHtml' class='panel'></div
+><div id='parseTreeText' class='panel'></div>
+
+<div id='tabby' foo='bar' style='color:red'></div>
+
+<script language='javascript'>
+//	var stream = new hope.TokenStream(hope.byId('englishTest').innerHTML);
+//	console.log(stream.getAllTokens().join("|"));
+	
+	
+
+//	console.dir(english.parseFile(hope.byId('parseTreeSource').innerHTML));
+	var html = hope.objectToHtml(english.parseTree);
+	hope.byId("parseTreeHtml").innerHTML = html;
+	hope.byId("parseTreeText").innerHTML = hope.htmlStringToPre(html);
+//	console.warn(this.translateParseTree(english.parseTree));
+
+</script>
+
+
+</body>
+</html>

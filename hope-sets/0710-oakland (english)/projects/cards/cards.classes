@@ -1,0 +1,222 @@
+<class id='Card' super='Control'>
+	<property name='suit'></property>
+	<property name='rank'></property>
+	<property name='value' type='number'></property>
+	<property name='color'></property>
+
+	<script language='javascript'>
+		protected handleEvents = true;
+		function Card() {
+			super();
+			this['class'] = this.id;
+		}
+		
+		function isTopOfPile() {
+			return this.parent.cards.indexOf(this) == this.parent.cards.length - 1;
+		}
+		
+	</script>
+	<template id='cards#Card' outerTag='div' class='inlineDiv nullBorderEtc CardBorder faceDown'></template>
+</class>
+
+
+<!-- generic card game -->
+<class id='CardGame' super='Control'>
+	<script language='javascript'>
+		function draw() {
+			super();
+
+			window.deck = this.deck = Control.byId("deck");
+			window.stock = this.stock = Control.byId("stock");
+			window.discards = this.discards = Control.byId("discards");;
+			window.goals = this.goals = Control.byTag("CardGoalPile");
+			window.stacks = this.stacks = Control.byTag("CardStackPile");
+
+			this.dealCards();
+		}
+		
+		function dealCards() {
+			this.deck.shuffle();
+			var cards = this.deck.cards;
+			var index = 0;
+			
+			// deal cards into the rows
+			for (var row = 0; row < this.stacks.length; row++) {
+				for (var stack = row; stack < this.stacks.length; stack++) {
+					var card = cards[index++];
+					this.stacks[stack].addCard(card);
+					
+					if (stack == row) {
+						card.removeFlag("faceDown");
+					}
+				}
+			}
+
+			// put all the remaining cards into the stock
+			while (card = cards[index++]) {
+				this.stock.addCard(card);
+			}
+			
+			this.drawCards();
+		}
+	
+		function drawCards() {
+			for (var i = 0; i < 3; i++) {
+				if (!this.stock.isEmpty()) {
+					var card = stock.popCard();
+					card.removeFlag("faceDown");
+					this.discards.addCard(card);
+				}
+			}
+		}
+	
+	</script>
+	<template id='cards#CardGame' outerTag='div'><$contents/></template>
+</class>
+
+
+<!-- Pile of Cards -->
+<class id='CardPile' super='Control'>
+	<property name='cards'>[]</property>
+	<script language='javascript'>
+		protected handleEvents = true;
+		protected cardOffset = 0;
+		
+		function draw() {
+			super();
+			this.poster = this.getPart("poster");
+		}
+	
+		function isEmpty() {
+			return this.cards.length == 0;
+		}
+		
+		function popCard() {
+			return this.cards.splice(this.cards.length - 1, 1)[0];
+		}
+		
+		function topCard() {
+			return this.cards[this.cards.length-1];
+		}
+	
+		// shuffle some cards in place
+		//	default is to shuffle all cards of the pile
+		//	pass another array of cards to shuffle those
+		function shuffle(cards, times) {
+			if (cards === undefined) cards = this.cards;
+			if (times === undefined) times = 1;
+			for (var i = 0; i < times; i++) {
+				hope.shuffle(cards);
+			}
+			return cards;
+		}
+		
+		function addCard(card, quick) {
+			if (card.pile) {
+				card.pile.removeCard(card);
+			}
+			this.addChild(card);
+			card.pile = this;
+			this.cards.push(card);
+			// TODO: should be part of generic addChild
+			var node = card.domNode;
+			this.domNode.appendChild(card.domNode);
+			
+			if (!quick) this.displayCards();
+		}
+		
+		function removeCard(card) {
+			this.removeChild(card);
+			hope.removeItem(this.cards, card);
+			delete card.pile;
+		}
+		
+		function displayCards() {
+			for (var i = 0; i < this.cards.length; i++) {
+				var card = this.cards[i];
+				card.domNode.style.top = (this.cardOffset * this.cards.indexOf(card));
+			}
+		}
+
+		function list(cards) {
+			if (cards === undefined) cards = this.cards;
+			var output = [];
+			for (var i = 0; i < cards.length; i++) {
+				output.push(cards[i].id);
+			}
+			console.info(output.join("\n"));
+		}
+
+	</script>
+	<template id='cards#CardPile' outerTag='div' class='CardPile'>
+		<div id='${id}_poster' class='CardBorder CardPoster ${poster}'></div>
+	</template>
+</class>
+
+<!-- CardDeck:  Full deck of cards -->
+<class id='CardDeck' super='CardPile'>
+	<script language='javascript'>
+		// TODO: another function?
+		function draw() {
+			super();
+			this.cards = this.children;
+		}
+		
+	</script>
+</class>
+
+
+<!-- CardStockPile: CardPile which shows unplayed cards -->
+<class id='CardStockPile' super='CardPile'>
+	<script language='javascript'>
+		protected template = "cards#CardPile";
+		
+		function onclick(target, domEvent) {
+console.warn("stock click ", target);
+		}
+		
+	</script>
+</class>
+
+
+<!-- CardDiscardPile: CardPile which shows unplayed cards -->
+<class id='CardDiscardPile' super='CardPile'>
+	<script language='javascript'>
+		protected template = "cards#CardPile";
+
+		function onclick(target, domEvent) {
+console.warn("Discard click ", target);
+		}
+		
+	</script>
+
+</class>
+
+
+<!-- CardGoalPile: CardPile which shows cards as they reach the goal -->
+<class id='CardGoalPile' super='CardPile'>
+	<script language='javascript'>
+		protected template = "cards#CardPile";
+
+		function onclick(target, domEvent) {
+console.warn("goal click ", target);
+		}
+		
+	</script>
+
+</class>
+
+
+<!-- CardStackPile: CardPile which shows a stack of cards to be played -->
+<class id='CardStackPile' super='CardPile'>
+	<script language='javascript'>
+		protected template = "cards#CardPile";
+		protected cardOffset = 20;
+
+		function onclick(target, domEvent) {
+console.warn("stack click ", target, target.isTopOfPile());
+		}
+		
+	</script>
+
+</class>

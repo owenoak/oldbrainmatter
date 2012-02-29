@@ -1,0 +1,78 @@
+ListManger  ==   Collection
+
+GOALS:
+	- have more than one 'list' per 'thing'
+	- have name of list on 'thing' be natural (eg: 'servers')
+	- have list syntax be compact, not pollute the 'thing's namespace
+	- tight integration with list and map
+
+
+HOW?
+	- have a single vanilla object that holds both the list and the map and methods
+		- object.items		<= list, eg:	object.items[0]
+		- object.items.map	<= map, eg:   	object.items.map.foo  (name?)
+
+		- 'list' knows it's "controller", for sending messages, etc
+		- list has a 'type' for events (eg:  "addedServer")
+			events are sent in the context of the controller,
+			and are explicitly sent to the controller if it defines the method
+	
+	- "items" can be anything for your particular object (eg: elements, children, etc)
+
+	- Perform operations on the list, eg:
+		- object.items.setList(list)
+		- object.items.add(item,item,item,...)
+		- object.items.addList([items])
+		- object.items.addAt(item, index)
+		- object.items.remove(item,item,item,...)
+		- object.items.removeList([items])
+		- object.items.removeItem(index)
+		- object.items.replace(item, index)
+		- object.items.updateOrCreate([protos])
+
+		- object.items.forEach(function(item){...this is object...})
+		- object.items.any()			// function or property/function+value, this is object
+		- object.items.all()			// function or property/function+value, this is object
+
+		- object.items.get(...)			
+		- object.items.where(...)
+		- object.items.indexOf(...)		// object OR property/method + value
+		- object.items.contains()		// same semantics 
+
+		- object.items.sortBy()			// property/function + ascending
+
+	- when adding something to an LM, if the thing is observable
+		observe 'destroy' to remove it from collection?
+
+	- make this something you can pass in as a class option:
+		new $.Class({
+			id : "g6.MemcacheService,MemcacheService",
+			collections : { name:"servers", itemClass:"g6.MemcacheServer" },
+			collectors  : "$.Services,MemcacheServices"
+		})
+
+		- initializing the collections is inserted into the object creator automatically (before init)
+		- automatically get a "setServers" method?
+
+HMMM
+	- how can we override, eg, "addItem"?
+		- "onAddItem" and "onAddedItem"?   "onRemoveItem" and "onRemovedItem"?
+		- currently only in Drawable
+
+
+INTERACTION WITH SELECTABLE?
+	- Collections are explicitly selectable?
+		- MemcacheController.servers.selection  ?
+		- 
+
+INTERACTION WITH COLLECTABLE
+	- if something is not 'collectable' and we ask for its reference,
+		make up an __id__ and stick it in some anonymous global Collectable
+
+	- if class options specify 'collection' or 'collections', 
+		add to those explicitly (after create so initialized)
+		- create collection as plural if necessary
+		
+		- instances reference is then:
+			g6.MemcacheServices.map.www, or
+			g6.MemcacheServices[0]

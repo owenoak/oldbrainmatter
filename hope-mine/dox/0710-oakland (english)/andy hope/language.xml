@@ -1,0 +1,1027 @@
+<?xml-stylesheet type='text/xsl' href='grammar2html.xsl'?>
+<grammar>
+	<javascript>
+System = {};
+
+System.global = function() {
+	return window;
+};
+
+System.scopes = [ window ];
+System.pushScope = function() {
+	var ctor = new Function();
+	ctor.prototype = System.local();
+	ctor.prototype.constructor = ctor;
+	var scope = new ctor;
+	System.scopes.push(scope);
+	return scope;
+};
+System.local = function() {
+	return System.scopes[System.scopes.length - 1];
+};
+System.popScope = function() {
+	return System.scopes.pop();
+};
+
+System.contains = function(object, element) {
+	if (object instanceof Array) {
+		for (var i = 0; i &lt; object.length; i++) {
+			if (object[i] == element) {
+				return true;
+			}
+		}
+		return false;
+	}
+	return String(element) in object;
+};
+System.empty = function(object) {
+	if (object instanceof Array) {
+		return object.length == 0;
+	}
+	if (typeof object == "object") {
+		for (var p in object) {
+			return false;
+		}
+		return true;
+	}
+	return true;
+};
+</javascript>
+	<patternset>
+		<title>Literals</title>
+		<pattern name='boolean'>
+			<token s='true' />
+			<javascript>true</javascript>
+		</pattern>
+		<pattern name='boolean'>
+			<token s='false' />
+			<javascript>false</javascript>
+		</pattern>
+		<pattern name='boolean'>
+			<token s='yes' />
+			<javascript>true</javascript>
+		</pattern>
+		<pattern name='boolean'>
+			<token s='no' />
+			<javascript>false</javascript>
+		</pattern>
+		<pattern name='boolean'>
+			<token s='on' />
+			<javascript>true</javascript>
+		</pattern>
+		<pattern name='boolean'>
+			<token s='off' />
+			<javascript>false</javascript>
+		</pattern>
+		<pattern name='number' native='(+|-)?(\d)+(\.\d+)? -- for example' />
+		<pattern name='string' native='".*?" -- handle escaped chars' />
+		<pattern name='list'>
+			<token s='[' />
+			<token s=']' />
+			<javascript>[ ]</javascript>
+		</pattern>
+		<pattern name='list'>
+			<token s='[' />
+			<expression-list var='list' />
+			<token s=']' />
+			<javascript>[ ${list} ]</javascript>
+		</pattern>
+		<pattern name='object'>
+			<token s='{' />
+			<javascript>{ }</javascript>
+			<token s='}' />
+		</pattern>
+		<pattern name='object'>
+			<token s='{' />
+			<object-field-list var='list' />
+			<token s='}' />
+			<javascript>{ ${list} }</javascript>
+		</pattern>
+	</patternset>
+	<patternset>
+		<title>Expressions and Statements</title>
+		<pattern name='expression'>
+			<boolean-expression />
+		</pattern>
+		<pattern name='expression'>
+			<numeric-expression />
+		</pattern>
+		<pattern name='expression'>
+			<string-expression />
+		</pattern>
+		<pattern name='expression'>
+			<list-expression />
+		</pattern>
+		<pattern name='expression'>
+			<object-expression />
+		</pattern>
+		<pattern name='expression'>
+			<string-operation />
+		</pattern>
+		<pattern name='expression'>
+			<list-operation />
+		</pattern>
+		<pattern name='expression'>
+			<object-operation />
+		</pattern>
+		<pattern name='statement'>
+			<expression />
+		</pattern>
+		<pattern name='statement'>
+			<declaration />
+		</pattern>
+		<pattern name='statement'>
+			<assignment />
+		</pattern>
+		<pattern name='statement'>
+			<block />
+		</pattern>
+		<pattern name='statement'>
+			<conditional />
+		</pattern>
+		<pattern name='statement'>
+			<loop />
+		</pattern>
+		<pattern name='block'>
+			<token s='do' />
+			<statement-list var='list' />
+			<token s='end' />
+			<javascript>{
+	${list} 
+}
+</javascript>
+		</pattern>
+	</patternset>
+	<patternset>
+		<title>Program</title>
+		<pattern name='program-item'>
+			<expression />
+		</pattern>
+		<pattern name='program-item'>
+			<statement-list />
+		</pattern>
+		<pattern name='program-item'>
+			<object-definition />
+		</pattern>
+		<pattern name='program'>
+			<program-item />
+		</pattern>
+		<pattern name='program'>
+			<program-item var='line' />
+			<token s='\n' />
+			<program var='prog' />
+			<javascript>${line}
+${prog}
+</javascript>
+		</pattern>
+	</patternset>
+	<patternset>
+		<title>Comparisons</title>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='=' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) == (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='&lt;' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) &lt; (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='&lt;=' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) &lt;= (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='&gt;' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) &gt; (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='&gt;=' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) &gt;= (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='equals' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) == (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='is' />
+			<token s='equal' />
+			<token s='to' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) == (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='does' />
+			<token s='not' />
+			<token s='equal' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) != (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='is' />
+			<token s='not' />
+			<token s='equal' />
+			<token s='to' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) != (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='is' />
+			<token s='other' />
+			<token s='than' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) != (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='is' />
+			<token s='less' />
+			<token s='than' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) &lt; (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='is' />
+			<token s='not' />
+			<token s='less' />
+			<token s='than' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) &gt;= (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='is' />
+			<token s='less' />
+			<token s='than' />
+			<token s='or' />
+			<token s='equal' />
+			<token s='to' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) &lt;= (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='is' />
+			<token s='not' />
+			<token s='less' />
+			<token s='than' />
+			<token s='or' />
+			<token s='equal' />
+			<token s='to' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) &gt; (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='is' />
+			<token s='greater' />
+			<token s='than' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) &gt; (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='is' />
+			<token s='not' />
+			<token s='greater' />
+			<token s='than' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) &lt;= (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='is' />
+			<token s='greater' />
+			<token s='than' />
+			<token s='or' />
+			<token s='equal' />
+			<token s='to' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) &gt;= (${rhs})</javascript>
+		</pattern>
+		<pattern name='comparison'>
+			<expression var='lhs' />
+			<token s='is' />
+			<token s='not' />
+			<token s='greater' />
+			<token s='than' />
+			<token s='or' />
+			<token s='equal' />
+			<token s='to' />
+			<expression var='rhs' />
+			<javascript>(${lhs}) &lt; (${rhs})</javascript>
+		</pattern>
+	</patternset>
+	<patternset>
+		<title>Booleans</title>
+		<pattern name='boolean-expression'>
+			<boolean />
+		</pattern>
+		<pattern name='boolean-expression'>
+			<expression var='expr' />
+			<token s='as' />
+			<token s='boolean' />
+			<javascript>Boolean(${expr})</javascript>
+		</pattern>
+		<pattern name='boolean-expression'>
+			<token s='(' />
+			<boolean-expression var='expr' />
+			<token s=')' />
+			<javascript>(${expr})</javascript>
+		</pattern>
+		<pattern name='boolean-expression'>
+			<token s='not' />
+			<boolean-expression var='expr' />
+			<javascript>!(${expr})</javascript>
+		</pattern>
+		<pattern name='boolean-expression'>
+			<boolean-expression var='lhs' />
+			<token s='or' />
+			<boolean-expression var='rhs' />
+			<javascript>(${lhs}) || (${rhs})</javascript>
+		</pattern>
+		<pattern name='boolean-expression'>
+			<boolean-expression var='lhs' />
+			<token s='and' />
+			<boolean-expression var='rhs' />
+			<javascript>(${lhs}) &amp;&amp; (${rhs})</javascript>
+		</pattern>
+		<pattern name='boolean-expression'>
+			<comparison />
+		</pattern>
+	</patternset>
+	<patternset>
+		<title>Numbers</title>
+		<pattern name='numeric-expression'>
+			<number />
+		</pattern>
+		<pattern name='numeric-expression'>
+			<expression var='expr' />
+			<token s='as' />
+			<token s='number' />
+			<javascript>Number(${expr})</javascript>
+		</pattern>
+		<pattern name='numeric-expression'>
+			<token s='(' />
+			<numeric-expression var='expr' />
+			<token s=')' />
+			<javascript>(${expr})</javascript>
+		</pattern>
+		<pattern name='numeric-expression'>
+			<numeric-expression var='lhs' />
+			<token s='+' />
+			<numeric-expression var='rhs' />
+			<javascript>(${lhs}) + (${rhs})</javascript>
+		</pattern>
+		<pattern name='numeric-expression'>
+			<numeric-expression var='lhs' />
+			<token s='-' />
+			<numeric-expression var='rhs' />
+			<javascript>(${lhs}) - (${rhs})</javascript>
+		</pattern>
+		<!-- TODO: operator precedence -->
+		<pattern name='numeric-expression'>
+			<numeric-expression var='lhs' />
+			<token s='*' />
+			<numeric-expression var='rhs' />
+			<javascript>(${lhs}) * (${rhs})</javascript>
+		</pattern>
+		<pattern name='numeric-expression'>
+			<numeric-expression var='lhs' />
+			<token s='/' />
+			<numeric-expression var='rhs' />
+			<javascript>(${lhs}) / (${rhs})</javascript>
+		</pattern>
+		<pattern name='numeric-expression'>
+			<numeric-expression var='lhs' />
+			<token s='plus' />
+			<numeric-expression var='rhs' />
+			<javascript>(${lhs}) + (${rhs})</javascript>
+		</pattern>
+		<pattern name='numeric-expression'>
+			<numeric-expression var='lhs' />
+			<token s='minus' />
+			<numeric-expression var='rhs' />
+			<javascript>(${lhs}) - (${rhs})</javascript>
+		</pattern>
+		<pattern name='numeric-expression'>
+			<numeric-expression var='lhs' />
+			<token s='times' />
+			<numeric-expression var='rhs' />
+			<javascript>(${lhs}) * (${rhs})</javascript>
+		</pattern>
+		<pattern name='numeric-expression'>
+			<numeric-expression var='lhs' />
+			<token s='multiplied' />
+			<token s='by' />
+			<numeric-expression var='rhs' />
+			<javascript>(${lhs}) * (${rhs})</javascript>
+		</pattern>
+		<pattern name='numeric-expression'>
+			<numeric-expression var='lhs' />
+			<token s='divided' />
+			<token s='by' />
+			<numeric-expression var='rhs' />
+			<javascript>(${lhs}) / (${rhs})</javascript>
+		</pattern>
+	</patternset>
+	<patternset>
+		<title>Strings</title>
+		<pattern name='string-expression'>
+			<string />
+		</pattern>
+		<pattern name='string-expression'>
+			<expression var='expr' />
+			<token s='as' />
+			<token s='string' />
+			<javascript>String(${expr})</javascript>
+		</pattern>
+		<pattern name='string-expression'>
+			<string-expression var='str' />
+			<token s='[' />
+			<string-slice-list var='slices' />
+			<token s=']' />
+			<javascript />
+		</pattern>
+		<pattern name='string-expression'>
+			<string-expression var='lhs' />
+			<token s='+' />
+			<expression var='rhs' />
+			<javascript>(${lhs})+String(${rhs})</javascript>
+		</pattern>
+		<pattern name='string-expression'>
+			<string-expression var='lhs' />
+			<token s='&amp;' />
+			<expression var='rhs' />
+			<javascript>(${lhs})+String(${rhs})</javascript>
+		</pattern>
+		<pattern name='string-operation'>
+			<string-expression var='lhs' />
+			<token s='starts' />
+			<token s='with' />
+			<expression var='rhs' />
+			<javascript>(${lhs}).match("^"+String(${rhs}))</javascript>
+		</pattern>
+		<pattern name='string-operation'>
+			<string-expression var='lhs' />
+			<token s='ends' />
+			<token s='with' />
+			<expression var='rhs' />
+			<javascript>(${lhs}).match(String(${rhs})+"^")</javascript>
+		</pattern>
+		<pattern name='string-operation'>
+			<string-expression var='lhs' />
+			<token s='contains' />
+			<expression var='rhs' />
+			<javascript>(${lhs}).match(String(${rhs}))</javascript>
+		</pattern>
+	</patternset>
+	<patternset>
+		<title>Lists</title>
+		<pattern name='list-expression'>
+			<list />
+		</pattern>
+		<pattern name='list-expression'>
+			<expression var='expr' />
+			<token s='as' />
+			<token s='list' />
+			<javascript>[ ${expr} ]</javascript>
+		</pattern>
+		<pattern name='list-expression'>
+			<list-expression var='list' />
+			<token s='[' />
+			<array-slice-list var='slices' />
+			<token s=']' />
+			<javascript>[].concat(${slices})</javascript>
+		</pattern>
+		<pattern name='list-operation'>
+			<list-expression var='list' />
+			<token s='is' />
+			<token s='empty' />
+			<javascript>System.empty(${list})</javascript>
+		</pattern>
+		<pattern name='list-operation'>
+			<list-expression var='list' />
+			<token s='is' />
+			<token s='not' />
+			<token s='empty' />
+			<javascript>!System.empty(${list})</javascript>
+		</pattern>
+		<pattern name='list-operation'>
+			<list-expression var='list' />
+			<token s='contains' />
+			<expression var='expr' />
+			<javascript>System.contains(${list}, ${expr})</javascript>
+		</pattern>
+	</patternset>
+	<patternset>
+		<title>Objects</title>
+		<pattern name='object-expression'>
+			<object />
+		</pattern>
+		<pattern name='object-expression'>
+			<expression var='expr' />
+			<token s='as' />
+			<token s='object' />
+			<javascript>{ value: (${expr}) }</javascript>
+		</pattern>
+		<pattern name='object-expression'>
+			<token s='new' />
+			<name var='type' />
+			<javascript>new System.local()["${type}"]</javascript>
+		</pattern>
+		<pattern name='object-expression'>
+			<token s='new' />
+			<name var='type' />
+			<token s='(' />
+			<expression-list var='list' />
+			<token s=')' />
+			<javascript>new System.local()["${type}"](${list})</javascript>
+		</pattern>
+		<pattern name='object-expression'>
+			<token s='new' />
+			<name />
+			<token s='with' />
+			<with-list />
+		</pattern>
+		<pattern name='object-operation'>
+			<reference var='ref' />
+			<token s='is' />
+			<token s='empty' />
+			<javascript>System.empty(${ref})</javascript>
+		</pattern>
+		<pattern name='object-operation'>
+			<reference var='ref' />
+			<token s='is' />
+			<token s='not' />
+			<token s='empty' />
+			<javascript>System.empty(${list})</javascript>
+		</pattern>
+		<pattern name='object-operation'>
+			<reference var='ref' />
+			<token s='is' />
+			<token s='a' />
+			<name var='type' />
+			<javascript>(${ref}) instanceof System.local()["${type}"]</javascript>
+		</pattern>
+		<pattern name='object-operation'>
+			<reference var='ref' />
+			<token s='is' />
+			<token s='an' />
+			<name var='type' />
+			<javascript>(${ref}) instanceof System.local()["${type}"]</javascript>
+		</pattern>
+		<pattern name='object-operation'>
+			<reference var='ref' />
+			<token s='is' />
+			<token s='not' />
+			<token s='a' />
+			<name var='type' />
+			<javascript>!((${ref}) instanceof System.local()["${type}"])</javascript>
+		</pattern>
+		<pattern name='object-operation'>
+			<reference var='ref' />
+			<token s='is' />
+			<token s='not' />
+			<token s='an' />
+			<name var='type' />
+			<javascript>!((${ref}) instanceof System.local()["${type}"])</javascript>
+		</pattern>
+		<pattern name='object-operation'>
+			<reference var='ref' />
+			<token s='has' />
+			<token s='a' />
+			<name var='prop' />
+			<javascript>(${ref})["${prop}"]</javascript>
+		</pattern>
+		<pattern name='object-operation'>
+			<reference var='ref' />
+			<token s='has' />
+			<token s='an' />
+			<name var='prop' />
+			<javascript>(${ref})["${prop}"]</javascript>
+		</pattern>
+		<pattern name='object-operation'>
+			<reference var='ref' />
+			<token s='does' />
+			<token s='not' />
+			<token s='have' />
+			<token s='a' />
+			<name var='prop' />
+			<javascript>!(${ref})["${prop}"]</javascript>
+		</pattern>
+		<pattern name='object-operation'>
+			<reference var='ref' />
+			<token s='does' />
+			<token s='not' />
+			<token s='have' />
+			<token s='an' />
+			<name var='prop' />
+			<javascript>!(${ref})["${prop}"]</javascript>
+		</pattern>
+		<pattern name='object-definition'>
+			<token s='define' />
+			<name var='func' />
+			<statement-list var='stmts' />
+			<token s='end' />
+			<!-- TODO: define function in context object -->
+			<javascript>System.local()["${func}"] = function() {
+	System.pushScope();
+	${stmts}
+	System.popScope();
+};
+</javascript>
+		</pattern>
+		<pattern name='object-definition'>
+			<token s='define' />
+			<name var='func' />
+			<token s='=' />
+			<name var='base' />
+			<statement-list var='stmts' />
+			<token s='end' />
+			<javascript>System.local()["${func}"] = function() {
+	System.pushScope();
+	${base}.call(this);
+	${stmts}
+	System.popScope();
+};
+System.local()["${func}"].prototype = new System.local()["${base}"];
+System.local()["${func}"].prototype.constructor = System.local()["${func}"];
+</javascript>
+		</pattern>
+		<pattern name='object-definition'>
+			<token s='define' />
+			<name var='func' />
+			<token s='=' />
+			<name var='base' />
+			<token s='(' />
+			<expression-list var='list' />
+			<token s=')' />
+			<statement-list var='stmts' />
+			<token s='end' />
+			<javascript>System.local()["${func}"] = function() {
+	System.popScope();
+	System.local()["${base}"].apply(this, ${list});
+	${stmts}
+	System.popScope();
+};
+System.local()["${func}"].prototype = new System.local()["${base}"];
+System.local()["${func}"].prototype.constructor = System.local()["${func}"];
+</javascript>
+		</pattern>
+		<pattern name='object-definition'>
+			<token s='define' />
+			<name />
+			<token s='=' />
+			<name />
+			<token s='with' />
+			<with-list />
+			<statement-list />
+			<token s='end' />
+		</pattern>
+	</patternset>
+	<patternset>
+		<title>Variables</title>
+		<pattern name='declaration'>
+			<token s='global' />
+			<name var='name' />
+			<javascript>System.global()["${name}"] = null;</javascript>
+		</pattern>
+		<pattern name='declaration'>
+			<token s='local' />
+			<name var='name' />
+			<javascript>System.local()["${name}"] = null;</javascript>
+		</pattern>
+		<pattern name='assignment'>
+			<reference var='ref' />
+			<token s='=' />
+			<expression var='expr' />
+			<javascript>${ref} = ${expr};</javascript>
+		</pattern>
+		<pattern name='assignment'>
+			<token s='global' />
+			<name var='name' />
+			<token s='=' />
+			<expression var='expr' />
+			<javascript>System.global()["${name}"] = ${expr};</javascript>
+		</pattern>
+		<pattern name='assignment'>
+			<token s='local' />
+			<name var='name' />
+			<token s='=' />
+			<expression var='expr' />
+			<javascript>System.local()["${name}"] = ${expr};</javascript>
+		</pattern>
+		<pattern name='assignment'>
+			<token s='set' />
+			<reference var='ref' />
+			<token s='to' />
+			<expression var='expr' />
+			<javascript>${ref} = ${expr};</javascript>
+		</pattern>
+		<pattern name='assignment'>
+			<token s='set' />
+			<token s='global' />
+			<name var='name' />
+			<token s='to' />
+			<expression var='expr' />
+			<javascript>System.global()["${name}"] = ${expr};</javascript>
+		</pattern>
+		<pattern name='assignment'>
+			<token s='set' />
+			<token s='local' />
+			<name var='name' />
+			<token s='to' />
+			<expression var='expr' />
+			<javascript>System.global()["${name}"] = ${expr};</javascript>
+		</pattern>
+		<pattern name='reference'>
+			<name var='name' />
+			<javascript>System.local()["${name}"]</javascript>
+		</pattern>
+		<pattern name='reference'>
+			<reference var='ref' />
+			<token s='.' />
+			<name var='name' />
+			<javascript>${ref}["${name}"]</javascript>
+		</pattern>
+		<pattern name='reference'>
+			<reference var='ref' />
+			<token s="'s" />
+			<name var='name' />
+			<javascript>${ref}["${name}"]</javascript>
+		</pattern>
+		<pattern name='reference'>
+			<reference var='ref' />
+			<token s='[' />
+			<string-expression var='str' />
+			<token s=']' />
+			<javascript>${ref}[${str}]</javascript>
+		</pattern>
+	</patternset>
+	<patternset>
+		<title>Conditionals</title>
+		<pattern name='conditional'>
+			<token s='if' />
+			<boolean-expression var='expr' />
+			<token s='then' />
+			<statement var='stmt' />
+			<javascript>try {
+	System.pushScope();
+	if (${expr}) {
+		${stmt}
+	}
+}
+finally {
+	System.popScope();
+}
+</javascript>
+		</pattern>
+		<pattern name='conditional'>
+			<token s='if' />
+			<boolean-expression var='expr' />
+			<token s='then' />
+			<statement var='if-stmt' />
+			<token s='else' />
+			<statement var='else-stmt' />
+			<javascript>try {
+	System.pushScope();
+	if (${expr}) {
+		${if-stmt}
+	}
+	else {
+		${else-stmt}
+	}
+}
+finally {
+	System.popScope();
+}
+</javascript>
+		</pattern>
+		<pattern name='conditional'>
+			<token s='unless' />
+			<boolean-expression var='expr' />
+			<statement var='stmt' />
+			<javascript>try {
+	System.pushScope();
+	if (!(${expr})) {
+		${stmt}
+	}
+}
+finally {
+	System.popScope();
+}
+</javascript>
+		</pattern>
+	</patternset>
+	<patternset>
+		<title>Loops</title>
+		<pattern name='loop'>
+			<token s='for' />
+			<name var='name' />
+			<token s='in' />
+			<reference var='ref' />
+			<statement var='stmt' />
+			<!-- TODO: unique loop variable -->
+			<javascript>try {
+	System.pushScope();
+	for (var ${name} in ${ref}) {
+		System.local()["${name}"] = ${name};
+		${stmt}
+	}
+}
+finally {
+	System.popScope();
+}
+</javascript>
+		</pattern>
+		<pattern name='loop'>
+			<token s='for' />
+			<name var='name' />
+			<token s='from' />
+			<numerical-expression var='from' />
+			<token s='to' />
+			<numerical-expression var='to' />
+			<statement var='stmt' />
+			<javascript>try {
+	System.pushScope();
+	for (var ${name} = ${from}; ${name} &lt;= ${to}; ${name}++) {
+		System.local()["${name}"] = ${name};
+		${stmt}
+	}
+}
+finally {
+	System.popScope();
+}
+</javascript>
+		</pattern>
+		<pattern name='loop'>
+			<token s='until' />
+			<boolean-expression var='expr' />
+			<statement var='stmt' />
+			<javascript>try {
+	System.pushScope();
+	while (!(${expr})) {
+		${stmt}
+	}
+}
+finally {
+	System.popScope();
+}
+</javascript>
+		</pattern>
+		<pattern name='loop'>
+			<token s='while' />
+			<boolean-expression var='expr' />
+			<statement var='stmt' />
+			<javascript>try {
+	System.pushScope();
+	while (${expr}) {
+		${stmt}
+	}
+}
+finally {
+	System.popScope();
+}
+</javascript>
+		</pattern>
+		<pattern name='loop'>
+			<token s='repeat' />
+			<token s='until' />
+			<boolean-expression var='expr' />
+			<statement var='stmt' />
+			<javascript>try {
+	System.pushScope();
+	while (!(${expr})) {
+		${stmt}
+	}
+}
+finally {
+	System.popScope();
+}
+</javascript>
+		</pattern>
+		<pattern name='loop'>
+			<token s='repeat' />
+			<token s='while' />
+			<boolean-expression var='expr' />
+			<statement var='stmt' />
+			<javascript>try {
+	System.pushScope();
+	while (${expr}) {
+		${stmt}
+	}
+}
+finally {
+	System.popScope();
+}
+</javascript>
+		</pattern>
+	</patternset>
+	<patternset>
+		<title>Other</title>
+		<pattern name='expression-list'>
+			<expression var='expr' />
+		</pattern>
+		<pattern name='expression-list'>
+			<expression var='expr' />
+			<token s=',' />
+			<expression-list var='list' />
+			<javascript>${expr}, ${list}</javascript>
+		</pattern>
+		<pattern name='statement-list'>
+			<statement var='stmt' />
+			<javascript>${stmt};
+</javascript>
+		</pattern>
+		<pattern name='statement-list'>
+			<statement var='stmt' />
+			<statement-list var='list' />
+			<javascript>${stmt};
+${list}
+</javascript>
+		</pattern>
+		<pattern name='object-field'>
+			<name var='name' />
+			<token s=':' />
+			<expression var='expr' />
+			<javascript>"${name}" : ${expr}</javascript>
+		</pattern>
+		<pattern name='object-field-list'>
+			<object-field var='field' />
+		</pattern>
+		<pattern name='object-field-list'>
+			<object-field var='field' />
+			<token s=',' />
+			<object-field-list var='list' />
+			<javascript>${field},
+	${list}</javascript>
+		</pattern>
+		<pattern name='array-slice'>
+			<numeric-expression var='expr' />
+			<javascript>(${../list})[${expr}]</javascript>
+		</pattern>
+		<pattern name='array-slice'>
+			<numeric-expression var='offset1' />
+			<token s='..' />
+			<numeric-expression var='offset2' />
+			<javascript>(${../list}).slice(${offset1}, ${offset2})</javascript>
+		</pattern>
+		<pattern name='array-slice-list'>
+			<array-slice var='slice' />
+		</pattern>
+		<pattern name='array-slice-list'>
+			<array-slice var='slice' />
+			<token s=',' />
+			<array-slice-list var='list' />
+			<javascript>${slice}, ${list}</javascript>
+		</pattern>
+		<pattern name='string-slice'>
+			<numeric-expression var='expr' />
+			<javascript>(${../str})[${expr}]</javascript>
+		</pattern>
+		<pattern name='string-slice'>
+			<numeric-expression var='offset1' />
+			<token s='..' />
+			<numeric-expression var='offset2' />
+			<javascript>(${../str}).substring(${offset1}, ${offset2})</javascript>
+		</pattern>
+		<pattern name='string-slice-list'>
+			<string-slice var='slice' />
+		</pattern>
+		<pattern name='string-slice-list'>
+			<string-slice var='slice' />
+			<token s=',' />
+			<string-slice-list var='list' />
+			<javascript>${slice} + ${list}</javascript>
+		</pattern>
+		<pattern name='with-item'>
+			<name var='name' />
+			<token s='=' />
+			<expression var='expr' />
+		</pattern>
+		<pattern name='with-list'>
+			<with-item var='item' />
+		</pattern>
+		<pattern name='with-list'>
+			<with-item var='item' />
+			<token s=',' />
+			<with-list var='list' />
+		</pattern>
+	</patternset>
+</grammar>

@@ -1,0 +1,173 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html class='honeycomb'>
+<head>
+	<title>Cloud Cache</title>
+	<link type="text/css" rel="stylesheet" href="../statsproxy.css">
+	<link type="text/css" rel="stylesheet" href="../prototype.css">
+	<!-- NOTE: all scripts have moved to bottom of file since ba-bbq depends on body tag existing before load -->
+	<noscript>
+		<font size='huge'>Note:  You must have javascript enabled to see this page.
+			<br>
+			For best results, use <a href='http://getfirefox.com'>Mozilla Firefox<a> 3.0 or later.
+		</font>
+	</noscript>
+
+	<!-- jquery libraries -->
+		<script type="text/javascript" src="../js/jquery.js"></script>
+	
+	<script>
+		function load() {
+			var loaders = $("loader[loading!=true]"), hash = window.location.hash.substr(1);
+			loaders.each(function(index, element) {
+				element = $(element);
+				var elementHash = element.attr("hash");
+				if (elementHash && elementHash != hash) {
+					element.remove();
+				} else {
+					element.attr("loading","true");
+					$.get(element.attr('src')+"?_"+(new Date()).getTime(), function(data) {
+						element.replaceWith(data);
+						
+						// recurse
+						var newLoaders = $("loader[loading!=true]");
+						if (newLoaders.length) load();
+					});
+				}
+			});
+		}
+	
+	</script>
+	<style>
+		loader {display:block;}
+	</style>
+</head>
+<body class='loggedIn cantCreate canModify inCloudMode replicationOff hasNoStorage canChangeRole' onload='load()'>
+
+<div id='top'><table><tr>
+  <td><div id='logo'></div></td>
+  <td><div id='appname'></div></td>
+  <td style='width:100%'><div id='tabContainer' class='noselect'>
+	<ul class="ButtonBar ifLoggedIn" id="tabBar" style=""><div class="ButtonBarScroller">
+		<ul id="serviceTabs" class="ButtonGroup" style="left: 0px;">
+			<li message="view.menu.overview" view="overview" onclick="SP.onViewClick(this)" class="ButtonBarButton noselect">Overview</li
+			><li service="php" onclick="SP.onServiceClick(this)" class="ButtonBarButton noselect" wd="Pool">php</li
+			><li service="www" onclick="SP.onServiceClick(this)" class="ButtonBarButton noselect" wd="Pool">www</li
+			><li service="www" onclick="SP.onServiceClick(this)" class="ButtonBarButton noselect Selected" wd="Pool">Brutus Pool 1</li
+			><li service="10.3.6.244" onclick="SP.onServiceClick(this)" class="ButtonBarButton noselect" wd="Server">10.3.6.244</li
+			><li service="non-gear6-package" onclick="SP.onServiceClick(this)" class="ButtonBarButton noselect" wd="Pool">non-gear6-package</li
+		></ul></div>
+</ul>
+</div></td>
+	<td>
+		<button id='supportButton' class='dark thin ifCloud' message='UI.support.button'
+			onclick='SP.showSupportPage()'>Support</button>
+	</td>
+	<td class='login'>
+	  <button id='roleMenuButton' class='dark thin MenuButton ifLoggedIn ifCanChangeRole ifCloud'
+		  onmousedown='$.menu.show(this, "#logInMenu", SP.authState)'  message='auth.logout.title'>Role: Modify</button>
+	</td>
+	<td class='login'>
+	  <button id='logOutButton' class='dark thin ifLoggedIn ifCanChangeRole ifCloud'
+		  onmousedown='SP.logOut()'  message='auth.logout.title'>Log Out</button>
+	  <button id='logInButton' class='dark thin MenuButton ifLoggedOut ifCanChangeRole ifCloud'
+		  onmousedown='$.menu.show(this, "#logInMenu", SP.authState)' message='auth.login.title'></button>
+	</td>
+	</tr></table>
+</div><!-- end top -->
+
+<div id='main'><!-- 'main' contains the main UI elements -->
+	<!-- accessLevel reminder: show if access level is none -->
+	<div id='accessLevelNotice' style='display:none' class='ifLoggedOut' message='auth.reminder'></div>
+	<!-- accessLevel -->
+	
+	<!-- serviceDisplay:  holds all of the serviceViews -->
+	<div id='serviceDisplay' class='ifLoggedIn'>
+
+
+<loader src='BrutusWindow-start.html' hash='start'></loader>
+<loader src='BrutusWindow-running.html' hash='running'></loader>
+<loader src='BrutusWindow-finished.html' hash='finished'></loader>
+
+
+
+	</div>
+	<!-- serviceDisplay -->
+
+	<!-- stats-and-graphs views -->
+	<div id='statsDisplay' wd='Pool' class='ifLoggedIn' style='display:block'>
+	<table cellspacing=0 cellpadding=0 id='statsDisplayTable'><tr>
+	
+	  <!-- left column: holds the menu -->
+		<td id='leftColumnContainer'>
+		<div id='leftColumn'>
+			<div class='Section ViewSelector noselect'>
+				<loader src='ViewSelector.html'></loader>
+            </div><!-- ViewSelector -->
+        </div><!-- leftColumn -->
+        </td>
+        
+        <!-- right column: holds the stats table or graph -->
+		<td id='rightColumnContainer'>
+        <div id='rightColumn'>
+
+            <!-- outer container for the brutus views -->
+<loader src='TestSetup-start.html' hash='start'></loader>
+<loader src='TestSetup-running.html' hash='running'></loader>
+<loader src='TestSetup-finished.html' hash='finished'></loader>
+            
+            
+            
+        </div><!-- end rightColumn -->
+        </td>
+    </tr></table>
+    </div><!-- end stats -->
+
+</div><!-- end main -->
+
+<!-- bottom row -->
+<div id='bottom' class='ifLoggedIn'>
+	<table width='100%' cellspacing=0 cellpadding=0><tr>
+		<td class='pollingInterval'>
+			<button id='pollingInterval' class='dark thin MenuButton'>Auto-Refresh: 15 seconds</button>
+		</td>
+		<td class='refresh'>
+			<button id='refreshNow' class='dark thin' onclick='javascript:SP.refresh()' message='UI.refreshNow'>Refresh Now</button>
+		</td>
+		<td class='lastRefresh'><span class='label' message='UI.lastRefresh'>Last refresh:</span>
+			<span id='time' class='value'>12/3/09 18:23:44 GMT</span>
+		</td>
+		<td class='acknowledgements'>
+			<a id='acknowledgements' href='acknowledgements.html' message='UI.acknowledgements'>
+				Acknowledgements
+			</a>
+		</td>
+		<td class='ifCanModify ifCloud'>
+			<button id='addToOverviewButton' class='dark thin' message='UI.addToOverview.button'
+				onclick='SP.onAddToOverviewClick()'>Add to Overview</button>
+		</td>
+  </tr></table>
+</div><!-- end bottom -->
+
+
+<!-- floating things -->
+<div id='clickMask' onclick='if (window.$ && $.clickMask) $.clickMask.click()'></div>
+<div id='flasher' style='display:none'>
+	<div id='flasherShadow'></div>
+	<div id='flasherBody'>Test message test message test message test message test message</div>
+	<!--	<div id='flasherClose' onclick='$.notifier.hideFlasher()'></div>	-->
+</div>
+<div id='pollingMenu' class='Menu'></div>
+<div id='logInMenu' class='Menu'></div>
+<div id='logOutMenu' class='Menu'></div>
+<div id='instancesMenu' class='Menu'></div>
+<div id='dialog' style='display:none;'>
+	<div id='dialogWindow' class='Window' wd='Stats'>
+		<div id='dialogBody' class='WindowBody'></div>
+		<div id='dialogBottom' class='WindowBottom'>
+			<button onclick='$.dialog.hide()' message='UI.done'>Done</button>
+		</div>
+	</div>
+</div>
+
+</body>
+</html>

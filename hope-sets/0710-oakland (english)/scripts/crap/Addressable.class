@@ -1,0 +1,100 @@
+<!-- Addressables are things that have a URL address, like an application, page, panel, etc.  
+	Addressible is the superclass 
+	
+THOUGHTS:
+	* subclass of control?
+	* "drawable" and "children" interfaces shared by some addressables and controls?
+	* 
+
+TODO:
+	
+	
+-->
+
+
+<class id='Addressable' super='Parentable' synonyms='Addressible'>
+	<!-- longer title, for hint or window title, etc -->
+	<property name='title'/>
+	
+	<!-- list of Actions this addressible supports -->
+	<propertyList name='actions' type='action'/>
+
+	<!-- datasources this addressible connects to, bound on connect() -->
+	<propertyList name='datasources' type='datasource'/>
+
+	<!-- this addressible shown only if enableIf evaluates to true -->
+	<property name='enableIf' type='conditional'/>
+
+	<!-- template of children, drawn automatically -->
+	<property name='template'/>
+
+	
+	
+	<script language='javascript' dialect='SmartJS'>
+		function Addressable() {
+			this.mixin.apply(this, arguments);
+			this.generateId();
+			this.init();		
+		}
+
+
+		function generateId() {
+			var names = this.forEachAncestor(
+		}
+
+		// addressible has been opened for the first time this session
+		//	auto-sent to all children
+		function open() {
+			this.connect();
+			this.draw();
+			this.fireEvent("onopen");
+		}
+
+		// addressible is closed (shut down)
+		//	-- auto-sent to all children
+		function close() {
+			this.connect();
+			this.fireEvent("onclose");
+		}
+		
+		// temporarily paused (eg: switching to another app)
+		//	-- suspend all background stuff, etc.
+		//	-- auto-sent to all children
+		function pause() {
+			this.fireEvent("onpause");
+		}
+		
+		// back to this addressable after pause
+		//	-- resume all bg stuff, etc
+		//	-- auto-sent to all children
+		function resume() {
+			this.fireEvent("onresume");
+		}
+		
+		// connect to all datasources (called on open())
+		//	-- auto-sent to children
+		function connect() {
+			for (var i = 0, source; source = this.datasources[i++];) {
+				source.connect();
+			}
+			this.fireEvent("onconnect");		
+		}
+		
+		// disconnect from all datasources
+		//	-- auto-sent to children
+		function disconnect() {
+			for (var i = 0, source; source = this.datasources[i++];) {
+				source.disconnect();
+			}
+			this.fireEvent("onconnect");		
+		}
+	
+		// draw datasource and children (called by open())
+		function draw() {
+			this.fireEvent("ondraw");		
+		}
+		
+		
+	
+	</script>
+</class>

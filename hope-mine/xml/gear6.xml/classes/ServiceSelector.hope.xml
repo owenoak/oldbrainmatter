@@ -1,0 +1,25 @@
+<class name='ServiceSelector' isa='button'>
+	<docs>Button which selects a particular service.</docs>
+
+	<on event='activate'>
+		tell the app to select service (my service)
+	</on>
+	
+	<property name='service' type='reference to service'>
+		<docs>Name of the service that we bind to.</docs>
+		<setter>
+			// bind to the new service
+			set my service to service
+			put service (service) of the app into newservice
+			if newservice exists then
+				bind my selected to the selected of newservice
+				bind my title to the name of newservice
+				bind to event 'destroy' of newservice
+					destroy me
+				end bind
+			else
+				debug "Service" && my service && "not found"
+			end if
+		</setter>
+	</property>
+</class>

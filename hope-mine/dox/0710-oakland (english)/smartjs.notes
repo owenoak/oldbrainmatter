@@ -1,0 +1,100 @@
+-- have a "smartJS" or "sjs" macro/language which we use to add "foreach" and stuff to JS
+
+			class Elephant Mammal CircusPerformer {
+				function Elephant(name) {				// constructor
+					doSomething();
+					doSomethingElse();
+				}
+				
+				default name = "Dumbo";					// default props
+				default weight = 3000;					// 
+				default children = [];					// 	new array for each instance!
+
+				private isStinky = true;				// private variable
+				private function aPrivateMethod(){};	// private method
+
+				function aPublicMethod(){}				// public method
+
+				class function aClassMethod(){};		// class method
+				class someVar = "aClassVar";			// class prop
+			}
+			
+	==>		;(function(){
+				
+				function Elephant(name) {
+					this.children = [];					// (from defaults)
+					doSomething();
+					doSomethingElse();
+				}
+
+				var defaults = {
+					name:"Dumbo",
+					weight:3000
+				}
+
+				var isStinky = true;					// private var
+				function aPrivateMethod(...){}			// private method
+				
+				Mammal.createSubclass(Elephant);
+				CircusPerformer.mixinTo(Elephant);
+				
+				// mix in instance stuff
+				var proto = Elephant.prototype;
+				proto.aPublicMethod = function aPublicMethod(...){...};
+				
+				Elephant.aClassMethod = function aClassMethod(){};
+				Elephant.someVar = "aClassVar";
+				
+				// assign to the global window object (?)
+				window.Elephant = constructor;
+	
+			})();
+	
+	
+	
+	* examples
+		- "class <ClassName> [<SuperClass> [, <SuperClass>]] {...}"
+											-- class definition syntax, automatically set up in a function scope for privacy
+											-- define functions like normal, all fns that don't start with underscore
+											are automatically added to the object ?
+			- "default <variable>"			-- default property assigned to the object prototype
+											-- if <variable> == [] or {}, assigned at the top of the constructor
+			- "private <fnOrVariable>"		-- like "var" but set up in private scope (in class def only)
+			- "class <fnOrVariable>"		-- like "var" but set as a class variable in private scope (in class def only)
+
+										-eg-
+			
+			
+		- "super"						-- does a smart superclass thing 
+											- based on the name of the outer function and class hierarchy
+			
+		- "array[<start>-<end>]"		==> hope.slice(array, start, end)		-- todo, use: [#>#] ? [#->#] ?
+		- "arguments[<start>-]"			==> hope.sliceArgs(arguments, start);
+		- "arguments[<start>-<end>]"	==> hope.sliceArgs(arguments, start, end);
+			
+		- "throw(message)"				==> throw new Error(hope._error(this, arguments, "message"))
+			
+		- "foreach(arrayRef[, itemVar[, indexVar]]){...}"	
+										-- loop for each item in array, itemVar defaults to "it", index defaults to "i"
+										==> 	for (var <indexVar> = 0, len = <arrayRef>.length; <indexVar> < len; <indexVar>++) {
+												var <itemVar> = <arrayRef>[i];
+												...
+											}
+			
+		- "applyTo(method[,what])"		-- returns a function where "what" is now the first argument of method
+												what defaults to this
+										==>    function() {	return <method>(<what||this>, arg1, arg2, etc)	}
+		- convert "x.class" to x["class"]
+		
+		- pattern for _debugging and _timing with nice bells and whistles that can be turned on and off
+		- debug assertions
+
+		? function parameter defaults, type checking and method overloading
+			- if we have two functions with the same signature, create a disambiguator
+														
+	* notes
+		- need a way to guarantee unique variables for scoping (like "i" in an index, etc)
+			? have a syntax for specifying that in the macro, with convenient default (eg: 
+
+							
+										

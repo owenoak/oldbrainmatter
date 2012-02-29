@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+	<result>OK</result>
+	<data>
+		<memcachedData 
+			time="2009-12-03T18:25:03GMT" 
+			service="le1" 
+			server="10.3.19.49:11211" 
+			proxy="10.3.19.49:8080" 
+			chart="bytes_read" 
+			start="1259861103" 
+			end="1259864703" 
+			samples="500" 
+			v="2" 
+		> 
+		</memcachedData> 
+	</data>
+</response>

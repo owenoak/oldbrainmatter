@@ -1,0 +1,81 @@
+Random Thoughts
+
+* Have a "random-ish" function which uses irrational numbers to create a 
+	predictable-but-random-looking stream of numbers.
+
+* The number 60 is divisible by 1,2,3,4,5,6,10,12,15,20,30 
+	-- may be a good 'basis number' for a box packing algorithm
+	-- can we mandate a number of pixels like this?
+	-- how to do box packing when number of rows is not known
+		(and varies based on number of inputs, etc?)
+
+* How sparse is optimal?
+
+
+Coherence (?)
+
+* Generally accepted algorithms for layout are:
+	- sort alphabetically and allow the browser to break
+	- sort by size (descending) and allow the browser to break
+	- some sort of box packing (similar to thumb cloud?  min-cut?)
+
+* General algorithm for dividing the tag space into size bins:
+	- use log of sizes of input data
+
+* Inline cloud heuristic:
+	- use log(size) to figure out number of bins
+	- sort according to cloud parameters
+		- no sort
+		- alpha sort
+		- size sort
+	- iterate through tags, outputting as spans according to bin size
+
+* Custom layout heuristic (assumes BoxPacker algorithm):
+	- use log(size) to figure out number of bins
+	- sort according to size (descending)
+	- assume some sort of height (???)
+	- for each tag
+		- render tag in offscreen span at appropriate size
+		- get dimensions of span, map into grid units
+		- place using box packer (yields L,T,W,H)
+			- use "random-ish" to get predictable layout w/same inputs
+			- if can't fit at binned size, go down 1 in size?
+	- use table to lay out boxes
+
+
+* Make 'BoxPacker' class(es)
+	- use current algorithm from ThumbCloud
+	- use min-cut algorithm?
+
+* General properties of algorithm
+	- take width, height is variable (?)
+	- Cloud has properties for:
+		- titleProperty
+		- sizeProperty
+		- tagStyles (ordered list of CSS styles to apply to tags according to their bins, largest first)
+		- width
+		- height?
+	- have methods for extension:
+		- outputTag(tagData, size)
+			- so you can do custom outputting for remove link, title, etc
+
+* Data structure to take in?
+	- requirements:
+		- needs title, size, (others)
+		- want to be compatible with dojo.data
+	- first pass:
+		[ {title:"foo", size:42, other:"baz"},
+		  {title:"foo", size:42, other:"baz"}, 
+		  ...
+		]
+	- cloud has properties for title, other
+
+
+* Open questions:
+	- Is it desireable to have fixed height (necessary for current box packer)?
+	- Is it OK to shrink things that don't fit at larger size?
+		-- seems OK, as long as it's predictable
+			although it could cause things w/same popularity to be different sizes
+			but who's gonna know?
+	- Get sample data from Sid
+	- When user adds a tag, what size do we give it?

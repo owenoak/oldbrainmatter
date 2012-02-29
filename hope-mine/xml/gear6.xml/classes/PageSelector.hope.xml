@@ -1,0 +1,41 @@
+<class name='pageselector' isa='button'>
+	<docs>Button which navigates to a particular page when selected.</docs>
+
+	<on event='activate'>
+		go to page (my page)
+	</on>
+	
+	<property name='page' type='reference to page'>
+		<docs>Name of the page that we bind to.</docs>
+		<setter>
+			// unbind from the old page
+			if my page is not empty then
+				put page (my page) of the app into oldpage
+				if oldpage exists then
+					ignore oldpage
+					if my title is the title of oldpage then clear my title
+				end if
+			else
+				if my title is my page then clear my title
+			end if
+			
+			// bind to the new page
+			set my page to page
+			put page (page) of the app into newpage
+			if newpage exists then
+				bind my selected to the selected of newpage
+				bind my visibility to the relevance of newpage
+				if my title is empty then bind my title to the title of newpage
+			else
+				deselect me
+				show me
+				if my title is empty then set my title to my page
+			end if
+		</setter>
+	</property>
+
+	<!-- bind to the pages list of app, so we update when that changes -->
+	<bind to='the pages of app'>
+		reset my page	// eg: set my page to my page
+	</bind>
+</class>

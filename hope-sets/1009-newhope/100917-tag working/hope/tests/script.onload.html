@@ -1,0 +1,49 @@
+<html>
+<head>
+<script language='javascript'>
+	function inline() {
+		console.group("inline");
+		var script = document.createElement("script");
+		
+		// doesn't work for inline
+		script.onload = function() { console.warn("inline onload") };
+		// doesn't work for inline
+		script.onreadystatechange = function(){console.warn("inline orsc") };
+		// doesn't work at all
+		script.onerror = function() {console.warn('inline onerror')};
+		
+		var code = "console.warn('inline');"
+		var codeWithError = code + "blorg;"
+		var wrapped = "try {"+codeWithError+"} catch(e){console.warn('inline exception caught')}";
+		
+		script.appendChild(document.createTextNode(wrapped));
+		document.querySelector("head").appendChild(script);
+
+		console.warn("after");
+		console.groupEnd("inline");
+	}
+//	inline();
+//	setTimeout(inline, 100);
+	
+	function load() {
+		console.group("load");
+		var script = document.createElement("script");
+		script.src = "loadme.js";
+		
+		// does work for loaded
+		script.onload = function() { console.warn("load onload", arguments) };
+		// doesn't work for loaded
+		script.onreadystatechange = function(){console.warn(" load orsc") };
+		// doesn't work at all
+		script.onerror = function() {console.warn('load onerror')};
+		
+		document.querySelector("head").appendChild(script);
+
+		console.warn("after");
+		console.groupEnd("load");
+	}
+	load();
+</script>
+</head>
+<body></body>
+</html>

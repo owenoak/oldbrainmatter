@@ -1,0 +1,38 @@
+<StatsPage name='stats_clients'>
+<!-- TODO:
+	- 
+-->
+	<statsWindows>
+		<StatsWindow name='main'>
+			<columns>
+				<DataTableColumn key='rank' title='Rank'/>
+				<DataTableColumn key='hostname' title='Host Name'/>
+				<DataTableColumn key='ip' title='IP Address'/>
+				<DataTableColumn key='port' title='Port'/>
+				<DataTableColumn key='accesses' title='Accesses'/>
+				<DataTableColumn key='hostname' title='Actions'>
+					<template name='cellTemplate'>
+						<td class='actions'>Show Top Keys</td>
+					</template>
+				</DataTableColumn>
+			</columns>
+			<on event='rowClick' with='row,index'>
+				put the value of row into key
+				tell the control 'topKeys' of page to show with key	// BLAH...
+			</on>
+		</StatsWindow>
+		<StatsWindow name='topKeys' isMainWindow='false'>
+			<columns>
+				<DataTableColumn key='rank' title='Rank'/>
+				<DataTableColumn key='value' title='Key'/>
+				<DataTableColumn key='length' title='Length'/>
+				<DataTableColumn key='gets' title='Gets'/>
+				<DataTableColumn key='sets' title='Sets'/>
+				<DataTableColumn key='all' title='Ops'/>
+				<DataTableColumn key='total' title='Total'/>
+				<DataTableColumn key='reads' title='Read'/>
+				<DataTableColumn key='writes' title='Written'/>
+			</columns>
+		</StatsWindow>
+	</statsWindows>
+</StatsPage>

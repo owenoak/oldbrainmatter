@@ -1,0 +1,8 @@
+How is form stuff going to work?
+
+* form = representation of one or more datums
+	- data as XML
+	- data as JS objects
+	- data as soap requests
+
+* Represent data to user as a series of cards

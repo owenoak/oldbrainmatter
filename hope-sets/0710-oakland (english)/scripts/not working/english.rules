@@ -1,0 +1,1072 @@
+<!-- BEGIN DEBUG ITEM -->
+<controlStatement name='repeatWhile'>
+	<english>
+		repeat while <boolean>
+			<<statements>>
+		end [repeat]
+	</english>
+	<javascript>
+		while (<boolean>) {
+			<statements>
+		}
+	</javascript>
+</controlStatement>
+
+<!-- END DEBUG ITEM-->
+
+<!-- TODO: how to do the assign?  do it in some sort of implict constructor ??? -->
+<!-- TODO: handle scoping with  on foo (of|in) blarg -->
+<controlStatement name='method'>
+	<english>
+		(on|to|method) <methodName> [\(] [1:"," <variable#>
+										[2: as <className#> ]
+										[3: default <expression#> ]
+									]... [\)]
+			<statements>
+		end [<methodName>]
+	</english>
+	<javascript>
+		function <methodName>([1:"," <variable#>]...) {
+			var it, result;
+[1
+			<!-- TODO: try a conversion before throwing ? -->
+	[2		if (typeof <variable#> != '<className#>') {
+				throw new Error("Type error: expected a '<className#>' for parameter '<variable#>'); 
+			}
+	]
+	[3		if (<variable#> == null) <variable#> = <expression#>;	]
+]...
+			<statements>
+		}	
+	</javascript>
+</controlStatement>
+
+<!-- TODO: AS returns the value of the last statement -->
+<controlStatement name='return'>
+	<english>
+		return
+	</english>
+	<javascript>
+		return;
+	</javascript>
+</controlStatement>
+
+
+<!-- pass up the inheritance chain -->
+<!-- HOW TO DO? -->
+<controlStatement name='pass'>
+	<english>
+		pass <methodName>
+	</english>
+	<javascript>???</javascript>
+</controlStatement>
+
+<!-- HOW TO DO? -->
+<controlStatement name='pass'>
+	<english>
+		pass <methodName> to <referenceToObject>
+	</english>
+	<javascript>???</javascript>
+</controlStatement>
+
+
+<controlStatement name='tell'>
+	<english>
+		tell <object> to <statement>
+	</english>
+	<javascript>
+		<object>.<statement>;
+	</javascript>
+</controlStatement>
+
+
+<controlStatement name='tell'>
+	<english>
+		tell <object>
+			<statements>
+		end [tell]
+	</english>
+	<javascript>
+		with (<object>) {
+			<statements>
+		}
+	</javascript>
+</controlStatement>
+
+
+<controlStatement name='if'>
+	<english>
+		if <boolean> then <statement>
+	</english>
+	<javascript>
+		if (<boolean>) {
+			<statement>
+		}
+	</javascript>
+</controlStatement>
+
+<controlStatement name='if'>
+	<english>
+		if <boolean name='ifCondition'> [then]
+			<statements name='ifStatements'>
+[1		else if <boolean name='elseIfConditionN'> [then]
+			<statements name='elseIfStatementsN'>
+]...[2	else
+			<statements name='elseStatements'>			
+]		end [if]
+	</english>
+	<javascript>
+		if (<ifCondition>) {
+			<ifStatements>
+[1		} else if (<elseIfConditionN>) {
+			<elseIfStatementsN>
+]...[2	} else {
+			<elseStatements>
+]		}
+	</javascript>
+</controlStatement>
+
+<controlStatement name='repeat'>
+	<english>
+		repeat
+			<statements>
+		end [repeat]
+	</english>
+	<javascript>
+		while (true) {
+			<statements>
+		}
+	</javascript>
+</controlStatement>
+
+<!-- NOTE: want some way to make sure "i" is definitely local 
+		- put in a nested function?
+		- have an auto-incrementer for indexer names 
+				?  a->z, then back to a?
+				?  i#  where # is monotonically increasing?
+-->
+<controlStatement name='repeatNTimes'>
+	<english>
+		repeat <integer> [times]
+			<statements>
+		end [repeat]
+	</english>
+	<javascript>
+		for (var <indexVar id='i'> = 0; <i> < <integer>; <i>++) {
+			<statements>
+		}
+	</javascript>
+</controlStatement>
+
+<controlStatement name='repeatWhile'>
+	<english>
+		repeat while <boolean>
+			<statements>
+		end [repeat]
+	</english>
+	<javascript>
+		while (<boolean>) {
+			<statements>
+		}
+	</javascript>
+</controlStatement>
+
+<controlStatement name='repeatUntil'>
+	<english>
+		repeat until <boolean>
+			<statements>
+		end [repeat]
+	</english>
+	<javascript>
+		while (!<boolean>) {
+			<statements>
+		}
+	</javascript>
+</controlStatement>
+
+<controlStatement name='repeatWith'>
+	<english>
+		repeat with <variable> from <integer name='start'> to <integer name='end'>
+			<statements>
+		end [repeat]
+	</english>
+	<javascript>
+		for (var <variable> = <start>; <variable> < <end>; <variable>++) {
+			<statements>
+		}
+	</javascript>
+</controlStatement>
+
+<controlStatement name='repeatWith'>
+	<english>
+		repeat with <variable> from <integer name='start'> to <integer name='end'> by <integer name='step'
+			<statements>
+		end [repeat]
+	</english>
+	<javascript>
+		for (var <variable> = <start>; <variable> < <end>; <variable> += <step>) {
+			<statements>
+		}
+	</javascript>
+</controlStatement>
+
+<controlStatement name='forEach'>
+	<english>
+		for each <variable> in <list>
+			<statements>
+		end [for]
+	</english>
+	<javascript>
+		for (var <indexVar name='i'> = 0, variable; <i> < <list>.length; <i>++) {
+			variable = <list>[<i>];
+			<statements>
+		}
+	</javascript>
+</controlStatement>
+
+<controlStatement name='forEachProperty'>
+	<english>
+		for each property <variable name='prop'> in <object>
+			<statements>
+		end [for]
+	</english>
+	<javascript>
+		for (var <variable> in <object>) {
+			<statements>
+		}
+	</javascript>
+</controlStatement>
+
+<controlStatement name='forEachProperty'>
+	<english>
+		for each property <variable name='prop'> in <object> as <variable name='item'>
+			<statements>
+		end [for]
+	</english>
+	<javascript>
+		for (var <prop> in <object>) {
+			var <item> = <object>[<prop>];
+			<statements>
+		}
+	</javascript>
+</controlStatement>
+
+<controlStatement name='exit'>
+	<english>
+		exit
+	</english>
+	<javascript>
+		break;
+	</javascript>
+</controlStatement>
+
+<!-- todo: specific error cases? -->
+<controlStatement name='try'>
+	<english>
+		try
+			<statements name='tryStatements'>
+		on error
+			<statements name='errorStatements'>
+		end [error|try]
+	</english>
+	<javascript>
+		var error;
+		try {
+			<tryStatements>
+		} catch (error) {
+			<errorStatements>
+		}
+	</javascript>
+</controlStatement>
+
+<controlStatement name='timeout'>
+	<english>
+		with timeout [of] <float name='seconds'> [second[s]]
+			<statements>
+		end [timeout]
+	</english>
+	<javascript>
+		function callback() {
+			<statements>
+		}
+		setTimeout(callback, <seconds> * 1000);
+	</javascript>
+</controlStatement>
+
+
+<controlStatement name='interval'>
+	<english>
+		every <float name='seconds'> [second[s]] do
+			<statements>
+		end [every|interval]
+	</english>
+	<javascript>
+		function callback() {
+			<statements>
+		}
+		setInterval(callback, <seconds> * 1000);
+	</javascript>
+</controlStatement>
+
+
+<controlStatement name='intervalWithEnd'>
+	<english>
+		every <float name='seconds'> [second[s]] do
+			<statements>
+		stop when <boolean>
+	</english>
+	<english>
+		until <boolean> do
+			<statements>
+		every <float name='seconds'> [second[s]]
+	</english>
+	<javascript>
+		var intervalPointer;
+		function callback() {
+			if (<boolean>) {
+				clearInterval(intervalPointer);
+				return;
+			}
+			<statements>
+		}
+		intervalPointer = setInterval(callback, <seconds> * 1000);
+	</javascript>
+</controlStatement>
+
+
+
+
+<!--==============================
+              Statements
+    ==============================-->
+
+<statement name='copy'>
+	<english>
+		(copy|put) <expression> (to|into) <variable>
+	</english>
+	<english>
+		set <variable> to <expression>
+	</english>
+	<javascript>
+		<variable> = <expression>;
+	</javascript>
+</statement>
+
+<!-- how to distinguish between 'variable' and 'reference' types above? -->
+<statement name='copy'>
+	<english>
+		copy <expression> to <reference>
+	</english>
+	<english>
+		set <reference> to <expression>
+	</english>
+	<javascript>
+		<reference> = <expression>;	
+	</javascript>
+</statement>
+
+
+<statement name='global'>
+	<english>
+		global [1:"," <variable#>]...
+	</english>
+	<javascript>
+[1	 	window["<variable#>"] = null;	]...
+	</javascript>
+</statement>
+
+<statement name='property'>
+	<english>
+		property [1:"," <variable#> = <expression#>]... 
+	</english>
+	<javascript>
+[1	 	<scope>["<variable#>"] = <expression#>;	]...
+	</javascript>
+</statement>
+
+<statement name='var'>
+	<english>
+		local [1:"," <variable#>]...
+	</english>
+	<javascript>
+[1	 	var <variable#> = null;	]...
+	</javascript>
+</statement>
+
+<statement name='propertyAssignment'>
+	<english>
+		prop[erty] <propertyLabel> : <expression>
+	</english>
+	<javascript>
+		this["<propertyLabel>"] = expression;
+	</javascript>
+</statement>
+
+
+<!-- TODO: use $toClass() method for all of these ? -->
+<statement name='coerceNumber'>
+	<english>
+		<expression> as number
+	</english>
+	<english>
+		<expression> as integer
+	</english>
+	<english>
+		<expression> as float
+	</english>
+	<english>
+	<javascript>
+		Number(<expression>)
+	</javascript>
+</statement>
+
+<!-- TODO: make sure there are not squirrely rules with this -->
+<statement name='coerceBoolean'>
+	<english>
+		<expression> as boolean
+	</english>
+	<javascript>
+		Boolean(<expression>)
+	</javascript>
+</statement>
+
+<!-- TODO: make sure there are not squirrely rules with this -->
+<statement name='coerceString'>
+	<english>
+		<expression> as string
+	</english>
+	<javascript>
+		String
+	</javascript>
+</statement>
+
+<statement name='coerceDate'>
+	<english>
+		<expression> as date
+	</english>
+	<english>
+		date <string>
+	</english>
+	<javascript>
+		<!-- TODO -->
+	</javascript>
+</statement>
+
+
+<statement name='count'>
+	<english>
+		count <expression>
+	</english>
+	<english>
+		number of <expression>
+	</english>
+	<javascript>
+		<expression>.length
+	</javscript>
+</statement>
+
+<!-- TODO: expression can be a value or a reference - latter case is a little different -->
+<statement name='count'>
+	<english>
+		count [each|every] <className> (in|of) <expression>
+	</english>
+	<english>
+		number of <pluralClassName> (in|of) <expression>
+	</english>
+	<javascript>
+		$bySelector(<expression>, '<className>').length
+	</javscript>
+</statement>
+
+
+<statement name='error'>
+	<english>
+		error [<string name='message'>]
+	</english>
+	<javascript>
+		throw new Error(<message>);
+	</javascript>
+</statement>
+
+<!-- TODO: depends on a "$getReference" which can walk dotted identifiers, etc -->
+<statement name='exists'>
+	<english>
+		exists <referenceToObject>
+	</english>
+	<english>
+		<referenceToObject> exists
+	</english>
+	<javascript>
+		($getReference(<scope>, <referenceToObject>) != null)
+	</javascript>
+</statement>
+
+<statement name='get'>
+	<english>
+		get <expression>
+	</english>
+	<english>
+		get <referenceToObject>
+	</english>
+	<javascript>
+		($getReference(<scope>, <referenceToObject>) != null)
+	</javascript>
+</statement>
+
+<!-- NOTE: dependent on "it" being declared locally -->
+<statement name='get'>
+	<english>
+		get <expression>
+	</english>
+	<javascript>
+		it = <expression>
+	</javascript>
+</statement>
+
+<!-- NOTE: dependent on "it" being declared locally -->
+<statement name='get'>
+	<english>
+		get <expression>
+	</english>
+	<english>
+		get <referenceToObject>
+	</english>
+	<javascript>
+		it = $getReference(<scope>, <referenceToObject>)
+	</javascript>
+</statement>
+
+<!-- NOTE: dependent on "it" being declared locally -->
+<!-- NOTE: dependent on $toClass() method -->
+<statement name='get'>
+	<english>
+		get <expression> as <className>
+	</english>
+	<javascript>
+		it = $toClass(<expression>, <className>)
+	</javascript>
+</statement>
+
+<!-- NOTE: dependent on "it" being declared locally -->
+<statement name='get'>
+	<english>
+		get <expression>
+	</english>
+	<english>
+		get <referenceToObject>
+	</english>
+	<javascript>
+		it = $toClass($getReference(<scope>, <referenceToObject>), <className>)
+	</javascript>
+</statement>
+
+
+<!-- NOTE: dependent on $make() method -->
+<statement name='make'>
+	<english>
+		make [new] <className> at <reference> \
+			[1: with [properties] \
+				[\{] \
+					[2:"," <variable#> : <expression#> ]... \
+				[\{] \
+			]
+	</english>
+	<javascript>
+		it = $make(<className, <reference>, [1: { [2:"," '<variable#>' : <expression#> ]... });
+	</javascript>
+</statement>
+
+<statement name='move'>
+	<english>
+		move <referenceToObject> to <referenceToLocation>
+	</english>
+	<javascript>
+		it = (<referenceToObject>).moveTo(<referenceToLocation>);
+	</javascript>
+</statement>
+
+
+<!--==============================
+            Implicit Variables
+    ==============================-->
+<!--? how to handle this generically ? encode into statement execution? -->
+<variable name='it'>
+	<english>it</english>
+	<javascript>???</javascript>
+</variable>
+
+<variable name='this'>
+	<english>me</english>
+	<english>this</english>
+	<javascript>this</javascript>
+</variable>
+
+<variable name='result'>
+	<english>result</english>
+	<javascript>???</javascript>
+</variable>
+
+
+<!--==============================
+         literal expressions
+         (NOT reserved words)   
+    ==============================-->
+
+<!-- reference to Boolean class -->
+<literal name='Boolean'>
+	<english>boolean</english>
+	<javascript>Boolean</javascript>
+</literal>
+
+<literal name='false'>
+	<english>false</english>
+	<javascript>false</javascript>
+</literal>
+
+<literal name='true'>
+	<english>true</english>
+	<javascript>true</javascript>
+</literal>
+
+
+<!-- reference to number classes -->
+<literal name='Number'>
+	<english>number</english>
+	<english>integer</english>
+	<english>float</english>
+	<english>real</english>
+	<javascript>Number</javascript>
+</literal>
+
+<literal name='pi'>
+	<english>pi</english>
+	<javascript>Math.pi</javascript>
+</literal>
+
+<literal name='return'>
+	<english>return</english>
+	<javascript>"\n"</javascript>
+</literal>
+
+<literal name='space'>
+	<english>space</english>
+	<javascript>" "</javascript>
+</literal>
+
+<literal name='tab'>
+	<english>tab</english>
+	<javascript>"\t"</javascript>
+</literal>
+
+<literal name='comma'>
+	<english>comma</english>
+	<javascript>","</javascript>
+</literal>
+
+
+
+<!--==============================
+            REFERENCE EXPRESSIONS
+    ==============================-->
+
+
+<!-- NOTE: only works for things in the DOM... -->
+<reference name='id'>
+	<english>
+		<className> id <IDvalue>
+	</english>
+	<javascript>
+		$bySelector(<scope>, '<className>#<idValue>', 0)
+	</javascript>
+</reference>
+
+<reference name='index'>
+	<english><className> [index] <integer></english>
+	<english><integer>st <className></english>
+	<english><integer>nd <className></english>
+	<english><integer>rd <className></english>
+	<english><integer>th <className></english>
+	<javascript>
+		$bySelector(<scope>, '<className>', <integer> -1)
+	</javascript>
+</reference>
+
+<reference name='index'>
+	<english>first <className></english>
+	<english>front <className></english>
+	<javascript>
+		$bySelector(<scope>, '<className>', 0)
+	</javascript>
+</reference>
+
+<reference name='index'>
+	<english>last <className></english>
+	<english>back <className></english>
+	<javascript>
+		$bySelector(<scope>, '<className>', -1)
+	</javascript>
+</reference>
+
+<reference name='index'>
+	<english>first <className></english>
+	<javascript>
+		$bySelector(<scope>, '<className>', 0)
+	</javascript>
+</reference>
+
+<reference name='index'>
+	<english>second <className></english>
+	<javascript>
+		$bySelector(<scope>, '<className>', 1)
+	</javascript>
+</reference>
+
+<reference name='index'>
+	<english>third <className></english>
+	<javascript>
+		$bySelector(<scope>, '<className>', 2)
+	</javascript>
+</reference>
+
+<reference name='index'>
+	<english>fourth <className></english>
+	<javascript>
+		$bySelector(<scope>, '<className>', 3)
+	</javascript>
+</reference>
+
+<reference name='index'>
+	<english>fifth <className></english>
+	<javascript>
+		$bySelector(<scope>, '<className>', 4)
+	</javascript>
+</reference>
+
+<reference name='index'>
+	<english>sixth <className></english>
+	<javascript>
+		$bySelector(<scope>, '<className>', 5)
+	</javascript>
+</reference>
+
+<reference name='index'>
+	<english>seventh <className></english>
+	<javascript>
+		$bySelector(<scope>, '<className>', 6)
+	</javascript>
+</reference>
+
+<reference name='index'>
+	<english>eighth <className></english>
+	<javascript>
+		$bySelector(<scope>, '<className>', 7)
+	</javascript>
+</reference>
+
+<reference name='index'>
+	<english>ninth <className></english>
+	<javascript>
+		$bySelector(<scope>, '<className>', 8)
+	</javascript>
+</reference>
+
+<reference name='index'>
+	<english>tenth <className></english>
+	<javascript>
+		$bySelector(<scope>, '<className>', 9)
+	</javascript>
+</reference>
+
+
+<!--TODO: check the selector syntax -->
+<reference name='named'>
+	<!-- returns first -->
+	<english><className> [named] <string></english>
+	<javascript>
+		$bySelector(<scope>, '<className>[name=<string>]', 0)
+	</javascript>
+</reference>
+
+<reference name='named'>
+	<!-- returns list of all that match -->
+	<english><pluralClassName> [named] <string></english>
+	<javascript>
+		$bySelector(<scope>, '<className>[name=<string>]')
+	</javascript>
+</reference>
+
+<reference name='property'>
+	<english>
+		<propertyLabel>
+	</english>
+	<javascript>
+		<scope>['<propertyLabel']
+	</javascript>
+</reference>
+
+<!-- HOW TO DO? USEFUL? -->
+<reference name='some'>
+	<english>
+		some <className> of <container>
+	</english>
+	<javacript>
+		???
+	</javascript>
+</reference>
+
+<!-- HOW TO DO?  -->
+<reference name='every'>
+	<english>
+		every <className> of <container>
+	</english>
+	<javascript>
+		???
+		// e.g.: every word of paragraph 1
+		// returns an array
+	</javascript>
+</reference>
+
+<!-- HOW TO DO?  -->
+<reference name='filter'>
+	<english>
+		<referenceToObject> whose <boolean>
+	</english>
+	<english>
+		<referenceToObject> where <boolean>
+	</english>
+	<javascript>
+		// every paragraph whose first word = last word
+		// words whose style contains italic
+	</javascript>
+</reference>
+
+
+
+<!-- USEFUL? -->
+<reference name='range'>
+	<!-- note: boundaryReferences can be "beginning" "start" or "end" -->
+	<english>
+		every <className> from <boundaryReference name='start'> to <boundaryReference name='stop'>
+	</english>
+	<english>
+		<pluralClassName> from <boundaryReference name='start'> to <boundaryReference name='stop'>
+	</english>
+	<javascript>
+		$bySelector($getRange(<scope>, <start>, <stop>), '<className>');
+	</javascript>
+</reference>
+
+<reference name='range'>
+	<english>
+		<className> <integer name='start'> thru <integer name='stop'>
+	</english>
+	<english>
+		<className> <integer name='start'> thru <integer name='stop'>
+	</english>
+	<english>
+		<pluralClassName> <integer name='start'> thru <integer name='stop'>
+	</english>
+	<english>
+		<pluralClassName> <integer name='start'> thru <integer name='stop'>
+	</english>
+	<javascript>
+		$bySelector(<scope>, '<className>', start, stop+1);
+	</javascript>
+</reference>
+
+<!-- HOW TO DO?  if className is not supplied, it's a textrange ?? -->
+<reference name='relative'>
+	<english>
+		<className> before <baseReference>
+	</english>
+	<english>
+		<className> [in] front of <baseReference>
+	</english>
+	<javascript>
+		???
+	</javascript>
+</reference>
+
+<!-- HOW TO DO?  if className is not supplied, it's a textrange ?? -->
+<reference name='relative'>
+	<english>
+		<className> after <baseReference>
+	</english>
+	<english>
+		<className> [in] back of <baseReference>
+	</english>
+	<english>
+		<className> behind <baseReference>
+	</english>
+	<javascript>
+		???
+	</javascript>
+</reference>
+
+
+<!--==============================
+            Operators
+    ==============================-->
+
+<operator name='addition'>
+	<english><expression name='x' type='number'> + <expression name='y' type='number'></english>
+	<english><expression name='x' type='date'> + <expression name='y' type='number'></english>
+	<javascript><x> + <y></javascript>
+</operator>
+
+<operator name='subtraction'>
+	<english><expression name='x' type='number'> - <expression name='y' type='number'></english>
+	<english><expression name='x' type='date'> - <expression name='y' type='number'></english>
+	<english><expression name='x' type='date'> - <expression name='y' type='date'></english>
+	<javascript><x> - <y></javascript>
+</operator>
+
+<operator name='multiplication'>
+	<english><expression name='x' type='number'> * <expression name='y' type='number'></english>
+	<javascript><x> * <y></javascript>
+</operator>
+
+<operator name='division'>
+	<english><expression name='x' type='number'> / <expression name='y' type='number'></english>
+	<javascript><x> / <y></javascript>
+</operator>
+
+<operator name='power'>
+	<english><expression name='x' type='number'> ^ <expression name='y' type='number'></english>
+	<!-- todo: english constant names like 'first' would be great here -->
+	<english><expression name='x' type='number'> to the <expression name='y' type='number'>[st|nd|rd|th] [power]</english>
+	<javascript><x> ^ <y></javascript>
+</operator>
+
+<operator name='div'>
+	<!-- todo: other name for this? -->
+	<english><expression name='x' type='number'> div <expression name='y' type='number'></english>
+	<javascript>Math.floor(<x> / <y>)</javascript>
+</operator>
+
+<operator name='mod'>
+	<english><expression name='x' type='number'> mod <expression name='y' type='number'></english>
+	<english>the remainder of <expression name='x' type='number'> divided by <expression name='y' type='number'></english>
+	<javascript>(<x> - Math.floor(<x> / <y>))</javascript>
+</operator>
+
+<!-- TODO: & or && ??? -->
+<operator name='and'>
+	<english><expression name='a'> and <expression name='b'></english>
+	<javascript>(Boolean(<a>) && Boolean(<b>))</javascript>
+</operator>
+
+<!-- TODO: | or || ??? -->
+<operator name='or'>
+	<english><expression name='a'> or <expression name='b'></english>
+	<javascript>(Boolean(<a>) || Boolean(<b>))</javascript>
+</operator>
+
+
+<operator name='not'>
+	<english>not <expression name='a'></english>
+	<javascript>(!Boolean(<boolean>))</javascript>
+</operator>
+
+<!-- NOTE: assumes we have array.indexOf() -->
+<operator name='startsWith'>
+	<english><expression name='source'> start[s] with <expression name='what'></english>
+	<english><expression name='source'> begin[s] with <expression name='what'></english>
+	<javascript>
+		(<list> && <list>.indexOf ? <list>.indexOf(<what>) == 0 : false);
+	</javascript>
+</operator>
+
+<!-- NOTE: assumes we have array.indexOf() -->
+<operator name='endsWith'>
+	<english><expression name='source'> end[s] with <expression name='what'></english>
+	<javascript>
+		(<list> && <list>.indexOf && what && what.length ? <list>.indexOf(<what>) == (list.length - what.length) : false);
+	</javascript>
+</operator>
+
+<!-- todo: handle this for 'record' types as well (has property ?) -->
+<operator name='contains'>
+	<english><expression name='source'> contains <expression name='what'></english>
+	<english><expression name='source'> is in <expression name='what'></english>
+	<english><expression name='what'> is contained by <expression name='source'></english>
+	<javascript>
+		(<list> && <list>.indexOf ? <list>.indexOf(<what>) > -1 : false);
+	</javascript>
+</operator>
+
+<!-- todo: handle this for 'record' types as well (has property ?) -->
+<operator name='doesNotContain'>
+	<english><expression name='source'> does not contain <expression name='what'></english>
+	<english><expression name='source'> is not in <expression name='what'></english>
+	<english><expression name='what'> is not contained by <expression name='source'></english>
+	<english><expression name='what'> isn't contained by <expression name='source'></english>
+	<javascript>
+		(<list> && <list>.indexOf ? <list>.indexOf(<what>) > -1 : false);
+	</javascript>
+</operator>
+
+<operator name='equals'>
+	<english><expression name='a'> = <expression name='b'></english>
+	<english><expression name='a'> is <expression name='b'></english>
+	<english><expression name='a'> [is] equal [to] <expression name='b'></english>
+	<english><expression name='a'> equals <expression name='b'></english>
+	<javascript>(<a> == <b>)</javascript>
+</operator>
+
+<operator name='notEquals'>
+	<english><expression name='a'> != <expression name='b'></english>
+	<english><expression name='a'> is not [equal [to]] <expression name='b'></english>
+	<english><expression name='a'> isn't [equal [to]] <expression name='b'></english>
+	<english><expression name='a'> does not equal <expression name='b'></english>
+	<english><expression name='a'> doesn't equal <expression name='b'></english>
+	<javascript>(<a> == <b>)</javascript>
+</operator>
+
+<operator name='lessThan'>
+	<english><expression name='a'> < <expression name='b'></english>
+	<english><expression name='a'> [is] less than <expression name='b'></english>
+	<english><expression name='a'> [is] not grater than or equal [to] <expression name='b'></english>
+	<english><expression name='a'> isn't greater than or equal [to] <expression name='b'></english>
+	<english><expression name='a'> comes before <expression name='b'></english>
+	<javascript>(<a> < <b>)</javascript>
+</operator>
+
+<operator name='lessThanOrEqualTo'>
+	<english><expression name='a'> <= <expression name='b'></english>
+	<english><expression name='a'> [is] less than or equal [to] <expression name='b'></english>
+	<english><expression name='a'> [is] not greater than <expression name='b'></english>
+	<english><expression name='a'> isn't greater than <expression name='b'></english>
+	<english><expression name='a'> does not come after <expression name='b'></english>
+	<english><expression name='a'> doesn't come after <expression name='b'></english>
+	<javascript>(<a> <= <b>)</javascript>
+</operator>
+
+<operator name='greaterThan'>
+	<english><expression name='a'> > <expression name='b'></english>
+	<english><expression name='a'> [is] greater than <expression name='b'></english>
+	<english><expression name='a'> [is] not less than or equal [to] <expression name='b'></english>
+	<english><expression name='a'> isn't less than or equal [to] <expression name='b'></english>
+	<english><expression name='a'> comes after <expression name='b'></english>
+	<javascript>(<a> > <b>)</javascript>
+</operator>
+
+<operator name='greaterThanOrEqualTo'>
+	<english><expression name='a'> >= <expression name='b'></english>
+	<english><expression name='a'> [is] greater than or equal [to] <expression name='b'></english>
+	<english><expression name='a'> [is] not less than <expression name='b'></english>
+	<english><expression name='a'> isn't less than <expression name='b'></english>
+	<english><expression name='a'> does not come before <expression name='b'></english>
+	<english><expression name='a'> doesn't come before <expression name='b'></english>
+	<javascript>(<a> >= <b>)</javascript>
+</operator>
+
+<operator name='concat'>
+	<english><expression name='a'> & <expression name='b'></english>
+	<javascript><a> + <b></javascript>
+</operator>
+
+<operator name='concatWithSpace'>
+	<english><expression name='a'> && <expression name='b'></english>
+	<javascript><a> + " " + <b></javascript>
+</operator>

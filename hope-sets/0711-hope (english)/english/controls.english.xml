@@ -1,0 +1,50 @@
+<control title='1lineIf'>
+	en: if <expression> then <statement>
+	js:	if (<expression>) {
+			<statement>
+		}
+</control>
+
+<control title='2lineIf'>
+	en: if <expression>
+		then <statement>
+	js:	if (<expression>) {
+			<statement>
+		}
+</control>
+
+<control title='if'>
+	en: if <expression> then
+			<statements>
+		[<elseIfClause>]
+		[<elseClause>]
+		end if
+	js:	if (<expression>) {
+			<statements>
+		<elseIfClause>
+		<elseClause>
+		}
+</control>
+
+<control title='elseIfClause' standalone='false' repeatable='true'>
+	en:	else if <expression> then 
+			<statements>
+	js: } else if (<expression>) {
+			<statements>
+</control>
+
+<control title='elseClause' standalone='false'>
+	en:	else
+			<statements>
+	js: } else {
+			<statements>
+</control>
+
+<control title='forEach'>
+	en:	for each item in <list> [as <identifier>] [do]
+			<statements>
+		end for
+	js: <list>.forEach(function(<identifier:default:item>, index, list) {
+			<statements>
+		}
+</control>

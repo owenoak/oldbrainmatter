@@ -1,0 +1,88 @@
+Drawables and drawing
+
+DESIRES
+	- separate outerHTML from innerHTML so we can just redraw innards as necessary
+	- EITHER have innerHTML OR have children?
+	- have 'zones' (header, etc) which we can address/draw/redraw
+	- child attributes auto-applied when adding children
+	- auto-hookup of events
+	- auto-collection of named pieces
+
+	- shared children, not necessarily inside our main element
+		- in which case their 'container' won't be us!!!
+		- check for existing 'container'?
+		
+	- we own nested children (eg: Menu/MenuGroup)
+	- children shared by different Containers
+	- built-in decorators concept (scroll buttons, etc)
+
+	- scrolling built-in to Container
+		- either CSS scroll or buttons
+
+	- _alwaysRedraw is lame
+
+
+eg:  outer/inner 
+
+	Output	-- inner = "value"
+	Label	-- inner = "label"
+	Button  -- inner = "label"
+	Tab		-- inner = "label"
+
+
+
+TODO:
+	- isEnabled() checks our enabled state + our parents
+	- isVisible() checks our visible state + our parents
+	- 
+
+
+
+draw : function($parent) {
+	// draw our outer element
+	if (!this.$element || this._redraw === "all") this.drawOuterHTML($parent);
+	
+},
+
+
+drawOuterHTML : function($parent) {
+	// get our (new) outer element
+	var element = $(this.getOuterHTML);
+	
+	// get our 'container' (holds our innerHTML or our children)
+	this.$container = element.find(this._containerSelector);
+	if (!this.$container.length) this.$container = $(element[0]);
+
+	// hook up our outer event handlers
+	if (this.eventHandlers) this.setUpEvents(this, element, this.eventHandlers);
+	
+	// if we already have an outer element, replace it
+	if (this.$element) {
+		this.$element.replaceWith(element);
+	}
+	// otherwise try to insert in our $parent (or the $parent passed in)
+	else {
+		var parent = this.$parent;
+		if (typeof parent === "string") parent = $(parent).first();
+		if (!parent) parent = $parent;
+		if (parent) parent.append(element);
+	}
+	this.$element = element;
+}
+
+drawContents : function() {
+
+},
+
+getOuterHTML : function() {
+	return $.expand(this.outerHTML, this);
+},
+
+
+getInnerHTML : function() {
+	return $.expand(this.innerHTML, this);
+}
+
+draw : function() {
+	
+}

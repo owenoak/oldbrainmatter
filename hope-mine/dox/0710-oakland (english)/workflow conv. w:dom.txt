@@ -1,0 +1,12 @@
+Conversation with Dominik
+
+Combine hope with "workflow engine/semantics"
+	- flowcharting as metaphor to put app together
+	- ask what they're trying to do, build flowchart
+		- zoom in to flowchart to screen
+		- have field outline side by side with the actual layout
+
+Datasources as items in the flowchart, drag in inputs, pull out fields/outputs
+
+Processes as items in flowchart w/custom english glue
+

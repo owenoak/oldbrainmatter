@@ -1,0 +1,3 @@
+<request>
+  <url>api/BrutisClient/latest/tests?sort=name&direction=ascending</url>
+</request>

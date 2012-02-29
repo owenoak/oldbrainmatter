@@ -1,0 +1,86 @@
+	/***
+
+	* TODO:
+		- control handling it's own child expansion is kinda squirrely -- move to template?
+		- default template that just shows contents?
+		- some generic way to get innerHTML for template (better than what we're doing for button)
+		- make it so the prototype for a class has id Class_prototype (ideally without bumping up count)
+		- "action" class (for MenuItems, ToolbarButtons, etc?)
+		- forget "afterdraw" and such and move to super() calls
+		- forget "init" in place of super?
+		- do we even need to do individual item event hookup at all?  
+			- Couldn't we as easily have a single top-level event handler that does the right thing?
+			- really good for "edit mode" to work this way...
+		- "flags" to "class", as in "setClass" ? english:  toggle class hasTitle with this.title
+		- "parts" in english?
+		- menus
+			- how to get rid of margin (?) around button?
+			- enableIf/disable for menu items
+			- show near event (get code from canvas?)
+			- show large # of items w/scroll
+			- make sure we show w/in screen bounds (menu.popup() ?)
+			- bug: mousedown and drag hilites other items
+		- PartViewer
+			- how to populate?
+			- change item set
+			- add items in the middle (?)
+			- checks
+			- multi-select
+				(how to represent multi-select list in a Select?)
+				- different mousedown/etc behavior for multiselect
+				- different select behavior for multiselect
+			- header (subclass?)
+			- resizable columns
+			- very large list support
+			- input/etc support (editor on hover)
+			- keyboard focus
+		- select
+			- show menu w/selected over item
+		- register global mouseup handler for up while out
+		- put 'exportClass' on outer items?
+		- way to put children in a particular place in the template, eg: TabButton closer?
+		- Button classes have a lot of css logic that's not trickling down to subclasses
+		- make border instantiation semantics part of Control? 
+			- have "border" be part of the template, not part of the widget ?
+					-- nice to override border in widget def?
+			- put border name on outer class, "Border" on actual border div, "BorderSpacing" on inner node
+				- eg:  outer: "Panel", border container: "Border", inner node "BorderSpacing"
+				- stretchborder can then do away with ${id}'s with different css?  .Panel .Border ._top_left ??
+			- auto-write CSS for borders in skin?  do this when setting up classes?
+			- if there is a border, put its _spacing class on the contents node automatically?
+			- CanvasBorder? (see below)
+			- automatically do z-index?
+		- convert to leave the original nodes in place rather than replacing with a new node
+						+ should be faster
+						+ all attribs on outer node left in place
+						- x-platform problems?
+			- on draw, check if _rendered element with our id is present, just hook up if so 
+		- create widgets programmatically?
+			- parent?  parentId?
+		- get <$template> thingers to instantiate with same semantics as normal expansion
+			- create a node for the template with proper id, etc, set the inner html
+		- get inserting trs and tds to work in parse template
+		- get adding children later to work
+		- enableIf/showIf
+		- requireIf for data controls
+		- nested templates in expansion 
+			- property of the template  "checkForSubTemplates" ?
+			- check when making template expander, eg: TabButton in TabPanel
+			- how do those get attached?  are they "children"? (I think NO)
+			- attribute on template to check for nested?
+		- pass parameters to handleEvent (as array)
+		- access key
+		- focus/tabIndex ?  prettier focus border?
+		- have an easy way to get contents, eg for Checkbox where we want contents to be the title?
+			- I like the "${contents}" or "${innerHTML}" syntax in object property def
+		- have a global capture handler rather than installing event handlers on every control?
+		- hints & hovers
+		- right-click
+		- getAttributes() is case IN-sensitive because moz normalizes attribute names :-(
+			- build reverse case map based on class.properties
+		- redraw ???
+		- CanvasBorder 	
+			- takes a single image and some params, splits for a 3 or 9 border (including gradient support?)
+			- Skin: xml markup for a single graphic which defines a number of CanvasBorders w/in it
+
+***/

@@ -1,0 +1,29 @@
+<class id='Button' super='Control'>
+	<properties title="" icon="" class="" style=""/>
+	<script language='javascript'>
+		default canSelectText = false;
+		default _isClickable = true;
+		
+		function beforeDraw(element, template) {
+			this.title = this.title + element.innerHTML;
+		}
+		
+		function setIcon(icon) {
+			this.icon = icon;
+			this.mixinToPart("icon", {className:this.icon});
+		}
+		
+		function setTitle(title) {
+			this.setPart("title", this.title = title);
+		}
+	</script>
+	<template outerTag="button" class='nullBorderEtc'>
+		<table class='ButtonTable'><tr>
+			<td><div class='Button_left'></div></td>
+			<td class='Button_repeatx' style='width:1px'><img src='blank.gif' id='${id}_icon' class='${icon}'></td>
+			<td id='${id}_title' class='Button_repeatx title'>${title}</td>
+			<td class='Button_repeatx' style='width:1px'><img src='blank.gif' id='${id}_icon' class='${icon}'></td>
+			<td><div class='Button_right'></div></td>
+		</tr></table>
+	</template>
+</class>

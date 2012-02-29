@@ -1,0 +1,149 @@
+/* Begin k0.animation -- MUST load AFTER k0.util */
+
+k0.animation = {
+	steps : (k0.util.browser.ua == "IE" && k0.util.browser.vers < 7 ? 3 : 10),	// number of iterations for animation
+	stepDuration : 15,		// msec for each step
+	units : "px",			// "px" or "%"
+	
+	
+	setDimensions : function(element, dimensions, callback, steps) {
+		// set dimensions for an arbitrary set of properties
+		//	dimensions = { left:"200", width:"96%", etc }
+		element = k0.util.byId(element);
+		var stepMap = {};
+		for (var prop in dimensions) {
+			stepMap[prop] = k0.animation._makeStepList(element, prop, null, dimensions[prop], steps);
+		}
+
+		k0.animation.play(element, stepMap, callback);
+	},
+	
+	resizeTo : function(element, endW, endH, callback, steps, units, stepDuration)
+	{
+		element = k0.util.byId(element);
+		var stepMap = {
+			width : k0.animation._makeStepList(element, "width", null, endW, steps, units),
+			height : k0.animation._makeStepList(element, "height", null, endH, steps, units)
+		};
+		k0.animation.play(element, stepMap, callback, stepDuration);
+	},
+
+	moveTo : function(element, endLeft, endTop, callback, steps, units, stepDuration)
+	{
+		element = k0.util.byId(element);
+		var stepMap = {
+			left: k0.animation._makeStepList(element, "left", null, endLeft, steps, units),
+			top: k0.animation._makeStepList(element, "top", null, endTop, steps, units)
+		};
+		k0.animation.play(element, stepMap, callback, stepDuration);
+	},
+	
+	// TODO: set opacity:0 and display:'' before running the animation
+	fadeIn : function(element, callback, steps, stepDuration)
+	{
+		element = k0.util.byId(element);
+		element.style.opacity = 0;
+		element.style.display = 'block';
+
+		// completely disable opacity-based effects in IE 6
+		if (k0.util.browser.ua == "IE") {
+			return callback ? callback() : null;
+		}
+		
+		var steps = k0.animation._makeStepList(element, "opacity", 0, 1, steps, "");
+		var stepMap = { 
+			opacity : steps 
+		};
+		if (k0.util.browser.ua == "IE") stepMap = { filter : steps };
+
+//		element.style.display = '';
+		k0.animation.play(element, stepMap, callback, stepDuration);
+	},
+	
+	// TODO: set display:'none' and opacity:1 after running the animation
+	fadeOut : function(element, callback, steps, stepDuration)
+	{
+		element = k0.util.byId(element);
+
+		// completely disable opacity-based effects in IE 6
+		if (k0.util.browser.ua == "IE") {
+			element.style.display = 'none';
+			return callback ? callback() : null;
+		}
+
+		var steps = k0.animation._makeStepList(element, "opacity", 1, 0, steps, "");
+		var stepMap = { opacity : steps };
+		if (k0.util.browser.ua == "IE") stepMap = { filter : steps };
+
+		var callbacks = [
+			function() { element.style.display = 'none';}, callback
+		]
+		k0.animation.play(element, stepMap, callbacks, stepDuration);
+	},
+	
+	crossFade : function(element1, element2) {
+		this.fadeOut(element1, function(){k0.animation.fadeIn(element2)});
+	},
+
+	_convertOpacityStepListForIE : function(steps) {
+		for (var i = 0, value; i < steps.length; i++) {
+			steps[i] = "Alpha(Opacity="+(steps[i]*100)+")";
+		}
+		return steps;
+	},
+	
+	// TODO: - refactor to take push start/end/units into another routine?
+	_makeStepList : function(element, property, start, end, steps, units)
+	{
+		if (units == null) {
+			if (typeof end == "string" && end.charAt(end.length-1) == "%") {
+				units = "%";
+			}
+		}
+		end = parseInt(end);
+		if (units == null) units = k0.animation.units;
+		if (steps == null) steps = k0.animation.steps;
+
+		if (start == null) start = k0.util.getDimension(element, property, units);
+		if (start == null) return null;			// THROW?
+
+		var delta = (end - start) / steps;
+		
+		for (var i = 0, list = []; i < steps - 1; i++) {
+			list[i] = (start += delta);
+			if (units) list[i] += units;			
+		}
+		list.push(end + units);
+		
+		// HACK: convert opacity list for IE
+		if (k0.util.browser.ua == "IE" && property == "opacity") {
+			return this._convertOpacityStepListForIE(list);
+		} else {
+			return list;
+		}
+	},
+	
+	play : function(element, stepMap, callbacks, stepDuration)
+	{
+		if (stepDuration == null) stepDuration = k0.animation.stepDuration;
+		if (callbacks && callbacks.length == null) callbacks = [callbacks];
+		k0.animation._animateStep(element, stepMap, 0, callbacks, stepDuration);
+	},
+	
+	_animateStep : function(element, stepMap, index, callbacks, stepDuration)
+	{
+		for (var prop in stepMap) {
+			element.style[prop] = stepMap[prop][index];
+//			element.style.setProperty(prop, stepMap[prop][index], null); ARG!!! THE ANGST YOU'VE GIVEN ME!!!!
+		}
+		if (index < (stepMap[prop].length - 1)) {
+			return setTimeout(function(){k0.animation._animateStep(element, stepMap, index+1, callbacks, stepDuration)}, stepDuration);
+		}
+		if (callbacks) {
+			if (typeof callbacks == "function") callbacks = [callbacks];
+			for (var i = 0; i < callbacks.length; i++) {
+				if (typeof callbacks[i] == "function") callbacks[i]();
+			}
+		}
+	}
+}

@@ -1,0 +1,98 @@
+	
+
+
+
+<class id='TabPanel' super='Panel'>
+	<properties selected="null" selectedIndex="null" buttonLocation="top"/>
+	<!-- todo: implement buttonsOn -->
+	<choices property="buttonsOn"><value>top</value><value>bottom</value></choices>
+
+	<!-- load the script from an external file -->
+	<javascript src='TabPanel.js'></javascript>
+	<template id='controls#TabPanel'>
+		<div class='TabPanelInner'>
+			<div id='${id}_TabBar' class='TabPanelTabBar'>
+				<$foreach ${panels}>
+					<TabButton id='${panel.id}_TabButton' title='${panel.title}' closeable='${panel.closeable}' _radioParent='${this}'/>
+				</$foreach>
+			</div>
+			<table class='PanelBorder' cellspacing='0' cellpadding='0'>
+				<tr><td><div class='Panel_top_left'></div></td>
+					<td class='Panel_top_repeatx'><div></div></td>
+					<td><div class='Panel_top_right'></div></td>
+				</tr>
+				<tr>
+					<td class='Panel_left_repeaty'><div></div></td>
+					<td class='Panel_repeat'>
+						<div id='${id}_CONTENTS' class='TabPanelContents'></div>
+					</td>
+					<td class='Panel_right_repeaty'><div></div></td>
+				</tr>
+				<tr>
+					<td><div class='Panel_bottom_left'></div></td>
+					<td class='Panel_bottom_repeatx'><div></div></td>
+					<td><div class='Panel_bottom_right'></div></td>
+				</tr>
+			</table>
+		</div>
+	</template>
+</class>
+
+	
+<class id='TabButton' super='Button'>
+	<properties selected="false" closeable="false"/>
+	<javascript>
+		function onclick(event, target) {
+			this.setFlag("selected", true);
+			if (this._radioParent) this._radioParent.onRadioClick(this);
+		}
+	</javascript>
+	<template id='controls#TabButton' outerTag="button" class='nullBorderEtc'>
+		<table class='inheritFontStyles TabTable ${this._border.spacingClass}'><tr>
+			<td class='icon'><img src='blank.gif' id='${id}_icon' class='${icon}'></td>
+			<td id='${id}_title' class='title'>${title}</td>
+			<td class='Tab_repeatx'><div id='${id}_closeButton'></div></td>
+		</tr></table>
+	</template>
+	<template id='controls#TabButton.closeButton'>
+	
+	</template>
+</class>
+
+
+
+
+
+<template id='controls#SelectMenu' outerTag="div">
+	<table cellspacing=0 cellpadding=0 width='100%' class='BorderSpacing'>
+		<$foreach ${children} ${item}>
+			<$template ${controls#SelectMenuItem} ${item}/>
+		</$foreach>
+	</table>
+</template>
+
+<template id='controls#SelectMenuItem' outerTag="div">
+	<tr id='${id}' index='${index}'>
+		<td class='check'><div id='${id}_check' class='${check}'></div></td>
+		<td class='icon'><div id='${id}_icon' class='${icon}'></div></td>
+		<td class='title' id='${id}_title'>${title}</td>
+	</tr>
+</template>
+
+
+
+
+<template id='controls#SelectBorder'>
+	<div class='Border StretchBorder SelectBorder'>
+		<img src='blank.gif' class='ButtonWhite_left'>
+		<img src='blank.gif' class='ButtonWhite_repeatx'>
+		<img src='blank.gif' class='Button_repeatx SelectBorderRight'>
+		<img src='blank.gif' class='Button_right'>
+		<img src='blank.gif' class='arrow_down SelectBorderDownArrow'>
+	</div>
+</template>
+
+
+<class id='Select' super='Control'>
+	<properties options="[]"/>
+</class>

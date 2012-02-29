@@ -1,0 +1,2 @@
+assume getters and setters
+	- property assignment is as efficient or as wasteful as any function

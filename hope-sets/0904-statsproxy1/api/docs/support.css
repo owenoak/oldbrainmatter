@@ -1,0 +1,100 @@
+body			{ 	font-family:Verdana; font-size:12px; background-color:white;}
+
+h2				{}
+
+
+/* client-server call */
+.action 			{	display:none;	padding-bottom:10px; margin-bottom:20px; }
+
+/* name of the call */
+.name 			{	display:block;	
+					font-weight:bold; font-size:1.2em;
+					padding:5px 10px; 
+					background-color:#ccc; -moz-border-radius:5px;
+				}
+
+/* description of the call */
+.description 	{	display:block;	
+					margin:5px 20px;
+					padding-bottom:5px;
+					color:#666;
+					border-bottom:1px dotted #ccc;
+				}
+
+/* role needed to make the call */
+.role			{	display:block;	}
+
+/* url of the call */
+.url				{	display:block; font-family:monospace; font-weight:bold;	}
+
+/* method of the call */
+.method			{	display:block;	}
+
+/* request data for the call */
+.xml		{	display:block;	font-family:monospace; font-weight:bold; }
+
+
+
+/* consistent styling for the labels  */
+label {	
+	display:inline-block;
+	width:150px;
+	margin-left:30px;
+	font-family:Verdana;
+	font-size:12px;
+	font-weight:bold;
+	color:#666;
+}
+
+.urlExplanation {
+	margin-left:180px;
+}
+
+.urlParam {
+	margin-left:230px;
+}
+
+.tag {
+	color:darkblue;
+	font-weight:normal;
+}
+
+var,
+.variable {
+	color:darkgreen !important;
+	font-weight:bold;
+	font-style:italic;
+}
+
+
+.comment {
+	font-weight:normal;
+	color:green;
+}
+
+.empty {
+	font-weight:normal;
+	color:#999;
+	margin:10px 0 10px 60px;
+}
+
+.CodingStandards > li {
+	border-bottom:1px dotted #ccc;
+	padding-bottom:10px;
+	margin-bottom:10px;
+}
+
+
+.indent {
+	margin-left:20px;
+}
+
+.xmlExplanation {
+	margin-top:-10px;
+	margin-left:90px;
+	margin-bottom:20px;
+}
+
+ul.tight {
+	margin:0px;
+}

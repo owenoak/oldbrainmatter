@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+	<result>OK</result>
+	<data>
+		<memcachedStats 
+			category="health" 
+			service="php"
+			server="10.3.6.236:11211" 
+			proxy="10.3.6.236:8080" 
+			time="2009-11-11T13:27:18PST"
+			v="2" 
+		>
+			<stat><key>statsAge</key><value type='uint64'>5</value></stat> 
+			<stat><key>lastpoll</key> <value type='string'>Wed Nov 11 13:29:31 2009</value></stat> 
+			<stat><key>liveness</key><value type='uint64'>1</value></stat> 
+			<stat><key>connectTimeUs</key><value type='uint64'>77</value></stat> 
+			<stat><key>setTimeUs</key><value type='uint64'>395</value></stat> 
+			<stat><key>getTimeUs</key><value type='uint64'>74</value></stat> 
+		</memcachedStats> 
+	</data>
+</response>

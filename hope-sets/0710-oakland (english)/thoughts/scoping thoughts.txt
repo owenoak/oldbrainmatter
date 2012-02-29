@@ -1,0 +1,38 @@
+Scoping thoughts
+
+	- basic hierarchy:
+			site
+				app
+					page
+						panel/grouper
+							control
+
+define your app as a series of these files:
+	sitename.hope, appname.hope, etc.
+	
+	FILE sitename.hope:
+		<site id='sitename'>				<-- id is implicitly tied to file name if not specified
+			<app id='email' src='email.hope' load="start" />
+			<app id='calendar' src='calendar.hope' load="background" />
+			<app id='' src=''/>
+		</site>
+
+
+* Implicit login and user semantics?
+
+* make heavy use of nesting IDs, so we can have both
+		"#contacts #listView"  and 	"#email #listView"
+	without getting confused
+	-- key for components...  problem with dojo.query? css()
+	-- english:  [the] listView of contacts  ?  explicit id match?
+
+* scoping ala message passing heirarchy?
+* event manager and "when what message", eg
+		when panel2 loads
+			...
+		when
+		
+	- that sets up an observation mechanism on #panel2's "load" mechanism
+	- panel2 may not be loaded now
+	- should automatically hook up when panel2 is brought into scope
+	- pass/kill event semantics?

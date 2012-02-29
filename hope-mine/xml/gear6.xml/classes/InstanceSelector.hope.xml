@@ -1,0 +1,25 @@
+<class name='InstanceSelector' isa='button'>
+	<docs>Button which selects a particular instance.</docs>
+
+	<on event='activate'>
+		tell the app to select instance (my instance)
+	</on>
+	
+	<property name='instance' type='reference to instance'>
+		<docs>Name of the instance that we bind to.</docs>
+		<setter>
+			// bind to the new instance
+			set my instance to instance
+			put instance (instance) of the app into newinstance
+			if newinstance exists then
+				bind my selected to the selected of newinstance
+				bind my title to the name of newinstance
+				bind to event 'destroy' of newinstance
+					destroy me
+				end bind
+			else
+				debug "Instance" && my instance && "not found"
+			end if
+		</setter>
+	</property>
+</class>

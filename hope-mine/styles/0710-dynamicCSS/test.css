@@ -1,0 +1,20 @@
+@import url(a couplea colors.css);
+@define color [darken(olive,60)];
+@define bgColor background-color:[lighten(olive,60)];
+@define bar color:darkred;
+@define baz border:1px solid red;
+/*
+[darken(red,20)]
+[darken ( blue ,40 ) ]
+*/
+BODY {
+	background-color:[color];
+	[bar]
+}
+DIV {
+	[bgColor]
+	[baz]
+	[padding]
+}
+
+.rules CAN > get #complex {}

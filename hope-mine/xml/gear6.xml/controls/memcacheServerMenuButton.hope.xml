@@ -1,0 +1,8 @@
+<button name='instanceMenuButton'>
+	<on event='activate'>
+		show menu instanceSelector
+	</on>
+	<bind to='the selectedInstance of app' with='instance'>
+		set my title to the name of instance
+	</bind>
+</button>

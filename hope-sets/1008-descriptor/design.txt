@@ -1,0 +1,387 @@
+Language Invariants
+	- classes and plugins always start with upper case
+	- constants are defined globally, strictly as as:   CONSTANT = "-CONSTANT-"
+		- use these in preference to true/false flags in optional parameters (which can optimally be in any order)
+	- "Class" is conceptual manager, constructor for classes
+	- "Classes" is class manager
+	- "Thing" is base of class heirarchy
+	- "Super" is superclass
+	- "property" or "prop" for generic properties of objects
+	- "properties" or "props" for constructable bag of properties
+	- "p" for property name (?)
+	- "field" for record data fields
+	- "f" for field name
+	- "value" for value of property
+	- "v" for value name
+	- "label" is always human-readable label
+	- "it" is generic for the thing in question (eg: in loops)
+	- use plural for "list of things", or "thingList" if singular/plural the same
+	- "map" for key->value store, eg:  fieldMap, serverMap
+	- "items" is always list of children
+		- you can alias, eg: this.children with getter/setter
+		- use a List.subclass() to add special methods/properties
+		- methods to operate on children go on .items (generic or via List subclass)
+	- "parent" is always parent
+		- alias with getter/setter if you like
+	- event handlers are always "on<Event>"
+	- "before" events are always gerunds ("loading", "saving")
+	- "after" events are always past tense ("loaded", "saved")
+	- "scope" is callback/method/event scope
+	- "id" is always unique (not enforced)
+	- "gid" is global pointer to this thing
+
+
+Global methods (?)
+	apply(it,p1,p2,p3)				: overwrite properties of it with property objects, returns it
+	applyIf(it,p1,p2,p3)			: overwrite properties of it if not already defined
+	
+
+
+Method naming/action semantics
+	- show/enable/collapse etc:
+		- show()		events:  @showing, @shown
+		- hide()		events:	 @hiding,  @hidden
+		- toggleShow(boolean)
+	
+		
+Drawable Language Invariants
+	- "parts" is sub-parts, inherited, created through this.getPart()
+		- this.<part> is auto-set to part name (unless part._assign is false?)
+		- "$part" is element constructor (template or object)
+	- element properties always begin with $, eg:
+		- $ = main element
+		- $body = body element, etc
+	- "cls" is class name
+	- "style" is style
+
+
+Overall:
+	- use getters/setters, but not generally to calculate complex values unless caching
+	
+	- class stuff
+		- classes and plugins are global in scope (?)
+		- config values == object properties, settable at any time (?)
+		- instances have (non-enumerable) methods for calling super functions, eg:
+			cat.asAnimal("blah", arguments)
+		- use getters/setters to map field values to functions
+			- all getters/setters applied first when creating class
+				- define in class.properties as "get_XXX" or "set_XXX"
+			- on instance construction:		
+					instance._ = protoClone(Super.prototype._)
+			- getters/setters which need to store store as:
+					this._.XXX
+			- also can be used for internal/calculated value store
+
+		? all public class properties are watchable (thing properties?)
+			- or explicitly target as watchable?
+
+	
+	- events
+	
+	- Records/Fields
+		- same Record/Field structure is used for inputs, outputs, grid cols, etc
+		- output == grid col are synonymous
+		- input == grid editor are synonymous
+
+	- use plugins to do mixins (either at class or instance level?)
+
+
+
+Class
+ - notes
+ 	- base of simple classes (no observation or other fancy stuff)
+ 	- DOES have plugins (?)
+ 	- no assumption of install properties, init(), etc
+ 	- creating new classes is lightning!
+	- static class methods are inherited
+
+ - global
+	Class(c)						: return Class (constructor) by class name or pointer
+	new Class(p)					: alias for Class.subclass(p)
+	
+ - instance (all the below are non-enumerable)
+ 	.Class							: pointer to our class (non-enumerable)
+	.constructor					: alias for .Class (non-enumerable, necessary?)
+	.plugins						: string/list 	: plugins to apply dynamically
+
+	.isA(c)							: is a (sub-)class; c is constructor or name
+	.as<Super>("m", args)			: call superclass/plugin method (non-enumerable)
+	.clone()						: create an independent clone (may have new id or not, class decision)
+	.toString()						: <thing>.gid || "[<Class> <thing>]"
+
+
+ - static (all the below are non-enumerable)
+	.plugins						: string/list 	: plugins to apply statically
+	.Super							: function		: superclass
+	.name							: string		: conceptual name of class
+
+	.define(pd)						: define properties w/smart Object.defineProperty semantics
+	.create(p)						: create instance from properties
+	.subclass(p)					: create a subclass with specified properties
+
+ 
+
+Plugin (Class)
+ - notes
+ 	- plugins are Class subclasses whose 'constructor' applies the plugin to some object
+ 	- plugins can apply to classes, instances and/or prototypes differently
+ 	- default is to just install overrides and defaults
+ 	- after plugin is installed on an object, you can do:	 
+ 			object.as<Plugin>("method",args)
+ 		to call that plugin method explicitly
+	- if plugin needs to call 'super' methods, plugin methods must be created in the constructor
+ 		
+ 	
+ - instance
+ 	.name		
+	.defaults						: methods/properties iff applied to target
+	.overrides						: methods/properties always applied to target (???)
+	.classDefaults					: methods/properties iff applied to target
+	.applyTo(it)					: apply to instance
+	.applyToClass(Class)			: apply to class
+
+
+
+Thing (Class)
+ - notes
+ 	- creating new things is lightning!
+ 	- thing is base of our managed class heirarchy (with observable, etc)
+ 	- assumes created with one or more properties objects
+ 
+ - global
+ 	Thing(id)						: return thing by id or pointer (only if this Thing is Collectable)
+ 
+ - instance
+	._								: simple inherited object of properties from setters and internal properties (see above)
+	.listeners						: event -> watchers, can set on object create
+	.identifier						: (?) returns/generates unique id for the instance, MUST be legal identifier string
+		
+	@created(this)					: created thing (after properties set)
+	@changed(p,newV,oldV)			: watchable property changed
+				
+ - static				
+	.unique							: boolean		: if true, children must be unique
+	.exports						: map			: map of property->type to export (inherits from Supers)
+			
+	.identify(props)				: return id (either from object directly or via inspection of properties)
+	.toJSON(it)						: export to JSON object (uses Class.exportProperties)
+	.fromXML(xml)					: create one from an XML dom record
+	.toXML(it)						: export to XML (including children)
+ 			
+	@creating(props)				: about to create something
+	@created(it)					: just created something
+
+
+
+
+Observable (Plugin)
+ - notes
+	- event names are case sensitive! (?)
+	
+	- eventing must be very, very quick and ad-hoc, both for watching/unwatching and for firing
+	- easy to inspect events actually set on an object
+	- "program flow" things (eg: draw cycle) are a series of events so other things can plug in easily
+
+	- fireEvent("event", arg, arg, arg)
+		- "fired" events don't bubble by default
+		- if there is a local .onEvent, calls that first
+		- then calls observer methods
+		- you can manually .passEvent()
+		
+	- some events bubble up containment heirarchy
+		- bubbleEvent("event", arg, arg, arg)
+		- calls .fireEvent() at first level of parent heirarchy where it is defined
+		- you can manually .passEvent() to 
+ 	
+ 	- if you watch a prototype, that cascades to instances (?)
+ 		? how?  ChainedList ?
+ 	
+ - instance
+ 	.listeners						: <event> -> listeners map, set up dynamically (?)
+ 
+	.on(e,method,scope,arg,...)		: start observing event on this object. method==fn or string (scope[method])
+	.on(e,scope,arg,...)			: alias for  on(e,"on<E>",scope,arg...)
+	.un(e,method,scope)				: stop observing
+	.un(e,scope)					: alias for  un(e,"on<E>",scope,arg...)
+
+	.fireEvent(e,arg,arg)			: fire event, doesn't bubble by default
+	.delayEvent(e,arg,arg)			: fire event after a short delay, multiple calls will only fire once
+	.bubbleEvent(e,arg,arg)			: fire event and bubble through containment heirarchy
+	.passEvent(e,arg,arg,arg)		: pass this event to our .parent
+
+
+
+Watchable (Plugin)
+ - notes
+	- watch specifically watches for change of one property
+	- up to individual classes to notify, no automatic mechanism
+	- not all properties on an object are watchable!
+	- same semantics as FF native watch, except more than one watcher can be present
+	- can also observe object.onChanged()
+	- watchable things are, by definition, observable
+	
+ 
+ - instance
+	.watch(prop,m,s,arg,...)		: watch a property of this object (depends on class to notify)
+	.unwatch(prop,m,s)				: stop watching property
+	.changed(prop,oldV,newV)		: object method to notify watchers that a property has changed
+
+	@changed(p,oldV,newV)			: event that some property has changed
+
+
+
+Collectable (Plugin)
+ - notes
+ 	- automatically collects class instances
+ 	- (set Collection.collections to do inherited collection, eg Pages in g6 land)
+ 	
+ - defaults
+ 	.identifier						: unique identifier (may be alias of another property or fn)
+ 	.gid							: getter which returns global reference to this thing
+ 	.toString()						: returns gid by default
+ 
+ - classDefaults
+ 	.identify(props)				: return/generate unique identifier for a generic object or instance
+	.collection						: Collection of things (can be string on class create)
+	.byId(id)						: return an item from our collection by id or pointer
+
+
+
+List (Class)
+ - notes
+	- subclassable array-like thing, very very quick
+	- superclass of array api, most list methods also available on array
+	- always use list.set(index,thing) to set values (to maintain length and generate events)
+
+ - instance
+	.add(item...)					: add one or more items to end
+	.addAt(position,item...)		: add one or more items, starting at position (moves things down)
+	.combine(array...)				: adds one or more arrays as individual objects to end of our array
+	.combine(start,array...)		: adds one or more arrays as individual objects to us starting at <start>
+	.remove(item...)				: removes first occurrance of each item
+	.remove(ALL,item...)			: removes ALL occurances of each item
+
+	.each(method,scope,start,end)	: call (possibly named) method on each item, return results
+
+	@adding(list,it,position)		: about to add item, return CANCEL to stop
+	@added(list,it,position)		: just added item
+	@removing(list,it,position)		: about to remove item, return CANCEL to stop
+	@removed(list,it,position)		: just removed thing
+	@changed(list)					: list changed generically (fired once on delay after many changes)
+
+	
+
+Collection (Class)
+ - notes
+	- subclass of List which keeps items by id as well as indexed order
+
+ - instance
+	.map							: map of id -> property
+	.collections					: array of other collections item will be added to/removed from
+
+
+
+
+		
+Field
+ - notes
+	- same Field structure is used for editors, outputs, grid cols, etc 
+		- conceptually, output == grid column, editor == grid editor
+	- fields can define "column", "editor", "output" which override normal properties
+
+ - instance		
+	.name							: client-side name
+	.serverName						: server-side name (defaults to name)
+			
+	.label							: translated label
+	.hint							: translated tooltip/field hint
+					
+	.type							: string, int, float, flag (0/1), enum, date, time
+	.value							: default value
+	.rules							: validation Rules (see below)
+	.format							: fn to format display value, or int:decimal format, date:date format
+	.min							: numbers: min value, strings: min length, date: min date, time: min time
+	.max							: numbers: max value, strings: max length, date: max date, time: max time
+				
+	.options						: map value -> visible value (can set to IconMap)
+	.width							: width for column or field
+	.minWidth						: min width for column or field
+	.maxWidth						: max width for column or field
+					
+	.columnType						: xtype of 'column' for field
+	.column							: object w/special properties for grid columns, same names as basic
+			
+	.editorType						: xtype of 'editor' for field
+	.editor							: object w/special properties for editors (getter/setter?)
+			
+	.outputType						: xtype of 'output' for field
+	.output							: object w/special properties for outputs (getter/setter?)
+					
+	.parse()						: fn to format raw value or, int: decimal format, string:regex, date: date format
+	.toDisplay(v)					: fn to map value -> visible value, v defaults to this.value
+	.fromDisplay(v)					: fn to map visible value -> value, v defaults to this.value
+	.getOutput						: returns config for output object (
+	
+
+
+Record
+ - notes
+ 	- records can be in more than one DataSet at a time
+ 	- "field" in record means data field, vs "property" 
+ 	- records "inherit" fields of their superclass (ie: record fields add to supers' fields)
+	
+ - instance
+	.id								: actual id or function to get id from data (generates if nec.)
+	.type							: conceptual name of record
+	.fields							: array of Fields (ordered in case of ARRAY loadtype)
+	.data							: simple data for the record (can set when creating record, protoclone of .defaults)
+	.defaults						: default data (derived from fields.data, all data objects protoclone this)
+	._dirty							: null or object of dirty properties
+	.source							: source record (JSON, XML, etc)
+					
+	_fieldMap						: map of field.name -> field
+	_serverMap						: map of field.mapping -> field
+				
+	.field(f)						: get internal field value
+	.field(f,v)						: set internal field value
+			
+	.loadType						: ARRAY, JSON, XML, SQL
+	.load()			
+	.save()			
+			
+	@loading(it)					: about to load new data (eg: before ajax call)
+	@loaded(it,new)					: just loaded new data (eg: after ajax call)
+	@saving(it)						: about to save (eg: before ajax call)
+	@saved(it)						: just saved (eg: after ajax call)
+	@changed(it,delta)				: we have just changed deltas
+ 
+
+
+
+DataSet
+ - notes
+ 	- loadable/savable set of records
+ 	- maintains selection
+ 
+ - instance
+ 
+ - static
+
+
+
+Drawable
+ - instance
+	.cls				: base css class applied to outer element
+	.style				: base css style applied to outer element
+	
+
+Containers
+	- implicit container:
+		- when expecting an item, an array means make a lightweight container?
+			- (think about laying out fields)
+
+
+Array methods
+	.each(fn/string, scope, start, end) => results
+	.contains(it)
+	.remove(it)

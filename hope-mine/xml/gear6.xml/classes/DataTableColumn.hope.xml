@@ -1,0 +1,42 @@
+<class name='DataTableColumn' isA='Drawable'>
+	<property name='table' type='reference to DataTable' save='no'>
+	<property name='key' />
+	<property name='title' />
+	<property name='sortable' type='flag' value='false' />
+	
+	<property name='format' />
+	<expression name='displayValue' with='row' returns='text'>
+		put property (my key) of row into value
+		if value is empty then return "&nbsp;"
+		if my format is not empty then put format value as (my format) into value
+		return value
+	</expression>
+	
+	<!-- individual cells: override in your column to do something fancier -->
+	<expression name='cellHtml' with='row' returns='text'>
+		put my displayValue with row into value
+		put my key && my format into className
+		expand my cellTemplate with me, value, className
+		return it
+	</expression>
+	
+	<template name='cellTemplate' with='value, className'>
+		<td class='{{className}}'>{{value}}</td>
+	</template>
+	
+
+	<!-- title cell -->
+	<expression name='titleHtml' returns='text'>
+		put my key && my format into className
+		if I am sortable then put ' sortable' after className
+		if the sortColumn of my table is my key
+		then put ' sort' & the sortDirection of table after className
+		
+		expand my titleTemplate with me, className
+		return it
+	</expression>
+
+	<template name='titleTemplate' with='className'>
+		<th column='{{my key}}' event='click:columnClick' class='{{className}}'>{{my title}}</th>
+	</template>
+</class>

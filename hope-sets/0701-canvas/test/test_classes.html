@@ -1,0 +1,134 @@
+<html><body>
+<script src='dnb.js'></script>
+<script src='classes.js'></script>
+<script language=javascript>
+
+//
+//	TEST SIMPLE CLASS CREATION
+//
+function testClasses(iterations) {
+	if (iterations == null) iterations = 1000;
+
+	// turn profiling on
+	dnb.profiling = true;
+
+	console.group("test dnb classes");
+	console.group("Creating classes:  Thing, Animal, Mammal, Camel + an instance of each");
+
+
+	console.time("Creating 4 classes");
+	dnb.createClass("Thing", 
+				{ 	thingProp:"thing", 
+					commonProp:"thing", 
+					inheritMethod:function(str){return str+" Thing"},
+					manualInheritMethod:function(str){return str+" Thing"}
+				});
+	
+	dnb.Thing.createSubclass("Animal", 
+				{	animalProp:"animal", 
+					commonProp:"animal", 
+					inheritMethod:function(str){return this.inherit("inheritMethod", arguments)+": "+str+" Animal"},
+					manualInheritMethod:function(str){return dnb.Thing.inheritMethod.apply(this, arguments)+": "+str+" Animal"}
+				});
+	
+	dnb.Animal.createSubclass("Mammal", 
+			{	mammalProp:"mammal", 
+				commonProp:"mammal", 
+				inheritMethod:function(str){return this.inherit("inheritMethod", arguments)+": "+str+" Mammal"},
+				manualInheritMethod:function(str){return dnb.Animal.inheritMethod.apply(this, arguments)+": "+str+" Mammal"}
+			});
+	
+	dnb.Mammal.createSubclass("Camel", 
+			{	camelProp:"camel", 
+				commonProp:"camel", 
+				inheritMethod:function(str){return this.inherit("inheritMethod", arguments) + ": "+str+" Camel"},
+				manualInheritMethod:function(str){return dnb.Mammal.inheritMethod.apply(this, arguments)+": "+str+" Camel"}
+			});
+	console.timeEnd("Creating 4 classes");
+
+	console.debug("Thing class: "+dnb.Thing, dnb.Thing);
+	console.debug("Animal class: "+dnb.Animal, dnb.Animal);
+	console.debug("Mammal class: "+dnb.Mammal, dnb.Mammal);
+	console.debug("Camel class: "+dnb.Camel, dnb.Camel);
+
+	console.time("Creating 4 instances");
+	window.thing = new dnb.Thing({instance:1});
+	window.animal = new dnb.Animal({instance:"animal"});
+	window.mammal = new dnb.Mammal({instance:"mammal"});
+	window.camel = new dnb.Camel({instance:"camel"});
+	console.timeEnd("Creating 4 instances");
+
+
+	console.debug("Thing instance: (window.thing) ", thing);
+	console.debug("Animal instance: (window.animal) ", animal);
+	console.debug("Mammal instance: (window.mammal) ", mammal);
+	console.debug("Camel instance: (window.camel) ", camel);
+	
+	console.groupEnd();
+	
+	console.group("creating lots of classes and instances");
+	
+	// create a bunch of subclasses, with and without properties
+	var subCamels = [];
+	console.time("Creating "+iterations+" subclasses of Camel with 0 properties");
+	for (var i = 0; i < iterations; i++) {
+		subCamels.push(dnb.Camel.createSubclass("camel"+i));
+	}
+	console.timeEnd("Creating "+iterations+" subclasses of Camel with 0 properties", iterations);
+
+	var subCamels = [];
+	console.time("Creating "+iterations+" subclasses of Camel with 5 properties");
+	for (var i = 0; i < iterations; i++) {
+		subCamels.push(dnb.Camel.createSubclass("camel"+i, {first:"Bob", last:"Roberts", type:"dromedary", age:i, parent:subCamels[subCamels.length-1]}));
+	}
+	console.timeEnd("Creating "+iterations+" subclasses of Camel with 5 properties", iterations);
+
+
+
+
+	// create a bunch of instances, with and without properties
+	var camels = [];
+	console.time("Creating "+iterations+" camels with 0 properties");
+	for (var i = 0; i < iterations; i++) {
+		camels.push(new dnb.Camel());
+	}
+	console.timeEnd("Creating "+iterations+" camels with 0 properties", iterations);
+
+
+	var camels = [];
+	console.time("Creating "+iterations+" camels with 5 properties");
+	for (var i = 0; i < iterations; i++) {
+		camels.push(new dnb.Camel({first:"Bob", last:"Roberts", type:"dromedary", age:i, parent:camels[camels.length-1]}));
+	}
+	console.timeEnd("Creating "+iterations+" camels with 5 properties", iterations);
+
+	console.groupEnd();
+
+
+	console.group("Calling inherit()");
+	console.time("Call a method ( camel.inheritMethod ) that uses inherit() once");	
+	console.debug(camel.inheritMethod("I am a"));
+	console.timeEnd("Call a method ( camel.inheritMethod ) that uses inherit() once");
+
+	console.time("Call a method ( camel.inheritMethod ) that uses inherit() "+iterations+" times");	
+	for (var i = 0; i < iterations; i++) {
+		camel.inheritMethod("I am a");
+	}
+	console.timeEnd("Call a method ( camel.inheritMethod ) that uses inherit() "+iterations+" times", iterations);
+
+	console.time("Call a method ( camel.manualInheritMethod ) that does manual inheritance "+iterations+" times");	
+	for (var i = 0; i < iterations; i++) {
+		camel.inheritMethod("I am a");
+	}
+	console.timeEnd("Call a method ( camel.manualInheritMethod ) that does manual inheritance "+iterations+" times", iterations);
+
+	console.groupEnd();
+
+
+	console.groupEnd();
+}
+
+// uncomment the below to show run the test
+testClasses();
+</script>
+</body></html>

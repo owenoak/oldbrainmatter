@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+	<result>OK</result>
+	<data>
+		<machineType>
+		  <arch>i386</arch>
+		  <memSize>1700</memSize>
+		  <diskSize>150000</diskSize>
+		  <vendorType>m1.small</vendorType>
+		</machineType>
+
+		<machineType>
+		  <arch>x86_64</arch>
+		  <memSize>7500000</memSize>
+		  <diskSize>850000</diskSize>
+		  <vendorType>m1.large</vendorType>
+		</machineType>
+
+		<machineType>
+		  <arch>x86_64</arch>
+		  <memSize>15000000</memSize>
+		  <diskSize>16900000</diskSize>
+		  <vendorType>m1.xlarge</vendorType>
+		</machineType>
+
+		<machineType>
+		  <arch>x86_64</arch>
+		  <memSize>34200000</memSize>
+		  <diskSize>850000</diskSize>
+		  <vendorType>m2.2xlarge</vendorType>
+		</machineType>
+		
+		<machineType>
+		  <arch>x86_64</arch>
+		  <memSize>68400000</memSize>
+		  <diskSize>1690000</diskSize>
+		  <vendorType>m2.4xlarge</vendorType>
+		</machineType>
+	</data>
+</response>

@@ -1,0 +1,13 @@
+<script type='template' id='TrafficViewItemTemplate' style='display:none'>
+	<li class='#{id} Item ColorItem' view='#{viewName}' 
+		onclick='SP.onViewClick(this)'>
+			<span class='ColorDisplay' style='background-color:#{color}'></span>
+				#{menu}
+	</li>
+</script>
+
+<script type='template' id='ServiceTabTemplate' style='display:none'>
+	<li class='Tab NOSELECT' onclick='SP.onServiceClick(this)' service='#{name}'>
+			#{name}
+	</li>
+</script>

@@ -1,0 +1,27 @@
+a game is a playing board
+
+end game
+
+
+a playing board is a set of positions
+
+end playing board
+
+
+a deck is a set of cards
+	a deck has suits
+	a deck has ranks
+	for each suit and rank
+		add new card with suit and rank to cards
+	end for
+	
+	on shuffle
+		copy deck into copy
+		clear deck
+		while copy is not empty
+			remove random item of copy
+			put it at end of deck
+		end each
+		return deck
+	end shuffle
+end deck

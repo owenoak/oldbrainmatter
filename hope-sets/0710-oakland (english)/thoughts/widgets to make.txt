@@ -1,0 +1,10 @@
+* scrollerlist
+	- simple display-only grid with endless scrolling
+	- if it's in a page that's larger than it, as the page scroll forces
+		the header off, header stays visible
+* timeline
+* mini-cal
+	- week view
+	- linear view
+* pie menu
+* 

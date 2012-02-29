@@ -1,0 +1,24 @@
+<html>
+<head>
+	<title>Dynamic CSS test</title>
+	
+	<!-- test processing of inline stylesheet -->
+	<style type='processed/css'>
+		@define emphasized bold; 
+		* {font-weight:[emphasized];}
+	</style>
+	
+	<!-- test processing of loaded stylesheet, with inline rules as well -->
+	<style type='processed/css' src='test.css'>
+		@define padding padding:10px;
+	</style>
+	
+	<!-- including the script does the magic! -->
+	<script src='dynamicCSS.js'></script>
+</head>
+<body>
+
+<div>If it worked, the page should be dark green and this text should be red, bold and bordered</div>
+
+</body>
+</html>

@@ -1,0 +1,163 @@
+/**
+	 Hope widgets css
+ **/
+
+
+/** Reset CSS for widget. */
+	*[_reset] {
+		margin: 0; 
+		padding: 0; 
+		border: 0; 
+		outline: 0; 
+		text-decoration: none; 
+		line-height: inherit; 
+		font-family: inherit; 
+		font-size: inherit; 
+		font-weight: inherit; 
+		font-style: inherit; 
+		list-style: none;
+		border-collapse:collapse;
+		#zoom:1;	/* 'hasLayout' for IE */
+	}
+
+
+/** UI Flags. */
+
+	*[noselect] {
+		-moz-user-select: none;	
+		-webkit-user-select : none;
+	}
+
+	/** Hidden flag. */
+	*[visible=true] {}
+	*[visible=false] {
+		display:none;
+	}
+	*[visible=offscreen] {
+		position:absolute; 
+		left: -10000px;
+	}
+
+	/** Disabled flag. */
+	*[disabled] {
+		opacity:.35;
+		filter:alpha(opacity=35);
+		cursor:default !important;
+	}
+
+	/** Selected flag. */
+	*[selected=false] {}
+	*[selected=true] {}
+
+	/** Expanded flag. */
+	*[expanded=false] {}
+	*[expanded=true] {}
+
+	/** ShowHeader flags. */
+	*[showHeader=true] {}
+	*[showHeader=false] {}
+
+	/** ShowBody flags. */
+	*[showBody=true] {}
+	*[showBody=false] {}
+
+	/** ShowFooter flags. */
+	*[showFooter=true] {}
+	*[showFooter=false] {}
+
+
+
+/** Helper classes. */
+
+	/** Inline-block. */
+	._inline {
+		display:inline-block;
+		#display:inline; #zoom:1;
+	}
+
+	
+
+/** Labels and text output. */
+
+	/** Title of something. */
+	._title {}
+
+	/** Normal label, eg: for a field. */
+	._label {}
+
+	/** Hint:  label that is not so important . */
+	._hint {}
+
+
+	/** Huge:  very big font. */
+	._big {
+		font-size:200%;
+		font-weight:bold;
+	}
+
+	/** Big:  bigger font. */
+	._big {
+		font-size:125%;
+	}
+
+	/** Small:  smaller font. */
+	._small {
+		font-size:80%;
+	}
+
+	/** Tiny:  very small font . */
+	._tiny {
+		font-size:70%;
+	}
+
+
+
+/** Sections. */
+
+	/** Section look. */
+	._section {}
+
+	/** Header of section */
+	._header {}
+	*[showHeader=false] ._header {	display:none; }
+
+
+	/** Body of section */
+	._body {}
+	*[showBody=false] ._body {	display:none; }
+
+	/** Footer of section */
+	._footer {}
+	*[showFooter=false] ._footer {	display:none; }
+
+
+/** Round corners. */
+	
+	/** Small round corners - 3px */
+	*[round=S] {	-moz-border-radius:3px;					-webkit-border-radius:3px;	}
+	*[round~=S-TL] {	-moz-border-radius-topleft:3px;		-webkit-border-top-left-radius:3px;	}
+	*[round~=S-BL] {	-moz-border-radius-bottomleft:3px;	-webkit-border-bottom-left-radius:3px;	}
+	*[round~=S-TR] {	-moz-border-radius-topright:3px;	-webkit-border-top-right-radius:3px;	}
+	*[round~=S-BR] {	-moz-border-radius-bottomright:3px;	-webkit-border-bottom-right-radius:3px;	}
+
+	/** Medium round corners - 5px */
+	*[round=M] {	-moz-border-radius:5px;					-webkit-border-radius:5px;	}
+	*[round~=M-TL] {	-moz-border-radius-topleft:5px;		-webkit-border-top-left-radius:5px;	}
+	*[round~=M-BL] {	-moz-border-radius-bottomleft:5px;	-webkit-border-bottom-left-radius:5px;	}
+	*[round~=M-TR] {	-moz-border-radius-topright:5px;	-webkit-border-top-right-radius:5px;	}
+	*[round~=M-BR] {	-moz-border-radius-bottomright:5px;	-webkit-border-bottom-right-radius:5px;	}
+
+	/** Large round corners - 8px */
+	*[round=L] {	-moz-border-radius:8px;					-webkit-border-radius:8px;	}
+	*[round~=L-TL] {	-moz-border-radius-topleft:8px;		-webkit-border-top-left-radius:8px;	}
+	*[round~=L-BL] {	-moz-border-radius-bottomleft:8px;	-webkit-border-bottom-left-radius:8px;	}
+	*[round~=L-TR] {	-moz-border-radius-topright:8px;	-webkit-border-top-right-radius:8px;	}
+	*[round~=L-BR] {	-moz-border-radius-bottomright:8px;	-webkit-border-bottom-right-radius:8px;	}
+
+	/** Huge round corners - 15px */
+	*[round=H] {	-moz-border-radius:15px;				-webkit-border-radius:15px;	}
+	*[round~=H-TL] {	-moz-border-radius-topleft:15px;	-webkit-border-top-left-radius:15px;	}
+	*[round~=H-BL] {	-moz-border-radius-bottomleft:15px;	-webkit-border-bottom-left-radius:15px;	}
+	*[round~=H-TR] {	-moz-border-radius-topright:15px;	-webkit-border-top-right-radius:15px;	}
+	*[round~=H-BR] {	-moz-border-radius-bottomright:15px;-webkit-border-bottom-right-radius:15px;}
+

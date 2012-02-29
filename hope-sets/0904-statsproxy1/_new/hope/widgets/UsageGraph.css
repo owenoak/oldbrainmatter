@@ -1,0 +1,68 @@
+
+/**************
+  Usage graph
+  
+ **************/
+
+	.UsageGraph {
+		/* stop text selection for this and items*/
+		-moz-user-select:none;  
+		-webkit-user-select:none;
+		-khtml-user-select:none;
+		user-select:none;
+		cursor:default;
+		/* end selection */
+
+		position:relative;
+		height:1.6em;
+		background-color:#dddddd;
+		-moz-border-radius:50%;
+		-webkit-border-radius:8px;
+		overflow:hidden;
+		cursor:help;
+	}
+
+	.UsageGraph .used {
+		position:absolute;
+		z-index:1;
+		height:100%;
+		background-color:black;
+		-moz-border-radius:50%;
+		-webkit-border-radius:8px;
+		opacity:.3;
+		filter: alpha(opacity=30);
+	}
+
+	.UsageGraph .title {
+		position:absolute;
+		z-index:2;
+		height:100%; line-height:2em;
+		font-size:.8em; font-weight:bold;
+		color: #444 !important;
+		padding-right: 10px; padding-left:10px;
+		white-space:nowrap;
+		vertical-align:middle;
+	}
+
+	/* tooltips for usage graphs */
+	#GTip[targetclass*=UsageGraph] {}
+	
+	/* space the table over a bit */
+	#GTip[targetclass*=UsageGraph] table {
+		margin-left:10px;
+	}
+	
+	/* label column */
+	#GTip[targetclass*=UsageGraph] .col1 {
+		font-weight:bold;
+		color:#555;
+		text-align:right;
+	}
+	/* value column */
+	#GTip[targetclass*=UsageGraph] .col2 {}
+	
+	/* percentage column */
+	#GTip[targetclass*=UsageGraph] .col3 {
+		color: #555;
+	}
+	

@@ -1,0 +1,55 @@
+<define what='showable' implements='showable'/>
+
+<command>
+	en:	show <showable> [<duration>]
+	js:	<showable>.show(<duration>)
+</command>
+
+<command>
+	en:	hide <showable> [<duration>]
+	js:	<showable>.hide(<duration>)
+</command>
+
+<command>
+	en: fade in <showable> [<duration>]
+	js:	<showable>.animate("opacity", '*', 1, <duration>)
+</command>
+
+<command>
+	en: fade out <showable> [<duration>]
+	js:	<showable>.animate("opacity", '*', 0, <duration>)
+</command>
+
+<command>
+	en: wipe down <showable> [<duration>]
+	js:	<showable>.animate("top", '*', '100%', <duration>)
+</command>
+
+<command>
+	en: wipe up <showable> [<duration>]
+	js:	<showable>.animate("bottom", '*', '100%', <duration>)
+</command>
+
+<enum title='duration'>
+	en: 
+	js: null
+	-
+	en:	normal[ly]
+	js:	250
+	-
+	en:	quick[ly]
+	js:	150
+	-
+	en:	very quick[ly]
+	js:	50
+	-
+	en:	instant[ly]
+	js:	0
+	-
+	en:	slow[ly]
+	js:	500
+	-
+	en:	very slow[ly]
+	js:	1000
+</enum>
+

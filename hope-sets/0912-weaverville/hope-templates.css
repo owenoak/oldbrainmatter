@@ -1,0 +1,194 @@
+/** Basic hope drawables. */
+
+
+/*
+ * Button
+ */
+ 
+._Button {
+	border:1px solid black;
+	padding:3px;
+	background-color:white;
+	cursor:pointer;
+}
+
+
+/*
+ * Menu
+ */
+
+._MenuButton {
+	vertical-align:text-bottom;
+	border:1px solid black;
+	display:inline-block;
+	#display:inline; #zoom:1;
+	padding:3px;
+	background-color:white;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+
+
+/*
+ * Tabs
+ */
+
+/** Tab bar. */
+._TabBar {
+	vertical-align:top;
+	overflow:hidden;
+	display:inline-block;
+	#display:inline; #zoom: 1; 
+	white-space:nowrap;
+	font-size:.9em;
+	background-color:#6b8e00;
+	padding:3px 2px 0px 4px;
+	#padding:3px 0px 0px 4px;
+}
+
+/* Group of tabs inside a tab bar. */
+._TabGroup {
+	display:inline-block;
+	#display:inline; #zoom: 1; 
+	margin:0px 5px;
+	padding:0px;
+}
+
+/** Individual tab button. */
+._TabButton {
+	display:inline-block;
+	#display:inline; #zoom: 1; 
+	position:relative;
+	top:1px;
+	background-color:#86b300;
+	list-decoration:none;
+	padding:4px 5px 5px 5px;
+	margin:0 2px 0 0;
+	#margin:0 4px 0 0;
+	color:white;
+	font-weight:bold;
+	text-decoration:underline;
+	cursor:pointer;
+}
+
+/** Tab button when selected. */
+._TabButton[selected] {
+	background:white;
+	border-bottom-color:white;
+	color:black !important;
+	text-decoration:none;
+	cursor:default;
+}
+
+/** Tab button when disabled. */
+._TabButton[disabled] {
+	background:#789f25 !important;
+	color:#a3bb6f !important;
+	text-decoration:none !important;
+	cursor:default !important;
+}
+
+
+/*
+ *	Menu
+ */
+
+._Menu {
+	display:inline-block;
+	#display:inline; #zoom: 1; 
+	position:relative;
+	border:1px solid #bdbdbd;
+	border-width:0px 1px 1px 1px;
+	border-color: #eeeeee #bdbdbd #bdbdbd #eeeeee;
+	background-color:#F6F6F6;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+
+._MenuGroup {
+
+}
+
+/* labels */
+._Menu > ._Label,
+._MenuGroup > ._Label {
+	white-space:nowrap;
+	background-color:#DEE8BF;
+	height:15px; 
+	font-weight:bold;
+	color:black;
+	border:1px solid #B2BA99; 
+	border-width:1px 0px 1px 0px;
+	padding:3px 10px;
+}
+
+/* top-level items */
+._MenuItem {
+	white-space:nowrap;
+	background-color:#DEE8BF;
+	height:15px; 
+	font-weight:bold;
+	color:black;
+	border:1px solid #B2BA99; 
+	border-width:1px 0px 1px 0px;
+	padding:3px 10px;
+}
+
+/* nested items */
+._MenuGroup > ._MenuItem {
+	font-size:.9em;
+	background-color:#F6F6F6;
+	font-weight:normal;
+	cursor:pointer;
+	border:0px;
+	margin:0px 5px;
+	padding:1px 10px 1px 30px;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+
+._MenuItem[Selected] {
+	background-color:#83ae29 !important;
+	color:white;
+}
+
+
+
+._MenuItem:last-child {
+	margin-bottom:5px;
+}
+
+._Menu > *:first-child {
+	-moz-border-radius:5px 5px 0px 0px;
+	-webkit-border-top-left-radius:5px;
+	-webkit-border-top-right-radius:5px;
+}
+
+
+/**
+ *	Section
+ **/
+ 
+._Section {
+	display:inline-block;
+	#display:inline; #zoom: 1; 
+	border:6px solid green;
+	-moz-border-radius:5px;
+	-webkit-border-radius:5px;
+}
+
+._SectionHeader {
+	background:red;
+	padding:5px;
+}
+
+._SectionBody {
+	background:#eeeeee;
+	padding:10px;
+}
+
+._SectionFooter {
+	background:#ccc;
+	padding:5px;
+	
+}

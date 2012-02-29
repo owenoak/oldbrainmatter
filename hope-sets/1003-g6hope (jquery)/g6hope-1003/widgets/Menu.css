@@ -1,0 +1,119 @@
+/************
+ *   Menu   *
+ ************/
+ 
+.Menu {
+	position:absolute;
+	top:0px;
+	display:none;
+	cursor:default;
+	overflow:hidden;
+	-moz-border-radius:10px;
+	-webkit-border-radius:10px;
+
+	-moz-box-shadow:5px 5px 10px rgba(0,0,0,.5);
+	-webkit-box-shadow:5px 5px 10px rgba(0,0,0,.5);
+
+	background-color:white;
+	border:3px solid #333;
+}
+
+.Menu[visible] {
+	display:inline-block;
+	#display:inline; #zoom: 1; 
+}
+
+
+.Menu .Separator {
+	#display:inline; #zoom: 1; 
+	#width:200px;
+	#height:1px;
+	margin:0px;
+	border:0px solid #ccc;
+	border-top-width:1px;
+}
+
+.Menu ul {
+	position:relative;
+	display:inline-block;
+	#display:inline; #zoom: 1; 
+	width:100%;
+}
+
+.Menu .MenuItem {
+	display:block;
+	text-decoration:none;
+	cursor:pointer;
+	white-space:nowrap;
+	padding:2px 10px 2px 25px;
+	color:black;
+}
+
+.Menu .MenuItem.HIGHLIGHT {
+	background:url(images/check.gif) no-repeat 8px center;
+	font-weight:bold;
+}
+
+.Menu .MenuItem:hover {
+	background-color:#fcf2c2;
+}
+
+.Menu .MenuLabel {
+	color:white;
+	background-color:#aaa !important;
+	font-weight:bold;
+	padding:3px 10px;
+	font-size:90%;
+}
+
+.Menu li:first-item {
+	-moz-border-radius-topLeft:8px;
+	-moz-border-radius-topRight:8px;
+	-webkit-border-top-left-radius:5px;
+	-webkit-border-top-right-radius:5px;
+}
+
+.Menu li:last-item {
+	-moz-border-radius-bottomLeft:10px;
+	-moz-border-radius-bottomRight:10px;
+	-webkit-border-bottom-left-radius:5px;
+	-webkit-border-bottom-right-radius:5px;
+}
+
+
+
+.MenuGroup {}
+.MenuGroup .Header {}
+
+
+
+
+.MenuButton {
+	position:relative;
+	padding-right:20px;
+	padding-left:10px;
+}
+
+.MSIE7 .MenuButton {
+	#padding-left:0px;
+	#padding-right:25px !important;
+}
+
+.MenuButton .Arrow {
+	position:absolute;
+	top:0px;
+	right:3px;
+	width:16px; height:100%;
+	background:url(images/down_arrow.gif) center center no-repeat;
+}
+
+.MenuButton.DISABLED .Arrow {
+	opacity:0.2;
+	filter: alpha(opacity=20);
+}
+
+
+.MenuButton.dark .Arrow {
+	background-image:url(images/down_arrow_white.gif);
+}
+

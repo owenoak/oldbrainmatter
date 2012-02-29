@@ -1,0 +1,23 @@
+Translatron
+
+	* figure out langauge user wants to see (from navigator.language)
+	* figure out the language the page was sent as (part of script? from headers?)
+	* figure out translation service (use meta-tag in browser)
+
+1) In a web page, when you have something to be translated, stick a "translate" class on it:
+		...<td class='translate'>This text should be translated</td>
+2) A tiny JS engine which:
+	1) grabs all of the 'translate' elements and puts them in a hash
+	2) hits a web service with the hash, 
+		server translates each of the values and returns a translated hash
+	3) all translate elements get updated live in the page with the translated hash
+
+
+The real benefit comes from the service cross different applications.
+Using auto-translate services initially (with low priority)
+	which then get replaced with human-entered translations
+
+
+Have an easy way for folks to contribute known translation bundles to bootstrap database
+	(from opensource projects)
+	

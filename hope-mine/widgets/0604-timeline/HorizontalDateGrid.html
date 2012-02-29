@@ -1,0 +1,110 @@
+<link rel='stylesheet' type='text/css' href='HorizontalDateGrid.css'>
+<script language='javascript' src='HDateGrid.js'></script>
+
+
+
+
+
+<script language='JavaScript'>
+	var itinerary = [
+		{	
+			type:"Home",
+			location:"Oakland, CA",
+			startDate:new Date(2005,11,9,12,46,00),
+			endDate:new Date(2006,3,20,12,46,00)
+		},
+			
+		{	
+			type:"Plane",
+			startLocationCode:"SFO",
+			startFlight:"3212",
+			startSeat:"13A",
+			endLocationCode:"CHA",
+			endFlight:"5494",
+			endSeat:"12B",
+			startDate:new Date(2006,3,20,12,46,00),
+			endDate:new Date(2006,3,20,22,33,00)
+		},
+			
+		{
+			type:"Visit",
+			location:"Charlotte, NC", 
+			startDate:new Date(2006,3,20,22,33,00),
+			endDate:new Date(2006,3,24,7,42,00),
+			isHome:false
+		},
+
+		{	
+			type:"Plane",
+			startLocationCode:"CHA",
+			endLocationCode:"SFO",
+			connections: [
+				
+			],
+			startFlight:"5495",
+			startSeat:"13A",
+			endFlight:"2312",
+			endSeat:"12B",
+			startDate:new Date(2006,3,24,7,42,00),
+			endDate:new Date(2006,3,24,12,00,00),
+		},
+
+		{	
+			type:"Home",
+			location:"Oakland, CA", 
+			startDate:new Date(2006,3,24,12,00,00),
+			endDate:new Date(2006,3,28,12,0,00),
+			isHome:true
+		},
+		
+		{	
+			type:"Car",
+			startDate:new Date(2006,3,28,12,0,00),
+			endDate:new Date(2006,3,28,17,00,00),
+		},
+		
+		{	
+			type:"Workshop",
+			location:"Grass Valley, CA", 
+			startDate:new Date(2006,3,28,17,00,00),
+			endDate:new Date(2006,3,30,18,00,00),
+			isHome:false
+		},
+
+		{	
+			type:"Car",
+			startDate:new Date(2006,3,30,18,00,00),
+			endDate:new Date(2006,3,30,22,00,00),
+		},
+		
+		{	
+			type:"Home",
+			location:"Oakland, CA", 
+			startDate:new Date(2006,3,30,22,00,00),
+			endDate:new Date(2006,5,30,22,00,00)
+		}
+	]
+
+	var grid = new HDateGrid (itinerary, new Date(2006,3,20,0,0,00));
+
+	/*
+
+	grid.unitsPerDay = 1;
+	grid.widthPerUnit = 40;
+	document.write(grid.getHTML() + "<br><br>");
+
+	grid.unitsPerDay = 2;
+	grid.widthPerUnit = 20;
+	document.write(grid.getHTML() + "<br><br>");
+*/
+
+	grid.unitsPerDay = 4;
+	grid.widthPerUnit = 10;
+	document.write(grid.getHTML() + "<br><br>");
+
+/*
+	grid.unitsPerDay = 24;
+	grid.widthPerUnit = 5;
+	document.write(grid.getHTML() + "<br><br>");
+*/
+</script>

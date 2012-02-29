@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<response>
+  <result>OK</result>
+  <data>
+    <memcacheConfig time="2010-01-18 18:26:54" v="3">
+		<!-- special config that we're testing the UI with static test files -->
+		<config>
+			<name>testing</name>
+			<value>UI</value>
+		</config>
+      <config>
+		<name>mode</name>
+		<value>cloud</value>
+      </config>
+      <config>
+        <name>appname</name>
+        <value>Gear6 Memcached</value>
+      </config>
+      <config>
+        <name>version</name>
+        <value>2.3.7</value>
+      </config>
+      <config>
+        <name>role</name>
+        <value>super</value>
+      </config>
+      <config>
+        <name>reporter</name>
+        <value>on</value>
+      </config>
+      <config>
+        <name>timezoneOffset</name>
+        <value>0</value>
+      </config>
+      <config>
+        <name>timezoneName</name>
+        <value>GMT</value>
+      </config>
+      <config>
+        <name>maxDataSamples</name>
+        <value>500</value>
+      </config>
+      <config>
+        <name>storageEnabled</name>
+        <value>true</value>
+      </config>
+      <service>
+        <status>running</status>
+        <package>memcached-gear6</package>
+        <tcpPort>11211</tcpPort>
+        <udpPort>11211</udpPort>
+        <startDate>2010-01-18T18:01:45+00:00</startDate>
+        <instance>
+          <identifier>i-3A18075C</identifier>
+		  <arch>x86_64</arch>
+		  <imageId>emi-91491395</imageId>
+		  <vendorType>m1.large</vendorType>
+          <ip>10.1.7.161</ip>
+          <port>11211</port>
+          <status>running</status>
+          <reporterStatus>modify</reporterStatus>
+          <reporterEnabled>false</reporterEnabled>
+          <memory>1259589632</memory>
+          <free>1259589586</free>
+          <used>46</used>
+        </instance>
+      </service>
+    </memcacheConfig>
+  </data>
+</response>

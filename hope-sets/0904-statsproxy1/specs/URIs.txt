@@ -1,0 +1,99 @@
+URI patterns for Statsproxy
+
+
+In all of the following, 
+	- <version> can be either "latest" or a version string, eg: "1.0"
+	- <address> can be either "self" or a hostname:ip, eg: "1.1.1.1:11211"
+
+
+========
+ Config
+========
+
+- To get the main configuration file (loaded at startup by web client):
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/stats/config
+
+- To turn reporting on/off for a particular instance:
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/stats/config/reporter/on
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/stats/config/reporter/off
+
+
+==============
+ Stats Tables
+==============
+
+- To get normal stats data for the stats table screens:
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/stats/basic
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/stats/items
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/stats/slabs
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/stats/memory
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/stats/storage
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/stats/replication
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/stats/health
+
+- To get a single data value for one table above:
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/stats/<view>/<key>
+ where
+ 	- <view> is the name of the view (eg: "basic", "items", etc
+ 	- <key> is the name of the key to look up in that view
+ eg:
+
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/stats/basic/pid
+ 	http://statsproxy/api/MemcacheServer/<version>/<instance>/stats/memory/total_in_use
+	
+
+
+=========
+ Clients
+=========
+
+- To get top clients:
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/stats/clients
+
+- To get top clients for a particular key:
+	http://statsproxy/api/MemcacheServer/<version>/self/stats/clients/key/somekey
+	http://statsproxy/api/MemcacheServer/<version>/self/stats/clients/key/+AS1FAS322
+ where:
+ 	"somekey" in the first query is an un-encoded key
+ and
+ 	"+AS1FAS322" is a base-64 encoded key
+
+
+======
+ Keys
+======
+
+- To get top keys:
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/stats/keys?sort=<sort>
+where 
+	- sort is one of:  rank all sets gets total reads writes
+
+- To get top keys for a particular client:
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/stats/keys/client/<client>?sort=<sort>
+
+
+=================
+ Historical Data
+=================
+
+- To get historical data (eg: for charting)
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/data/composite?<params>
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/data/get_hits?<params>
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/data/get_misses?<params>	
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/data/cmd_get?<params>
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/data/cmd_set?<params>
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/data/bytes_written?<params>
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/data/bytes_read?<params>
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/data/evictions?<params>
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/data/curr_items?<params>
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/data/curr_connections?<params>
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/data/connection_structures?<params>
+	http://statsproxy/api/MemcacheServer/<version>/<instance>/data/sync_queue_size?<params>
+	
+ where
+ 	<params> are one of:
+		- start=2009-12-02T03:19:22&end=2009-12-02T04:19:22&samples=500
+											== starting at startime, ending at endtime, with 500 samples
+ 		- start=-3600&end=now&samples=500	== from now back 3600 seconds with 500 samples
+ 		- (empty) 							== from now back 1 hour, with default sample size
+

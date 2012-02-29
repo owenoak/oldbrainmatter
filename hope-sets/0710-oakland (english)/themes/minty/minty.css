@@ -1,0 +1,389 @@
+@import url(minty.images.css);
+
+* {
+	-moz-box-sizing: border-box;
+}
+
+
+/*
+	Reset
+*/
+IMG	{	margin:0px;	border:0px; }
+
+
+/* generic styles */
+
+.hopeTable {
+	color:inherit;
+	border-collapse:collapse;
+}
+.hopeTable TD {
+	padding:0px;
+}
+
+.nullBorderEtc {
+	border:0px;
+	margin:0px;
+	padding:0px;
+	background:none;
+	vertical-align:middle;
+}
+
+.inlineDiv  {
+	position:relative;
+	display:-moz-inline-stack;
+}
+
+.disabled {
+	opacity:.2;
+	cursor:default !important;
+}
+
+.hidden {
+	display:none !important;
+}
+
+.disableSelection {
+	user-select:none;
+	-moz-user-select:none;
+}
+
+.selected {
+	z-index:3 !important;
+}
+
+
+
+/*
+	generic Border stuff
+*/
+.BorderContainer {
+	position:relative;
+}
+.Border {
+}
+.BorderSpacing {
+	position:relative;
+	z-index:3;
+}
+
+
+
+/* StretchBorders (3 or 9 pieces) */
+
+.StretchBorder {
+	position:relative;
+	z-index:1;
+}
+
+.StretchBorder * {
+	position:absolute;
+}
+
+
+
+
+/*
+	Panel
+*/
+.Panel {}
+
+.PanelBody {
+	padding:10px;
+}
+
+.Panel .loadingMessage,
+.Panel .cancelledMessage,
+.Panel .errorMessage,
+.Panel .cancelButton,
+.Panel .tryAgainButton,
+.Panel .loadIcon {
+	display:none;
+}
+
+.Panel.loading .loadingMessage,
+.Panel.loading .cancelButton,
+.Panel.loading .loadIcon {
+	display:block;
+}
+
+.Panel.error .errorMessage,
+.Panel.error .tryAgainButton,
+.Panel.error .loadIcon {
+	display:block;
+}
+
+.Panel.cancelled .cancelledMessage,
+.Panel.cancelled .tryAgainButton,
+.Panel.cancelled .loadIcon {
+	display:block;
+}
+
+
+/*
+	Button
+ */
+.Button {
+	position:relative;
+	cursor:pointer;
+	vertical-align:middle;
+	width:auto;
+}
+.ButtonTable {
+	position:relative;
+	border-collapse:collapse;
+	z-index:3;
+}
+.ButtonTable td {
+	padding:0px;
+	vertical-align:middle;
+}
+
+
+.Button .title {
+	text-align:center;	
+	white-space:nowrap;
+	width:100%;
+	overflow:hidden;
+}
+
+.Button.hasTitle .title{
+	padding:0px 5px;
+}
+
+.Button .icon {}
+.Button.hasTitle.hasIcon .icon {
+	padding-left:2px;
+}
+
+.Button.hasIcon .icon {}
+
+
+/*
+	Icon
+*/
+.Icon {
+	cursor:pointer;	
+	vertical-align:top;
+}
+
+
+/*
+ 	Checkbox
+*/
+.Checkbox {
+	cursor:pointer;
+}
+.CheckboxIcon {
+	cursor:pointer;
+	vertical-align:top;
+	margin:0px 3px;
+}
+.CheckboxLabel {
+	cursor:pointer;	
+}
+
+
+/*
+	Tab stuff
+
+*/
+
+.TabPanel {
+	background:lightgreen;
+}
+
+.TabPanel .contents {
+	/* outer container for the entire tab panel.  
+		Use margin to add spacing around outside of the entire panel.  
+		Can be position: static, absolute or relative.
+	*/
+	margin:30px 10px 10px 10px;
+	background:lightblue;
+}
+
+.TabPanelInner {
+	/* inner div to make sure the contents of the tab panel are position:relative
+		margin-bottom makes sure bottom margin of outer element is correct.
+	*/
+	position:relative;
+	margin-bottom:32px;
+}
+
+.TabPanel .PanelBorder {
+	/* border for the outside of the panel.  
+		Top spaces us down below the top of the panel.
+	*/
+	position:relative;
+	top:22px;
+	z-index:2;
+}
+
+
+.TabPanelTabBar {
+	/* conainer for the individual tabs.  Margin insets this from the panelBorder */
+	white-space:nowrap;
+	position:absolute;
+	top:7px;
+	margin:0px 6px;
+}
+
+.TabPanelBody {
+	/* container that scrolls the tabPanel contents */
+	position:relative;
+	height:100%;
+	overflow:auto;	
+}
+
+.TabPanelContents {
+	/* container for the contents of each tab. */
+	position:relative;
+	padding:5px 3px 5px 10px;
+	height:100%;
+}
+
+
+/* individual tab widget */
+.TabButton {
+	position:relative;
+	cursor:pointer;
+	margin-left:2px;
+	z-index:0;
+	top:-2px;
+}
+
+.TabTable {
+	position:relative;
+	border-collapse:collapse;
+	z-index:3;
+	color:inherit;
+}
+.TabButton td {
+	padding:0px;
+}
+.TabButton .title {
+	font-weight:bold;
+	padding:1px 10px;
+	vertical-align:top;
+	color:#555;
+}
+
+.TabPanel .Panel-middle-stretch {
+	vertical-align:top;
+}
+
+.TabPanel .selected.TabButton {
+	top:0px;
+	cursor:default;
+}
+
+.TabButton .Close {
+	position:relative;
+	vertical-align:top;
+	top:-1px;
+	cursor:pointer;
+}
+
+.TabPanel .selected .Close {
+	top:1px;
+}
+
+.TabPanel .selected .title {
+	padding-top:5px;
+	color:black;
+}
+
+
+/* Menu */
+
+.Menu {}
+
+.MenuItems {
+	border-collapse:collapse;
+}
+.MenuItems TD {
+	padding:0px;
+	white-space:nowrap;
+	vertical-align:middle;
+}
+
+.MenuItem TD {
+	cursor:pointer;
+}
+
+.Menu .menuTitle {
+	width:100%;
+	padding:0px 10px !important;
+}
+.Menu.showIcon .menuTitle {
+	padding-left:5px !important;
+}
+.Menu.showIcon .menuIcon {
+	padding-left:5px;
+}
+
+.Menu.showSubmenu .menuSubmenu {
+	padding-right:5px;
+}
+
+
+
+/*
+	ItemViewer -- really a generic class...
+ */
+.ItemViewer {}
+.ItemViewer .Items {
+	border-collapse:collapse;
+	empty-cells:show;
+	table-layout:auto;
+}
+
+.ItemViewer TD {
+	white-space:nowrap;
+	cursor:pointer;
+	padding:1px 5px;
+}
+
+.ItemViewer .hover TD {
+	background-color:pink;
+}
+
+.itemViewer .title {
+	width:100%;
+}
+
+
+
+
+/*
+	Select
+*/
+.Select {
+	background:pink;
+}
+
+.Select .title {
+	position:relative;
+	height:100%;
+	vertical-align:middle;
+	white-space:nowrap;
+	right:0px;
+	overflow:hidden;
+}
+
+.Select.hasTitle .title {
+	padding:0px 1px 0px 3px;
+}
+
+
+
+/*
+	Field
+ */
+.Field {
+	margin:0px 5px;
+}
+.Field INPUT {
+	background:none;
+	border:none;
+}
